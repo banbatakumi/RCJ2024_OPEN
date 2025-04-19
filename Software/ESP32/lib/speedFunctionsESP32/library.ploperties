@@ -1,0 +1,8 @@
+name=speedFunctionsESP32
+version=1.0.1
+author=nanayon
+email=admin@74hc00.com
+sentence=high-speed functions like digitalWrite for ESP32
+paragraph=Let's start high-speed sketch!
+url=https://74hc00.com/
+category=other

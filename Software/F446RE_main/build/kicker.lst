@@ -1,0 +1,727 @@
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"kicker.cpp"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "src/unit/kicker/kicker.cpp"
+  20              		.section	.text._ZN6KickerC2EP10DigitalOutS1_,"ax",%progbits
+  21              		.align	1
+  22              		.global	_ZN6KickerC2EP10DigitalOutS1_
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	_ZN6KickerC2EP10DigitalOutS1_:
+  28              		.fnstart
+  29              	.LVL0:
+  30              	.LFB251:
+   1:src/unit/kicker/kicker.cpp **** #include "kicker.hpp"
+   2:src/unit/kicker/kicker.cpp **** 
+   3:src/unit/kicker/kicker.cpp **** Kicker::Kicker(DigitalOut *charge, DigitalOut *kick) : charge_(charge), kick_(kick) {
+  31              		.loc 1 3 1 view -0
+  32              		.cfi_startproc
+  33              		@ args = 0, pretend = 0, frame = 0
+  34              		@ frame_needed = 0, uses_anonymous_args = 0
+  35              		@ link register save eliminated.
+  36              	.LBB22:
+  37              		.loc 1 3 56 is_stmt 0 view .LVU1
+  38 0000 0160     		str	r1, [r0]
+  39              		.loc 1 3 73 view .LVU2
+  40 0002 4260     		str	r2, [r0, #4]
+  41              	.LBE22:
+   4:src/unit/kicker/kicker.cpp **** }
+  42              		.loc 1 4 1 view .LVU3
+  43 0004 7047     		bx	lr
+  44              		.cfi_endproc
+  45              	.LFE251:
+  46              		.cantunwind
+  47              		.fnend
+  49              		.global	_ZN6KickerC1EP10DigitalOutS1_
+  50              		.thumb_set _ZN6KickerC1EP10DigitalOutS1_,_ZN6KickerC2EP10DigitalOutS1_
+  51              		.section	.text._ZN6Kicker4InitEv,"ax",%progbits
+  52              		.align	1
+  53              		.global	_ZN6Kicker4InitEv
+  54              		.syntax unified
+  55              		.thumb
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 2
+
+
+  56              		.thumb_func
+  58              	_ZN6Kicker4InitEv:
+  59              		.fnstart
+  60              	.LVL1:
+  61              	.LFB253:
+   5:src/unit/kicker/kicker.cpp **** 
+   6:src/unit/kicker/kicker.cpp **** void Kicker::Init() {
+  62              		.loc 1 6 21 is_stmt 1 view -0
+  63              		.cfi_startproc
+  64              		@ args = 0, pretend = 0, frame = 0
+  65              		@ frame_needed = 0, uses_anonymous_args = 0
+  66              		@ link register save eliminated.
+   7:src/unit/kicker/kicker.cpp ****       charge_ = 0;
+  67              		.loc 1 7 7 view .LVU5
+  68              		.loc 1 7 15 is_stmt 0 view .LVU6
+  69 0000 0023     		movs	r3, #0
+  70 0002 0360     		str	r3, [r0]
+   8:src/unit/kicker/kicker.cpp ****       kick_ = 0;
+  71              		.loc 1 8 7 is_stmt 1 view .LVU7
+  72              		.loc 1 8 13 is_stmt 0 view .LVU8
+  73 0004 4360     		str	r3, [r0, #4]
+   9:src/unit/kicker/kicker.cpp **** }
+  74              		.loc 1 9 1 view .LVU9
+  75 0006 7047     		bx	lr
+  76              		.cfi_endproc
+  77              	.LFE253:
+  78              		.cantunwind
+  79              		.fnend
+  81              		.section	.text._ZN6Kicker4KickEf,"ax",%progbits
+  82              		.align	1
+  83              		.global	_ZN6Kicker4KickEf
+  84              		.syntax unified
+  85              		.thumb
+  86              		.thumb_func
+  88              	_ZN6Kicker4KickEf:
+  89              		.fnstart
+  90              	.LVL2:
+  91              	.LFB254:
+  10:src/unit/kicker/kicker.cpp **** 
+  11:src/unit/kicker/kicker.cpp **** void Kicker::Kick(float power) {
+  92              		.loc 1 11 32 is_stmt 1 view -0
+  93              		.cfi_startproc
+  94              		@ args = 0, pretend = 0, frame = 0
+  95              		@ frame_needed = 0, uses_anonymous_args = 0
+  96              		@ link register save eliminated.
+  12:src/unit/kicker/kicker.cpp ****       if (do_charge_ == 0) do_kick_ = 1;
+  97              		.loc 1 12 7 view .LVU11
+  98              		.loc 1 12 11 is_stmt 0 view .LVU12
+  99 0000 437A     		ldrb	r3, [r0, #9]	@ zero_extendqisi2
+ 100              		.loc 1 12 7 view .LVU13
+ 101 0002 0BB9     		cbnz	r3, .L4
+ 102              		.loc 1 12 28 is_stmt 1 discriminator 1 view .LVU14
+ 103              		.loc 1 12 37 is_stmt 0 discriminator 1 view .LVU15
+ 104 0004 0123     		movs	r3, #1
+ 105 0006 0372     		strb	r3, [r0, #8]
+ 106              	.L4:
+  13:src/unit/kicker/kicker.cpp ****       kick_power_ = power;
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 3
+
+
+ 107              		.loc 1 13 7 is_stmt 1 view .LVU16
+ 108              		.loc 1 13 19 is_stmt 0 view .LVU17
+ 109 0008 80ED030A 		vstr.32	s0, [r0, #12]
+  14:src/unit/kicker/kicker.cpp ****       if (kick_power_ > 1) kick_power_ = 1;
+ 110              		.loc 1 14 7 is_stmt 1 view .LVU18
+ 111 000c F7EE007A 		vmov.f32	s15, #1.0e+0
+ 112 0010 B4EEE70A 		vcmpe.f32	s0, s15
+ 113 0014 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 114 0018 01DD     		ble	.L5
+ 115              		.loc 1 14 28 discriminator 1 view .LVU19
+ 116              		.loc 1 14 40 is_stmt 0 discriminator 1 view .LVU20
+ 117 001a C0ED037A 		vstr.32	s15, [r0, #12]
+ 118              	.L5:
+  15:src/unit/kicker/kicker.cpp ****       if (kick_power_ < 0) kick_power_ = 0;
+ 119              		.loc 1 15 7 is_stmt 1 view .LVU21
+ 120              		.loc 1 15 11 is_stmt 0 view .LVU22
+ 121 001e D0ED037A 		vldr.32	s15, [r0, #12]
+ 122              		.loc 1 15 7 view .LVU23
+ 123 0022 F5EEC07A 		vcmpe.f32	s15, #0
+ 124 0026 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 125 002a 00D4     		bmi	.L11
+ 126              	.L3:
+  16:src/unit/kicker/kicker.cpp **** }
+ 127              		.loc 1 16 1 view .LVU24
+ 128 002c 7047     		bx	lr
+ 129              	.L11:
+  15:src/unit/kicker/kicker.cpp ****       if (kick_power_ < 0) kick_power_ = 0;
+ 130              		.loc 1 15 28 is_stmt 1 discriminator 1 view .LVU25
+  15:src/unit/kicker/kicker.cpp ****       if (kick_power_ < 0) kick_power_ = 0;
+ 131              		.loc 1 15 40 is_stmt 0 discriminator 1 view .LVU26
+ 132 002e 0023     		movs	r3, #0
+ 133 0030 C360     		str	r3, [r0, #12]	@ float
+ 134              		.loc 1 16 1 discriminator 1 view .LVU27
+ 135 0032 FBE7     		b	.L3
+ 136              		.cfi_endproc
+ 137              	.LFE254:
+ 138              		.cantunwind
+ 139              		.fnend
+ 141              		.section	.text._ZN6Kicker6ChargeEv,"ax",%progbits
+ 142              		.align	1
+ 143              		.global	_ZN6Kicker6ChargeEv
+ 144              		.syntax unified
+ 145              		.thumb
+ 146              		.thumb_func
+ 148              	_ZN6Kicker6ChargeEv:
+ 149              		.fnstart
+ 150              	.LVL3:
+ 151              	.LFB255:
+  17:src/unit/kicker/kicker.cpp **** 
+  18:src/unit/kicker/kicker.cpp **** void Kicker::Charge() {
+ 152              		.loc 1 18 23 is_stmt 1 view -0
+ 153              		.cfi_startproc
+ 154              		@ args = 0, pretend = 0, frame = 0
+ 155              		@ frame_needed = 0, uses_anonymous_args = 0
+ 156              		@ link register save eliminated.
+  19:src/unit/kicker/kicker.cpp ****       if (do_kick_ == 0) do_charge_ = 1;
+ 157              		.loc 1 19 7 view .LVU29
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 4
+
+
+ 158              		.loc 1 19 11 is_stmt 0 view .LVU30
+ 159 0000 037A     		ldrb	r3, [r0, #8]	@ zero_extendqisi2
+ 160              		.loc 1 19 7 view .LVU31
+ 161 0002 0BB9     		cbnz	r3, .L12
+ 162              		.loc 1 19 26 is_stmt 1 discriminator 1 view .LVU32
+ 163              		.loc 1 19 37 is_stmt 0 discriminator 1 view .LVU33
+ 164 0004 0123     		movs	r3, #1
+ 165 0006 4372     		strb	r3, [r0, #9]
+ 166              	.L12:
+  20:src/unit/kicker/kicker.cpp **** }
+ 167              		.loc 1 20 1 view .LVU34
+ 168 0008 7047     		bx	lr
+ 169              		.cfi_endproc
+ 170              	.LFE255:
+ 171              		.cantunwind
+ 172              		.fnend
+ 174              		.section	.text._ZN6Kicker9DischargeEv,"ax",%progbits
+ 175              		.align	1
+ 176              		.global	_ZN6Kicker9DischargeEv
+ 177              		.syntax unified
+ 178              		.thumb
+ 179              		.thumb_func
+ 181              	_ZN6Kicker9DischargeEv:
+ 182              		.fnstart
+ 183              	.LVL4:
+ 184              	.LFB256:
+  21:src/unit/kicker/kicker.cpp **** 
+  22:src/unit/kicker/kicker.cpp **** void Kicker::Discharge() {
+ 185              		.loc 1 22 26 is_stmt 1 view -0
+ 186              		.cfi_startproc
+ 187              		@ args = 0, pretend = 0, frame = 0
+ 188              		@ frame_needed = 0, uses_anonymous_args = 0
+ 189              		@ link register save eliminated.
+  23:src/unit/kicker/kicker.cpp **** }
+ 190              		.loc 1 23 1 is_stmt 0 view .LVU36
+ 191 0000 7047     		bx	lr
+ 192              		.cfi_endproc
+ 193              	.LFE256:
+ 194              		.cantunwind
+ 195              		.fnend
+ 197              		.section	.text._ZN6Kicker7ControlEv,"ax",%progbits
+ 198              		.align	1
+ 199              		.global	_ZN6Kicker7ControlEv
+ 200              		.syntax unified
+ 201              		.thumb
+ 202              		.thumb_func
+ 204              	_ZN6Kicker7ControlEv:
+ 205              		.fnstart
+ 206              	.LVL5:
+ 207              	.LFB257:
+  24:src/unit/kicker/kicker.cpp **** 
+  25:src/unit/kicker/kicker.cpp **** void Kicker::Control() {
+ 208              		.loc 1 25 24 is_stmt 1 view -0
+ 209              		.cfi_startproc
+ 210              		@ args = 0, pretend = 0, frame = 0
+ 211              		@ frame_needed = 0, uses_anonymous_args = 0
+ 212              		.loc 1 25 24 is_stmt 0 view .LVU38
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 5
+
+
+ 213 0000 10B5     		push	{r4, lr}
+ 214              		.save {r4, lr}
+ 215              	.LCFI0:
+ 216              		.cfi_def_cfa_offset 8
+ 217              		.cfi_offset 4, -8
+ 218              		.cfi_offset 14, -4
+ 219 0002 0446     		mov	r4, r0
+  26:src/unit/kicker/kicker.cpp ****       if (do_kick_ == 1) {
+ 220              		.loc 1 26 7 is_stmt 1 view .LVU39
+ 221              		.loc 1 26 11 is_stmt 0 view .LVU40
+ 222 0004 037A     		ldrb	r3, [r0, #8]	@ zero_extendqisi2
+ 223              		.loc 1 26 7 view .LVU41
+ 224 0006 002B     		cmp	r3, #0
+ 225 0008 37D0     		beq	.L16
+  27:src/unit/kicker/kicker.cpp ****             cnt++;
+ 226              		.loc 1 27 13 is_stmt 1 view .LVU42
+ 227 000a 038A     		ldrh	r3, [r0, #16]
+ 228              		.loc 1 27 16 is_stmt 0 view .LVU43
+ 229 000c 0133     		adds	r3, r3, #1
+ 230 000e 9BB2     		uxth	r3, r3
+ 231 0010 0382     		strh	r3, [r0, #16]	@ movhi
+  28:src/unit/kicker/kicker.cpp ****             if (cnt < DEAD_TIME * FREQ) {
+ 232              		.loc 1 28 13 is_stmt 1 view .LVU44
+ 233 0012 012B     		cmp	r3, #1
+ 234 0014 17D9     		bls	.L26
+  29:src/unit/kicker/kicker.cpp ****                   kick_->write(0);
+  30:src/unit/kicker/kicker.cpp ****                   charge_->write(0);
+  31:src/unit/kicker/kicker.cpp ****             } else if (cnt < ((DEAD_TIME + KICK_TIME) * FREQ)) {
+ 235              		.loc 1 31 20 view .LVU45
+ 236 0016 C92B     		cmp	r3, #201
+ 237 0018 29D8     		bhi	.L19
+  32:src/unit/kicker/kicker.cpp ****                   if ((cnt % int(1 / kick_power_)) == 0) {
+ 238              		.loc 1 32 19 view .LVU46
+ 239              		.loc 1 32 38 is_stmt 0 view .LVU47
+ 240 001a 90ED037A 		vldr.32	s14, [r0, #12]
+ 241              		.loc 1 32 36 view .LVU48
+ 242 001e F7EE006A 		vmov.f32	s13, #1.0e+0
+ 243 0022 C6EE877A 		vdiv.f32	s15, s13, s14
+ 244              		.loc 1 32 30 view .LVU49
+ 245 0026 FDEEE77A 		vcvt.s32.f32	s15, s15
+ 246 002a 17EE902A 		vmov	r2, s15	@ int
+ 247              		.loc 1 32 28 view .LVU50
+ 248 002e 93FBF2F1 		sdiv	r1, r3, r2
+ 249 0032 02FB1133 		mls	r3, r2, r1, r3
+ 250              		.loc 1 32 19 view .LVU51
+ 251 0036 9BB9     		cbnz	r3, .L20
+  33:src/unit/kicker/kicker.cpp ****                         kick_->write(1);
+ 252              		.loc 1 33 25 is_stmt 1 view .LVU52
+ 253 0038 4368     		ldr	r3, [r0, #4]
+ 254              	.LVL6:
+ 255              	.LBB23:
+ 256              	.LBI23:
+ 257              		.file 2 "Lib/DigitalInOut/DigitalInOut.hpp"
+   1:Lib/DigitalInOut/DigitalInOut.hpp **** #ifndef __DigitalInOut__
+   2:Lib/DigitalInOut/DigitalInOut.hpp **** #define __DigitalInOut__
+   3:Lib/DigitalInOut/DigitalInOut.hpp **** 
+   4:Lib/DigitalInOut/DigitalInOut.hpp **** #include "main.h"
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 6
+
+
+   5:Lib/DigitalInOut/DigitalInOut.hpp **** 
+   6:Lib/DigitalInOut/DigitalInOut.hpp **** #ifdef __cplusplus
+   7:Lib/DigitalInOut/DigitalInOut.hpp **** 
+   8:Lib/DigitalInOut/DigitalInOut.hpp **** extern "C" {
+   9:Lib/DigitalInOut/DigitalInOut.hpp **** 
+  10:Lib/DigitalInOut/DigitalInOut.hpp **** class DigitalOut {
+  11:Lib/DigitalInOut/DigitalInOut.hpp ****   public:
+  12:Lib/DigitalInOut/DigitalInOut.hpp ****     DigitalOut(GPIO_TypeDef *port, uint16_t pin) : port(port), pin(pin) {
+  13:Lib/DigitalInOut/DigitalInOut.hpp ****         HAL_GPIO_WritePin(port, pin, GPIO_PIN_RESET);
+  14:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****     void write(bool value) {
+ 258              		.loc 2 15 10 view .LVU53
+ 259              	.LBB24:
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****         HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 260              		.loc 2 16 9 view .LVU54
+ 261              		.loc 2 16 26 is_stmt 0 view .LVU55
+ 262 003a 0122     		movs	r2, #1
+ 263 003c 9988     		ldrh	r1, [r3, #4]
+ 264 003e 1868     		ldr	r0, [r3]
+ 265              	.LVL7:
+ 266              		.loc 2 16 26 view .LVU56
+ 267 0040 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 268              	.LVL8:
+  17:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 269              		.loc 2 17 5 view .LVU57
+ 270 0044 18E0     		b	.L15
+ 271              	.LVL9:
+ 272              	.L26:
+ 273              		.loc 2 17 5 view .LVU58
+ 274              	.LBE24:
+ 275              	.LBE23:
+  29:src/unit/kicker/kicker.cpp ****                   charge_->write(0);
+ 276              		.loc 1 29 19 is_stmt 1 view .LVU59
+ 277 0046 4368     		ldr	r3, [r0, #4]
+ 278              	.LVL10:
+ 279              	.LBB25:
+ 280              	.LBI25:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****         HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 281              		.loc 2 15 10 view .LVU60
+ 282              	.LBB26:
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 283              		.loc 2 16 9 view .LVU61
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 284              		.loc 2 16 26 is_stmt 0 view .LVU62
+ 285 0048 0022     		movs	r2, #0
+ 286 004a 9988     		ldrh	r1, [r3, #4]
+ 287 004c 1868     		ldr	r0, [r3]
+ 288              	.LVL11:
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 289              		.loc 2 16 26 view .LVU63
+ 290 004e FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 291              	.LVL12:
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 292              		.loc 2 16 26 view .LVU64
+ 293              	.LBE26:
+ 294              	.LBE25:
+  30:src/unit/kicker/kicker.cpp ****             } else if (cnt < ((DEAD_TIME + KICK_TIME) * FREQ)) {
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 7
+
+
+ 295              		.loc 1 30 19 is_stmt 1 view .LVU65
+ 296 0052 2368     		ldr	r3, [r4]
+ 297              	.LVL13:
+ 298              	.LBB27:
+ 299              	.LBI27:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****         HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 300              		.loc 2 15 10 view .LVU66
+ 301              	.LBB28:
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 302              		.loc 2 16 9 view .LVU67
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 303              		.loc 2 16 26 is_stmt 0 view .LVU68
+ 304 0054 0022     		movs	r2, #0
+ 305 0056 9988     		ldrh	r1, [r3, #4]
+ 306 0058 1868     		ldr	r0, [r3]
+ 307 005a FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 308              	.LVL14:
+ 309              		.loc 2 17 5 view .LVU69
+ 310 005e 0BE0     		b	.L15
+ 311              	.LVL15:
+ 312              	.L20:
+ 313              		.loc 2 17 5 view .LVU70
+ 314              	.LBE28:
+ 315              	.LBE27:
+  34:src/unit/kicker/kicker.cpp ****                   } else {
+  35:src/unit/kicker/kicker.cpp ****                         kick_->write(0);
+ 316              		.loc 1 35 25 is_stmt 1 view .LVU71
+ 317 0060 4368     		ldr	r3, [r0, #4]
+ 318              	.LVL16:
+ 319              	.LBB29:
+ 320              	.LBI29:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****         HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 321              		.loc 2 15 10 view .LVU72
+ 322              	.LBB30:
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 323              		.loc 2 16 9 view .LVU73
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 324              		.loc 2 16 26 is_stmt 0 view .LVU74
+ 325 0062 0022     		movs	r2, #0
+ 326 0064 9988     		ldrh	r1, [r3, #4]
+ 327 0066 1868     		ldr	r0, [r3]
+ 328              	.LVL17:
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 329              		.loc 2 16 26 view .LVU75
+ 330 0068 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 331              	.LVL18:
+ 332              		.loc 2 17 5 view .LVU76
+ 333 006c 04E0     		b	.L15
+ 334              	.LVL19:
+ 335              	.L19:
+ 336              		.loc 2 17 5 view .LVU77
+ 337              	.LBE30:
+ 338              	.LBE29:
+  36:src/unit/kicker/kicker.cpp ****                   }
+  37:src/unit/kicker/kicker.cpp ****             } else {
+  38:src/unit/kicker/kicker.cpp ****                   do_kick_ = 0;
+ 339              		.loc 1 38 19 is_stmt 1 view .LVU78
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 8
+
+
+ 340              		.loc 1 38 28 is_stmt 0 view .LVU79
+ 341 006e 0023     		movs	r3, #0
+ 342 0070 0372     		strb	r3, [r0, #8]
+  39:src/unit/kicker/kicker.cpp ****                   do_charge_ = 1;
+ 343              		.loc 1 39 19 is_stmt 1 view .LVU80
+ 344              		.loc 1 39 30 is_stmt 0 view .LVU81
+ 345 0072 0122     		movs	r2, #1
+ 346 0074 4272     		strb	r2, [r0, #9]
+  40:src/unit/kicker/kicker.cpp ****                   cnt = 0;
+ 347              		.loc 1 40 19 is_stmt 1 view .LVU82
+ 348              		.loc 1 40 23 is_stmt 0 view .LVU83
+ 349 0076 0382     		strh	r3, [r0, #16]	@ movhi
+ 350              	.LVL20:
+ 351              	.L15:
+  41:src/unit/kicker/kicker.cpp ****             }
+  42:src/unit/kicker/kicker.cpp ****       } else if (do_charge_ == 1) {
+  43:src/unit/kicker/kicker.cpp ****             cnt++;
+  44:src/unit/kicker/kicker.cpp ****             if (cnt < DEAD_TIME * FREQ) {
+  45:src/unit/kicker/kicker.cpp ****                   kick_->write(0);
+  46:src/unit/kicker/kicker.cpp ****                   charge_->write(0);
+  47:src/unit/kicker/kicker.cpp ****             } else if (cnt < ((DEAD_TIME + CHARGE_TIME) * FREQ)) {
+  48:src/unit/kicker/kicker.cpp ****                   if ((cnt % int(1 / CHARGE_DUTY)) == 0) {
+  49:src/unit/kicker/kicker.cpp ****                         charge_->write(1);
+  50:src/unit/kicker/kicker.cpp ****                   } else {
+  51:src/unit/kicker/kicker.cpp ****                         charge_->write(0);
+  52:src/unit/kicker/kicker.cpp ****                   }
+  53:src/unit/kicker/kicker.cpp ****             } else {
+  54:src/unit/kicker/kicker.cpp ****                   charge_->write(1);
+  55:src/unit/kicker/kicker.cpp ****                   do_charge_ = 0;
+  56:src/unit/kicker/kicker.cpp ****                   cnt = 0;
+  57:src/unit/kicker/kicker.cpp ****             }
+  58:src/unit/kicker/kicker.cpp ****       } else {
+  59:src/unit/kicker/kicker.cpp ****             kick_->write(0);
+  60:src/unit/kicker/kicker.cpp ****       }
+  61:src/unit/kicker/kicker.cpp **** }...
+ 352              		.loc 1 61 1 view .LVU84
+ 353 0078 10BD     		pop	{r4, pc}
+ 354              	.LVL21:
+ 355              	.L16:
+  42:src/unit/kicker/kicker.cpp ****       } else if (do_charge_ == 1) {
+ 356              		.loc 1 42 14 is_stmt 1 view .LVU85
+  42:src/unit/kicker/kicker.cpp ****       } else if (do_charge_ == 1) {
+ 357              		.loc 1 42 18 is_stmt 0 view .LVU86
+ 358 007a 437A     		ldrb	r3, [r0, #9]	@ zero_extendqisi2
+  42:src/unit/kicker/kicker.cpp ****       } else if (do_charge_ == 1) {
+ 359              		.loc 1 42 14 view .LVU87
+ 360 007c 002B     		cmp	r3, #0
+ 361 007e 37D0     		beq	.L21
+  43:src/unit/kicker/kicker.cpp ****             cnt++;
+ 362              		.loc 1 43 13 is_stmt 1 view .LVU88
+ 363 0080 038A     		ldrh	r3, [r0, #16]
+  43:src/unit/kicker/kicker.cpp ****             cnt++;
+ 364              		.loc 1 43 16 is_stmt 0 view .LVU89
+ 365 0082 0133     		adds	r3, r3, #1
+ 366 0084 9BB2     		uxth	r3, r3
+ 367 0086 0382     		strh	r3, [r0, #16]	@ movhi
+  44:src/unit/kicker/kicker.cpp ****             if (cnt < DEAD_TIME * FREQ) {
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 9
+
+
+ 368              		.loc 1 44 13 is_stmt 1 view .LVU90
+ 369 0088 012B     		cmp	r3, #1
+ 370 008a 13D9     		bls	.L27
+  47:src/unit/kicker/kicker.cpp ****             } else if (cnt < ((DEAD_TIME + CHARGE_TIME) * FREQ)) {
+ 371              		.loc 1 47 20 view .LVU91
+ 372 008c 40F2E932 		movw	r2, #1001
+ 373 0090 9342     		cmp	r3, r2
+ 374 0092 23D8     		bhi	.L23
+  48:src/unit/kicker/kicker.cpp ****                   if ((cnt % int(1 / CHARGE_DUTY)) == 0) {
+ 375              		.loc 1 48 19 view .LVU92
+  48:src/unit/kicker/kicker.cpp ****                   if ((cnt % int(1 / CHARGE_DUTY)) == 0) {
+ 376              		.loc 1 48 28 is_stmt 0 view .LVU93
+ 377 0094 1A4A     		ldr	r2, .L28
+ 378 0096 82FB0312 		smull	r1, r2, r2, r3
+ 379 009a 9210     		asrs	r2, r2, #2
+ 380 009c 02EB8202 		add	r2, r2, r2, lsl #2
+  48:src/unit/kicker/kicker.cpp ****                   if ((cnt % int(1 / CHARGE_DUTY)) == 0) {
+ 381              		.loc 1 48 19 view .LVU94
+ 382 00a0 B3EB420F 		cmp	r3, r2, lsl #1
+ 383 00a4 13D1     		bne	.L24
+  49:src/unit/kicker/kicker.cpp ****                         charge_->write(1);
+ 384              		.loc 1 49 25 is_stmt 1 view .LVU95
+ 385 00a6 0368     		ldr	r3, [r0]
+ 386              	.LVL22:
+ 387              	.LBB31:
+ 388              	.LBI31:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****         HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 389              		.loc 2 15 10 view .LVU96
+ 390              	.LBB32:
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 391              		.loc 2 16 9 view .LVU97
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 392              		.loc 2 16 26 is_stmt 0 view .LVU98
+ 393 00a8 0122     		movs	r2, #1
+ 394 00aa 9988     		ldrh	r1, [r3, #4]
+ 395 00ac 1868     		ldr	r0, [r3]
+ 396              	.LVL23:
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 397              		.loc 2 16 26 view .LVU99
+ 398 00ae FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 399              	.LVL24:
+ 400              		.loc 2 17 5 view .LVU100
+ 401 00b2 E1E7     		b	.L15
+ 402              	.LVL25:
+ 403              	.L27:
+ 404              		.loc 2 17 5 view .LVU101
+ 405              	.LBE32:
+ 406              	.LBE31:
+  45:src/unit/kicker/kicker.cpp ****                   kick_->write(0);
+ 407              		.loc 1 45 19 is_stmt 1 view .LVU102
+ 408 00b4 4368     		ldr	r3, [r0, #4]
+ 409              	.LVL26:
+ 410              	.LBB33:
+ 411              	.LBI33:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****         HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 412              		.loc 2 15 10 view .LVU103
+ 413              	.LBB34:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 10
+
+
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 414              		.loc 2 16 9 view .LVU104
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 415              		.loc 2 16 26 is_stmt 0 view .LVU105
+ 416 00b6 0022     		movs	r2, #0
+ 417 00b8 9988     		ldrh	r1, [r3, #4]
+ 418 00ba 1868     		ldr	r0, [r3]
+ 419              	.LVL27:
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 420              		.loc 2 16 26 view .LVU106
+ 421 00bc FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 422              	.LVL28:
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 423              		.loc 2 16 26 view .LVU107
+ 424              	.LBE34:
+ 425              	.LBE33:
+  46:src/unit/kicker/kicker.cpp ****                   charge_->write(0);
+ 426              		.loc 1 46 19 is_stmt 1 view .LVU108
+ 427 00c0 2368     		ldr	r3, [r4]
+ 428              	.LVL29:
+ 429              	.LBB35:
+ 430              	.LBI35:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****         HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 431              		.loc 2 15 10 view .LVU109
+ 432              	.LBB36:
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 433              		.loc 2 16 9 view .LVU110
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 434              		.loc 2 16 26 is_stmt 0 view .LVU111
+ 435 00c2 0022     		movs	r2, #0
+ 436 00c4 9988     		ldrh	r1, [r3, #4]
+ 437 00c6 1868     		ldr	r0, [r3]
+ 438 00c8 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 439              	.LVL30:
+ 440              		.loc 2 17 5 view .LVU112
+ 441 00cc D4E7     		b	.L15
+ 442              	.LVL31:
+ 443              	.L24:
+ 444              		.loc 2 17 5 view .LVU113
+ 445              	.LBE36:
+ 446              	.LBE35:
+  51:src/unit/kicker/kicker.cpp ****                         charge_->write(0);
+ 447              		.loc 1 51 25 is_stmt 1 view .LVU114
+ 448 00ce 0368     		ldr	r3, [r0]
+ 449              	.LVL32:
+ 450              	.LBB37:
+ 451              	.LBI37:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****         HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 452              		.loc 2 15 10 view .LVU115
+ 453              	.LBB38:
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 454              		.loc 2 16 9 view .LVU116
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 455              		.loc 2 16 26 is_stmt 0 view .LVU117
+ 456 00d0 0022     		movs	r2, #0
+ 457 00d2 9988     		ldrh	r1, [r3, #4]
+ 458 00d4 1868     		ldr	r0, [r3]
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 11
+
+
+ 459              	.LVL33:
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 460              		.loc 2 16 26 view .LVU118
+ 461 00d6 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 462              	.LVL34:
+ 463              		.loc 2 17 5 view .LVU119
+ 464 00da CDE7     		b	.L15
+ 465              	.LVL35:
+ 466              	.L23:
+ 467              		.loc 2 17 5 view .LVU120
+ 468              	.LBE38:
+ 469              	.LBE37:
+  54:src/unit/kicker/kicker.cpp ****                   charge_->write(1);
+ 470              		.loc 1 54 19 is_stmt 1 view .LVU121
+ 471 00dc 0368     		ldr	r3, [r0]
+ 472              	.LVL36:
+ 473              	.LBB39:
+ 474              	.LBI39:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****         HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 475              		.loc 2 15 10 view .LVU122
+ 476              	.LBB40:
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 477              		.loc 2 16 9 view .LVU123
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 478              		.loc 2 16 26 is_stmt 0 view .LVU124
+ 479 00de 0122     		movs	r2, #1
+ 480 00e0 9988     		ldrh	r1, [r3, #4]
+ 481 00e2 1868     		ldr	r0, [r3]
+ 482              	.LVL37:
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 483              		.loc 2 16 26 view .LVU125
+ 484 00e4 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 485              	.LVL38:
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 486              		.loc 2 16 26 view .LVU126
+ 487              	.LBE40:
+ 488              	.LBE39:
+  55:src/unit/kicker/kicker.cpp ****                   do_charge_ = 0;
+ 489              		.loc 1 55 19 is_stmt 1 view .LVU127
+  55:src/unit/kicker/kicker.cpp ****                   do_charge_ = 0;
+ 490              		.loc 1 55 30 is_stmt 0 view .LVU128
+ 491 00e8 0023     		movs	r3, #0
+ 492 00ea 6372     		strb	r3, [r4, #9]
+  56:src/unit/kicker/kicker.cpp ****                   cnt = 0;
+ 493              		.loc 1 56 19 is_stmt 1 view .LVU129
+  56:src/unit/kicker/kicker.cpp ****                   cnt = 0;
+ 494              		.loc 1 56 23 is_stmt 0 view .LVU130
+ 495 00ec 2382     		strh	r3, [r4, #16]	@ movhi
+ 496 00ee C3E7     		b	.L15
+ 497              	.LVL39:
+ 498              	.L21:
+  59:src/unit/kicker/kicker.cpp ****             kick_->write(0);
+ 499              		.loc 1 59 13 is_stmt 1 view .LVU131
+ 500 00f0 4368     		ldr	r3, [r0, #4]
+ 501              	.LVL40:
+ 502              	.LBB41:
+ 503              	.LBI41:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 12
+
+
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****         HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 504              		.loc 2 15 10 view .LVU132
+ 505              	.LBB42:
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 506              		.loc 2 16 9 view .LVU133
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 507              		.loc 2 16 26 is_stmt 0 view .LVU134
+ 508 00f2 0022     		movs	r2, #0
+ 509 00f4 9988     		ldrh	r1, [r3, #4]
+ 510 00f6 1868     		ldr	r0, [r3]
+ 511              	.LVL41:
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 512              		.loc 2 16 26 view .LVU135
+ 513 00f8 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 514              	.LVL42:
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
+ 515              		.loc 2 16 26 view .LVU136
+ 516              	.LBE42:
+ 517              	.LBE41:
+ 518              		.loc 1 61 1 view .LVU137
+ 519 00fc BCE7     		b	.L15
+ 520              	.L29:
+ 521 00fe 00BF     		.align	2
+ 522              	.L28:
+ 523 0100 67666666 		.word	1717986919
+ 524              		.cfi_endproc
+ 525              	.LFE257:
+ 526              		.fnend
+ 528              		.text
+ 529              	.Letext0:
+ 530              		.file 3 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/machine/_default_ty
+ 531              		.file 4 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_stdint.h"
+ 532              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h"
+ 533              		.file 6 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h"
+ 534              		.file 7 "src/unit/kicker/kicker.hpp"
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 13
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 kicker.cpp
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s:21     .text._ZN6KickerC2EP10DigitalOutS1_:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s:27     .text._ZN6KickerC2EP10DigitalOutS1_:00000000 _ZN6KickerC2EP10DigitalOutS1_
+.ARM.exidx.text._ZN6KickerC2EP10DigitalOutS1_:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s:27     .text._ZN6KickerC2EP10DigitalOutS1_:00000000 _ZN6KickerC1EP10DigitalOutS1_
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s:52     .text._ZN6Kicker4InitEv:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s:58     .text._ZN6Kicker4InitEv:00000000 _ZN6Kicker4InitEv
+.ARM.exidx.text._ZN6Kicker4InitEv:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s:82     .text._ZN6Kicker4KickEf:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s:88     .text._ZN6Kicker4KickEf:00000000 _ZN6Kicker4KickEf
+.ARM.exidx.text._ZN6Kicker4KickEf:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s:142    .text._ZN6Kicker6ChargeEv:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s:148    .text._ZN6Kicker6ChargeEv:00000000 _ZN6Kicker6ChargeEv
+.ARM.exidx.text._ZN6Kicker6ChargeEv:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s:175    .text._ZN6Kicker9DischargeEv:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s:181    .text._ZN6Kicker9DischargeEv:00000000 _ZN6Kicker9DischargeEv
+.ARM.exidx.text._ZN6Kicker9DischargeEv:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s:198    .text._ZN6Kicker7ControlEv:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s:204    .text._ZN6Kicker7ControlEv:00000000 _ZN6Kicker7ControlEv
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s:523    .text._ZN6Kicker7ControlEv:00000100 $d
+.ARM.exidx.text._ZN6Kicker7ControlEv:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_GPIO_WritePin
+__aeabi_unwind_cpp_pr0

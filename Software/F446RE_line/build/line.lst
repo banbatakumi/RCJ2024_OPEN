@@ -1,0 +1,2537 @@
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"line.cpp"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "src/unit/line/line.cpp"
+  20              		.section	.text._ZN4LineC2EP10DigitalOutS1_S1_S1_S1_S1_S1_PhS2_S2_S2_S2_S2_S2_S2_,"ax",%progbits
+  21              		.align	1
+  22              		.global	_ZN4LineC2EP10DigitalOutS1_S1_S1_S1_S1_S1_PhS2_S2_S2_S2_S2_S2_S2_
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	_ZN4LineC2EP10DigitalOutS1_S1_S1_S1_S1_S1_PhS2_S2_S2_S2_S2_S2_S2_:
+  28              		.fnstart
+  29              	.LVL0:
+  30              	.LFB254:
+   1:src/unit/line/line.cpp **** #include "line.hpp"
+   2:src/unit/line/line.cpp **** 
+   3:src/unit/line/line.cpp **** Line::Line(DigitalOut *led_line,
+  31              		.loc 1 3 1 view -0
+  32              		.cfi_startproc
+  33              		@ args = 48, pretend = 0, frame = 0
+  34              		@ frame_needed = 0, uses_anonymous_args = 0
+  35              		.loc 1 3 1 is_stmt 0 view .LVU1
+  36 0000 10B5     		push	{r4, lr}
+  37              		.save {r4, lr}
+  38              	.LCFI0:
+  39              		.cfi_def_cfa_offset 8
+  40              		.cfi_offset 4, -8
+  41              		.cfi_offset 14, -4
+  42 0002 0446     		mov	r4, r0
+  43              	.LBB55:
+   4:src/unit/line/line.cpp ****            DigitalOut *mux1a, DigitalOut *mux1b,
+   5:src/unit/line/line.cpp ****            DigitalOut *mux2a, DigitalOut *mux2b,
+   6:src/unit/line/line.cpp ****            DigitalOut *mux3a, DigitalOut *mux3b,
+   7:src/unit/line/line.cpp ****            uint8_t *leftside_val, uint8_t *rightside_val,
+   8:src/unit/line/line.cpp ****            uint8_t *mux1x_val, uint8_t *mux1y_val,
+   9:src/unit/line/line.cpp ****            uint8_t *mux2x_val, uint8_t *mux2y_val,
+  10:src/unit/line/line.cpp ****            uint8_t *mux3x_val, uint8_t *mux3y_val)
+  11:src/unit/line/line.cpp ****     : led_line_(led_line), mux1a_(mux1a), mux1b_(mux1b), mux2a_(mux2a), mux2b_(mux2b), mux3a_(mux3a
+  44              		.loc 1 11 7 view .LVU2
+  45 0004 8160     		str	r1, [r0, #8]
+  46              		.loc 1 11 28 view .LVU3
+  47 0006 C260     		str	r2, [r0, #12]
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 2
+
+
+  48              		.loc 1 11 43 view .LVU4
+  49 0008 0361     		str	r3, [r0, #16]
+  50              		.loc 1 11 58 view .LVU5
+  51 000a 029B     		ldr	r3, [sp, #8]
+  52              	.LVL1:
+  53              		.loc 1 11 58 view .LVU6
+  54 000c 4361     		str	r3, [r0, #20]
+  55              		.loc 1 11 73 view .LVU7
+  56 000e 039B     		ldr	r3, [sp, #12]
+  57 0010 8361     		str	r3, [r0, #24]
+  58              		.loc 1 11 88 view .LVU8
+  59 0012 049B     		ldr	r3, [sp, #16]
+  60 0014 C361     		str	r3, [r0, #28]
+  61              		.loc 1 11 103 view .LVU9
+  62 0016 059B     		ldr	r3, [sp, #20]
+  63 0018 0362     		str	r3, [r0, #32]
+  64              		.loc 1 11 115 view .LVU10
+  65 001a 0023     		movs	r3, #0
+  66 001c 80F84430 		strb	r3, [r0, #68]
+  67 0020 A0F87031 		strh	r3, [r0, #368]	@ movhi
+  68 0024 00F5C870 		add	r0, r0, #400
+  69              	.LVL2:
+  70              		.loc 1 11 115 view .LVU11
+  71 0028 FFF7FEFF 		bl	_ZN5TimerC1Ev
+  72              	.LVL3:
+  12:src/unit/line/line.cpp ****       this->leftside_val_ = leftside_val;
+  73              		.loc 1 12 7 is_stmt 1 view .LVU12
+  74              		.loc 1 12 27 is_stmt 0 view .LVU13
+  75 002c 069B     		ldr	r3, [sp, #24]
+  76 002e 6362     		str	r3, [r4, #36]
+  13:src/unit/line/line.cpp ****       this->rightside_val_ = rightside_val;
+  77              		.loc 1 13 7 is_stmt 1 view .LVU14
+  78              		.loc 1 13 28 is_stmt 0 view .LVU15
+  79 0030 079B     		ldr	r3, [sp, #28]
+  80 0032 A362     		str	r3, [r4, #40]
+  14:src/unit/line/line.cpp ****       this->mux1x_val_ = mux1x_val;
+  81              		.loc 1 14 7 is_stmt 1 view .LVU16
+  82              		.loc 1 14 24 is_stmt 0 view .LVU17
+  83 0034 089B     		ldr	r3, [sp, #32]
+  84 0036 E362     		str	r3, [r4, #44]
+  15:src/unit/line/line.cpp ****       this->mux1y_val_ = mux1y_val;
+  85              		.loc 1 15 7 is_stmt 1 view .LVU18
+  86              		.loc 1 15 24 is_stmt 0 view .LVU19
+  87 0038 099B     		ldr	r3, [sp, #36]
+  88 003a 2363     		str	r3, [r4, #48]
+  16:src/unit/line/line.cpp ****       this->mux2x_val_ = mux2x_val;
+  89              		.loc 1 16 7 is_stmt 1 view .LVU20
+  90              		.loc 1 16 24 is_stmt 0 view .LVU21
+  91 003c 0A9B     		ldr	r3, [sp, #40]
+  92 003e 6363     		str	r3, [r4, #52]
+  17:src/unit/line/line.cpp ****       this->mux2y_val_ = mux2y_val;
+  93              		.loc 1 17 7 is_stmt 1 view .LVU22
+  94              		.loc 1 17 24 is_stmt 0 view .LVU23
+  95 0040 0B9B     		ldr	r3, [sp, #44]
+  96 0042 A363     		str	r3, [r4, #56]
+  18:src/unit/line/line.cpp ****       this->mux3x_val_ = mux3x_val;
+  97              		.loc 1 18 7 is_stmt 1 view .LVU24
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 3
+
+
+  98              		.loc 1 18 24 is_stmt 0 view .LVU25
+  99 0044 0C9B     		ldr	r3, [sp, #48]
+ 100 0046 E363     		str	r3, [r4, #60]
+  19:src/unit/line/line.cpp ****       this->mux3y_val_ = mux3y_val;
+ 101              		.loc 1 19 7 is_stmt 1 view .LVU26
+ 102              		.loc 1 19 24 is_stmt 0 view .LVU27
+ 103 0048 0D9B     		ldr	r3, [sp, #52]
+ 104 004a 2364     		str	r3, [r4, #64]
+ 105              	.LBE55:
+  20:src/unit/line/line.cpp **** }
+ 106              		.loc 1 20 1 view .LVU28
+ 107 004c 2046     		mov	r0, r4
+ 108 004e 10BD     		pop	{r4, pc}
+ 109              		.loc 1 20 1 view .LVU29
+ 110              		.cfi_endproc
+ 111              	.LFE254:
+ 112              		.fnend
+ 114              		.global	_ZN4LineC1EP10DigitalOutS1_S1_S1_S1_S1_S1_PhS2_S2_S2_S2_S2_S2_S2_
+ 115              		.thumb_set _ZN4LineC1EP10DigitalOutS1_S1_S1_S1_S1_S1_PhS2_S2_S2_S2_S2_S2_S2_,_ZN4LineC2EP10Digital
+ 116              		.global	__aeabi_ui2d
+ 117              		.global	__aeabi_dmul
+ 118              		.global	__aeabi_d2uiz
+ 119              		.section	.text._ZN4Line4ReadEv,"ax",%progbits
+ 120              		.align	1
+ 121              		.global	_ZN4Line4ReadEv
+ 122              		.syntax unified
+ 123              		.thumb
+ 124              		.thumb_func
+ 126              	_ZN4Line4ReadEv:
+ 127              		.fnstart
+ 128              	.LVL4:
+ 129              	.LFB256:
+  21:src/unit/line/line.cpp **** 
+  22:src/unit/line/line.cpp **** void Line::Read() {
+ 130              		.loc 1 22 19 is_stmt 1 view -0
+ 131              		.cfi_startproc
+ 132              		@ args = 0, pretend = 0, frame = 0
+ 133              		@ frame_needed = 0, uses_anonymous_args = 0
+ 134              		.loc 1 22 19 is_stmt 0 view .LVU31
+ 135 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 136              		.save {r3, r4, r5, r6, r7, lr}
+ 137              	.LCFI1:
+ 138              		.cfi_def_cfa_offset 24
+ 139              		.cfi_offset 3, -24
+ 140              		.cfi_offset 4, -20
+ 141              		.cfi_offset 5, -16
+ 142              		.cfi_offset 6, -12
+ 143              		.cfi_offset 7, -8
+ 144              		.cfi_offset 14, -4
+ 145 0002 0746     		mov	r7, r0
+  23:src/unit/line/line.cpp ****       // アナログ値の取得
+  24:src/unit/line/line.cpp ****       if (read_sensors_group_ == 0 && read_interval_timer.read_us() > READ_INTERVAL_TIME_US) {
+ 146              		.loc 1 24 7 is_stmt 1 view .LVU32
+ 147              		.loc 1 24 11 is_stmt 0 view .LVU33
+ 148 0004 90F84430 		ldrb	r3, [r0, #68]	@ zero_extendqisi2
+ 149              		.loc 1 24 36 view .LVU34
+ 150 0008 9BB1     		cbz	r3, .L27
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 4
+
+
+ 151              	.LVL5:
+ 152              	.L4:
+  25:src/unit/line/line.cpp ****             if (*leftside_val_ > leftside_th_) {
+  26:src/unit/line/line.cpp ****                   is_leftside_white = 1;
+  27:src/unit/line/line.cpp ****             } else {
+  28:src/unit/line/line.cpp ****                   is_leftside_white = 0;
+  29:src/unit/line/line.cpp ****             }
+  30:src/unit/line/line.cpp ****             if (*rightside_val_ > rightside_th_) {
+  31:src/unit/line/line.cpp ****                   is_rightside_white = 1;
+  32:src/unit/line/line.cpp ****             } else {
+  33:src/unit/line/line.cpp ****                   is_rightside_white = 0;
+  34:src/unit/line/line.cpp ****             }
+  35:src/unit/line/line.cpp ****             read_sensors_group_++;
+  36:src/unit/line/line.cpp ****             read_interval_timer.reset();
+  37:src/unit/line/line.cpp ****       } else if (read_sensors_group_ == 1 && read_interval_timer.read_us() > READ_INTERVAL_TIME_US)
+ 153              		.loc 1 37 14 is_stmt 1 discriminator 4 view .LVU35
+ 154              		.loc 1 37 18 is_stmt 0 discriminator 4 view .LVU36
+ 155 000a 97F84430 		ldrb	r3, [r7, #68]	@ zero_extendqisi2
+ 156              		.loc 1 37 43 discriminator 4 view .LVU37
+ 157 000e 012B     		cmp	r3, #1
+ 158 0010 35D0     		beq	.L28
+ 159              	.L8:
+  38:src/unit/line/line.cpp ****             val_[22] = *mux1x_val_;
+  39:src/unit/line/line.cpp ****             val_[19] = *mux1y_val_;
+  40:src/unit/line/line.cpp ****             val_[15] = *mux2x_val_;
+  41:src/unit/line/line.cpp ****             val_[11] = *mux2y_val_;
+  42:src/unit/line/line.cpp ****             val_[2] = *mux3x_val_;
+  43:src/unit/line/line.cpp ****             val_[5] = *mux3y_val_;
+  44:src/unit/line/line.cpp ****             mux1a_->write(1);
+  45:src/unit/line/line.cpp ****             mux1b_->write(0);
+  46:src/unit/line/line.cpp ****             mux2a_->write(1);
+  47:src/unit/line/line.cpp ****             mux2b_->write(0);
+  48:src/unit/line/line.cpp ****             mux3a_->write(1);
+  49:src/unit/line/line.cpp ****             mux3b_->write(0);
+  50:src/unit/line/line.cpp ****             read_sensors_group_++;
+  51:src/unit/line/line.cpp ****             read_interval_timer.reset();
+  52:src/unit/line/line.cpp ****       } else if (read_sensors_group_ == 2 && read_interval_timer.read_us() > READ_INTERVAL_TIME_US)
+ 160              		.loc 1 52 14 is_stmt 1 discriminator 4 view .LVU38
+ 161              		.loc 1 52 18 is_stmt 0 discriminator 4 view .LVU39
+ 162 0012 97F84430 		ldrb	r3, [r7, #68]	@ zero_extendqisi2
+ 163              		.loc 1 52 43 discriminator 4 view .LVU40
+ 164 0016 022B     		cmp	r3, #2
+ 165 0018 7AD0     		beq	.L29
+ 166              	.L15:
+  53:src/unit/line/line.cpp ****             val_[21] = *mux1x_val_;
+  54:src/unit/line/line.cpp ****             val_[16] = *mux1y_val_;
+  55:src/unit/line/line.cpp ****             val_[14] = *mux2x_val_;
+  56:src/unit/line/line.cpp ****             val_[8] = *mux2y_val_;
+  57:src/unit/line/line.cpp ****             val_[3] = *mux3x_val_;
+  58:src/unit/line/line.cpp ****             val_[0] = *mux3y_val_;
+  59:src/unit/line/line.cpp ****             mux1a_->write(0);
+  60:src/unit/line/line.cpp ****             mux1b_->write(1);
+  61:src/unit/line/line.cpp ****             mux2a_->write(0);
+  62:src/unit/line/line.cpp ****             mux2b_->write(1);
+  63:src/unit/line/line.cpp ****             mux3a_->write(0);
+  64:src/unit/line/line.cpp ****             mux3b_->write(1);
+  65:src/unit/line/line.cpp ****             read_sensors_group_++;
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 5
+
+
+  66:src/unit/line/line.cpp ****             read_interval_timer.reset();
+  67:src/unit/line/line.cpp ****       } else if (read_sensors_group_ == 3 && read_interval_timer.read_us() > READ_INTERVAL_TIME_US)
+ 167              		.loc 1 67 14 is_stmt 1 discriminator 4 view .LVU41
+ 168              		.loc 1 67 18 is_stmt 0 discriminator 4 view .LVU42
+ 169 001a 97F84430 		ldrb	r3, [r7, #68]	@ zero_extendqisi2
+ 170              		.loc 1 67 43 discriminator 4 view .LVU43
+ 171 001e 032B     		cmp	r3, #3
+ 172 0020 00F0C080 		beq	.L30
+ 173              	.L18:
+  68:src/unit/line/line.cpp ****             val_[20] = *mux1x_val_;
+  69:src/unit/line/line.cpp ****             val_[18] = *mux1y_val_;
+  70:src/unit/line/line.cpp ****             val_[13] = *mux2x_val_;
+  71:src/unit/line/line.cpp ****             val_[10] = *mux2y_val_;
+  72:src/unit/line/line.cpp ****             val_[6] = *mux3x_val_;
+  73:src/unit/line/line.cpp ****             val_[4] = *mux3y_val_;
+  74:src/unit/line/line.cpp ****             mux1a_->write(1);
+  75:src/unit/line/line.cpp ****             mux1b_->write(1);
+  76:src/unit/line/line.cpp ****             mux2a_->write(1);
+  77:src/unit/line/line.cpp ****             mux2b_->write(1);
+  78:src/unit/line/line.cpp ****             mux3a_->write(1);
+  79:src/unit/line/line.cpp ****             mux3b_->write(1);
+  80:src/unit/line/line.cpp ****             read_sensors_group_++;
+  81:src/unit/line/line.cpp ****             read_interval_timer.reset();
+  82:src/unit/line/line.cpp ****       } else if (read_sensors_group_ == 4 && read_interval_timer.read_us() > READ_INTERVAL_TIME_US)
+ 174              		.loc 1 82 14 is_stmt 1 discriminator 4 view .LVU44
+ 175              		.loc 1 82 18 is_stmt 0 discriminator 4 view .LVU45
+ 176 0024 97F84430 		ldrb	r3, [r7, #68]	@ zero_extendqisi2
+ 177              		.loc 1 82 43 discriminator 4 view .LVU46
+ 178 0028 042B     		cmp	r3, #4
+ 179 002a 00F00481 		beq	.L31
+ 180              	.L12:
+  22:src/unit/line/line.cpp ****       // アナログ値の取得
+ 181              		.loc 1 22 19 discriminator 1 view .LVU47
+ 182 002e 0024     		movs	r4, #0
+ 183 0030 4EE1     		b	.L23
+ 184              	.LVL6:
+ 185              	.L27:
+  24:src/unit/line/line.cpp ****             if (*leftside_val_ > leftside_th_) {
+ 186              		.loc 1 24 66 discriminator 1 view .LVU48
+ 187 0032 00F5C874 		add	r4, r0, #400
+ 188 0036 2046     		mov	r0, r4
+ 189              	.LVL7:
+  24:src/unit/line/line.cpp ****             if (*leftside_val_ > leftside_th_) {
+ 190              		.loc 1 24 66 discriminator 1 view .LVU49
+ 191 0038 FFF7FEFF 		bl	_ZN5Timer7read_usEv
+ 192              	.LVL8:
+  24:src/unit/line/line.cpp ****             if (*leftside_val_ > leftside_th_) {
+ 193              		.loc 1 24 36 discriminator 1 view .LVU50
+ 194 003c 0A28     		cmp	r0, #10
+ 195 003e E4D9     		bls	.L4
+  25:src/unit/line/line.cpp ****                   is_leftside_white = 1;
+ 196              		.loc 1 25 13 is_stmt 1 view .LVU51
+  25:src/unit/line/line.cpp ****                   is_leftside_white = 1;
+ 197              		.loc 1 25 18 is_stmt 0 view .LVU52
+ 198 0040 7B6A     		ldr	r3, [r7, #36]
+  25:src/unit/line/line.cpp ****                   is_leftside_white = 1;
+ 199              		.loc 1 25 17 view .LVU53
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 6
+
+
+ 200 0042 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+  25:src/unit/line/line.cpp ****                   is_leftside_white = 1;
+ 201              		.loc 1 25 34 view .LVU54
+ 202 0044 D7F86831 		ldr	r3, [r7, #360]
+  25:src/unit/line/line.cpp ****                   is_leftside_white = 1;
+ 203              		.loc 1 25 13 view .LVU55
+ 204 0048 9A42     		cmp	r2, r3
+ 205 004a 02D8     		bhi	.L5
+  28:src/unit/line/line.cpp ****             }
+ 206              		.loc 1 28 19 is_stmt 1 view .LVU56
+  28:src/unit/line/line.cpp ****             }
+ 207              		.loc 1 28 37 is_stmt 0 view .LVU57
+ 208 004c 0023     		movs	r3, #0
+ 209 004e 3B71     		strb	r3, [r7, #4]
+ 210 0050 01E0     		b	.L9
+ 211              	.L5:
+  26:src/unit/line/line.cpp ****             } else {
+ 212              		.loc 1 26 19 is_stmt 1 view .LVU58
+  26:src/unit/line/line.cpp ****             } else {
+ 213              		.loc 1 26 37 is_stmt 0 view .LVU59
+ 214 0052 0123     		movs	r3, #1
+ 215 0054 3B71     		strb	r3, [r7, #4]
+ 216              	.L9:
+  30:src/unit/line/line.cpp ****                   is_rightside_white = 1;
+ 217              		.loc 1 30 13 is_stmt 1 view .LVU60
+  30:src/unit/line/line.cpp ****                   is_rightside_white = 1;
+ 218              		.loc 1 30 18 is_stmt 0 view .LVU61
+ 219 0056 BB6A     		ldr	r3, [r7, #40]
+  30:src/unit/line/line.cpp ****                   is_rightside_white = 1;
+ 220              		.loc 1 30 17 view .LVU62
+ 221 0058 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+  30:src/unit/line/line.cpp ****                   is_rightside_white = 1;
+ 222              		.loc 1 30 35 view .LVU63
+ 223 005a D7F86C31 		ldr	r3, [r7, #364]
+  30:src/unit/line/line.cpp ****                   is_rightside_white = 1;
+ 224              		.loc 1 30 13 view .LVU64
+ 225 005e 9A42     		cmp	r2, r3
+ 226 0060 0AD9     		bls	.L10
+  31:src/unit/line/line.cpp ****             } else {
+ 227              		.loc 1 31 19 is_stmt 1 view .LVU65
+  31:src/unit/line/line.cpp ****             } else {
+ 228              		.loc 1 31 38 is_stmt 0 view .LVU66
+ 229 0062 0123     		movs	r3, #1
+ 230 0064 7B71     		strb	r3, [r7, #5]
+ 231              	.L11:
+  35:src/unit/line/line.cpp ****             read_interval_timer.reset();
+ 232              		.loc 1 35 13 is_stmt 1 view .LVU67
+ 233 0066 97F84430 		ldrb	r3, [r7, #68]	@ zero_extendqisi2
+  35:src/unit/line/line.cpp ****             read_interval_timer.reset();
+ 234              		.loc 1 35 32 is_stmt 0 view .LVU68
+ 235 006a 0133     		adds	r3, r3, #1
+ 236 006c 87F84430 		strb	r3, [r7, #68]
+  36:src/unit/line/line.cpp ****       } else if (read_sensors_group_ == 1 && read_interval_timer.read_us() > READ_INTERVAL_TIME_US)
+ 237              		.loc 1 36 13 is_stmt 1 view .LVU69
+  36:src/unit/line/line.cpp ****       } else if (read_sensors_group_ == 1 && read_interval_timer.read_us() > READ_INTERVAL_TIME_US)
+ 238              		.loc 1 36 38 is_stmt 0 view .LVU70
+ 239 0070 2046     		mov	r0, r4
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 7
+
+
+ 240 0072 FFF7FEFF 		bl	_ZN5Timer5resetEv
+ 241              	.LVL9:
+ 242 0076 DAE7     		b	.L12
+ 243              	.L10:
+  33:src/unit/line/line.cpp ****             }
+ 244              		.loc 1 33 19 is_stmt 1 view .LVU71
+  33:src/unit/line/line.cpp ****             }
+ 245              		.loc 1 33 38 is_stmt 0 view .LVU72
+ 246 0078 0023     		movs	r3, #0
+ 247 007a 7B71     		strb	r3, [r7, #5]
+ 248 007c F3E7     		b	.L11
+ 249              	.L28:
+  37:src/unit/line/line.cpp ****             val_[22] = *mux1x_val_;
+ 250              		.loc 1 37 73 discriminator 1 view .LVU73
+ 251 007e 07F5C874 		add	r4, r7, #400
+ 252 0082 2046     		mov	r0, r4
+ 253 0084 FFF7FEFF 		bl	_ZN5Timer7read_usEv
+ 254              	.LVL10:
+  37:src/unit/line/line.cpp ****             val_[22] = *mux1x_val_;
+ 255              		.loc 1 37 43 discriminator 1 view .LVU74
+ 256 0088 0A28     		cmp	r0, #10
+ 257 008a C2D9     		bls	.L8
+  38:src/unit/line/line.cpp ****             val_[19] = *mux1y_val_;
+ 258              		.loc 1 38 13 is_stmt 1 view .LVU75
+  38:src/unit/line/line.cpp ****             val_[19] = *mux1y_val_;
+ 259              		.loc 1 38 25 is_stmt 0 view .LVU76
+ 260 008c FB6A     		ldr	r3, [r7, #44]
+  38:src/unit/line/line.cpp ****             val_[19] = *mux1y_val_;
+ 261              		.loc 1 38 24 view .LVU77
+ 262 008e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  38:src/unit/line/line.cpp ****             val_[19] = *mux1y_val_;
+ 263              		.loc 1 38 22 view .LVU78
+ 264 0090 C7F8A030 		str	r3, [r7, #160]
+  39:src/unit/line/line.cpp ****             val_[15] = *mux2x_val_;
+ 265              		.loc 1 39 13 is_stmt 1 view .LVU79
+  39:src/unit/line/line.cpp ****             val_[15] = *mux2x_val_;
+ 266              		.loc 1 39 25 is_stmt 0 view .LVU80
+ 267 0094 3B6B     		ldr	r3, [r7, #48]
+  39:src/unit/line/line.cpp ****             val_[15] = *mux2x_val_;
+ 268              		.loc 1 39 24 view .LVU81
+ 269 0096 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  39:src/unit/line/line.cpp ****             val_[15] = *mux2x_val_;
+ 270              		.loc 1 39 22 view .LVU82
+ 271 0098 C7F89430 		str	r3, [r7, #148]
+  40:src/unit/line/line.cpp ****             val_[11] = *mux2y_val_;
+ 272              		.loc 1 40 13 is_stmt 1 view .LVU83
+  40:src/unit/line/line.cpp ****             val_[11] = *mux2y_val_;
+ 273              		.loc 1 40 25 is_stmt 0 view .LVU84
+ 274 009c 7B6B     		ldr	r3, [r7, #52]
+  40:src/unit/line/line.cpp ****             val_[11] = *mux2y_val_;
+ 275              		.loc 1 40 24 view .LVU85
+ 276 009e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  40:src/unit/line/line.cpp ****             val_[11] = *mux2y_val_;
+ 277              		.loc 1 40 22 view .LVU86
+ 278 00a0 C7F88430 		str	r3, [r7, #132]
+  41:src/unit/line/line.cpp ****             val_[2] = *mux3x_val_;
+ 279              		.loc 1 41 13 is_stmt 1 view .LVU87
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 8
+
+
+  41:src/unit/line/line.cpp ****             val_[2] = *mux3x_val_;
+ 280              		.loc 1 41 25 is_stmt 0 view .LVU88
+ 281 00a4 BB6B     		ldr	r3, [r7, #56]
+  41:src/unit/line/line.cpp ****             val_[2] = *mux3x_val_;
+ 282              		.loc 1 41 24 view .LVU89
+ 283 00a6 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  41:src/unit/line/line.cpp ****             val_[2] = *mux3x_val_;
+ 284              		.loc 1 41 22 view .LVU90
+ 285 00a8 7B67     		str	r3, [r7, #116]
+  42:src/unit/line/line.cpp ****             val_[5] = *mux3y_val_;
+ 286              		.loc 1 42 13 is_stmt 1 view .LVU91
+  42:src/unit/line/line.cpp ****             val_[5] = *mux3y_val_;
+ 287              		.loc 1 42 24 is_stmt 0 view .LVU92
+ 288 00aa FB6B     		ldr	r3, [r7, #60]
+  42:src/unit/line/line.cpp ****             val_[5] = *mux3y_val_;
+ 289              		.loc 1 42 23 view .LVU93
+ 290 00ac 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  42:src/unit/line/line.cpp ****             val_[5] = *mux3y_val_;
+ 291              		.loc 1 42 21 view .LVU94
+ 292 00ae 3B65     		str	r3, [r7, #80]
+  43:src/unit/line/line.cpp ****             mux1a_->write(1);
+ 293              		.loc 1 43 13 is_stmt 1 view .LVU95
+  43:src/unit/line/line.cpp ****             mux1a_->write(1);
+ 294              		.loc 1 43 24 is_stmt 0 view .LVU96
+ 295 00b0 3B6C     		ldr	r3, [r7, #64]
+  43:src/unit/line/line.cpp ****             mux1a_->write(1);
+ 296              		.loc 1 43 23 view .LVU97
+ 297 00b2 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  43:src/unit/line/line.cpp ****             mux1a_->write(1);
+ 298              		.loc 1 43 21 view .LVU98
+ 299 00b4 FB65     		str	r3, [r7, #92]
+  44:src/unit/line/line.cpp ****             mux1b_->write(0);
+ 300              		.loc 1 44 13 is_stmt 1 view .LVU99
+ 301 00b6 FB68     		ldr	r3, [r7, #12]
+ 302              	.LVL11:
+ 303              	.LBB56:
+ 304              	.LBI56:
+ 305              		.file 2 "Lib/DigitalInOut/DigitalInOut.hpp"
+   1:Lib/DigitalInOut/DigitalInOut.hpp **** #ifndef __DIGITALINOUT__
+   2:Lib/DigitalInOut/DigitalInOut.hpp **** #define __DIGITALINOUT__
+   3:Lib/DigitalInOut/DigitalInOut.hpp **** 
+   4:Lib/DigitalInOut/DigitalInOut.hpp **** #include "main.h"
+   5:Lib/DigitalInOut/DigitalInOut.hpp **** 
+   6:Lib/DigitalInOut/DigitalInOut.hpp **** #ifdef __cplusplus
+   7:Lib/DigitalInOut/DigitalInOut.hpp **** 
+   8:Lib/DigitalInOut/DigitalInOut.hpp **** extern "C" {
+   9:Lib/DigitalInOut/DigitalInOut.hpp **** 
+  10:Lib/DigitalInOut/DigitalInOut.hpp **** class DigitalOut {
+  11:Lib/DigitalInOut/DigitalInOut.hpp ****      public:
+  12:Lib/DigitalInOut/DigitalInOut.hpp ****       DigitalOut(GPIO_TypeDef *port, uint16_t pin) : port(port), pin(pin) {
+  13:Lib/DigitalInOut/DigitalInOut.hpp ****             HAL_GPIO_WritePin(port, pin, GPIO_PIN_RESET);
+  14:Lib/DigitalInOut/DigitalInOut.hpp ****       }
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****       void write(bool value) {
+ 306              		.loc 2 15 12 view .LVU100
+ 307              	.LBB57:
+  16:Lib/DigitalInOut/DigitalInOut.hpp ****             HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 308              		.loc 2 16 13 view .LVU101
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 9
+
+
+ 309              		.loc 2 16 30 is_stmt 0 view .LVU102
+ 310 00b8 0122     		movs	r2, #1
+ 311 00ba 9988     		ldrh	r1, [r3, #4]
+ 312 00bc 1868     		ldr	r0, [r3]
+ 313 00be FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 314              	.LVL12:
+ 315              		.loc 2 16 30 view .LVU103
+ 316              	.LBE57:
+ 317              	.LBE56:
+  45:src/unit/line/line.cpp ****             mux2a_->write(1);
+ 318              		.loc 1 45 13 is_stmt 1 view .LVU104
+ 319 00c2 3B69     		ldr	r3, [r7, #16]
+ 320              	.LVL13:
+ 321              	.LBB58:
+ 322              	.LBI58:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****             HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 323              		.loc 2 15 12 view .LVU105
+ 324              	.LBB59:
+ 325              		.loc 2 16 13 view .LVU106
+ 326              		.loc 2 16 30 is_stmt 0 view .LVU107
+ 327 00c4 0022     		movs	r2, #0
+ 328 00c6 9988     		ldrh	r1, [r3, #4]
+ 329 00c8 1868     		ldr	r0, [r3]
+ 330 00ca FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 331              	.LVL14:
+ 332              		.loc 2 16 30 view .LVU108
+ 333              	.LBE59:
+ 334              	.LBE58:
+  46:src/unit/line/line.cpp ****             mux2b_->write(0);
+ 335              		.loc 1 46 13 is_stmt 1 view .LVU109
+ 336 00ce 7B69     		ldr	r3, [r7, #20]
+ 337              	.LVL15:
+ 338              	.LBB60:
+ 339              	.LBI60:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****             HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 340              		.loc 2 15 12 view .LVU110
+ 341              	.LBB61:
+ 342              		.loc 2 16 13 view .LVU111
+ 343              		.loc 2 16 30 is_stmt 0 view .LVU112
+ 344 00d0 0122     		movs	r2, #1
+ 345 00d2 9988     		ldrh	r1, [r3, #4]
+ 346 00d4 1868     		ldr	r0, [r3]
+ 347 00d6 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 348              	.LVL16:
+ 349              		.loc 2 16 30 view .LVU113
+ 350              	.LBE61:
+ 351              	.LBE60:
+  47:src/unit/line/line.cpp ****             mux3a_->write(1);
+ 352              		.loc 1 47 13 is_stmt 1 view .LVU114
+ 353 00da BB69     		ldr	r3, [r7, #24]
+ 354              	.LVL17:
+ 355              	.LBB62:
+ 356              	.LBI62:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****             HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 357              		.loc 2 15 12 view .LVU115
+ 358              	.LBB63:
+ 359              		.loc 2 16 13 view .LVU116
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 10
+
+
+ 360              		.loc 2 16 30 is_stmt 0 view .LVU117
+ 361 00dc 0022     		movs	r2, #0
+ 362 00de 9988     		ldrh	r1, [r3, #4]
+ 363 00e0 1868     		ldr	r0, [r3]
+ 364 00e2 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 365              	.LVL18:
+ 366              		.loc 2 16 30 view .LVU118
+ 367              	.LBE63:
+ 368              	.LBE62:
+  48:src/unit/line/line.cpp ****             mux3b_->write(0);
+ 369              		.loc 1 48 13 is_stmt 1 view .LVU119
+ 370 00e6 FB69     		ldr	r3, [r7, #28]
+ 371              	.LVL19:
+ 372              	.LBB64:
+ 373              	.LBI64:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****             HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 374              		.loc 2 15 12 view .LVU120
+ 375              	.LBB65:
+ 376              		.loc 2 16 13 view .LVU121
+ 377              		.loc 2 16 30 is_stmt 0 view .LVU122
+ 378 00e8 0122     		movs	r2, #1
+ 379 00ea 9988     		ldrh	r1, [r3, #4]
+ 380 00ec 1868     		ldr	r0, [r3]
+ 381 00ee FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 382              	.LVL20:
+ 383              		.loc 2 16 30 view .LVU123
+ 384              	.LBE65:
+ 385              	.LBE64:
+  49:src/unit/line/line.cpp ****             read_sensors_group_++;
+ 386              		.loc 1 49 13 is_stmt 1 view .LVU124
+ 387 00f2 3B6A     		ldr	r3, [r7, #32]
+ 388              	.LVL21:
+ 389              	.LBB66:
+ 390              	.LBI66:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****             HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 391              		.loc 2 15 12 view .LVU125
+ 392              	.LBB67:
+ 393              		.loc 2 16 13 view .LVU126
+ 394              		.loc 2 16 30 is_stmt 0 view .LVU127
+ 395 00f4 0022     		movs	r2, #0
+ 396 00f6 9988     		ldrh	r1, [r3, #4]
+ 397 00f8 1868     		ldr	r0, [r3]
+ 398 00fa FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 399              	.LVL22:
+ 400              		.loc 2 16 30 view .LVU128
+ 401              	.LBE67:
+ 402              	.LBE66:
+  50:src/unit/line/line.cpp ****             read_interval_timer.reset();
+ 403              		.loc 1 50 13 is_stmt 1 view .LVU129
+ 404 00fe 97F84430 		ldrb	r3, [r7, #68]	@ zero_extendqisi2
+  50:src/unit/line/line.cpp ****             read_interval_timer.reset();
+ 405              		.loc 1 50 32 is_stmt 0 view .LVU130
+ 406 0102 0133     		adds	r3, r3, #1
+ 407 0104 87F84430 		strb	r3, [r7, #68]
+  51:src/unit/line/line.cpp ****       } else if (read_sensors_group_ == 2 && read_interval_timer.read_us() > READ_INTERVAL_TIME_US)
+ 408              		.loc 1 51 13 is_stmt 1 view .LVU131
+  51:src/unit/line/line.cpp ****       } else if (read_sensors_group_ == 2 && read_interval_timer.read_us() > READ_INTERVAL_TIME_US)
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 11
+
+
+ 409              		.loc 1 51 38 is_stmt 0 view .LVU132
+ 410 0108 2046     		mov	r0, r4
+ 411 010a FFF7FEFF 		bl	_ZN5Timer5resetEv
+ 412              	.LVL23:
+ 413 010e 8EE7     		b	.L12
+ 414              	.L29:
+  52:src/unit/line/line.cpp ****             val_[21] = *mux1x_val_;
+ 415              		.loc 1 52 73 discriminator 1 view .LVU133
+ 416 0110 07F5C874 		add	r4, r7, #400
+ 417 0114 2046     		mov	r0, r4
+ 418 0116 FFF7FEFF 		bl	_ZN5Timer7read_usEv
+ 419              	.LVL24:
+  52:src/unit/line/line.cpp ****             val_[21] = *mux1x_val_;
+ 420              		.loc 1 52 43 discriminator 1 view .LVU134
+ 421 011a 0A28     		cmp	r0, #10
+ 422 011c 7FF67DAF 		bls	.L15
+  53:src/unit/line/line.cpp ****             val_[16] = *mux1y_val_;
+ 423              		.loc 1 53 13 is_stmt 1 view .LVU135
+  53:src/unit/line/line.cpp ****             val_[16] = *mux1y_val_;
+ 424              		.loc 1 53 25 is_stmt 0 view .LVU136
+ 425 0120 FB6A     		ldr	r3, [r7, #44]
+  53:src/unit/line/line.cpp ****             val_[16] = *mux1y_val_;
+ 426              		.loc 1 53 24 view .LVU137
+ 427 0122 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  53:src/unit/line/line.cpp ****             val_[16] = *mux1y_val_;
+ 428              		.loc 1 53 22 view .LVU138
+ 429 0124 C7F89C30 		str	r3, [r7, #156]
+  54:src/unit/line/line.cpp ****             val_[14] = *mux2x_val_;
+ 430              		.loc 1 54 13 is_stmt 1 view .LVU139
+  54:src/unit/line/line.cpp ****             val_[14] = *mux2x_val_;
+ 431              		.loc 1 54 25 is_stmt 0 view .LVU140
+ 432 0128 3B6B     		ldr	r3, [r7, #48]
+  54:src/unit/line/line.cpp ****             val_[14] = *mux2x_val_;
+ 433              		.loc 1 54 24 view .LVU141
+ 434 012a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  54:src/unit/line/line.cpp ****             val_[14] = *mux2x_val_;
+ 435              		.loc 1 54 22 view .LVU142
+ 436 012c C7F88830 		str	r3, [r7, #136]
+  55:src/unit/line/line.cpp ****             val_[8] = *mux2y_val_;
+ 437              		.loc 1 55 13 is_stmt 1 view .LVU143
+  55:src/unit/line/line.cpp ****             val_[8] = *mux2y_val_;
+ 438              		.loc 1 55 25 is_stmt 0 view .LVU144
+ 439 0130 7B6B     		ldr	r3, [r7, #52]
+  55:src/unit/line/line.cpp ****             val_[8] = *mux2y_val_;
+ 440              		.loc 1 55 24 view .LVU145
+ 441 0132 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  55:src/unit/line/line.cpp ****             val_[8] = *mux2y_val_;
+ 442              		.loc 1 55 22 view .LVU146
+ 443 0134 C7F88030 		str	r3, [r7, #128]
+  56:src/unit/line/line.cpp ****             val_[3] = *mux3x_val_;
+ 444              		.loc 1 56 13 is_stmt 1 view .LVU147
+  56:src/unit/line/line.cpp ****             val_[3] = *mux3x_val_;
+ 445              		.loc 1 56 24 is_stmt 0 view .LVU148
+ 446 0138 BB6B     		ldr	r3, [r7, #56]
+  56:src/unit/line/line.cpp ****             val_[3] = *mux3x_val_;
+ 447              		.loc 1 56 23 view .LVU149
+ 448 013a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 12
+
+
+  56:src/unit/line/line.cpp ****             val_[3] = *mux3x_val_;
+ 449              		.loc 1 56 21 view .LVU150
+ 450 013c BB66     		str	r3, [r7, #104]
+  57:src/unit/line/line.cpp ****             val_[0] = *mux3y_val_;
+ 451              		.loc 1 57 13 is_stmt 1 view .LVU151
+  57:src/unit/line/line.cpp ****             val_[0] = *mux3y_val_;
+ 452              		.loc 1 57 24 is_stmt 0 view .LVU152
+ 453 013e FB6B     		ldr	r3, [r7, #60]
+  57:src/unit/line/line.cpp ****             val_[0] = *mux3y_val_;
+ 454              		.loc 1 57 23 view .LVU153
+ 455 0140 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  57:src/unit/line/line.cpp ****             val_[0] = *mux3y_val_;
+ 456              		.loc 1 57 21 view .LVU154
+ 457 0142 7B65     		str	r3, [r7, #84]
+  58:src/unit/line/line.cpp ****             mux1a_->write(0);
+ 458              		.loc 1 58 13 is_stmt 1 view .LVU155
+  58:src/unit/line/line.cpp ****             mux1a_->write(0);
+ 459              		.loc 1 58 24 is_stmt 0 view .LVU156
+ 460 0144 3B6C     		ldr	r3, [r7, #64]
+  58:src/unit/line/line.cpp ****             mux1a_->write(0);
+ 461              		.loc 1 58 23 view .LVU157
+ 462 0146 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  58:src/unit/line/line.cpp ****             mux1a_->write(0);
+ 463              		.loc 1 58 21 view .LVU158
+ 464 0148 BB64     		str	r3, [r7, #72]
+  59:src/unit/line/line.cpp ****             mux1b_->write(1);
+ 465              		.loc 1 59 13 is_stmt 1 view .LVU159
+ 466 014a FB68     		ldr	r3, [r7, #12]
+ 467              	.LVL25:
+ 468              	.LBB68:
+ 469              	.LBI68:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****             HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 470              		.loc 2 15 12 view .LVU160
+ 471              	.LBB69:
+ 472              		.loc 2 16 13 view .LVU161
+ 473              		.loc 2 16 30 is_stmt 0 view .LVU162
+ 474 014c 0022     		movs	r2, #0
+ 475 014e 9988     		ldrh	r1, [r3, #4]
+ 476 0150 1868     		ldr	r0, [r3]
+ 477 0152 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 478              	.LVL26:
+ 479              		.loc 2 16 30 view .LVU163
+ 480              	.LBE69:
+ 481              	.LBE68:
+  60:src/unit/line/line.cpp ****             mux2a_->write(0);
+ 482              		.loc 1 60 13 is_stmt 1 view .LVU164
+ 483 0156 3B69     		ldr	r3, [r7, #16]
+ 484              	.LVL27:
+ 485              	.LBB70:
+ 486              	.LBI70:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****             HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 487              		.loc 2 15 12 view .LVU165
+ 488              	.LBB71:
+ 489              		.loc 2 16 13 view .LVU166
+ 490              		.loc 2 16 30 is_stmt 0 view .LVU167
+ 491 0158 0122     		movs	r2, #1
+ 492 015a 9988     		ldrh	r1, [r3, #4]
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 13
+
+
+ 493 015c 1868     		ldr	r0, [r3]
+ 494 015e FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 495              	.LVL28:
+ 496              		.loc 2 16 30 view .LVU168
+ 497              	.LBE71:
+ 498              	.LBE70:
+  61:src/unit/line/line.cpp ****             mux2b_->write(1);
+ 499              		.loc 1 61 13 is_stmt 1 view .LVU169
+ 500 0162 7B69     		ldr	r3, [r7, #20]
+ 501              	.LVL29:
+ 502              	.LBB72:
+ 503              	.LBI72:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****             HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 504              		.loc 2 15 12 view .LVU170
+ 505              	.LBB73:
+ 506              		.loc 2 16 13 view .LVU171
+ 507              		.loc 2 16 30 is_stmt 0 view .LVU172
+ 508 0164 0022     		movs	r2, #0
+ 509 0166 9988     		ldrh	r1, [r3, #4]
+ 510 0168 1868     		ldr	r0, [r3]
+ 511 016a FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 512              	.LVL30:
+ 513              		.loc 2 16 30 view .LVU173
+ 514              	.LBE73:
+ 515              	.LBE72:
+  62:src/unit/line/line.cpp ****             mux3a_->write(0);
+ 516              		.loc 1 62 13 is_stmt 1 view .LVU174
+ 517 016e BB69     		ldr	r3, [r7, #24]
+ 518              	.LVL31:
+ 519              	.LBB74:
+ 520              	.LBI74:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****             HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 521              		.loc 2 15 12 view .LVU175
+ 522              	.LBB75:
+ 523              		.loc 2 16 13 view .LVU176
+ 524              		.loc 2 16 30 is_stmt 0 view .LVU177
+ 525 0170 0122     		movs	r2, #1
+ 526 0172 9988     		ldrh	r1, [r3, #4]
+ 527 0174 1868     		ldr	r0, [r3]
+ 528 0176 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 529              	.LVL32:
+ 530              		.loc 2 16 30 view .LVU178
+ 531              	.LBE75:
+ 532              	.LBE74:
+  63:src/unit/line/line.cpp ****             mux3b_->write(1);
+ 533              		.loc 1 63 13 is_stmt 1 view .LVU179
+ 534 017a FB69     		ldr	r3, [r7, #28]
+ 535              	.LVL33:
+ 536              	.LBB76:
+ 537              	.LBI76:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****             HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 538              		.loc 2 15 12 view .LVU180
+ 539              	.LBB77:
+ 540              		.loc 2 16 13 view .LVU181
+ 541              		.loc 2 16 30 is_stmt 0 view .LVU182
+ 542 017c 0022     		movs	r2, #0
+ 543 017e 9988     		ldrh	r1, [r3, #4]
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 14
+
+
+ 544 0180 1868     		ldr	r0, [r3]
+ 545 0182 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 546              	.LVL34:
+ 547              		.loc 2 16 30 view .LVU183
+ 548              	.LBE77:
+ 549              	.LBE76:
+  64:src/unit/line/line.cpp ****             read_sensors_group_++;
+ 550              		.loc 1 64 13 is_stmt 1 view .LVU184
+ 551 0186 3B6A     		ldr	r3, [r7, #32]
+ 552              	.LVL35:
+ 553              	.LBB78:
+ 554              	.LBI78:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****             HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 555              		.loc 2 15 12 view .LVU185
+ 556              	.LBB79:
+ 557              		.loc 2 16 13 view .LVU186
+ 558              		.loc 2 16 30 is_stmt 0 view .LVU187
+ 559 0188 0122     		movs	r2, #1
+ 560 018a 9988     		ldrh	r1, [r3, #4]
+ 561 018c 1868     		ldr	r0, [r3]
+ 562 018e FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 563              	.LVL36:
+ 564              		.loc 2 16 30 view .LVU188
+ 565              	.LBE79:
+ 566              	.LBE78:
+  65:src/unit/line/line.cpp ****             read_interval_timer.reset();
+ 567              		.loc 1 65 13 is_stmt 1 view .LVU189
+ 568 0192 97F84430 		ldrb	r3, [r7, #68]	@ zero_extendqisi2
+  65:src/unit/line/line.cpp ****             read_interval_timer.reset();
+ 569              		.loc 1 65 32 is_stmt 0 view .LVU190
+ 570 0196 0133     		adds	r3, r3, #1
+ 571 0198 87F84430 		strb	r3, [r7, #68]
+  66:src/unit/line/line.cpp ****       } else if (read_sensors_group_ == 3 && read_interval_timer.read_us() > READ_INTERVAL_TIME_US)
+ 572              		.loc 1 66 13 is_stmt 1 view .LVU191
+  66:src/unit/line/line.cpp ****       } else if (read_sensors_group_ == 3 && read_interval_timer.read_us() > READ_INTERVAL_TIME_US)
+ 573              		.loc 1 66 38 is_stmt 0 view .LVU192
+ 574 019c 2046     		mov	r0, r4
+ 575 019e FFF7FEFF 		bl	_ZN5Timer5resetEv
+ 576              	.LVL37:
+ 577 01a2 44E7     		b	.L12
+ 578              	.L30:
+  67:src/unit/line/line.cpp ****             val_[20] = *mux1x_val_;
+ 579              		.loc 1 67 73 discriminator 1 view .LVU193
+ 580 01a4 07F5C874 		add	r4, r7, #400
+ 581 01a8 2046     		mov	r0, r4
+ 582 01aa FFF7FEFF 		bl	_ZN5Timer7read_usEv
+ 583              	.LVL38:
+  67:src/unit/line/line.cpp ****             val_[20] = *mux1x_val_;
+ 584              		.loc 1 67 43 discriminator 1 view .LVU194
+ 585 01ae 0A28     		cmp	r0, #10
+ 586 01b0 7FF638AF 		bls	.L18
+  68:src/unit/line/line.cpp ****             val_[18] = *mux1y_val_;
+ 587              		.loc 1 68 13 is_stmt 1 view .LVU195
+  68:src/unit/line/line.cpp ****             val_[18] = *mux1y_val_;
+ 588              		.loc 1 68 25 is_stmt 0 view .LVU196
+ 589 01b4 FB6A     		ldr	r3, [r7, #44]
+  68:src/unit/line/line.cpp ****             val_[18] = *mux1y_val_;
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 15
+
+
+ 590              		.loc 1 68 24 view .LVU197
+ 591 01b6 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  68:src/unit/line/line.cpp ****             val_[18] = *mux1y_val_;
+ 592              		.loc 1 68 22 view .LVU198
+ 593 01b8 C7F89830 		str	r3, [r7, #152]
+  69:src/unit/line/line.cpp ****             val_[13] = *mux2x_val_;
+ 594              		.loc 1 69 13 is_stmt 1 view .LVU199
+  69:src/unit/line/line.cpp ****             val_[13] = *mux2x_val_;
+ 595              		.loc 1 69 25 is_stmt 0 view .LVU200
+ 596 01bc 3B6B     		ldr	r3, [r7, #48]
+  69:src/unit/line/line.cpp ****             val_[13] = *mux2x_val_;
+ 597              		.loc 1 69 24 view .LVU201
+ 598 01be 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  69:src/unit/line/line.cpp ****             val_[13] = *mux2x_val_;
+ 599              		.loc 1 69 22 view .LVU202
+ 600 01c0 C7F89030 		str	r3, [r7, #144]
+  70:src/unit/line/line.cpp ****             val_[10] = *mux2y_val_;
+ 601              		.loc 1 70 13 is_stmt 1 view .LVU203
+  70:src/unit/line/line.cpp ****             val_[10] = *mux2y_val_;
+ 602              		.loc 1 70 25 is_stmt 0 view .LVU204
+ 603 01c4 7B6B     		ldr	r3, [r7, #52]
+  70:src/unit/line/line.cpp ****             val_[10] = *mux2y_val_;
+ 604              		.loc 1 70 24 view .LVU205
+ 605 01c6 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  70:src/unit/line/line.cpp ****             val_[10] = *mux2y_val_;
+ 606              		.loc 1 70 22 view .LVU206
+ 607 01c8 FB67     		str	r3, [r7, #124]
+  71:src/unit/line/line.cpp ****             val_[6] = *mux3x_val_;
+ 608              		.loc 1 71 13 is_stmt 1 view .LVU207
+  71:src/unit/line/line.cpp ****             val_[6] = *mux3x_val_;
+ 609              		.loc 1 71 25 is_stmt 0 view .LVU208
+ 610 01ca BB6B     		ldr	r3, [r7, #56]
+  71:src/unit/line/line.cpp ****             val_[6] = *mux3x_val_;
+ 611              		.loc 1 71 24 view .LVU209
+ 612 01cc 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  71:src/unit/line/line.cpp ****             val_[6] = *mux3x_val_;
+ 613              		.loc 1 71 22 view .LVU210
+ 614 01ce 3B67     		str	r3, [r7, #112]
+  72:src/unit/line/line.cpp ****             val_[4] = *mux3y_val_;
+ 615              		.loc 1 72 13 is_stmt 1 view .LVU211
+  72:src/unit/line/line.cpp ****             val_[4] = *mux3y_val_;
+ 616              		.loc 1 72 24 is_stmt 0 view .LVU212
+ 617 01d0 FB6B     		ldr	r3, [r7, #60]
+  72:src/unit/line/line.cpp ****             val_[4] = *mux3y_val_;
+ 618              		.loc 1 72 23 view .LVU213
+ 619 01d2 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  72:src/unit/line/line.cpp ****             val_[4] = *mux3y_val_;
+ 620              		.loc 1 72 21 view .LVU214
+ 621 01d4 3B66     		str	r3, [r7, #96]
+  73:src/unit/line/line.cpp ****             mux1a_->write(1);
+ 622              		.loc 1 73 13 is_stmt 1 view .LVU215
+  73:src/unit/line/line.cpp ****             mux1a_->write(1);
+ 623              		.loc 1 73 24 is_stmt 0 view .LVU216
+ 624 01d6 3B6C     		ldr	r3, [r7, #64]
+  73:src/unit/line/line.cpp ****             mux1a_->write(1);
+ 625              		.loc 1 73 23 view .LVU217
+ 626 01d8 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 16
+
+
+  73:src/unit/line/line.cpp ****             mux1a_->write(1);
+ 627              		.loc 1 73 21 view .LVU218
+ 628 01da BB65     		str	r3, [r7, #88]
+  74:src/unit/line/line.cpp ****             mux1b_->write(1);
+ 629              		.loc 1 74 13 is_stmt 1 view .LVU219
+ 630 01dc FB68     		ldr	r3, [r7, #12]
+ 631              	.LVL39:
+ 632              	.LBB80:
+ 633              	.LBI80:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****             HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 634              		.loc 2 15 12 view .LVU220
+ 635              	.LBB81:
+ 636              		.loc 2 16 13 view .LVU221
+ 637              		.loc 2 16 30 is_stmt 0 view .LVU222
+ 638 01de 0122     		movs	r2, #1
+ 639 01e0 9988     		ldrh	r1, [r3, #4]
+ 640 01e2 1868     		ldr	r0, [r3]
+ 641 01e4 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 642              	.LVL40:
+ 643              		.loc 2 16 30 view .LVU223
+ 644              	.LBE81:
+ 645              	.LBE80:
+  75:src/unit/line/line.cpp ****             mux2a_->write(1);
+ 646              		.loc 1 75 13 is_stmt 1 view .LVU224
+ 647 01e8 3B69     		ldr	r3, [r7, #16]
+ 648              	.LVL41:
+ 649              	.LBB82:
+ 650              	.LBI82:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****             HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 651              		.loc 2 15 12 view .LVU225
+ 652              	.LBB83:
+ 653              		.loc 2 16 13 view .LVU226
+ 654              		.loc 2 16 30 is_stmt 0 view .LVU227
+ 655 01ea 0122     		movs	r2, #1
+ 656 01ec 9988     		ldrh	r1, [r3, #4]
+ 657 01ee 1868     		ldr	r0, [r3]
+ 658 01f0 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 659              	.LVL42:
+ 660              		.loc 2 16 30 view .LVU228
+ 661              	.LBE83:
+ 662              	.LBE82:
+  76:src/unit/line/line.cpp ****             mux2b_->write(1);
+ 663              		.loc 1 76 13 is_stmt 1 view .LVU229
+ 664 01f4 7B69     		ldr	r3, [r7, #20]
+ 665              	.LVL43:
+ 666              	.LBB84:
+ 667              	.LBI84:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****             HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 668              		.loc 2 15 12 view .LVU230
+ 669              	.LBB85:
+ 670              		.loc 2 16 13 view .LVU231
+ 671              		.loc 2 16 30 is_stmt 0 view .LVU232
+ 672 01f6 0122     		movs	r2, #1
+ 673 01f8 9988     		ldrh	r1, [r3, #4]
+ 674 01fa 1868     		ldr	r0, [r3]
+ 675 01fc FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 676              	.LVL44:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 17
+
+
+ 677              		.loc 2 16 30 view .LVU233
+ 678              	.LBE85:
+ 679              	.LBE84:
+  77:src/unit/line/line.cpp ****             mux3a_->write(1);
+ 680              		.loc 1 77 13 is_stmt 1 view .LVU234
+ 681 0200 BB69     		ldr	r3, [r7, #24]
+ 682              	.LVL45:
+ 683              	.LBB86:
+ 684              	.LBI86:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****             HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 685              		.loc 2 15 12 view .LVU235
+ 686              	.LBB87:
+ 687              		.loc 2 16 13 view .LVU236
+ 688              		.loc 2 16 30 is_stmt 0 view .LVU237
+ 689 0202 0122     		movs	r2, #1
+ 690 0204 9988     		ldrh	r1, [r3, #4]
+ 691 0206 1868     		ldr	r0, [r3]
+ 692 0208 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 693              	.LVL46:
+ 694              		.loc 2 16 30 view .LVU238
+ 695              	.LBE87:
+ 696              	.LBE86:
+  78:src/unit/line/line.cpp ****             mux3b_->write(1);
+ 697              		.loc 1 78 13 is_stmt 1 view .LVU239
+ 698 020c FB69     		ldr	r3, [r7, #28]
+ 699              	.LVL47:
+ 700              	.LBB88:
+ 701              	.LBI88:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****             HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 702              		.loc 2 15 12 view .LVU240
+ 703              	.LBB89:
+ 704              		.loc 2 16 13 view .LVU241
+ 705              		.loc 2 16 30 is_stmt 0 view .LVU242
+ 706 020e 0122     		movs	r2, #1
+ 707 0210 9988     		ldrh	r1, [r3, #4]
+ 708 0212 1868     		ldr	r0, [r3]
+ 709 0214 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 710              	.LVL48:
+ 711              		.loc 2 16 30 view .LVU243
+ 712              	.LBE89:
+ 713              	.LBE88:
+  79:src/unit/line/line.cpp ****             read_sensors_group_++;
+ 714              		.loc 1 79 13 is_stmt 1 view .LVU244
+ 715 0218 3B6A     		ldr	r3, [r7, #32]
+ 716              	.LVL49:
+ 717              	.LBB90:
+ 718              	.LBI90:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****             HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 719              		.loc 2 15 12 view .LVU245
+ 720              	.LBB91:
+ 721              		.loc 2 16 13 view .LVU246
+ 722              		.loc 2 16 30 is_stmt 0 view .LVU247
+ 723 021a 0122     		movs	r2, #1
+ 724 021c 9988     		ldrh	r1, [r3, #4]
+ 725 021e 1868     		ldr	r0, [r3]
+ 726 0220 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 727              	.LVL50:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 18
+
+
+ 728              		.loc 2 16 30 view .LVU248
+ 729              	.LBE91:
+ 730              	.LBE90:
+  80:src/unit/line/line.cpp ****             read_interval_timer.reset();
+ 731              		.loc 1 80 13 is_stmt 1 view .LVU249
+ 732 0224 97F84430 		ldrb	r3, [r7, #68]	@ zero_extendqisi2
+  80:src/unit/line/line.cpp ****             read_interval_timer.reset();
+ 733              		.loc 1 80 32 is_stmt 0 view .LVU250
+ 734 0228 0133     		adds	r3, r3, #1
+ 735 022a 87F84430 		strb	r3, [r7, #68]
+  81:src/unit/line/line.cpp ****       } else if (read_sensors_group_ == 4 && read_interval_timer.read_us() > READ_INTERVAL_TIME_US)
+ 736              		.loc 1 81 13 is_stmt 1 view .LVU251
+  81:src/unit/line/line.cpp ****       } else if (read_sensors_group_ == 4 && read_interval_timer.read_us() > READ_INTERVAL_TIME_US)
+ 737              		.loc 1 81 38 is_stmt 0 view .LVU252
+ 738 022e 2046     		mov	r0, r4
+ 739 0230 FFF7FEFF 		bl	_ZN5Timer5resetEv
+ 740              	.LVL51:
+ 741 0234 FBE6     		b	.L12
+ 742              	.L31:
+ 743              		.loc 1 82 73 discriminator 1 view .LVU253
+ 744 0236 07F5C874 		add	r4, r7, #400
+ 745 023a 2046     		mov	r0, r4
+ 746 023c FFF7FEFF 		bl	_ZN5Timer7read_usEv
+ 747              	.LVL52:
+ 748              		.loc 1 82 43 discriminator 1 view .LVU254
+ 749 0240 0A28     		cmp	r0, #10
+ 750 0242 7FF6F4AE 		bls	.L12
+  83:src/unit/line/line.cpp ****             val_[23] = *mux1x_val_;
+ 751              		.loc 1 83 13 is_stmt 1 view .LVU255
+ 752              		.loc 1 83 25 is_stmt 0 view .LVU256
+ 753 0246 FB6A     		ldr	r3, [r7, #44]
+ 754              		.loc 1 83 24 view .LVU257
+ 755 0248 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 756              		.loc 1 83 22 view .LVU258
+ 757 024a C7F8A430 		str	r3, [r7, #164]
+  84:src/unit/line/line.cpp ****             val_[17] = *mux1y_val_;
+ 758              		.loc 1 84 13 is_stmt 1 view .LVU259
+ 759              		.loc 1 84 25 is_stmt 0 view .LVU260
+ 760 024e 3B6B     		ldr	r3, [r7, #48]
+ 761              		.loc 1 84 24 view .LVU261
+ 762 0250 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 763              		.loc 1 84 22 view .LVU262
+ 764 0252 C7F88C30 		str	r3, [r7, #140]
+  85:src/unit/line/line.cpp ****             val_[12] = *mux2x_val_;
+ 765              		.loc 1 85 13 is_stmt 1 view .LVU263
+ 766              		.loc 1 85 25 is_stmt 0 view .LVU264
+ 767 0256 7B6B     		ldr	r3, [r7, #52]
+ 768              		.loc 1 85 24 view .LVU265
+ 769 0258 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 770              		.loc 1 85 22 view .LVU266
+ 771 025a BB67     		str	r3, [r7, #120]
+  86:src/unit/line/line.cpp ****             val_[9] = *mux2y_val_;
+ 772              		.loc 1 86 13 is_stmt 1 view .LVU267
+ 773              		.loc 1 86 24 is_stmt 0 view .LVU268
+ 774 025c BB6B     		ldr	r3, [r7, #56]
+ 775              		.loc 1 86 23 view .LVU269
+ 776 025e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 19
+
+
+ 777              		.loc 1 86 21 view .LVU270
+ 778 0260 FB66     		str	r3, [r7, #108]
+  87:src/unit/line/line.cpp ****             val_[7] = *mux3x_val_;
+ 779              		.loc 1 87 13 is_stmt 1 view .LVU271
+ 780              		.loc 1 87 24 is_stmt 0 view .LVU272
+ 781 0262 FB6B     		ldr	r3, [r7, #60]
+ 782              		.loc 1 87 23 view .LVU273
+ 783 0264 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 784              		.loc 1 87 21 view .LVU274
+ 785 0266 7B66     		str	r3, [r7, #100]
+  88:src/unit/line/line.cpp ****             val_[1] = *mux3y_val_;
+ 786              		.loc 1 88 13 is_stmt 1 view .LVU275
+ 787              		.loc 1 88 24 is_stmt 0 view .LVU276
+ 788 0268 3B6C     		ldr	r3, [r7, #64]
+ 789              		.loc 1 88 23 view .LVU277
+ 790 026a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 791              		.loc 1 88 21 view .LVU278
+ 792 026c FB64     		str	r3, [r7, #76]
+  89:src/unit/line/line.cpp ****             mux1a_->write(0);
+ 793              		.loc 1 89 13 is_stmt 1 view .LVU279
+ 794 026e FB68     		ldr	r3, [r7, #12]
+ 795              	.LVL53:
+ 796              	.LBB92:
+ 797              	.LBI92:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****             HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 798              		.loc 2 15 12 view .LVU280
+ 799              	.LBB93:
+ 800              		.loc 2 16 13 view .LVU281
+ 801              		.loc 2 16 30 is_stmt 0 view .LVU282
+ 802 0270 0022     		movs	r2, #0
+ 803 0272 9988     		ldrh	r1, [r3, #4]
+ 804 0274 1868     		ldr	r0, [r3]
+ 805 0276 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 806              	.LVL54:
+ 807              		.loc 2 16 30 view .LVU283
+ 808              	.LBE93:
+ 809              	.LBE92:
+  90:src/unit/line/line.cpp ****             mux1b_->write(0);
+ 810              		.loc 1 90 13 is_stmt 1 view .LVU284
+ 811 027a 3B69     		ldr	r3, [r7, #16]
+ 812              	.LVL55:
+ 813              	.LBB94:
+ 814              	.LBI94:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****             HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 815              		.loc 2 15 12 view .LVU285
+ 816              	.LBB95:
+ 817              		.loc 2 16 13 view .LVU286
+ 818              		.loc 2 16 30 is_stmt 0 view .LVU287
+ 819 027c 0022     		movs	r2, #0
+ 820 027e 9988     		ldrh	r1, [r3, #4]
+ 821 0280 1868     		ldr	r0, [r3]
+ 822 0282 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 823              	.LVL56:
+ 824              		.loc 2 16 30 view .LVU288
+ 825              	.LBE95:
+ 826              	.LBE94:
+  91:src/unit/line/line.cpp ****             mux2a_->write(0);
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 20
+
+
+ 827              		.loc 1 91 13 is_stmt 1 view .LVU289
+ 828 0286 7B69     		ldr	r3, [r7, #20]
+ 829              	.LVL57:
+ 830              	.LBB96:
+ 831              	.LBI96:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****             HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 832              		.loc 2 15 12 view .LVU290
+ 833              	.LBB97:
+ 834              		.loc 2 16 13 view .LVU291
+ 835              		.loc 2 16 30 is_stmt 0 view .LVU292
+ 836 0288 0022     		movs	r2, #0
+ 837 028a 9988     		ldrh	r1, [r3, #4]
+ 838 028c 1868     		ldr	r0, [r3]
+ 839 028e FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 840              	.LVL58:
+ 841              		.loc 2 16 30 view .LVU293
+ 842              	.LBE97:
+ 843              	.LBE96:
+  92:src/unit/line/line.cpp ****             mux2b_->write(0);
+ 844              		.loc 1 92 13 is_stmt 1 view .LVU294
+ 845 0292 BB69     		ldr	r3, [r7, #24]
+ 846              	.LVL59:
+ 847              	.LBB98:
+ 848              	.LBI98:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****             HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 849              		.loc 2 15 12 view .LVU295
+ 850              	.LBB99:
+ 851              		.loc 2 16 13 view .LVU296
+ 852              		.loc 2 16 30 is_stmt 0 view .LVU297
+ 853 0294 0022     		movs	r2, #0
+ 854 0296 9988     		ldrh	r1, [r3, #4]
+ 855 0298 1868     		ldr	r0, [r3]
+ 856 029a FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 857              	.LVL60:
+ 858              		.loc 2 16 30 view .LVU298
+ 859              	.LBE99:
+ 860              	.LBE98:
+  93:src/unit/line/line.cpp ****             mux3a_->write(0);
+ 861              		.loc 1 93 13 is_stmt 1 view .LVU299
+ 862 029e FB69     		ldr	r3, [r7, #28]
+ 863              	.LVL61:
+ 864              	.LBB100:
+ 865              	.LBI100:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****             HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 866              		.loc 2 15 12 view .LVU300
+ 867              	.LBB101:
+ 868              		.loc 2 16 13 view .LVU301
+ 869              		.loc 2 16 30 is_stmt 0 view .LVU302
+ 870 02a0 0022     		movs	r2, #0
+ 871 02a2 9988     		ldrh	r1, [r3, #4]
+ 872 02a4 1868     		ldr	r0, [r3]
+ 873 02a6 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 874              	.LVL62:
+ 875              		.loc 2 16 30 view .LVU303
+ 876              	.LBE101:
+ 877              	.LBE100:
+  94:src/unit/line/line.cpp ****             mux3b_->write(0);
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 21
+
+
+ 878              		.loc 1 94 13 is_stmt 1 view .LVU304
+ 879 02aa 3B6A     		ldr	r3, [r7, #32]
+ 880              	.LVL63:
+ 881              	.LBB102:
+ 882              	.LBI102:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****             HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 883              		.loc 2 15 12 view .LVU305
+ 884              	.LBB103:
+ 885              		.loc 2 16 13 view .LVU306
+ 886              		.loc 2 16 30 is_stmt 0 view .LVU307
+ 887 02ac 0022     		movs	r2, #0
+ 888 02ae 9988     		ldrh	r1, [r3, #4]
+ 889 02b0 1868     		ldr	r0, [r3]
+ 890 02b2 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 891              	.LVL64:
+ 892              		.loc 2 16 30 view .LVU308
+ 893              	.LBE103:
+ 894              	.LBE102:
+  95:src/unit/line/line.cpp ****             read_sensors_group_ = 0;
+ 895              		.loc 1 95 13 is_stmt 1 view .LVU309
+ 896              		.loc 1 95 33 is_stmt 0 view .LVU310
+ 897 02b6 0023     		movs	r3, #0
+ 898 02b8 87F84430 		strb	r3, [r7, #68]
+  96:src/unit/line/line.cpp ****             read_interval_timer.reset();
+ 899              		.loc 1 96 13 is_stmt 1 view .LVU311
+ 900              		.loc 1 96 38 is_stmt 0 view .LVU312
+ 901 02bc 2046     		mov	r0, r4
+ 902 02be FFF7FEFF 		bl	_ZN5Timer5resetEv
+ 903              	.LVL65:
+ 904 02c2 B4E6     		b	.L12
+ 905              	.LVL66:
+ 906              	.L21:
+ 907              	.LBB104:
+  97:src/unit/line/line.cpp ****       }
+  98:src/unit/line/line.cpp **** 
+  99:src/unit/line/line.cpp ****       // それぞれのセンサが反応しているかの判定
+ 100:src/unit/line/line.cpp ****       for (uint16_t i = 0; i < LINE_QTY; i++) {
+ 101:src/unit/line/line.cpp ****             val_[i] = (val_[i] + pre_val_[i]) * 0.5;
+ 102:src/unit/line/line.cpp ****             pre_val_[i] = val_[i];
+ 103:src/unit/line/line.cpp ****             if (val_[i] > th_val_[i]) {
+ 104:src/unit/line/line.cpp ****                   is_white_[i] = 1;
+ 105:src/unit/line/line.cpp ****             } else {
+ 106:src/unit/line/line.cpp ****                   is_white_[i] = 0;
+ 908              		.loc 1 106 19 is_stmt 1 view .LVU313
+ 909              		.loc 1 106 32 is_stmt 0 view .LVU314
+ 910 02c4 3B19     		adds	r3, r7, r4
+ 911 02c6 0022     		movs	r2, #0
+ 912 02c8 83F87521 		strb	r2, [r3, #373]
+ 913              	.L22:
+ 100:src/unit/line/line.cpp ****             val_[i] = (val_[i] + pre_val_[i]) * 0.5;
+ 914              		.loc 1 100 7 is_stmt 1 discriminator 2 view .LVU315
+ 915 02cc 0134     		adds	r4, r4, #1
+ 916              	.LVL67:
+ 100:src/unit/line/line.cpp ****             val_[i] = (val_[i] + pre_val_[i]) * 0.5;
+ 917              		.loc 1 100 7 is_stmt 0 discriminator 2 view .LVU316
+ 918 02ce A4B2     		uxth	r4, r4
+ 919              	.LVL68:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 22
+
+
+ 920              	.L23:
+ 100:src/unit/line/line.cpp ****             val_[i] = (val_[i] + pre_val_[i]) * 0.5;
+ 921              		.loc 1 100 30 is_stmt 1 discriminator 1 view .LVU317
+ 922 02d0 172C     		cmp	r4, #23
+ 923 02d2 1FD8     		bhi	.L32
+ 101:src/unit/line/line.cpp ****             pre_val_[i] = val_[i];
+ 924              		.loc 1 101 13 view .LVU318
+ 101:src/unit/line/line.cpp ****             pre_val_[i] = val_[i];
+ 925              		.loc 1 101 30 is_stmt 0 view .LVU319
+ 926 02d4 04F11206 		add	r6, r4, #18
+ 927 02d8 57F82600 		ldr	r0, [r7, r6, lsl #2]
+ 101:src/unit/line/line.cpp ****             pre_val_[i] = val_[i];
+ 928              		.loc 1 101 44 view .LVU320
+ 929 02dc 04F12A05 		add	r5, r4, #42
+ 930 02e0 57F82530 		ldr	r3, [r7, r5, lsl #2]
+ 101:src/unit/line/line.cpp ****             pre_val_[i] = val_[i];
+ 931              		.loc 1 101 47 view .LVU321
+ 932 02e4 1844     		add	r0, r0, r3
+ 933 02e6 FFF7FEFF 		bl	__aeabi_ui2d
+ 934              	.LVL69:
+ 935 02ea 0022     		movs	r2, #0
+ 936 02ec 0A4B     		ldr	r3, .L33
+ 937 02ee FFF7FEFF 		bl	__aeabi_dmul
+ 938              	.LVL70:
+ 101:src/unit/line/line.cpp ****             pre_val_[i] = val_[i];
+ 939              		.loc 1 101 21 view .LVU322
+ 940 02f2 FFF7FEFF 		bl	__aeabi_d2uiz
+ 941              	.LVL71:
+ 942 02f6 47F82600 		str	r0, [r7, r6, lsl #2]
+ 102:src/unit/line/line.cpp ****             if (val_[i] > th_val_[i]) {
+ 943              		.loc 1 102 13 is_stmt 1 view .LVU323
+ 102:src/unit/line/line.cpp ****             if (val_[i] > th_val_[i]) {
+ 944              		.loc 1 102 25 is_stmt 0 view .LVU324
+ 945 02fa 47F82500 		str	r0, [r7, r5, lsl #2]
+ 103:src/unit/line/line.cpp ****                   is_white_[i] = 1;
+ 946              		.loc 1 103 13 is_stmt 1 view .LVU325
+ 103:src/unit/line/line.cpp ****                   is_white_[i] = 1;
+ 947              		.loc 1 103 36 is_stmt 0 view .LVU326
+ 948 02fe 04F14203 		add	r3, r4, #66
+ 949 0302 57F82330 		ldr	r3, [r7, r3, lsl #2]
+ 103:src/unit/line/line.cpp ****                   is_white_[i] = 1;
+ 950              		.loc 1 103 13 view .LVU327
+ 951 0306 9842     		cmp	r0, r3
+ 952 0308 DCD9     		bls	.L21
+ 104:src/unit/line/line.cpp ****             } else {
+ 953              		.loc 1 104 19 is_stmt 1 view .LVU328
+ 104:src/unit/line/line.cpp ****             } else {
+ 954              		.loc 1 104 32 is_stmt 0 view .LVU329
+ 955 030a 3B19     		adds	r3, r7, r4
+ 956 030c 0122     		movs	r2, #1
+ 957 030e 83F87521 		strb	r2, [r3, #373]
+ 958 0312 DBE7     		b	.L22
+ 959              	.L32:
+ 104:src/unit/line/line.cpp ****             } else {
+ 960              		.loc 1 104 32 view .LVU330
+ 961              	.LBE104:
+ 107:src/unit/line/line.cpp ****             }
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 23
+
+
+ 108:src/unit/line/line.cpp ****       }
+ 109:src/unit/line/line.cpp **** }
+ 962              		.loc 1 109 1 view .LVU331
+ 963 0314 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 964              	.LVL72:
+ 965              	.L34:
+ 966              		.loc 1 109 1 view .LVU332
+ 967 0316 00BF     		.align	2
+ 968              	.L33:
+ 969 0318 0000E03F 		.word	1071644672
+ 970              		.cfi_endproc
+ 971              	.LFE256:
+ 972              		.fnend
+ 974              		.global	__aeabi_i2d
+ 975              		.global	__aeabi_dadd
+ 976              		.global	__aeabi_d2f
+ 977              		.section	.text._ZN4Line7ComputeEv,"ax",%progbits
+ 978              		.align	1
+ 979              		.global	_ZN4Line7ComputeEv
+ 980              		.syntax unified
+ 981              		.thumb
+ 982              		.thumb_func
+ 984              	_ZN4Line7ComputeEv:
+ 985              		.fnstart
+ 986              	.LVL73:
+ 987              	.LFB258:
+ 110:src/unit/line/line.cpp **** 
+ 111:src/unit/line/line.cpp **** bool Line::SetTh() {
+ 112:src/unit/line/line.cpp ****       if (set_th_cnt_ == 0) {
+ 113:src/unit/line/line.cpp ****             OnLed();
+ 114:src/unit/line/line.cpp ****             HAL_Delay(100);
+ 115:src/unit/line/line.cpp ****             leftside_th_ = 0;
+ 116:src/unit/line/line.cpp ****             rightside_th_ = 0;
+ 117:src/unit/line/line.cpp ****             for (uint16_t i = 0; i < LINE_QTY; i++) th_val_[i] = 0;
+ 118:src/unit/line/line.cpp ****       }
+ 119:src/unit/line/line.cpp ****       set_th_cnt_++;
+ 120:src/unit/line/line.cpp **** 
+ 121:src/unit/line/line.cpp ****       Read();
+ 122:src/unit/line/line.cpp ****       leftside_th_ += *leftside_val_;
+ 123:src/unit/line/line.cpp ****       rightside_th_ += *rightside_val_;
+ 124:src/unit/line/line.cpp **** 
+ 125:src/unit/line/line.cpp ****       for (uint16_t j = 0; j < LINE_QTY; j++) {
+ 126:src/unit/line/line.cpp ****             th_val_[j] += val_[j];
+ 127:src/unit/line/line.cpp ****       }
+ 128:src/unit/line/line.cpp **** 
+ 129:src/unit/line/line.cpp ****       if (set_th_cnt_ == SET_TH_NUM) {
+ 130:src/unit/line/line.cpp ****             leftside_th_ /= SET_TH_NUM;
+ 131:src/unit/line/line.cpp ****             rightside_th_ /= SET_TH_NUM;
+ 132:src/unit/line/line.cpp ****             leftside_th_ += TH_VALUE;
+ 133:src/unit/line/line.cpp ****             rightside_th_ += TH_VALUE;
+ 134:src/unit/line/line.cpp ****             for (uint16_t i = 0; i < LINE_QTY; i++) {
+ 135:src/unit/line/line.cpp ****                   th_val_[i] /= SET_TH_NUM;
+ 136:src/unit/line/line.cpp ****                   th_val_[i] += TH_VALUE;
+ 137:src/unit/line/line.cpp ****             }
+ 138:src/unit/line/line.cpp **** 
+ 139:src/unit/line/line.cpp ****             OffLed();
+ 140:src/unit/line/line.cpp ****             set_th_cnt_ = 0;
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 24
+
+
+ 141:src/unit/line/line.cpp ****             return 1;
+ 142:src/unit/line/line.cpp ****       }
+ 143:src/unit/line/line.cpp ****       return 0;
+ 144:src/unit/line/line.cpp **** }
+ 145:src/unit/line/line.cpp **** 
+ 146:src/unit/line/line.cpp **** void Line::Compute() {
+ 988              		.loc 1 146 22 is_stmt 1 view -0
+ 989              		.cfi_startproc
+ 990              		@ args = 0, pretend = 0, frame = 0
+ 991              		@ frame_needed = 1, uses_anonymous_args = 0
+ 992              		.loc 1 146 22 is_stmt 0 view .LVU334
+ 993 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 994              		.save {r3, r4, r5, r6, r7, r8, r9, lr}
+ 995              	.LCFI2:
+ 996              		.cfi_def_cfa_offset 32
+ 997              		.cfi_offset 3, -32
+ 998              		.cfi_offset 4, -28
+ 999              		.cfi_offset 5, -24
+ 1000              		.cfi_offset 6, -20
+ 1001              		.cfi_offset 7, -16
+ 1002              		.cfi_offset 8, -12
+ 1003              		.cfi_offset 9, -8
+ 1004              		.cfi_offset 14, -4
+ 1005              		.setfp r7, sp, #0
+ 1006 0004 00AF     		add	r7, sp, #0
+ 1007              	.LCFI3:
+ 1008              		.cfi_def_cfa_register 7
+ 1009 0006 0446     		mov	r4, r0
+ 147:src/unit/line/line.cpp ****       // 反応してるライン
+ 148:src/unit/line/line.cpp ****       white_qty_ = 0;
+ 1010              		.loc 1 148 7 is_stmt 1 view .LVU335
+ 1011              		.loc 1 148 18 is_stmt 0 view .LVU336
+ 1012 0008 0023     		movs	r3, #0
+ 1013 000a 80F88D31 		strb	r3, [r0, #397]
+ 149:src/unit/line/line.cpp ****       for (uint8_t i = 0; i < LINE_QTY; i++) {
+ 1014              		.loc 1 149 7 is_stmt 1 view .LVU337
+ 1015              	.LVL74:
+ 1016              	.LBB105:
+ 1017              		.loc 1 149 7 is_stmt 0 view .LVU338
+ 1018 000e 09E0     		b	.L36
+ 1019              	.LVL75:
+ 1020              	.L37:
+ 150:src/unit/line/line.cpp ****             white_qty_ += is_white_[i];
+ 1021              		.loc 1 150 13 is_stmt 1 discriminator 3 view .LVU339
+ 1022 0010 94F88D21 		ldrb	r2, [r4, #397]	@ zero_extendqisi2
+ 1023              		.loc 1 150 38 is_stmt 0 discriminator 3 view .LVU340
+ 1024 0014 E118     		adds	r1, r4, r3
+ 1025 0016 91F87511 		ldrb	r1, [r1, #373]	@ zero_extendqisi2
+ 1026              		.loc 1 150 24 discriminator 3 view .LVU341
+ 1027 001a 0A44     		add	r2, r2, r1
+ 1028 001c 84F88D21 		strb	r2, [r4, #397]
+ 149:src/unit/line/line.cpp ****       for (uint8_t i = 0; i < LINE_QTY; i++) {
+ 1029              		.loc 1 149 7 is_stmt 1 discriminator 3 view .LVU342
+ 1030 0020 0133     		adds	r3, r3, #1
+ 1031              	.LVL76:
+ 149:src/unit/line/line.cpp ****       for (uint8_t i = 0; i < LINE_QTY; i++) {
+ 1032              		.loc 1 149 7 is_stmt 0 discriminator 3 view .LVU343
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 25
+
+
+ 1033 0022 DBB2     		uxtb	r3, r3
+ 1034              	.LVL77:
+ 1035              	.L36:
+ 149:src/unit/line/line.cpp ****       for (uint8_t i = 0; i < LINE_QTY; i++) {
+ 1036              		.loc 1 149 29 is_stmt 1 discriminator 1 view .LVU344
+ 1037 0024 172B     		cmp	r3, #23
+ 1038 0026 F3D9     		bls	.L37
+ 1039              	.LBE105:
+ 151:src/unit/line/line.cpp ****       }
+ 152:src/unit/line/line.cpp **** 
+ 153:src/unit/line/line.cpp ****       if (white_qty_ != 0) {
+ 1040              		.loc 1 153 7 view .LVU345
+ 1041              	.LBB106:
+ 1042              		.loc 1 153 11 is_stmt 0 view .LVU346
+ 1043 0028 94F88D31 		ldrb	r3, [r4, #397]	@ zero_extendqisi2
+ 1044              	.LVL78:
+ 1045              		.loc 1 153 7 view .LVU347
+ 1046 002c 002B     		cmp	r3, #0
+ 1047 002e 00F09B80 		beq	.L38
+ 1048              	.LBB107:
+ 154:src/unit/line/line.cpp ****             // ラインの間隔
+ 155:src/unit/line/line.cpp ****             uint8_t pos_white_num[white_qty_];
+ 156:src/unit/line/line.cpp ****             uint8_t white_num = 0;
+ 157:src/unit/line/line.cpp **** 
+ 158:src/unit/line/line.cpp ****             for (uint8_t i = 0; i < LINE_QTY; i++) {
+ 159:src/unit/line/line.cpp ****                   if (is_white_[i]) {
+ 160:src/unit/line/line.cpp ****                         pos_white_num[white_num] = i;
+ 161:src/unit/line/line.cpp ****                         white_num++;
+ 162:src/unit/line/line.cpp ****                   }
+ 163:src/unit/line/line.cpp ****             }
+ 164:src/unit/line/line.cpp **** 
+ 165:src/unit/line/line.cpp ****             uint8_t interval[white_qty_];
+ 166:src/unit/line/line.cpp ****             for (uint8_t i = 0; i < white_qty_ - 1; i++) {
+ 167:src/unit/line/line.cpp ****                   interval[i] = pos_white_num[i + 1] - pos_white_num[i];
+ 168:src/unit/line/line.cpp ****             }
+ 169:src/unit/line/line.cpp ****             interval[white_qty_ - 1] = pos_white_num[0] - pos_white_num[white_qty_ - 1] + LINE_QTY;
+ 170:src/unit/line/line.cpp **** 
+ 171:src/unit/line/line.cpp ****             // ラインの最大の間隔
+ 172:src/unit/line/line.cpp ****             max_interval = 0;
+ 173:src/unit/line/line.cpp ****             uint8_t pos_max_interval = 0;
+ 174:src/unit/line/line.cpp ****             for (uint8_t i = 0; i < white_qty_; i++) {
+ 175:src/unit/line/line.cpp ****                   if (max_interval < interval[i]) {
+ 176:src/unit/line/line.cpp ****                         max_interval = interval[i];
+ 177:src/unit/line/line.cpp ****                         pos_max_interval = i;
+ 178:src/unit/line/line.cpp ****                   }
+ 179:src/unit/line/line.cpp ****             }
+ 180:src/unit/line/line.cpp **** 
+ 181:src/unit/line/line.cpp ****             // ラインの方向
+ 182:src/unit/line/line.cpp ****             float line_dir_num = pos_white_num[pos_max_interval] + max_interval * 0.5;
+ 183:src/unit/line/line.cpp ****             dir = MyMath::NormalizeDeg180((line_dir_num / LINE_QTY * 360) + 180);
+ 184:src/unit/line/line.cpp **** 
+ 185:src/unit/line/line.cpp ****             if (max_interval > 12) max_interval = 24 - max_interval;  // 間隔を１２までに�
+ 186:src/unit/line/line.cpp **** 
+ 187:src/unit/line/line.cpp ****             // ラインから戻る方向
+ 188:src/unit/line/line.cpp ****             if (pre_white_qty_ != 0) {
+ 189:src/unit/line/line.cpp ****                   int16_t dir_difference = abs(dir - pre_dir_);
+ 190:src/unit/line/line.cpp ****                   if (dir_difference > 180) dir_difference = 360 - dir_difference;
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 26
+
+
+ 191:src/unit/line/line.cpp ****                   if (dir_difference > 120) is_half_out = 1 - is_half_out;
+ 192:src/unit/line/line.cpp ****             }
+ 193:src/unit/line/line.cpp **** 
+ 194:src/unit/line/line.cpp ****             pre_dir_ = dir;
+ 195:src/unit/line/line.cpp ****             pre_white_qty_ = white_qty_;
+ 196:src/unit/line/line.cpp ****       } else {
+ 1049              		.loc 1 196 7 view .LVU348
+ 1050 0032 6D46     		mov	r5, sp
+ 155:src/unit/line/line.cpp ****             uint8_t white_num = 0;
+ 1051              		.loc 1 155 13 is_stmt 1 view .LVU349
+ 1052              	.LVL79:
+ 155:src/unit/line/line.cpp ****             uint8_t white_num = 0;
+ 1053              		.loc 1 155 21 is_stmt 0 view .LVU350
+ 1054 0034 0733     		adds	r3, r3, #7
+ 1055              	.LVL80:
+ 155:src/unit/line/line.cpp ****             uint8_t white_num = 0;
+ 1056              		.loc 1 155 21 view .LVU351
+ 1057 0036 03F4FC73 		and	r3, r3, #504
+ 1058              	.LVL81:
+ 155:src/unit/line/line.cpp ****             uint8_t white_num = 0;
+ 1059              		.loc 1 155 21 view .LVU352
+ 1060 003a ADEB030D 		sub	sp, sp, r3
+ 1061 003e 6846     		mov	r0, sp
+ 1062              	.LVL82:
+ 156:src/unit/line/line.cpp **** 
+ 1063              		.loc 1 156 13 is_stmt 1 view .LVU353
+ 158:src/unit/line/line.cpp ****                   if (is_white_[i]) {
+ 1064              		.loc 1 158 13 view .LVU354
+ 1065              	.LBB108:
+ 158:src/unit/line/line.cpp ****                   if (is_white_[i]) {
+ 1066              		.loc 1 158 26 is_stmt 0 view .LVU355
+ 1067 0040 0023     		movs	r3, #0
+ 1068              	.LBE108:
+ 156:src/unit/line/line.cpp **** 
+ 1069              		.loc 1 156 21 view .LVU356
+ 1070 0042 1A46     		mov	r2, r3
+ 1071              	.LBB109:
+ 158:src/unit/line/line.cpp ****                   if (is_white_[i]) {
+ 1072              		.loc 1 158 13 view .LVU357
+ 1073 0044 01E0     		b	.L39
+ 1074              	.LVL83:
+ 1075              	.L40:
+ 158:src/unit/line/line.cpp ****                   if (is_white_[i]) {
+ 1076              		.loc 1 158 13 is_stmt 1 discriminator 2 view .LVU358
+ 1077 0046 0133     		adds	r3, r3, #1
+ 1078              	.LVL84:
+ 158:src/unit/line/line.cpp ****                   if (is_white_[i]) {
+ 1079              		.loc 1 158 13 is_stmt 0 discriminator 2 view .LVU359
+ 1080 0048 DBB2     		uxtb	r3, r3
+ 1081              	.LVL85:
+ 1082              	.L39:
+ 158:src/unit/line/line.cpp ****                   if (is_white_[i]) {
+ 1083              		.loc 1 158 35 is_stmt 1 discriminator 1 view .LVU360
+ 1084 004a 172B     		cmp	r3, #23
+ 1085 004c 08D8     		bhi	.L52
+ 159:src/unit/line/line.cpp ****                         pos_white_num[white_num] = i;
+ 1086              		.loc 1 159 19 view .LVU361
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 27
+
+
+ 159:src/unit/line/line.cpp ****                         pos_white_num[white_num] = i;
+ 1087              		.loc 1 159 34 is_stmt 0 view .LVU362
+ 1088 004e E118     		adds	r1, r4, r3
+ 1089 0050 91F87511 		ldrb	r1, [r1, #373]	@ zero_extendqisi2
+ 159:src/unit/line/line.cpp ****                         pos_white_num[white_num] = i;
+ 1090              		.loc 1 159 19 view .LVU363
+ 1091 0054 0029     		cmp	r1, #0
+ 1092 0056 F6D0     		beq	.L40
+ 160:src/unit/line/line.cpp ****                         white_num++;
+ 1093              		.loc 1 160 25 is_stmt 1 view .LVU364
+ 160:src/unit/line/line.cpp ****                         white_num++;
+ 1094              		.loc 1 160 50 is_stmt 0 view .LVU365
+ 1095 0058 8354     		strb	r3, [r0, r2]
+ 161:src/unit/line/line.cpp ****                   }
+ 1096              		.loc 1 161 25 is_stmt 1 view .LVU366
+ 161:src/unit/line/line.cpp ****                   }
+ 1097              		.loc 1 161 34 is_stmt 0 view .LVU367
+ 1098 005a 0132     		adds	r2, r2, #1
+ 1099              	.LVL86:
+ 161:src/unit/line/line.cpp ****                   }
+ 1100              		.loc 1 161 34 view .LVU368
+ 1101 005c D2B2     		uxtb	r2, r2
+ 1102              	.LVL87:
+ 161:src/unit/line/line.cpp ****                   }
+ 1103              		.loc 1 161 34 view .LVU369
+ 1104 005e F2E7     		b	.L40
+ 1105              	.L52:
+ 161:src/unit/line/line.cpp ****                   }
+ 1106              		.loc 1 161 34 view .LVU370
+ 1107              	.LBE109:
+ 165:src/unit/line/line.cpp ****             for (uint8_t i = 0; i < white_qty_ - 1; i++) {
+ 1108              		.loc 1 165 13 is_stmt 1 view .LVU371
+ 165:src/unit/line/line.cpp ****             for (uint8_t i = 0; i < white_qty_ - 1; i++) {
+ 1109              		.loc 1 165 30 is_stmt 0 view .LVU372
+ 1110 0060 94F88D31 		ldrb	r3, [r4, #397]	@ zero_extendqisi2
+ 1111              	.LVL88:
+ 165:src/unit/line/line.cpp ****             for (uint8_t i = 0; i < white_qty_ - 1; i++) {
+ 1112              		.loc 1 165 21 view .LVU373
+ 1113 0064 0733     		adds	r3, r3, #7
+ 1114              	.LVL89:
+ 165:src/unit/line/line.cpp ****             for (uint8_t i = 0; i < white_qty_ - 1; i++) {
+ 1115              		.loc 1 165 21 view .LVU374
+ 1116 0066 03F4FC73 		and	r3, r3, #504
+ 1117              	.LVL90:
+ 165:src/unit/line/line.cpp ****             for (uint8_t i = 0; i < white_qty_ - 1; i++) {
+ 1118              		.loc 1 165 21 view .LVU375
+ 1119 006a ADEB030D 		sub	sp, sp, r3
+ 1120 006e 6946     		mov	r1, sp
+ 1121              	.LVL91:
+ 166:src/unit/line/line.cpp ****                   interval[i] = pos_white_num[i + 1] - pos_white_num[i];
+ 1122              		.loc 1 166 13 is_stmt 1 view .LVU376
+ 1123              	.LBB110:
+ 166:src/unit/line/line.cpp ****                   interval[i] = pos_white_num[i + 1] - pos_white_num[i];
+ 1124              		.loc 1 166 26 is_stmt 0 view .LVU377
+ 1125 0070 0023     		movs	r3, #0
+ 166:src/unit/line/line.cpp ****                   interval[i] = pos_white_num[i + 1] - pos_white_num[i];
+ 1126              		.loc 1 166 13 view .LVU378
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 28
+
+
+ 1127 0072 08E0     		b	.L42
+ 1128              	.LVL92:
+ 1129              	.L43:
+ 167:src/unit/line/line.cpp ****             }
+ 1130              		.loc 1 167 19 is_stmt 1 discriminator 3 view .LVU379
+ 167:src/unit/line/line.cpp ****             }
+ 1131              		.loc 1 167 49 is_stmt 0 discriminator 3 view .LVU380
+ 1132 0074 5A1C     		adds	r2, r3, #1
+ 167:src/unit/line/line.cpp ****             }
+ 1133              		.loc 1 167 52 discriminator 3 view .LVU381
+ 1134 0076 825C     		ldrb	r2, [r0, r2]	@ zero_extendqisi2
+ 167:src/unit/line/line.cpp ****             }
+ 1135              		.loc 1 167 71 discriminator 3 view .LVU382
+ 1136 0078 10F803C0 		ldrb	ip, [r0, r3]	@ zero_extendqisi2
+ 167:src/unit/line/line.cpp ****             }
+ 1137              		.loc 1 167 54 discriminator 3 view .LVU383
+ 1138 007c A2EB0C02 		sub	r2, r2, ip
+ 167:src/unit/line/line.cpp ****             }
+ 1139              		.loc 1 167 31 discriminator 3 view .LVU384
+ 1140 0080 CA54     		strb	r2, [r1, r3]
+ 166:src/unit/line/line.cpp ****                   interval[i] = pos_white_num[i + 1] - pos_white_num[i];
+ 1141              		.loc 1 166 13 is_stmt 1 discriminator 3 view .LVU385
+ 1142 0082 0133     		adds	r3, r3, #1
+ 1143              	.LVL93:
+ 166:src/unit/line/line.cpp ****                   interval[i] = pos_white_num[i + 1] - pos_white_num[i];
+ 1144              		.loc 1 166 13 is_stmt 0 discriminator 3 view .LVU386
+ 1145 0084 DBB2     		uxtb	r3, r3
+ 1146              	.LVL94:
+ 1147              	.L42:
+ 166:src/unit/line/line.cpp ****                   interval[i] = pos_white_num[i + 1] - pos_white_num[i];
+ 1148              		.loc 1 166 35 is_stmt 1 discriminator 1 view .LVU387
+ 166:src/unit/line/line.cpp ****                   interval[i] = pos_white_num[i + 1] - pos_white_num[i];
+ 1149              		.loc 1 166 37 is_stmt 0 discriminator 1 view .LVU388
+ 1150 0086 94F88D21 		ldrb	r2, [r4, #397]	@ zero_extendqisi2
+ 166:src/unit/line/line.cpp ****                   interval[i] = pos_white_num[i + 1] - pos_white_num[i];
+ 1151              		.loc 1 166 48 discriminator 1 view .LVU389
+ 1152 008a 013A     		subs	r2, r2, #1
+ 166:src/unit/line/line.cpp ****                   interval[i] = pos_white_num[i + 1] - pos_white_num[i];
+ 1153              		.loc 1 166 35 discriminator 1 view .LVU390
+ 1154 008c 9342     		cmp	r3, r2
+ 1155 008e F1DB     		blt	.L43
+ 1156              	.LBE110:
+ 169:src/unit/line/line.cpp **** 
+ 1157              		.loc 1 169 13 is_stmt 1 view .LVU391
+ 169:src/unit/line/line.cpp **** 
+ 1158              		.loc 1 169 55 is_stmt 0 view .LVU392
+ 1159 0090 0378     		ldrb	r3, [r0]	@ zero_extendqisi2
+ 1160              	.LVL95:
+ 169:src/unit/line/line.cpp **** 
+ 1161              		.loc 1 169 87 view .LVU393
+ 1162 0092 865C     		ldrb	r6, [r0, r2]	@ zero_extendqisi2
+ 169:src/unit/line/line.cpp **** 
+ 1163              		.loc 1 169 57 view .LVU394
+ 1164 0094 9B1B     		subs	r3, r3, r6
+ 1165 0096 DBB2     		uxtb	r3, r3
+ 169:src/unit/line/line.cpp **** 
+ 1166              		.loc 1 169 89 view .LVU395
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 29
+
+
+ 1167 0098 1833     		adds	r3, r3, #24
+ 169:src/unit/line/line.cpp **** 
+ 1168              		.loc 1 169 38 view .LVU396
+ 1169 009a 8B54     		strb	r3, [r1, r2]
+ 172:src/unit/line/line.cpp ****             uint8_t pos_max_interval = 0;
+ 1170              		.loc 1 172 13 is_stmt 1 view .LVU397
+ 172:src/unit/line/line.cpp ****             uint8_t pos_max_interval = 0;
+ 1171              		.loc 1 172 26 is_stmt 0 view .LVU398
+ 1172 009c 4FF0000E 		mov	lr, #0
+ 1173 00a0 84F802E0 		strb	lr, [r4, #2]
+ 173:src/unit/line/line.cpp ****             for (uint8_t i = 0; i < white_qty_; i++) {
+ 1174              		.loc 1 173 13 is_stmt 1 view .LVU399
+ 1175              	.LVL96:
+ 174:src/unit/line/line.cpp ****                   if (max_interval < interval[i]) {
+ 1176              		.loc 1 174 13 view .LVU400
+ 1177              	.LBB111:
+ 174:src/unit/line/line.cpp ****                   if (max_interval < interval[i]) {
+ 1178              		.loc 1 174 26 is_stmt 0 view .LVU401
+ 1179 00a4 7346     		mov	r3, lr
+ 174:src/unit/line/line.cpp ****                   if (max_interval < interval[i]) {
+ 1180              		.loc 1 174 13 view .LVU402
+ 1181 00a6 01E0     		b	.L44
+ 1182              	.LVL97:
+ 1183              	.L45:
+ 174:src/unit/line/line.cpp ****                   if (max_interval < interval[i]) {
+ 1184              		.loc 1 174 13 is_stmt 1 discriminator 2 view .LVU403
+ 1185 00a8 0133     		adds	r3, r3, #1
+ 1186              	.LVL98:
+ 174:src/unit/line/line.cpp ****                   if (max_interval < interval[i]) {
+ 1187              		.loc 1 174 13 is_stmt 0 discriminator 2 view .LVU404
+ 1188 00aa DBB2     		uxtb	r3, r3
+ 1189              	.LVL99:
+ 1190              	.L44:
+ 174:src/unit/line/line.cpp ****                   if (max_interval < interval[i]) {
+ 1191              		.loc 1 174 35 is_stmt 1 discriminator 1 view .LVU405
+ 174:src/unit/line/line.cpp ****                   if (max_interval < interval[i]) {
+ 1192              		.loc 1 174 37 is_stmt 0 discriminator 1 view .LVU406
+ 1193 00ac 94F88D21 		ldrb	r2, [r4, #397]	@ zero_extendqisi2
+ 174:src/unit/line/line.cpp ****                   if (max_interval < interval[i]) {
+ 1194              		.loc 1 174 35 discriminator 1 view .LVU407
+ 1195 00b0 9A42     		cmp	r2, r3
+ 1196 00b2 07D9     		bls	.L53
+ 175:src/unit/line/line.cpp ****                         max_interval = interval[i];
+ 1197              		.loc 1 175 19 is_stmt 1 view .LVU408
+ 175:src/unit/line/line.cpp ****                         max_interval = interval[i];
+ 1198              		.loc 1 175 23 is_stmt 0 view .LVU409
+ 1199 00b4 94F802C0 		ldrb	ip, [r4, #2]	@ zero_extendqisi2
+ 175:src/unit/line/line.cpp ****                         max_interval = interval[i];
+ 1200              		.loc 1 175 48 view .LVU410
+ 1201 00b8 CA5C     		ldrb	r2, [r1, r3]	@ zero_extendqisi2
+ 175:src/unit/line/line.cpp ****                         max_interval = interval[i];
+ 1202              		.loc 1 175 19 view .LVU411
+ 1203 00ba 9445     		cmp	ip, r2
+ 1204 00bc F4D2     		bcs	.L45
+ 176:src/unit/line/line.cpp ****                         pos_max_interval = i;
+ 1205              		.loc 1 176 25 is_stmt 1 view .LVU412
+ 176:src/unit/line/line.cpp ****                         pos_max_interval = i;
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 30
+
+
+ 1206              		.loc 1 176 38 is_stmt 0 view .LVU413
+ 1207 00be A270     		strb	r2, [r4, #2]
+ 177:src/unit/line/line.cpp ****                   }
+ 1208              		.loc 1 177 25 is_stmt 1 view .LVU414
+ 1209              	.LVL100:
+ 177:src/unit/line/line.cpp ****                   }
+ 1210              		.loc 1 177 42 is_stmt 0 view .LVU415
+ 1211 00c0 9E46     		mov	lr, r3
+ 1212 00c2 F1E7     		b	.L45
+ 1213              	.LVL101:
+ 1214              	.L53:
+ 177:src/unit/line/line.cpp ****                   }
+ 1215              		.loc 1 177 42 view .LVU416
+ 1216              	.LBE111:
+ 182:src/unit/line/line.cpp ****             dir = MyMath::NormalizeDeg180((line_dir_num / LINE_QTY * 360) + 180);
+ 1217              		.loc 1 182 13 is_stmt 1 view .LVU417
+ 182:src/unit/line/line.cpp ****             dir = MyMath::NormalizeDeg180((line_dir_num / LINE_QTY * 360) + 180);
+ 1218              		.loc 1 182 64 is_stmt 0 view .LVU418
+ 1219 00c4 10F80E60 		ldrb	r6, [r0, lr]	@ zero_extendqisi2
+ 182:src/unit/line/line.cpp ****             dir = MyMath::NormalizeDeg180((line_dir_num / LINE_QTY * 360) + 180);
+ 1220              		.loc 1 182 81 view .LVU419
+ 1221 00c8 A078     		ldrb	r0, [r4, #2]	@ zero_extendqisi2
+ 1222              	.LVL102:
+ 182:src/unit/line/line.cpp ****             dir = MyMath::NormalizeDeg180((line_dir_num / LINE_QTY * 360) + 180);
+ 1223              		.loc 1 182 81 view .LVU420
+ 1224 00ca FFF7FEFF 		bl	__aeabi_i2d
+ 1225              	.LVL103:
+ 182:src/unit/line/line.cpp ****             dir = MyMath::NormalizeDeg180((line_dir_num / LINE_QTY * 360) + 180);
+ 1226              		.loc 1 182 81 view .LVU421
+ 1227 00ce 0022     		movs	r2, #0
+ 1228 00d0 2A4B     		ldr	r3, .L54
+ 1229 00d2 FFF7FEFF 		bl	__aeabi_dmul
+ 1230              	.LVL104:
+ 1231 00d6 8046     		mov	r8, r0
+ 1232 00d8 8946     		mov	r9, r1
+ 182:src/unit/line/line.cpp ****             dir = MyMath::NormalizeDeg180((line_dir_num / LINE_QTY * 360) + 180);
+ 1233              		.loc 1 182 66 view .LVU422
+ 1234 00da 3046     		mov	r0, r6
+ 1235 00dc FFF7FEFF 		bl	__aeabi_i2d
+ 1236              	.LVL105:
+ 1237 00e0 4246     		mov	r2, r8
+ 1238 00e2 4B46     		mov	r3, r9
+ 1239 00e4 FFF7FEFF 		bl	__aeabi_dadd
+ 1240              	.LVL106:
+ 182:src/unit/line/line.cpp ****             dir = MyMath::NormalizeDeg180((line_dir_num / LINE_QTY * 360) + 180);
+ 1241              		.loc 1 182 19 view .LVU423
+ 1242 00e8 FFF7FEFF 		bl	__aeabi_d2f
+ 1243              	.LVL107:
+ 1244 00ec 06EE900A 		vmov	s13, r0
+ 1245              	.LVL108:
+ 183:src/unit/line/line.cpp **** 
+ 1246              		.loc 1 183 13 is_stmt 1 view .LVU424
+ 183:src/unit/line/line.cpp **** 
+ 1247              		.loc 1 183 57 is_stmt 0 view .LVU425
+ 1248 00f0 B3EE087A 		vmov.f32	s14, #2.4e+1
+ 1249 00f4 C6EE877A 		vdiv.f32	s15, s13, s14
+ 183:src/unit/line/line.cpp **** 
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 31
+
+
+ 1250              		.loc 1 183 68 view .LVU426
+ 1251 00f8 9FED217A 		vldr.32	s14, .L54+4
+ 1252 00fc 67EE877A 		vmul.f32	s15, s15, s14
+ 183:src/unit/line/line.cpp **** 
+ 1253              		.loc 1 183 75 view .LVU427
+ 1254 0100 9FED207A 		vldr.32	s14, .L54+8
+ 1255 0104 77EE877A 		vadd.f32	s15, s15, s14
+ 183:src/unit/line/line.cpp **** 
+ 1256              		.loc 1 183 42 view .LVU428
+ 1257 0108 FDEEE77A 		vcvt.s32.f32	s15, s15
+ 1258 010c 17EE900A 		vmov	r0, s15	@ int
+ 1259              	.LVL109:
+ 183:src/unit/line/line.cpp **** 
+ 1260              		.loc 1 183 42 view .LVU429
+ 1261 0110 FFF7FEFF 		bl	NormalizeDeg180
+ 1262              	.LVL110:
+ 183:src/unit/line/line.cpp **** 
+ 1263              		.loc 1 183 17 view .LVU430
+ 1264 0114 00B2     		sxth	r0, r0
+ 1265 0116 2080     		strh	r0, [r4]	@ movhi
+ 185:src/unit/line/line.cpp **** 
+ 1266              		.loc 1 185 13 is_stmt 1 view .LVU431
+ 185:src/unit/line/line.cpp **** 
+ 1267              		.loc 1 185 17 is_stmt 0 view .LVU432
+ 1268 0118 A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 185:src/unit/line/line.cpp **** 
+ 1269              		.loc 1 185 13 view .LVU433
+ 1270 011a 0C2B     		cmp	r3, #12
+ 1271 011c 02D9     		bls	.L47
+ 185:src/unit/line/line.cpp **** 
+ 1272              		.loc 1 185 36 is_stmt 1 discriminator 1 view .LVU434
+ 185:src/unit/line/line.cpp **** 
+ 1273              		.loc 1 185 54 is_stmt 0 discriminator 1 view .LVU435
+ 1274 011e C3F11803 		rsb	r3, r3, #24
+ 185:src/unit/line/line.cpp **** 
+ 1275              		.loc 1 185 49 discriminator 1 view .LVU436
+ 1276 0122 A370     		strb	r3, [r4, #2]
+ 1277              	.L47:
+ 188:src/unit/line/line.cpp ****                   int16_t dir_difference = abs(dir - pre_dir_);
+ 1278              		.loc 1 188 13 is_stmt 1 view .LVU437
+ 1279              	.LBB112:
+ 188:src/unit/line/line.cpp ****                   int16_t dir_difference = abs(dir - pre_dir_);
+ 1280              		.loc 1 188 17 is_stmt 0 view .LVU438
+ 1281 0124 94F87431 		ldrb	r3, [r4, #372]	@ zero_extendqisi2
+ 188:src/unit/line/line.cpp ****                   int16_t dir_difference = abs(dir - pre_dir_);
+ 1282              		.loc 1 188 13 view .LVU439
+ 1283 0128 8BB1     		cbz	r3, .L48
+ 1284              	.LBB113:
+ 189:src/unit/line/line.cpp ****                   if (dir_difference > 180) dir_difference = 360 - dir_difference;
+ 1285              		.loc 1 189 19 is_stmt 1 view .LVU440
+ 189:src/unit/line/line.cpp ****                   if (dir_difference > 180) dir_difference = 360 - dir_difference;
+ 1286              		.loc 1 189 44 is_stmt 0 view .LVU441
+ 1287 012a B4F97231 		ldrsh	r3, [r4, #370]
+ 1288 012e C31A     		subs	r3, r0, r3
+ 1289 0130 002B     		cmp	r3, #0
+ 1290 0132 B8BF     		it	lt
+ 1291 0134 5B42     		rsblt	r3, r3, #0
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 32
+
+
+ 189:src/unit/line/line.cpp ****                   if (dir_difference > 180) dir_difference = 360 - dir_difference;
+ 1292              		.loc 1 189 27 view .LVU442
+ 1293 0136 1AB2     		sxth	r2, r3
+ 1294              	.LVL111:
+ 190:src/unit/line/line.cpp ****                   if (dir_difference > 120) is_half_out = 1 - is_half_out;
+ 1295              		.loc 1 190 19 is_stmt 1 view .LVU443
+ 1296 0138 B42A     		cmp	r2, #180
+ 1297 013a 02DD     		ble	.L49
+ 190:src/unit/line/line.cpp ****                   if (dir_difference > 120) is_half_out = 1 - is_half_out;
+ 1298              		.loc 1 190 45 discriminator 1 view .LVU444
+ 190:src/unit/line/line.cpp ****                   if (dir_difference > 120) is_half_out = 1 - is_half_out;
+ 1299              		.loc 1 190 66 is_stmt 0 discriminator 1 view .LVU445
+ 1300 013c C3F5B473 		rsb	r3, r3, #360
+ 190:src/unit/line/line.cpp ****                   if (dir_difference > 120) is_half_out = 1 - is_half_out;
+ 1301              		.loc 1 190 60 discriminator 1 view .LVU446
+ 1302 0140 1AB2     		sxth	r2, r3
+ 1303              	.LVL112:
+ 1304              	.L49:
+ 191:src/unit/line/line.cpp ****             }
+ 1305              		.loc 1 191 19 is_stmt 1 view .LVU447
+ 1306 0142 782A     		cmp	r2, #120
+ 1307 0144 03DD     		ble	.L48
+ 191:src/unit/line/line.cpp ****             }
+ 1308              		.loc 1 191 45 discriminator 1 view .LVU448
+ 191:src/unit/line/line.cpp ****             }
+ 1309              		.loc 1 191 63 is_stmt 0 discriminator 1 view .LVU449
+ 1310 0146 E378     		ldrb	r3, [r4, #3]	@ zero_extendqisi2
+ 191:src/unit/line/line.cpp ****             }
+ 1311              		.loc 1 191 61 discriminator 1 view .LVU450
+ 1312 0148 83F00103 		eor	r3, r3, #1
+ 191:src/unit/line/line.cpp ****             }
+ 1313              		.loc 1 191 57 discriminator 1 view .LVU451
+ 1314 014c E370     		strb	r3, [r4, #3]
+ 1315              	.LVL113:
+ 1316              	.L48:
+ 191:src/unit/line/line.cpp ****             }
+ 1317              		.loc 1 191 57 discriminator 1 view .LVU452
+ 1318              	.LBE113:
+ 1319              	.LBE112:
+ 194:src/unit/line/line.cpp ****             pre_white_qty_ = white_qty_;
+ 1320              		.loc 1 194 13 is_stmt 1 discriminator 1 view .LVU453
+ 194:src/unit/line/line.cpp ****             pre_white_qty_ = white_qty_;
+ 1321              		.loc 1 194 22 is_stmt 0 discriminator 1 view .LVU454
+ 1322 014e A4F87201 		strh	r0, [r4, #370]	@ movhi
+ 195:src/unit/line/line.cpp ****       } else {
+ 1323              		.loc 1 195 13 is_stmt 1 discriminator 1 view .LVU455
+ 195:src/unit/line/line.cpp ****       } else {
+ 1324              		.loc 1 195 30 is_stmt 0 discriminator 1 view .LVU456
+ 1325 0152 94F88D31 		ldrb	r3, [r4, #397]	@ zero_extendqisi2
+ 1326 0156 003B     		subs	r3, r3, #0
+ 1327 0158 18BF     		it	ne
+ 1328 015a 0123     		movne	r3, #1
+ 195:src/unit/line/line.cpp ****       } else {
+ 1329              		.loc 1 195 28 discriminator 1 view .LVU457
+ 1330 015c 84F87431 		strb	r3, [r4, #372]
+ 1331 0160 AD46     		mov	sp, r5
+ 1332              	.LVL114:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 33
+
+
+ 1333              	.L35:
+ 195:src/unit/line/line.cpp ****       } else {
+ 1334              		.loc 1 195 28 discriminator 1 view .LVU458
+ 1335              	.LBE107:
+ 1336              	.LBE106:
+ 197:src/unit/line/line.cpp ****             is_half_out = 0;
+ 198:src/unit/line/line.cpp ****             max_interval = 0;
+ 199:src/unit/line/line.cpp ****             dir = 0;
+ 200:src/unit/line/line.cpp **** 
+ 201:src/unit/line/line.cpp ****             pre_dir_ = 0;
+ 202:src/unit/line/line.cpp ****             pre_white_qty_ = 0;
+ 203:src/unit/line/line.cpp ****       }
+ 204:src/unit/line/line.cpp **** }
+ 1337              		.loc 1 204 1 view .LVU459
+ 1338 0162 BD46     		mov	sp, r7
+ 1339              	.LCFI4:
+ 1340              		.cfi_remember_state
+ 1341              		.cfi_def_cfa_register 13
+ 1342              		@ sp needed
+ 1343 0164 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 1344              	.LVL115:
+ 1345              	.L38:
+ 1346              	.LCFI5:
+ 1347              		.cfi_restore_state
+ 1348              	.LBB114:
+ 197:src/unit/line/line.cpp ****             is_half_out = 0;
+ 1349              		.loc 1 197 13 is_stmt 1 view .LVU460
+ 197:src/unit/line/line.cpp ****             is_half_out = 0;
+ 1350              		.loc 1 197 25 is_stmt 0 view .LVU461
+ 1351 0168 0023     		movs	r3, #0
+ 1352 016a E370     		strb	r3, [r4, #3]
+ 198:src/unit/line/line.cpp ****             dir = 0;
+ 1353              		.loc 1 198 13 is_stmt 1 view .LVU462
+ 198:src/unit/line/line.cpp ****             dir = 0;
+ 1354              		.loc 1 198 26 is_stmt 0 view .LVU463
+ 1355 016c A370     		strb	r3, [r4, #2]
+ 199:src/unit/line/line.cpp **** 
+ 1356              		.loc 1 199 13 is_stmt 1 view .LVU464
+ 199:src/unit/line/line.cpp **** 
+ 1357              		.loc 1 199 17 is_stmt 0 view .LVU465
+ 1358 016e 2380     		strh	r3, [r4]	@ movhi
+ 201:src/unit/line/line.cpp ****             pre_white_qty_ = 0;
+ 1359              		.loc 1 201 13 is_stmt 1 view .LVU466
+ 201:src/unit/line/line.cpp ****             pre_white_qty_ = 0;
+ 1360              		.loc 1 201 22 is_stmt 0 view .LVU467
+ 1361 0170 A4F87231 		strh	r3, [r4, #370]	@ movhi
+ 202:src/unit/line/line.cpp ****       }
+ 1362              		.loc 1 202 13 is_stmt 1 view .LVU468
+ 202:src/unit/line/line.cpp ****       }
+ 1363              		.loc 1 202 28 is_stmt 0 view .LVU469
+ 1364 0174 84F87431 		strb	r3, [r4, #372]
+ 1365              	.LBE114:
+ 1366              		.loc 1 204 1 view .LVU470
+ 1367 0178 F3E7     		b	.L35
+ 1368              	.L55:
+ 1369 017a 00BF     		.align	2
+ 1370              	.L54:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 34
+
+
+ 1371 017c 0000E03F 		.word	1071644672
+ 1372 0180 0000B443 		.word	1135869952
+ 1373 0184 00003443 		.word	1127481344
+ 1374              		.cfi_endproc
+ 1375              	.LFE258:
+ 1376              		.fnend
+ 1378              		.section	.text._ZN4Line8IsOnLineEv,"ax",%progbits
+ 1379              		.align	1
+ 1380              		.global	_ZN4Line8IsOnLineEv
+ 1381              		.syntax unified
+ 1382              		.thumb
+ 1383              		.thumb_func
+ 1385              	_ZN4Line8IsOnLineEv:
+ 1386              		.fnstart
+ 1387              	.LVL116:
+ 1388              	.LFB259:
+ 205:src/unit/line/line.cpp **** 
+ 206:src/unit/line/line.cpp **** bool Line::IsOnLine() {
+ 1389              		.loc 1 206 23 is_stmt 1 view -0
+ 1390              		.cfi_startproc
+ 1391              		@ args = 0, pretend = 0, frame = 0
+ 1392              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1393              		@ link register save eliminated.
+ 207:src/unit/line/line.cpp ****       bool is_on_line = 0;
+ 1394              		.loc 1 207 7 view .LVU472
+ 208:src/unit/line/line.cpp ****       if (white_qty_ > 0) is_on_line = 1;
+ 1395              		.loc 1 208 7 view .LVU473
+ 1396              		.loc 1 208 11 is_stmt 0 view .LVU474
+ 1397 0000 90F88D31 		ldrb	r3, [r0, #397]	@ zero_extendqisi2
+ 1398              		.loc 1 208 7 view .LVU475
+ 1399 0004 0BB9     		cbnz	r3, .L58
+ 207:src/unit/line/line.cpp ****       bool is_on_line = 0;
+ 1400              		.loc 1 207 12 view .LVU476
+ 1401 0006 0020     		movs	r0, #0
+ 1402              	.LVL117:
+ 207:src/unit/line/line.cpp ****       bool is_on_line = 0;
+ 1403              		.loc 1 207 12 view .LVU477
+ 1404 0008 7047     		bx	lr
+ 1405              	.LVL118:
+ 1406              	.L58:
+ 1407              		.loc 1 208 38 view .LVU478
+ 1408 000a 0120     		movs	r0, #1
+ 1409              	.LVL119:
+ 209:src/unit/line/line.cpp ****       return is_on_line;
+ 1410              		.loc 1 209 7 is_stmt 1 view .LVU479
+ 210:src/unit/line/line.cpp **** }
+ 1411              		.loc 1 210 1 is_stmt 0 view .LVU480
+ 1412 000c 7047     		bx	lr
+ 1413              		.cfi_endproc
+ 1414              	.LFE259:
+ 1415              		.cantunwind
+ 1416              		.fnend
+ 1418              		.section	.text._ZN4Line5OnLedEv,"ax",%progbits
+ 1419              		.align	1
+ 1420              		.global	_ZN4Line5OnLedEv
+ 1421              		.syntax unified
+ 1422              		.thumb
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 35
+
+
+ 1423              		.thumb_func
+ 1425              	_ZN4Line5OnLedEv:
+ 1426              		.fnstart
+ 1427              	.LVL120:
+ 1428              	.LFB260:
+ 211:src/unit/line/line.cpp **** 
+ 212:src/unit/line/line.cpp **** void Line::OnLed() {
+ 1429              		.loc 1 212 20 is_stmt 1 view -0
+ 1430              		.cfi_startproc
+ 1431              		@ args = 0, pretend = 0, frame = 0
+ 1432              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1433              		.loc 1 212 20 is_stmt 0 view .LVU482
+ 1434 0000 08B5     		push	{r3, lr}
+ 1435              		.save {r3, lr}
+ 1436              	.LCFI6:
+ 1437              		.cfi_def_cfa_offset 8
+ 1438              		.cfi_offset 3, -8
+ 1439              		.cfi_offset 14, -4
+ 213:src/unit/line/line.cpp ****       led_line_->write(0);
+ 1440              		.loc 1 213 7 is_stmt 1 view .LVU483
+ 1441 0002 8368     		ldr	r3, [r0, #8]
+ 1442              	.LVL121:
+ 1443              	.LBB115:
+ 1444              	.LBI115:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****             HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 1445              		.loc 2 15 12 view .LVU484
+ 1446              	.LBB116:
+ 1447              		.loc 2 16 13 view .LVU485
+ 1448              		.loc 2 16 30 is_stmt 0 view .LVU486
+ 1449 0004 0022     		movs	r2, #0
+ 1450 0006 9988     		ldrh	r1, [r3, #4]
+ 1451 0008 1868     		ldr	r0, [r3]
+ 1452              	.LVL122:
+ 1453              		.loc 2 16 30 view .LVU487
+ 1454 000a FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 1455              	.LVL123:
+ 1456              		.loc 2 16 30 view .LVU488
+ 1457              	.LBE116:
+ 1458              	.LBE115:
+ 214:src/unit/line/line.cpp **** }
+ 1459              		.loc 1 214 1 view .LVU489
+ 1460 000e 08BD     		pop	{r3, pc}
+ 1461              		.cfi_endproc
+ 1462              	.LFE260:
+ 1463              		.fnend
+ 1465              		.section	.text._ZN4Line6OffLedEv,"ax",%progbits
+ 1466              		.align	1
+ 1467              		.global	_ZN4Line6OffLedEv
+ 1468              		.syntax unified
+ 1469              		.thumb
+ 1470              		.thumb_func
+ 1472              	_ZN4Line6OffLedEv:
+ 1473              		.fnstart
+ 1474              	.LVL124:
+ 1475              	.LFB261:
+ 215:src/unit/line/line.cpp **** 
+ 216:src/unit/line/line.cpp **** void Line::OffLed() {
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 36
+
+
+ 1476              		.loc 1 216 21 is_stmt 1 view -0
+ 1477              		.cfi_startproc
+ 1478              		@ args = 0, pretend = 0, frame = 0
+ 1479              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1480              		.loc 1 216 21 is_stmt 0 view .LVU491
+ 1481 0000 08B5     		push	{r3, lr}
+ 1482              		.save {r3, lr}
+ 1483              	.LCFI7:
+ 1484              		.cfi_def_cfa_offset 8
+ 1485              		.cfi_offset 3, -8
+ 1486              		.cfi_offset 14, -4
+ 217:src/unit/line/line.cpp ****       led_line_->write(1);
+ 1487              		.loc 1 217 7 is_stmt 1 view .LVU492
+ 1488 0002 8368     		ldr	r3, [r0, #8]
+ 1489              	.LVL125:
+ 1490              	.LBB117:
+ 1491              	.LBI117:
+  15:Lib/DigitalInOut/DigitalInOut.hpp ****             HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
+ 1492              		.loc 2 15 12 view .LVU493
+ 1493              	.LBB118:
+ 1494              		.loc 2 16 13 view .LVU494
+ 1495              		.loc 2 16 30 is_stmt 0 view .LVU495
+ 1496 0004 0122     		movs	r2, #1
+ 1497 0006 9988     		ldrh	r1, [r3, #4]
+ 1498 0008 1868     		ldr	r0, [r3]
+ 1499              	.LVL126:
+ 1500              		.loc 2 16 30 view .LVU496
+ 1501 000a FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 1502              	.LVL127:
+ 1503              		.loc 2 16 30 view .LVU497
+ 1504              	.LBE118:
+ 1505              	.LBE117:
+ 218:src/unit/line/line.cpp **** }...
+ 1506              		.loc 1 218 1 view .LVU498
+ 1507 000e 08BD     		pop	{r3, pc}
+ 1508              		.cfi_endproc
+ 1509              	.LFE261:
+ 1510              		.fnend
+ 1512              		.section	.text._ZN4Line5SetThEv,"ax",%progbits
+ 1513              		.align	1
+ 1514              		.global	_ZN4Line5SetThEv
+ 1515              		.syntax unified
+ 1516              		.thumb
+ 1517              		.thumb_func
+ 1519              	_ZN4Line5SetThEv:
+ 1520              		.fnstart
+ 1521              	.LVL128:
+ 1522              	.LFB257:
+ 111:src/unit/line/line.cpp **** bool Line::SetTh() {
+ 1523              		.loc 1 111 20 is_stmt 1 view -0
+ 1524              		.cfi_startproc
+ 1525              		@ args = 0, pretend = 0, frame = 0
+ 1526              		@ frame_needed = 0, uses_anonymous_args = 0
+ 111:src/unit/line/line.cpp **** bool Line::SetTh() {
+ 1527              		.loc 1 111 20 is_stmt 0 view .LVU500
+ 1528 0000 70B5     		push	{r4, r5, r6, lr}
+ 1529              		.save {r4, r5, r6, lr}
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 37
+
+
+ 1530              	.LCFI8:
+ 1531              		.cfi_def_cfa_offset 16
+ 1532              		.cfi_offset 4, -16
+ 1533              		.cfi_offset 5, -12
+ 1534              		.cfi_offset 6, -8
+ 1535              		.cfi_offset 14, -4
+ 1536 0002 0446     		mov	r4, r0
+ 112:src/unit/line/line.cpp ****       if (set_th_cnt_ == 0) {
+ 1537              		.loc 1 112 7 is_stmt 1 view .LVU501
+ 1538              	.LBB119:
+ 112:src/unit/line/line.cpp ****       if (set_th_cnt_ == 0) {
+ 1539              		.loc 1 112 11 is_stmt 0 view .LVU502
+ 1540 0004 B0F87051 		ldrh	r5, [r0, #368]
+ 112:src/unit/line/line.cpp ****       if (set_th_cnt_ == 0) {
+ 1541              		.loc 1 112 7 view .LVU503
+ 1542 0008 BDB1     		cbz	r5, .L74
+ 1543              	.LVL129:
+ 1544              	.L64:
+ 112:src/unit/line/line.cpp ****       if (set_th_cnt_ == 0) {
+ 1545              		.loc 1 112 7 view .LVU504
+ 1546              	.LBE119:
+ 119:src/unit/line/line.cpp ****       set_th_cnt_++;
+ 1547              		.loc 1 119 7 is_stmt 1 view .LVU505
+ 1548 000a B4F87031 		ldrh	r3, [r4, #368]
+ 119:src/unit/line/line.cpp ****       set_th_cnt_++;
+ 1549              		.loc 1 119 18 is_stmt 0 view .LVU506
+ 1550 000e 0133     		adds	r3, r3, #1
+ 1551 0010 A4F87031 		strh	r3, [r4, #368]	@ movhi
+ 121:src/unit/line/line.cpp ****       Read();
+ 1552              		.loc 1 121 7 is_stmt 1 view .LVU507
+ 121:src/unit/line/line.cpp ****       Read();
+ 1553              		.loc 1 121 11 is_stmt 0 view .LVU508
+ 1554 0014 2046     		mov	r0, r4
+ 1555 0016 FFF7FEFF 		bl	_ZN4Line4ReadEv
+ 1556              	.LVL130:
+ 122:src/unit/line/line.cpp ****       leftside_th_ += *leftside_val_;
+ 1557              		.loc 1 122 7 is_stmt 1 view .LVU509
+ 1558 001a D4F86821 		ldr	r2, [r4, #360]
+ 122:src/unit/line/line.cpp ****       leftside_th_ += *leftside_val_;
+ 1559              		.loc 1 122 24 is_stmt 0 view .LVU510
+ 1560 001e 636A     		ldr	r3, [r4, #36]
+ 122:src/unit/line/line.cpp ****       leftside_th_ += *leftside_val_;
+ 1561              		.loc 1 122 23 view .LVU511
+ 1562 0020 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 122:src/unit/line/line.cpp ****       leftside_th_ += *leftside_val_;
+ 1563              		.loc 1 122 20 view .LVU512
+ 1564 0022 D618     		adds	r6, r2, r3
+ 1565 0024 C4F86861 		str	r6, [r4, #360]
+ 123:src/unit/line/line.cpp ****       rightside_th_ += *rightside_val_;
+ 1566              		.loc 1 123 7 is_stmt 1 view .LVU513
+ 1567 0028 D4F86C51 		ldr	r5, [r4, #364]
+ 123:src/unit/line/line.cpp ****       rightside_th_ += *rightside_val_;
+ 1568              		.loc 1 123 25 is_stmt 0 view .LVU514
+ 1569 002c A36A     		ldr	r3, [r4, #40]
+ 123:src/unit/line/line.cpp ****       rightside_th_ += *rightside_val_;
+ 1570              		.loc 1 123 24 view .LVU515
+ 1571 002e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 38
+
+
+ 123:src/unit/line/line.cpp ****       rightside_th_ += *rightside_val_;
+ 1572              		.loc 1 123 21 view .LVU516
+ 1573 0030 1D44     		add	r5, r5, r3
+ 1574 0032 C4F86C51 		str	r5, [r4, #364]
+ 125:src/unit/line/line.cpp ****       for (uint16_t j = 0; j < LINE_QTY; j++) {
+ 1575              		.loc 1 125 7 is_stmt 1 view .LVU517
+ 1576              	.LVL131:
+ 1577              	.LBB122:
+ 125:src/unit/line/line.cpp ****       for (uint16_t j = 0; j < LINE_QTY; j++) {
+ 1578              		.loc 1 125 21 is_stmt 0 view .LVU518
+ 1579 0036 0023     		movs	r3, #0
+ 125:src/unit/line/line.cpp ****       for (uint16_t j = 0; j < LINE_QTY; j++) {
+ 1580              		.loc 1 125 7 view .LVU519
+ 1581 0038 21E0     		b	.L67
+ 1582              	.LVL132:
+ 1583              	.L74:
+ 125:src/unit/line/line.cpp ****       for (uint16_t j = 0; j < LINE_QTY; j++) {
+ 1584              		.loc 1 125 7 view .LVU520
+ 1585              	.LBE122:
+ 1586              	.LBB123:
+ 1587              	.LBB120:
+ 113:src/unit/line/line.cpp ****             OnLed();
+ 1588              		.loc 1 113 13 is_stmt 1 view .LVU521
+ 113:src/unit/line/line.cpp ****             OnLed();
+ 1589              		.loc 1 113 18 is_stmt 0 view .LVU522
+ 1590 003a FFF7FEFF 		bl	_ZN4Line5OnLedEv
+ 1591              	.LVL133:
+ 114:src/unit/line/line.cpp ****             HAL_Delay(100);
+ 1592              		.loc 1 114 13 is_stmt 1 view .LVU523
+ 114:src/unit/line/line.cpp ****             HAL_Delay(100);
+ 1593              		.loc 1 114 22 is_stmt 0 view .LVU524
+ 1594 003e 6420     		movs	r0, #100
+ 1595 0040 FFF7FEFF 		bl	HAL_Delay
+ 1596              	.LVL134:
+ 115:src/unit/line/line.cpp ****             leftside_th_ = 0;
+ 1597              		.loc 1 115 13 is_stmt 1 view .LVU525
+ 115:src/unit/line/line.cpp ****             leftside_th_ = 0;
+ 1598              		.loc 1 115 26 is_stmt 0 view .LVU526
+ 1599 0044 0023     		movs	r3, #0
+ 1600 0046 C4F86831 		str	r3, [r4, #360]
+ 116:src/unit/line/line.cpp ****             rightside_th_ = 0;
+ 1601              		.loc 1 116 13 is_stmt 1 view .LVU527
+ 116:src/unit/line/line.cpp ****             rightside_th_ = 0;
+ 1602              		.loc 1 116 27 is_stmt 0 view .LVU528
+ 1603 004a C4F86C31 		str	r3, [r4, #364]
+ 117:src/unit/line/line.cpp ****             for (uint16_t i = 0; i < LINE_QTY; i++) th_val_[i] = 0;
+ 1604              		.loc 1 117 13 is_stmt 1 view .LVU529
+ 1605              	.LVL135:
+ 1606              	.LBB121:
+ 117:src/unit/line/line.cpp ****             for (uint16_t i = 0; i < LINE_QTY; i++) th_val_[i] = 0;
+ 1607              		.loc 1 117 13 is_stmt 0 view .LVU530
+ 1608 004e 06E0     		b	.L65
+ 1609              	.LVL136:
+ 1610              	.L66:
+ 117:src/unit/line/line.cpp ****             for (uint16_t i = 0; i < LINE_QTY; i++) th_val_[i] = 0;
+ 1611              		.loc 1 117 53 is_stmt 1 discriminator 3 view .LVU531
+ 117:src/unit/line/line.cpp ****             for (uint16_t i = 0; i < LINE_QTY; i++) th_val_[i] = 0;
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 39
+
+
+ 1612              		.loc 1 117 64 is_stmt 0 discriminator 3 view .LVU532
+ 1613 0050 05F14203 		add	r3, r5, #66
+ 1614 0054 0022     		movs	r2, #0
+ 1615 0056 44F82320 		str	r2, [r4, r3, lsl #2]
+ 117:src/unit/line/line.cpp ****             for (uint16_t i = 0; i < LINE_QTY; i++) th_val_[i] = 0;
+ 1616              		.loc 1 117 13 is_stmt 1 discriminator 3 view .LVU533
+ 1617 005a 0135     		adds	r5, r5, #1
+ 1618              	.LVL137:
+ 117:src/unit/line/line.cpp ****             for (uint16_t i = 0; i < LINE_QTY; i++) th_val_[i] = 0;
+ 1619              		.loc 1 117 13 is_stmt 0 discriminator 3 view .LVU534
+ 1620 005c ADB2     		uxth	r5, r5
+ 1621              	.LVL138:
+ 1622              	.L65:
+ 117:src/unit/line/line.cpp ****             for (uint16_t i = 0; i < LINE_QTY; i++) th_val_[i] = 0;
+ 1623              		.loc 1 117 36 is_stmt 1 discriminator 1 view .LVU535
+ 1624 005e 172D     		cmp	r5, #23
+ 1625 0060 F6D9     		bls	.L66
+ 1626 0062 D2E7     		b	.L64
+ 1627              	.LVL139:
+ 1628              	.L68:
+ 117:src/unit/line/line.cpp ****             for (uint16_t i = 0; i < LINE_QTY; i++) th_val_[i] = 0;
+ 1629              		.loc 1 117 36 is_stmt 0 discriminator 1 view .LVU536
+ 1630              	.LBE121:
+ 1631              	.LBE120:
+ 1632              	.LBE123:
+ 1633              	.LBB124:
+ 126:src/unit/line/line.cpp ****             th_val_[j] += val_[j];
+ 1634              		.loc 1 126 13 is_stmt 1 discriminator 3 view .LVU537
+ 126:src/unit/line/line.cpp ****             th_val_[j] += val_[j];
+ 1635              		.loc 1 126 22 is_stmt 0 discriminator 3 view .LVU538
+ 1636 0064 03F14201 		add	r1, r3, #66
+ 1637 0068 54F82120 		ldr	r2, [r4, r1, lsl #2]
+ 126:src/unit/line/line.cpp ****             th_val_[j] += val_[j];
+ 1638              		.loc 1 126 33 discriminator 3 view .LVU539
+ 1639 006c 03F11200 		add	r0, r3, #18
+ 1640 0070 54F82000 		ldr	r0, [r4, r0, lsl #2]
+ 126:src/unit/line/line.cpp ****             th_val_[j] += val_[j];
+ 1641              		.loc 1 126 24 discriminator 3 view .LVU540
+ 1642 0074 0244     		add	r2, r2, r0
+ 1643 0076 44F82120 		str	r2, [r4, r1, lsl #2]
+ 125:src/unit/line/line.cpp ****       for (uint16_t j = 0; j < LINE_QTY; j++) {
+ 1644              		.loc 1 125 7 is_stmt 1 discriminator 3 view .LVU541
+ 1645 007a 0133     		adds	r3, r3, #1
+ 1646              	.LVL140:
+ 125:src/unit/line/line.cpp ****       for (uint16_t j = 0; j < LINE_QTY; j++) {
+ 1647              		.loc 1 125 7 is_stmt 0 discriminator 3 view .LVU542
+ 1648 007c 9BB2     		uxth	r3, r3
+ 1649              	.LVL141:
+ 1650              	.L67:
+ 125:src/unit/line/line.cpp ****       for (uint16_t j = 0; j < LINE_QTY; j++) {
+ 1651              		.loc 1 125 30 is_stmt 1 discriminator 1 view .LVU543
+ 1652 007e 172B     		cmp	r3, #23
+ 1653 0080 F0D9     		bls	.L68
+ 1654              	.LBE124:
+ 129:src/unit/line/line.cpp ****       if (set_th_cnt_ == SET_TH_NUM) {
+ 1655              		.loc 1 129 7 view .LVU544
+ 1656              	.LBB125:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 40
+
+
+ 129:src/unit/line/line.cpp ****       if (set_th_cnt_ == SET_TH_NUM) {
+ 1657              		.loc 1 129 11 is_stmt 0 view .LVU545
+ 1658 0082 B4F87011 		ldrh	r1, [r4, #368]
+ 129:src/unit/line/line.cpp ****       if (set_th_cnt_ == SET_TH_NUM) {
+ 1659              		.loc 1 129 7 view .LVU546
+ 1660 0086 40F6B833 		movw	r3, #3000
+ 1661              	.LVL142:
+ 129:src/unit/line/line.cpp ****       if (set_th_cnt_ == SET_TH_NUM) {
+ 1662              		.loc 1 129 7 view .LVU547
+ 1663 008a 9942     		cmp	r1, r3
+ 1664 008c 01D0     		beq	.L75
+ 1665              	.LBE125:
+ 143:src/unit/line/line.cpp ****       return 0;
+ 1666              		.loc 1 143 14 view .LVU548
+ 1667 008e 0020     		movs	r0, #0
+ 1668              	.L69:
+ 144:src/unit/line/line.cpp **** }
+ 1669              		.loc 1 144 1 view .LVU549
+ 1670 0090 70BD     		pop	{r4, r5, r6, pc}
+ 1671              	.LVL143:
+ 1672              	.L75:
+ 1673              	.LBB128:
+ 1674              	.LBB126:
+ 130:src/unit/line/line.cpp ****             leftside_th_ /= SET_TH_NUM;
+ 1675              		.loc 1 130 13 is_stmt 1 view .LVU550
+ 130:src/unit/line/line.cpp ****             leftside_th_ /= SET_TH_NUM;
+ 1676              		.loc 1 130 26 is_stmt 0 view .LVU551
+ 1677 0092 164B     		ldr	r3, .L76
+ 1678 0094 A3FB0612 		umull	r1, r2, r3, r6
+ 1679 0098 9209     		lsrs	r2, r2, #6
+ 1680 009a C4F86821 		str	r2, [r4, #360]
+ 131:src/unit/line/line.cpp ****             rightside_th_ /= SET_TH_NUM;
+ 1681              		.loc 1 131 13 is_stmt 1 view .LVU552
+ 131:src/unit/line/line.cpp ****             rightside_th_ /= SET_TH_NUM;
+ 1682              		.loc 1 131 27 is_stmt 0 view .LVU553
+ 1683 009e A3FB0513 		umull	r1, r3, r3, r5
+ 1684 00a2 9B09     		lsrs	r3, r3, #6
+ 1685 00a4 C4F86C31 		str	r3, [r4, #364]
+ 132:src/unit/line/line.cpp ****             leftside_th_ += TH_VALUE;
+ 1686              		.loc 1 132 13 is_stmt 1 view .LVU554
+ 132:src/unit/line/line.cpp ****             leftside_th_ += TH_VALUE;
+ 1687              		.loc 1 132 26 is_stmt 0 view .LVU555
+ 1688 00a8 0532     		adds	r2, r2, #5
+ 1689 00aa C4F86821 		str	r2, [r4, #360]
+ 133:src/unit/line/line.cpp ****             rightside_th_ += TH_VALUE;
+ 1690              		.loc 1 133 13 is_stmt 1 view .LVU556
+ 133:src/unit/line/line.cpp ****             rightside_th_ += TH_VALUE;
+ 1691              		.loc 1 133 27 is_stmt 0 view .LVU557
+ 1692 00ae 0533     		adds	r3, r3, #5
+ 1693 00b0 C4F86C31 		str	r3, [r4, #364]
+ 134:src/unit/line/line.cpp ****             for (uint16_t i = 0; i < LINE_QTY; i++) {
+ 1694              		.loc 1 134 13 is_stmt 1 view .LVU558
+ 1695              	.LVL144:
+ 1696              	.LBB127:
+ 134:src/unit/line/line.cpp ****             for (uint16_t i = 0; i < LINE_QTY; i++) {
+ 1697              		.loc 1 134 27 is_stmt 0 view .LVU559
+ 1698 00b4 0022     		movs	r2, #0
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 41
+
+
+ 134:src/unit/line/line.cpp ****             for (uint16_t i = 0; i < LINE_QTY; i++) {
+ 1699              		.loc 1 134 13 view .LVU560
+ 1700 00b6 0EE0     		b	.L70
+ 1701              	.LVL145:
+ 1702              	.L71:
+ 135:src/unit/line/line.cpp ****                   th_val_[i] /= SET_TH_NUM;
+ 1703              		.loc 1 135 19 is_stmt 1 discriminator 3 view .LVU561
+ 135:src/unit/line/line.cpp ****                   th_val_[i] /= SET_TH_NUM;
+ 1704              		.loc 1 135 28 is_stmt 0 discriminator 3 view .LVU562
+ 1705 00b8 02F14201 		add	r1, r2, #66
+ 1706 00bc 54F82130 		ldr	r3, [r4, r1, lsl #2]
+ 135:src/unit/line/line.cpp ****                   th_val_[i] /= SET_TH_NUM;
+ 1707              		.loc 1 135 30 discriminator 3 view .LVU563
+ 1708 00c0 0A48     		ldr	r0, .L76
+ 1709 00c2 A0FB0303 		umull	r0, r3, r0, r3
+ 1710 00c6 9B09     		lsrs	r3, r3, #6
+ 1711 00c8 44F82130 		str	r3, [r4, r1, lsl #2]
+ 136:src/unit/line/line.cpp ****                   th_val_[i] += TH_VALUE;
+ 1712              		.loc 1 136 19 is_stmt 1 discriminator 3 view .LVU564
+ 136:src/unit/line/line.cpp ****                   th_val_[i] += TH_VALUE;
+ 1713              		.loc 1 136 30 is_stmt 0 discriminator 3 view .LVU565
+ 1714 00cc 0533     		adds	r3, r3, #5
+ 1715 00ce 44F82130 		str	r3, [r4, r1, lsl #2]
+ 134:src/unit/line/line.cpp ****             for (uint16_t i = 0; i < LINE_QTY; i++) {
+ 1716              		.loc 1 134 13 is_stmt 1 discriminator 3 view .LVU566
+ 1717 00d2 0132     		adds	r2, r2, #1
+ 1718              	.LVL146:
+ 134:src/unit/line/line.cpp ****             for (uint16_t i = 0; i < LINE_QTY; i++) {
+ 1719              		.loc 1 134 13 is_stmt 0 discriminator 3 view .LVU567
+ 1720 00d4 92B2     		uxth	r2, r2
+ 1721              	.LVL147:
+ 1722              	.L70:
+ 134:src/unit/line/line.cpp ****             for (uint16_t i = 0; i < LINE_QTY; i++) {
+ 1723              		.loc 1 134 36 is_stmt 1 discriminator 1 view .LVU568
+ 1724 00d6 172A     		cmp	r2, #23
+ 1725 00d8 EED9     		bls	.L71
+ 1726              	.LBE127:
+ 139:src/unit/line/line.cpp ****             OffLed();
+ 1727              		.loc 1 139 13 view .LVU569
+ 139:src/unit/line/line.cpp ****             OffLed();
+ 1728              		.loc 1 139 19 is_stmt 0 view .LVU570
+ 1729 00da 2046     		mov	r0, r4
+ 1730 00dc FFF7FEFF 		bl	_ZN4Line6OffLedEv
+ 1731              	.LVL148:
+ 140:src/unit/line/line.cpp ****             set_th_cnt_ = 0;
+ 1732              		.loc 1 140 13 is_stmt 1 view .LVU571
+ 140:src/unit/line/line.cpp ****             set_th_cnt_ = 0;
+ 1733              		.loc 1 140 25 is_stmt 0 view .LVU572
+ 1734 00e0 0023     		movs	r3, #0
+ 1735 00e2 A4F87031 		strh	r3, [r4, #368]	@ movhi
+ 141:src/unit/line/line.cpp ****             return 1;
+ 1736              		.loc 1 141 13 is_stmt 1 view .LVU573
+ 141:src/unit/line/line.cpp ****             return 1;
+ 1737              		.loc 1 141 20 is_stmt 0 view .LVU574
+ 1738 00e6 0120     		movs	r0, #1
+ 1739 00e8 D2E7     		b	.L69
+ 1740              	.L77:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 42
+
+
+ 1741 00ea 00BF     		.align	2
+ 1742              	.L76:
+ 1743 00ec F1197605 		.word	91625969
+ 1744              	.LBE126:
+ 1745              	.LBE128:
+ 1746              		.cfi_endproc
+ 1747              	.LFE257:
+ 1748              		.fnend
+ 1750              		.text
+ 1751              	.Letext0:
+ 1752              		.file 3 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/machine/_default_ty
+ 1753              		.file 4 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_stdint.h"
+ 1754              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h"
+ 1755              		.file 6 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/lib/gcc/arm-none-eabi/12.3.1/include/stdd
+ 1756              		.file 7 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h"
+ 1757              		.file 8 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/cstdio"
+ 1758              		.file 9 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/arm-none
+ 1759              		.file 10 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_types.h"
+ 1760              		.file 11 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/reent.h"
+ 1761              		.file 12 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/lock.h"
+ 1762              		.file 13 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/stdio.h"
+ 1763              		.file 14 "Lib/Timer/Timer.hpp"
+ 1764              		.file 15 "src/unit/line/line.hpp"
+ 1765              		.file 16 "Lib/MyMath/MyMath.hpp"
+ 1766              		.file 17 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s 			page 43
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 line.cpp
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s:21     .text._ZN4LineC2EP10DigitalOutS1_S1_S1_S1_S1_S1_PhS2_S2_S2_S2_S2_S2_S2_:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s:27     .text._ZN4LineC2EP10DigitalOutS1_S1_S1_S1_S1_S1_PhS2_S2_S2_S2_S2_S2_S2_:00000000 _ZN4LineC2EP10DigitalOutS1_S1_S1_S1_S1_S1_PhS2_S2_S2_S2_S2_S2_S2_
+.ARM.exidx.text._ZN4LineC2EP10DigitalOutS1_S1_S1_S1_S1_S1_PhS2_S2_S2_S2_S2_S2_S2_:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s:27     .text._ZN4LineC2EP10DigitalOutS1_S1_S1_S1_S1_S1_PhS2_S2_S2_S2_S2_S2_S2_:00000000 _ZN4LineC1EP10DigitalOutS1_S1_S1_S1_S1_S1_PhS2_S2_S2_S2_S2_S2_S2_
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s:120    .text._ZN4Line4ReadEv:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s:126    .text._ZN4Line4ReadEv:00000000 _ZN4Line4ReadEv
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s:969    .text._ZN4Line4ReadEv:00000318 $d
+  .ARM.exidx.text._ZN4Line4ReadEv:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s:978    .text._ZN4Line7ComputeEv:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s:984    .text._ZN4Line7ComputeEv:00000000 _ZN4Line7ComputeEv
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s:1371   .text._ZN4Line7ComputeEv:0000017c $d
+.ARM.extab.text._ZN4Line7ComputeEv:00000000 $d
+.ARM.exidx.text._ZN4Line7ComputeEv:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s:1379   .text._ZN4Line8IsOnLineEv:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s:1385   .text._ZN4Line8IsOnLineEv:00000000 _ZN4Line8IsOnLineEv
+.ARM.exidx.text._ZN4Line8IsOnLineEv:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s:1419   .text._ZN4Line5OnLedEv:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s:1425   .text._ZN4Line5OnLedEv:00000000 _ZN4Line5OnLedEv
+ .ARM.extab.text._ZN4Line5OnLedEv:00000000 $d
+ .ARM.exidx.text._ZN4Line5OnLedEv:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s:1466   .text._ZN4Line6OffLedEv:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s:1472   .text._ZN4Line6OffLedEv:00000000 _ZN4Line6OffLedEv
+.ARM.extab.text._ZN4Line6OffLedEv:00000000 $d
+.ARM.exidx.text._ZN4Line6OffLedEv:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s:1513   .text._ZN4Line5SetThEv:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s:1519   .text._ZN4Line5SetThEv:00000000 _ZN4Line5SetThEv
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cct3I8DT.s:1743   .text._ZN4Line5SetThEv:000000ec $d
+ .ARM.exidx.text._ZN4Line5SetThEv:00000000 $d
+
+UNDEFINED SYMBOLS
+_ZN5TimerC1Ev
+__aeabi_unwind_cpp_pr0
+__aeabi_ui2d
+__aeabi_dmul
+__aeabi_d2uiz
+_ZN5Timer7read_usEv
+_ZN5Timer5resetEv
+HAL_GPIO_WritePin
+__aeabi_i2d
+__aeabi_dadd
+__aeabi_d2f
+NormalizeDeg180
+__aeabi_unwind_cpp_pr1
+HAL_Delay

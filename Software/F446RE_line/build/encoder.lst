@@ -1,0 +1,629 @@
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc75QRBC.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"encoder.cpp"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "src/unit/encoder/encoder.cpp"
+  20              		.section	.text._ZN7EncoderC2EP10DigitalOutPh,"ax",%progbits
+  21              		.align	1
+  22              		.global	_ZN7EncoderC2EP10DigitalOutPh
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	_ZN7EncoderC2EP10DigitalOutPh:
+  28              		.fnstart
+  29              	.LVL0:
+  30              	.LFB254:
+   1:src/unit/encoder/encoder.cpp **** #include "encoder.hpp"
+   2:src/unit/encoder/encoder.cpp **** 
+   3:src/unit/encoder/encoder.cpp **** Encoder::Encoder(DigitalOut *led_line, uint8_t *photo_val) : led_line_(led_line) {
+  31              		.loc 1 3 1 view -0
+  32              		.cfi_startproc
+  33              		@ args = 0, pretend = 0, frame = 0
+  34              		@ frame_needed = 0, uses_anonymous_args = 0
+  35              		.loc 1 3 1 is_stmt 0 view .LVU1
+  36 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+  37              		.save {r3, r4, r5, r6, r7, lr}
+  38              	.LCFI0:
+  39              		.cfi_def_cfa_offset 24
+  40              		.cfi_offset 3, -24
+  41              		.cfi_offset 4, -20
+  42              		.cfi_offset 5, -16
+  43              		.cfi_offset 6, -12
+  44              		.cfi_offset 7, -8
+  45              		.cfi_offset 14, -4
+  46 0002 0646     		mov	r6, r0
+  47 0004 1746     		mov	r7, r2
+  48              	.LBB2:
+  49              		.loc 1 3 62 view .LVU2
+  50 0006 4160     		str	r1, [r0, #4]
+  51              		.loc 1 3 80 view .LVU3
+  52 0008 0F4B     		ldr	r3, .L7
+  53 000a 1B68     		ldr	r3, [r3]
+  54 000c 4365     		str	r3, [r0, #84]
+  55 000e 00F16405 		add	r5, r0, #100
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc75QRBC.s 			page 2
+
+
+  56 0012 0324     		movs	r4, #3
+  57 0014 04E0     		b	.L2
+  58              	.LVL1:
+  59              	.L3:
+  60              		.loc 1 3 80 discriminator 3 view .LVU4
+  61 0016 2846     		mov	r0, r5
+  62 0018 FFF7FEFF 		bl	_ZN5TimerC1Ev
+  63              	.LVL2:
+  64 001c 013C     		subs	r4, r4, #1
+  65 001e 0435     		adds	r5, r5, #4
+  66              	.L2:
+  67              		.loc 1 3 80 is_stmt 1 discriminator 1 view .LVU5
+  68 0020 002C     		cmp	r4, #0
+  69 0022 F8DA     		bge	.L3
+  70              	.LBB3:
+   4:src/unit/encoder/encoder.cpp ****       this->photo_val_ = photo_val;
+  71              		.loc 1 4 7 discriminator 4 view .LVU6
+  72              		.loc 1 4 24 is_stmt 0 discriminator 4 view .LVU7
+  73 0024 3760     		str	r7, [r6]
+   5:src/unit/encoder/encoder.cpp ****       for (uint8_t i = 0; i < SENSOR_QTY; i++) ave[i].SetLength(3);
+  74              		.loc 1 5 7 is_stmt 1 discriminator 4 view .LVU8
+  75              	.LVL3:
+  76              	.LBB4:
+  77              		.loc 1 5 20 is_stmt 0 discriminator 4 view .LVU9
+  78 0026 0024     		movs	r4, #0
+  79              		.loc 1 5 7 discriminator 4 view .LVU10
+  80 0028 0AE0     		b	.L4
+  81              	.LVL4:
+  82              	.L5:
+  83              		.loc 1 5 48 is_stmt 1 discriminator 3 view .LVU11
+  84              		.loc 1 5 64 is_stmt 0 discriminator 3 view .LVU12
+  85 002a 4FF44E70 		mov	r0, #824
+  86 002e 04FB00F0 		mul	r0, r4, r0
+  87 0032 7830     		adds	r0, r0, #120
+  88 0034 0321     		movs	r1, #3
+  89 0036 3044     		add	r0, r0, r6
+  90 0038 FFF7FEFF 		bl	_ZN9MovingAve9SetLengthEh
+  91              	.LVL5:
+  92              		.loc 1 5 7 is_stmt 1 discriminator 3 view .LVU13
+  93 003c 0134     		adds	r4, r4, #1
+  94              	.LVL6:
+  95              		.loc 1 5 7 is_stmt 0 discriminator 3 view .LVU14
+  96 003e E4B2     		uxtb	r4, r4
+  97              	.LVL7:
+  98              	.L4:
+  99              		.loc 1 5 29 is_stmt 1 discriminator 1 view .LVU15
+ 100 0040 032C     		cmp	r4, #3
+ 101 0042 F2D9     		bls	.L5
+ 102              	.LBE4:
+ 103              	.LBE3:
+ 104              	.LBE2:
+   6:src/unit/encoder/encoder.cpp **** }
+ 105              		.loc 1 6 1 is_stmt 0 view .LVU16
+ 106 0044 3046     		mov	r0, r6
+ 107 0046 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 108              	.LVL8:
+ 109              	.L8:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc75QRBC.s 			page 3
+
+
+ 110              		.loc 1 6 1 view .LVU17
+ 111              		.align	2
+ 112              	.L7:
+ 113 0048 00000000 		.word	.LANCHOR0
+ 114              		.cfi_endproc
+ 115              	.LFE254:
+ 116              		.fnend
+ 118              		.global	_ZN7EncoderC1EP10DigitalOutPh
+ 119              		.thumb_set _ZN7EncoderC1EP10DigitalOutPh,_ZN7EncoderC2EP10DigitalOutPh
+ 120              		.global	__aeabi_i2d
+ 121              		.global	__aeabi_dmul
+ 122              		.global	__aeabi_d2uiz
+ 123              		.global	__aeabi_dcmpgt
+ 124              		.global	__aeabi_d2f
+ 125              		.global	__aeabi_ddiv
+ 126              		.global	__aeabi_dcmpeq
+ 127              		.section	.text._ZN7Encoder4ReadEv,"ax",%progbits
+ 128              		.align	1
+ 129              		.global	_ZN7Encoder4ReadEv
+ 130              		.syntax unified
+ 131              		.thumb
+ 132              		.thumb_func
+ 134              	_ZN7Encoder4ReadEv:
+ 135              		.fnstart
+ 136              	.LVL9:
+ 137              	.LFB256:
+   7:src/unit/encoder/encoder.cpp **** 
+   8:src/unit/encoder/encoder.cpp **** void Encoder::Read() {
+ 138              		.loc 1 8 22 is_stmt 1 view -0
+ 139              		.cfi_startproc
+ 140              		@ args = 0, pretend = 0, frame = 0
+ 141              		@ frame_needed = 0, uses_anonymous_args = 0
+ 142              		.loc 1 8 22 is_stmt 0 view .LVU19
+ 143 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 144              		.save {r3, r4, r5, r6, r7, r8, r9, lr}
+ 145              	.LCFI1:
+ 146              		.cfi_def_cfa_offset 32
+ 147              		.cfi_offset 3, -32
+ 148              		.cfi_offset 4, -28
+ 149              		.cfi_offset 5, -24
+ 150              		.cfi_offset 6, -20
+ 151              		.cfi_offset 7, -16
+ 152              		.cfi_offset 8, -12
+ 153              		.cfi_offset 9, -8
+ 154              		.cfi_offset 14, -4
+ 155 0004 0446     		mov	r4, r0
+   9:src/unit/encoder/encoder.cpp ****       // 閾値の自動調整
+  10:src/unit/encoder/encoder.cpp ****       for (uint8_t i = 0; i < SENSOR_QTY; i++) {
+ 156              		.loc 1 10 7 is_stmt 1 view .LVU20
+ 157              	.LVL10:
+ 158              	.LBB5:
+ 159              		.loc 1 10 20 is_stmt 0 view .LVU21
+ 160 0006 0025     		movs	r5, #0
+ 161              		.loc 1 10 7 view .LVU22
+ 162 0008 11E0     		b	.L10
+ 163              	.LVL11:
+ 164              	.L12:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc75QRBC.s 			page 4
+
+
+  11:src/unit/encoder/encoder.cpp ****             if (max_val_[i] < photo_val_[i]) max_val_[i] = photo_val_[i];
+  12:src/unit/encoder/encoder.cpp ****             if (min_val_[i] > photo_val_[i]) min_val_[i] = photo_val_[i];
+  13:src/unit/encoder/encoder.cpp ****             threshold_[i] = (max_val_[i] + min_val_[i]) * 0.5;
+ 165              		.loc 1 13 13 is_stmt 1 discriminator 2 view .LVU23
+ 166              		.loc 1 13 40 is_stmt 0 discriminator 2 view .LVU24
+ 167 000a 2644     		add	r6, r6, r4
+ 168 000c 96F85800 		ldrb	r0, [r6, #88]	@ zero_extendqisi2
+ 169              		.loc 1 13 54 discriminator 2 view .LVU25
+ 170 0010 96F85430 		ldrb	r3, [r6, #84]	@ zero_extendqisi2
+ 171              		.loc 1 13 57 discriminator 2 view .LVU26
+ 172 0014 1844     		add	r0, r0, r3
+ 173 0016 FFF7FEFF 		bl	__aeabi_i2d
+ 174              	.LVL12:
+ 175 001a 0022     		movs	r2, #0
+ 176 001c 5E4B     		ldr	r3, .L32+16
+ 177 001e FFF7FEFF 		bl	__aeabi_dmul
+ 178              	.LVL13:
+ 179              		.loc 1 13 27 discriminator 2 view .LVU27
+ 180 0022 FFF7FEFF 		bl	__aeabi_d2uiz
+ 181              	.LVL14:
+ 182 0026 86F85000 		strb	r0, [r6, #80]
+  10:src/unit/encoder/encoder.cpp ****             if (max_val_[i] < photo_val_[i]) max_val_[i] = photo_val_[i];
+ 183              		.loc 1 10 7 is_stmt 1 discriminator 2 view .LVU28
+ 184 002a 0135     		adds	r5, r5, #1
+ 185              	.LVL15:
+  10:src/unit/encoder/encoder.cpp ****             if (max_val_[i] < photo_val_[i]) max_val_[i] = photo_val_[i];
+ 186              		.loc 1 10 7 is_stmt 0 discriminator 2 view .LVU29
+ 187 002c EDB2     		uxtb	r5, r5
+ 188              	.LVL16:
+ 189              	.L10:
+  10:src/unit/encoder/encoder.cpp ****             if (max_val_[i] < photo_val_[i]) max_val_[i] = photo_val_[i];
+ 190              		.loc 1 10 29 is_stmt 1 discriminator 1 view .LVU30
+ 191 002e 032D     		cmp	r5, #3
+ 192 0030 15D8     		bhi	.L28
+  11:src/unit/encoder/encoder.cpp ****             if (max_val_[i] < photo_val_[i]) max_val_[i] = photo_val_[i];
+ 193              		.loc 1 11 13 view .LVU31
+  11:src/unit/encoder/encoder.cpp ****             if (max_val_[i] < photo_val_[i]) max_val_[i] = photo_val_[i];
+ 194              		.loc 1 11 26 is_stmt 0 view .LVU32
+ 195 0032 2E46     		mov	r6, r5
+  11:src/unit/encoder/encoder.cpp ****             if (max_val_[i] < photo_val_[i]) max_val_[i] = photo_val_[i];
+ 196              		.loc 1 11 27 view .LVU33
+ 197 0034 6319     		adds	r3, r4, r5
+ 198 0036 93F85820 		ldrb	r2, [r3, #88]	@ zero_extendqisi2
+  11:src/unit/encoder/encoder.cpp ****             if (max_val_[i] < photo_val_[i]) max_val_[i] = photo_val_[i];
+ 199              		.loc 1 11 31 view .LVU34
+ 200 003a 2368     		ldr	r3, [r4]
+  11:src/unit/encoder/encoder.cpp ****             if (max_val_[i] < photo_val_[i]) max_val_[i] = photo_val_[i];
+ 201              		.loc 1 11 43 view .LVU35
+ 202 003c 5919     		adds	r1, r3, r5
+ 203 003e 5B5D     		ldrb	r3, [r3, r5]	@ zero_extendqisi2
+  11:src/unit/encoder/encoder.cpp ****             if (max_val_[i] < photo_val_[i]) max_val_[i] = photo_val_[i];
+ 204              		.loc 1 11 13 view .LVU36
+ 205 0040 9A42     		cmp	r2, r3
+ 206 0042 02D2     		bcs	.L11
+  11:src/unit/encoder/encoder.cpp ****             if (max_val_[i] < photo_val_[i]) max_val_[i] = photo_val_[i];
+ 207              		.loc 1 11 46 is_stmt 1 discriminator 1 view .LVU37
+  11:src/unit/encoder/encoder.cpp ****             if (max_val_[i] < photo_val_[i]) max_val_[i] = photo_val_[i];
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc75QRBC.s 			page 5
+
+
+ 208              		.loc 1 11 58 is_stmt 0 discriminator 1 view .LVU38
+ 209 0044 6219     		adds	r2, r4, r5
+ 210 0046 82F85830 		strb	r3, [r2, #88]
+ 211              	.L11:
+  12:src/unit/encoder/encoder.cpp ****             threshold_[i] = (max_val_[i] + min_val_[i]) * 0.5;
+ 212              		.loc 1 12 13 is_stmt 1 view .LVU39
+  12:src/unit/encoder/encoder.cpp ****             threshold_[i] = (max_val_[i] + min_val_[i]) * 0.5;
+ 213              		.loc 1 12 27 is_stmt 0 view .LVU40
+ 214 004a A319     		adds	r3, r4, r6
+ 215 004c 93F85420 		ldrb	r2, [r3, #84]	@ zero_extendqisi2
+  12:src/unit/encoder/encoder.cpp ****             threshold_[i] = (max_val_[i] + min_val_[i]) * 0.5;
+ 216              		.loc 1 12 43 view .LVU41
+ 217 0050 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+  12:src/unit/encoder/encoder.cpp ****             threshold_[i] = (max_val_[i] + min_val_[i]) * 0.5;
+ 218              		.loc 1 12 13 view .LVU42
+ 219 0052 9A42     		cmp	r2, r3
+ 220 0054 D9D9     		bls	.L12
+  12:src/unit/encoder/encoder.cpp ****             threshold_[i] = (max_val_[i] + min_val_[i]) * 0.5;
+ 221              		.loc 1 12 46 is_stmt 1 discriminator 1 view .LVU43
+  12:src/unit/encoder/encoder.cpp ****             threshold_[i] = (max_val_[i] + min_val_[i]) * 0.5;
+ 222              		.loc 1 12 58 is_stmt 0 discriminator 1 view .LVU44
+ 223 0056 A219     		adds	r2, r4, r6
+ 224 0058 82F85430 		strb	r3, [r2, #84]
+ 225 005c D5E7     		b	.L12
+ 226              	.L28:
+  12:src/unit/encoder/encoder.cpp ****             threshold_[i] = (max_val_[i] + min_val_[i]) * 0.5;
+ 227              		.loc 1 12 58 discriminator 1 view .LVU45
+ 228              	.LBE5:
+ 229              	.LBB6:
+  14:src/unit/encoder/encoder.cpp ****       }
+  15:src/unit/encoder/encoder.cpp **** 
+  16:src/unit/encoder/encoder.cpp ****       for (uint8_t i = 0; i < SENSOR_QTY; i++) {
+ 230              		.loc 1 16 20 view .LVU46
+ 231 005e 0026     		movs	r6, #0
+ 232 0060 37E0     		b	.L14
+ 233              	.LVL17:
+ 234              	.L31:
+  17:src/unit/encoder/encoder.cpp ****             is_white_[i] = 0;
+  18:src/unit/encoder/encoder.cpp ****             if (photo_val_[i] > threshold_[i]) is_white_[i] = 1;
+  19:src/unit/encoder/encoder.cpp ****             if (is_white_[i] != pre_is_white_[i]) {
+  20:src/unit/encoder/encoder.cpp ****                   interval_time_s_[i] = interval_timer[i].read();
+ 235              		.loc 1 20 19 is_stmt 1 view .LVU47
+ 236              		.loc 1 20 63 is_stmt 0 view .LVU48
+ 237 0062 05F11807 		add	r7, r5, #24
+ 238 0066 04EB8707 		add	r7, r4, r7, lsl #2
+ 239 006a 0437     		adds	r7, r7, #4
+ 240 006c 3846     		mov	r0, r7
+ 241 006e FFF7FEFF 		bl	_ZN5Timer4readEv
+ 242              	.LVL18:
+ 243              		.loc 1 20 39 view .LVU49
+ 244 0072 AB1C     		adds	r3, r5, #2
+ 245 0074 04EBC303 		add	r3, r4, r3, lsl #3
+ 246 0078 83ED000B 		vstr.64	d0, [r3]
+  21:src/unit/encoder/encoder.cpp **** 
+  22:src/unit/encoder/encoder.cpp ****                   pre_interval_time_s_[i] = interval_time_s_[i];
+ 247              		.loc 1 22 19 is_stmt 1 view .LVU50
+ 248              		.loc 1 22 43 is_stmt 0 view .LVU51
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc75QRBC.s 			page 6
+
+
+ 249 007c AB1D     		adds	r3, r5, #6
+ 250 007e 04EBC303 		add	r3, r4, r3, lsl #3
+ 251 0082 83ED000B 		vstr.64	d0, [r3]
+  23:src/unit/encoder/encoder.cpp ****                   interval_timer[i].reset();
+ 252              		.loc 1 23 19 is_stmt 1 view .LVU52
+ 253              		.loc 1 23 42 is_stmt 0 view .LVU53
+ 254 0086 3846     		mov	r0, r7
+ 255 0088 FFF7FEFF 		bl	_ZN5Timer5resetEv
+ 256              	.LVL19:
+ 257 008c 39E0     		b	.L16
+ 258              	.L17:
+  24:src/unit/encoder/encoder.cpp ****             }
+  25:src/unit/encoder/encoder.cpp **** 
+  26:src/unit/encoder/encoder.cpp ****             if (interval_timer[i].read() > MAX_INTERVAL) interval_time_s_[i] = 0;
+  27:src/unit/encoder/encoder.cpp **** 
+  28:src/unit/encoder/encoder.cpp ****             if (interval_time_s_[i] > MIN_INTERVAL) {
+ 259              		.loc 1 28 13 is_stmt 1 view .LVU54
+ 260              		.loc 1 28 35 is_stmt 0 view .LVU55
+ 261 008e AB1C     		adds	r3, r5, #2
+ 262 0090 04EBC303 		add	r3, r4, r3, lsl #3
+ 263 0094 D3E90089 		ldrd	r8, [r3]
+ 264              		.loc 1 28 13 view .LVU56
+ 265 0098 3BA3     		adr	r3, .L32
+ 266 009a D3E90023 		ldrd	r2, [r3]
+ 267 009e 4046     		mov	r0, r8
+ 268 00a0 4946     		mov	r1, r9
+ 269 00a2 FFF7FEFF 		bl	__aeabi_dcmpgt
+ 270              	.LVL20:
+ 271 00a6 0028     		cmp	r0, #0
+ 272 00a8 43D1     		bne	.L29
+ 273              	.L19:
+  29:src/unit/encoder/encoder.cpp ****                   ave[i].Compute(interval_time_s_[i]);
+  30:src/unit/encoder/encoder.cpp ****                   interval_time_s_[i] = ave[i].Get();
+  31:src/unit/encoder/encoder.cpp ****                   rps_[i] = 1.0f / (interval_time_s_[i] * 4);
+  32:src/unit/encoder/encoder.cpp ****             }
+  33:src/unit/encoder/encoder.cpp **** 
+  34:src/unit/encoder/encoder.cpp ****             if (interval_time_s_[i] == 0) rps_[i] = 0;
+ 274              		.loc 1 34 13 is_stmt 1 view .LVU57
+ 275              		.loc 1 34 35 is_stmt 0 view .LVU58
+ 276 00aa A91C     		adds	r1, r5, #2
+ 277 00ac 04EBC101 		add	r1, r4, r1, lsl #3
+ 278              		.loc 1 34 13 view .LVU59
+ 279 00b0 0022     		movs	r2, #0
+ 280 00b2 0023     		movs	r3, #0
+ 281 00b4 D1E90001 		ldrd	r0, [r1]
+ 282 00b8 FFF7FEFF 		bl	__aeabi_dcmpeq
+ 283              	.LVL21:
+ 284 00bc 10B1     		cbz	r0, .L21
+ 285              		.loc 1 34 43 is_stmt 1 discriminator 1 view .LVU60
+ 286              		.loc 1 34 51 is_stmt 0 discriminator 1 view .LVU61
+ 287 00be 6319     		adds	r3, r4, r5
+ 288 00c0 0022     		movs	r2, #0
+ 289 00c2 1A73     		strb	r2, [r3, #12]
+ 290              	.L21:
+  35:src/unit/encoder/encoder.cpp **** 
+  36:src/unit/encoder/encoder.cpp ****             pre_is_white_[i] = is_white_[i];
+ 291              		.loc 1 36 13 is_stmt 1 discriminator 2 view .LVU62
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc75QRBC.s 			page 7
+
+
+ 292              		.loc 1 36 43 is_stmt 0 discriminator 2 view .LVU63
+ 293 00c4 2544     		add	r5, r5, r4
+ 294 00c6 95F85C30 		ldrb	r3, [r5, #92]	@ zero_extendqisi2
+ 295              		.loc 1 36 30 discriminator 2 view .LVU64
+ 296 00ca 85F86030 		strb	r3, [r5, #96]
+  16:src/unit/encoder/encoder.cpp ****             is_white_[i] = 0;
+ 297              		.loc 1 16 7 is_stmt 1 discriminator 2 view .LVU65
+ 298 00ce 0136     		adds	r6, r6, #1
+ 299              	.LVL22:
+  16:src/unit/encoder/encoder.cpp ****             is_white_[i] = 0;
+ 300              		.loc 1 16 7 is_stmt 0 discriminator 2 view .LVU66
+ 301 00d0 F6B2     		uxtb	r6, r6
+ 302              	.LVL23:
+ 303              	.L14:
+  16:src/unit/encoder/encoder.cpp ****             is_white_[i] = 0;
+ 304              		.loc 1 16 29 is_stmt 1 discriminator 1 view .LVU67
+ 305 00d2 032E     		cmp	r6, #3
+ 306 00d4 55D8     		bhi	.L30
+  17:src/unit/encoder/encoder.cpp ****             if (photo_val_[i] > threshold_[i]) is_white_[i] = 1;
+ 307              		.loc 1 17 13 view .LVU68
+  17:src/unit/encoder/encoder.cpp ****             if (photo_val_[i] > threshold_[i]) is_white_[i] = 1;
+ 308              		.loc 1 17 23 is_stmt 0 view .LVU69
+ 309 00d6 3546     		mov	r5, r6
+  17:src/unit/encoder/encoder.cpp ****             if (photo_val_[i] > threshold_[i]) is_white_[i] = 1;
+ 310              		.loc 1 17 26 view .LVU70
+ 311 00d8 A319     		adds	r3, r4, r6
+ 312 00da 0022     		movs	r2, #0
+ 313 00dc 83F85C20 		strb	r2, [r3, #92]
+  18:src/unit/encoder/encoder.cpp ****             if (is_white_[i] != pre_is_white_[i]) {
+ 314              		.loc 1 18 13 is_stmt 1 view .LVU71
+  18:src/unit/encoder/encoder.cpp ****             if (is_white_[i] != pre_is_white_[i]) {
+ 315              		.loc 1 18 17 is_stmt 0 view .LVU72
+ 316 00e0 2268     		ldr	r2, [r4]
+  18:src/unit/encoder/encoder.cpp ****             if (is_white_[i] != pre_is_white_[i]) {
+ 317              		.loc 1 18 29 view .LVU73
+ 318 00e2 925D     		ldrb	r2, [r2, r6]	@ zero_extendqisi2
+  18:src/unit/encoder/encoder.cpp ****             if (is_white_[i] != pre_is_white_[i]) {
+ 319              		.loc 1 18 45 view .LVU74
+ 320 00e4 93F85030 		ldrb	r3, [r3, #80]	@ zero_extendqisi2
+  18:src/unit/encoder/encoder.cpp ****             if (is_white_[i] != pre_is_white_[i]) {
+ 321              		.loc 1 18 13 view .LVU75
+ 322 00e8 9A42     		cmp	r2, r3
+ 323 00ea 03D9     		bls	.L15
+  18:src/unit/encoder/encoder.cpp ****             if (is_white_[i] != pre_is_white_[i]) {
+ 324              		.loc 1 18 48 is_stmt 1 discriminator 1 view .LVU76
+  18:src/unit/encoder/encoder.cpp ****             if (is_white_[i] != pre_is_white_[i]) {
+ 325              		.loc 1 18 61 is_stmt 0 discriminator 1 view .LVU77
+ 326 00ec A319     		adds	r3, r4, r6
+ 327 00ee 0122     		movs	r2, #1
+ 328 00f0 83F85C20 		strb	r2, [r3, #92]
+ 329              	.L15:
+  19:src/unit/encoder/encoder.cpp ****                   interval_time_s_[i] = interval_timer[i].read();
+ 330              		.loc 1 19 13 is_stmt 1 view .LVU78
+  19:src/unit/encoder/encoder.cpp ****                   interval_time_s_[i] = interval_timer[i].read();
+ 331              		.loc 1 19 28 is_stmt 0 view .LVU79
+ 332 00f4 6319     		adds	r3, r4, r5
+ 333 00f6 93F85C20 		ldrb	r2, [r3, #92]	@ zero_extendqisi2
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc75QRBC.s 			page 8
+
+
+  19:src/unit/encoder/encoder.cpp ****                   interval_time_s_[i] = interval_timer[i].read();
+ 334              		.loc 1 19 48 view .LVU80
+ 335 00fa 93F86030 		ldrb	r3, [r3, #96]	@ zero_extendqisi2
+  19:src/unit/encoder/encoder.cpp ****                   interval_time_s_[i] = interval_timer[i].read();
+ 336              		.loc 1 19 13 view .LVU81
+ 337 00fe 9A42     		cmp	r2, r3
+ 338 0100 AFD1     		bne	.L31
+ 339              	.L16:
+  26:src/unit/encoder/encoder.cpp **** 
+ 340              		.loc 1 26 13 is_stmt 1 view .LVU82
+  26:src/unit/encoder/encoder.cpp **** 
+ 341              		.loc 1 26 39 is_stmt 0 view .LVU83
+ 342 0102 05F11800 		add	r0, r5, #24
+ 343 0106 04EB8000 		add	r0, r4, r0, lsl #2
+ 344 010a 0430     		adds	r0, r0, #4
+ 345 010c FFF7FEFF 		bl	_ZN5Timer4readEv
+ 346              	.LVL24:
+ 347 0110 51EC100B 		vmov	r0, r1, d0
+  26:src/unit/encoder/encoder.cpp **** 
+ 348              		.loc 1 26 13 view .LVU84
+ 349 0114 1EA3     		adr	r3, .L32+8
+ 350 0116 D3E90023 		ldrd	r2, [r3]
+ 351 011a FFF7FEFF 		bl	__aeabi_dcmpgt
+ 352              	.LVL25:
+ 353 011e 0028     		cmp	r0, #0
+ 354 0120 B5D0     		beq	.L17
+  26:src/unit/encoder/encoder.cpp **** 
+ 355              		.loc 1 26 58 is_stmt 1 discriminator 1 view .LVU85
+  26:src/unit/encoder/encoder.cpp **** 
+ 356              		.loc 1 26 78 is_stmt 0 discriminator 1 view .LVU86
+ 357 0122 AB1C     		adds	r3, r5, #2
+ 358 0124 04EBC303 		add	r3, r4, r3, lsl #3
+ 359 0128 0020     		movs	r0, #0
+ 360 012a 0021     		movs	r1, #0
+ 361 012c C3E90001 		strd	r0, [r3]
+ 362 0130 ADE7     		b	.L17
+ 363              	.L29:
+  29:src/unit/encoder/encoder.cpp ****                   interval_time_s_[i] = ave[i].Get();
+ 364              		.loc 1 29 19 is_stmt 1 view .LVU87
+  29:src/unit/encoder/encoder.cpp ****                   interval_time_s_[i] = ave[i].Get();
+ 365              		.loc 1 29 33 is_stmt 0 view .LVU88
+ 366 0132 4FF44E77 		mov	r7, #824
+ 367 0136 05FB07F7 		mul	r7, r5, r7
+ 368 013a 7837     		adds	r7, r7, #120
+ 369 013c 2744     		add	r7, r7, r4
+ 370 013e 4046     		mov	r0, r8
+ 371 0140 4946     		mov	r1, r9
+ 372 0142 FFF7FEFF 		bl	__aeabi_d2f
+ 373              	.LVL26:
+ 374 0146 00EE100A 		vmov	s0, r0
+ 375 014a 3846     		mov	r0, r7
+ 376 014c FFF7FEFF 		bl	_ZN9MovingAve7ComputeEf
+ 377              	.LVL27:
+  30:src/unit/encoder/encoder.cpp ****                   rps_[i] = 1.0f / (interval_time_s_[i] * 4);
+ 378              		.loc 1 30 19 is_stmt 1 view .LVU89
+  30:src/unit/encoder/encoder.cpp ****                   rps_[i] = 1.0f / (interval_time_s_[i] * 4);
+ 379              		.loc 1 30 51 is_stmt 0 view .LVU90
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc75QRBC.s 			page 9
+
+
+ 380 0150 3846     		mov	r0, r7
+ 381 0152 FFF7FEFF 		bl	_ZN9MovingAve3GetEv
+ 382              	.LVL28:
+ 383 0156 51EC100B 		vmov	r0, r1, d0
+  30:src/unit/encoder/encoder.cpp ****                   rps_[i] = 1.0f / (interval_time_s_[i] * 4);
+ 384              		.loc 1 30 39 view .LVU91
+ 385 015a AB1C     		adds	r3, r5, #2
+ 386 015c 04EBC303 		add	r3, r4, r3, lsl #3
+ 387 0160 83ED000B 		vstr.64	d0, [r3]
+  31:src/unit/encoder/encoder.cpp ****             }
+ 388              		.loc 1 31 19 is_stmt 1 view .LVU92
+  31:src/unit/encoder/encoder.cpp ****             }
+ 389              		.loc 1 31 57 is_stmt 0 view .LVU93
+ 390 0164 0022     		movs	r2, #0
+ 391 0166 0D4B     		ldr	r3, .L32+20
+ 392 0168 FFF7FEFF 		bl	__aeabi_dmul
+ 393              	.LVL29:
+ 394 016c 0246     		mov	r2, r0
+ 395 016e 0B46     		mov	r3, r1
+  31:src/unit/encoder/encoder.cpp ****             }
+ 396              		.loc 1 31 34 view .LVU94
+ 397 0170 0020     		movs	r0, #0
+ 398 0172 0B49     		ldr	r1, .L32+24
+ 399 0174 FFF7FEFF 		bl	__aeabi_ddiv
+ 400              	.LVL30:
+  31:src/unit/encoder/encoder.cpp ****             }
+ 401              		.loc 1 31 27 view .LVU95
+ 402 0178 6719     		adds	r7, r4, r5
+ 403 017a FFF7FEFF 		bl	__aeabi_d2uiz
+ 404              	.LVL31:
+ 405 017e 3873     		strb	r0, [r7, #12]
+ 406 0180 93E7     		b	.L19
+ 407              	.L30:
+  31:src/unit/encoder/encoder.cpp ****             }
+ 408              		.loc 1 31 27 view .LVU96
+ 409              	.LBE6:
+  37:src/unit/encoder/encoder.cpp ****       }
+  38:src/unit/encoder/encoder.cpp **** }
+ 410              		.loc 1 38 1 view .LVU97
+ 411 0182 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 412              	.LVL32:
+ 413              	.L33:
+ 414              		.loc 1 38 1 view .LVU98
+ 415 0186 00BF     		.align	3
+ 416              	.L32:
+ 417 0188 00000040 		.word	1073741824
+ 418 018c E17A543F 		.word	1062501089
+ 419 0190 9A999999 		.word	-1717986918
+ 420 0194 9999B93F 		.word	1069128089
+ 421 0198 0000E03F 		.word	1071644672
+ 422 019c 00001040 		.word	1074790400
+ 423 01a0 0000F03F 		.word	1072693248
+ 424              		.cfi_endproc
+ 425              	.LFE256:
+ 426              		.fnend
+ 428              		.section	.text._ZN7Encoder11GetMotorRPSEh,"ax",%progbits
+ 429              		.align	1
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc75QRBC.s 			page 10
+
+
+ 430              		.global	_ZN7Encoder11GetMotorRPSEh
+ 431              		.syntax unified
+ 432              		.thumb
+ 433              		.thumb_func
+ 435              	_ZN7Encoder11GetMotorRPSEh:
+ 436              		.fnstart
+ 437              	.LVL33:
+ 438              	.LFB257:
+  39:src/unit/encoder/encoder.cpp **** 
+  40:src/unit/encoder/encoder.cpp **** uint8_t Encoder::GetMotorRPS(uint8_t encoder_num) {
+ 439              		.loc 1 40 51 is_stmt 1 view -0
+ 440              		.cfi_startproc
+ 441              		@ args = 0, pretend = 0, frame = 0
+ 442              		@ frame_needed = 0, uses_anonymous_args = 0
+ 443              		@ link register save eliminated.
+  41:src/unit/encoder/encoder.cpp ****       return rps_[encoder_num];
+ 444              		.loc 1 41 7 view .LVU100
+ 445              		.loc 1 41 30 is_stmt 0 view .LVU101
+ 446 0000 0844     		add	r0, r0, r1
+ 447              	.LVL34:
+  42:src/unit/encoder/encoder.cpp **** }...
+ 448              		.loc 1 42 1 view .LVU102
+ 449 0002 007B     		ldrb	r0, [r0, #12]	@ zero_extendqisi2
+ 450 0004 7047     		bx	lr
+ 451              		.cfi_endproc
+ 452              	.LFE257:
+ 453              		.cantunwind
+ 454              		.fnend
+ 456              		.section	.rodata
+ 457              		.align	2
+ 458              		.set	.LANCHOR0,. + 0
+ 459              	.LC0:
+ 460 0000 FF       		.byte	-1
+ 461 0001 FF       		.byte	-1
+ 462 0002 FF       		.byte	-1
+ 463 0003 FF       		.byte	-1
+ 464              		.text
+ 465              	.Letext0:
+ 466              		.file 2 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/machine/_default_ty
+ 467              		.file 3 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_stdint.h"
+ 468              		.file 4 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h"
+ 469              		.file 5 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/lib/gcc/arm-none-eabi/12.3.1/include/stdd
+ 470              		.file 6 "Lib/DigitalInOut/DigitalInOut.hpp"
+ 471              		.file 7 "Lib/MovingAve/MovingAve.hpp"
+ 472              		.file 8 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/cstdio"
+ 473              		.file 9 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/arm-none
+ 474              		.file 10 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_types.h"
+ 475              		.file 11 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/reent.h"
+ 476              		.file 12 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/lock.h"
+ 477              		.file 13 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/stdio.h"
+ 478              		.file 14 "Lib/Timer/Timer.hpp"
+ 479              		.file 15 "src/unit/encoder/encoder.hpp"
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc75QRBC.s 			page 11
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 encoder.cpp
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc75QRBC.s:21     .text._ZN7EncoderC2EP10DigitalOutPh:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc75QRBC.s:27     .text._ZN7EncoderC2EP10DigitalOutPh:00000000 _ZN7EncoderC2EP10DigitalOutPh
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc75QRBC.s:113    .text._ZN7EncoderC2EP10DigitalOutPh:00000048 $d
+.ARM.exidx.text._ZN7EncoderC2EP10DigitalOutPh:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc75QRBC.s:27     .text._ZN7EncoderC2EP10DigitalOutPh:00000000 _ZN7EncoderC1EP10DigitalOutPh
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc75QRBC.s:128    .text._ZN7Encoder4ReadEv:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc75QRBC.s:134    .text._ZN7Encoder4ReadEv:00000000 _ZN7Encoder4ReadEv
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc75QRBC.s:417    .text._ZN7Encoder4ReadEv:00000188 $d
+.ARM.exidx.text._ZN7Encoder4ReadEv:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc75QRBC.s:429    .text._ZN7Encoder11GetMotorRPSEh:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc75QRBC.s:435    .text._ZN7Encoder11GetMotorRPSEh:00000000 _ZN7Encoder11GetMotorRPSEh
+.ARM.exidx.text._ZN7Encoder11GetMotorRPSEh:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc75QRBC.s:457    .rodata:00000000 $d
+
+UNDEFINED SYMBOLS
+_ZN5TimerC1Ev
+_ZN9MovingAve9SetLengthEh
+__aeabi_unwind_cpp_pr0
+__aeabi_i2d
+__aeabi_dmul
+__aeabi_d2uiz
+__aeabi_dcmpgt
+__aeabi_d2f
+__aeabi_ddiv
+__aeabi_dcmpeq
+_ZN5Timer4readEv
+_ZN5Timer5resetEv
+_ZN9MovingAve7ComputeEf
+_ZN9MovingAve3GetEv

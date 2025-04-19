@@ -1,0 +1,1301 @@
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"defence.cpp"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "src/algorithm/defence/defence.cpp"
+  20              		.global	__aeabi_f2d
+  21              		.section	.text._ZL13InitializePIDP5Robot,"ax",%progbits
+  22              		.align	1
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	_ZL13InitializePIDP5Robot:
+  28              		.fnstart
+  29              	.LVL0:
+  30              	.LFB1197:
+   1:src/algorithm/defence/defence.cpp **** #include "capture_ball.hpp"
+   2:src/algorithm/defence/defence.cpp **** #include "mode.hpp"
+   3:src/algorithm/defence/defence.cpp **** 
+   4:src/algorithm/defence/defence.cpp **** #define SHOOT_TIME 1000
+   5:src/algorithm/defence/defence.cpp **** #define SHOOT_WAIT_TIME 1500
+   6:src/algorithm/defence/defence.cpp **** 
+   7:src/algorithm/defence/defence.cpp **** static PID ball_pid;
+   8:src/algorithm/defence/defence.cpp **** 
+   9:src/algorithm/defence/defence.cpp **** static Timer shoot_wait_timer;
+  10:src/algorithm/defence/defence.cpp **** static Timer shoot_timer;
+  11:src/algorithm/defence/defence.cpp **** 
+  12:src/algorithm/defence/defence.cpp **** static Timer out_line_timer;
+  13:src/algorithm/defence/defence.cpp **** 
+  14:src/algorithm/defence/defence.cpp **** static int16_t pre_line_dir;
+  15:src/algorithm/defence/defence.cpp **** 
+  16:src/algorithm/defence/defence.cpp **** static bool enable_shoot;
+  17:src/algorithm/defence/defence.cpp **** 
+  18:src/algorithm/defence/defence.cpp **** static bool is_pid_initialized = false;
+  19:src/algorithm/defence/defence.cpp **** 
+  20:src/algorithm/defence/defence.cpp **** static void InitializePID(Robot* robot) {
+  31              		.loc 1 20 41 view -0
+  32              		.cfi_startproc
+  33              		@ args = 0, pretend = 0, frame = 0
+  34              		@ frame_needed = 0, uses_anonymous_args = 0
+  35              		.loc 1 20 41 is_stmt 0 view .LVU1
+  36 0000 38B5     		push	{r3, r4, r5, lr}
+  37              		.save {r3, r4, r5, lr}
+  38              	.LCFI0:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s 			page 2
+
+
+  39              		.cfi_def_cfa_offset 16
+  40              		.cfi_offset 3, -16
+  41              		.cfi_offset 4, -12
+  42              		.cfi_offset 5, -8
+  43              		.cfi_offset 14, -4
+  44 0002 2DED028B 		vpush.64	{d8}
+  45              		.vsave {d8}
+  46              	.LCFI1:
+  47              		.cfi_def_cfa_offset 24
+  48              		.cfi_offset 80, -24
+  49              		.cfi_offset 81, -20
+  50 0006 0546     		mov	r5, r0
+  21:src/algorithm/defence/defence.cpp ****       ball_pid.SetGain(0.15, 0, 0.03);
+  51              		.loc 1 21 7 is_stmt 1 view .LVU2
+  52              		.loc 1 21 23 is_stmt 0 view .LVU3
+  53 0008 134C     		ldr	r4, .L3
+  54 000a 9FED141A 		vldr.32	s2, .L3+4
+  55 000e DFED140A 		vldr.32	s1, .L3+8
+  56 0012 9FED140A 		vldr.32	s0, .L3+12
+  57 0016 2046     		mov	r0, r4
+  58              	.LVL1:
+  59              		.loc 1 21 23 view .LVU4
+  60 0018 FFF7FEFF 		bl	_ZN3PID7SetGainEfff
+  61              	.LVL2:
+  22:src/algorithm/defence/defence.cpp ****       ball_pid.SetLimit(-robot->info.target_move_speed, robot->info.target_move_speed);
+  62              		.loc 1 22 7 is_stmt 1 view .LVU5
+  63              		.loc 1 22 38 is_stmt 0 view .LVU6
+  64 001c A869     		ldr	r0, [r5, #24]	@ float
+  65              		.loc 1 22 25 view .LVU7
+  66 001e 80F00045 		eor	r5, r0, #-2147483648
+  67              	.LVL3:
+  68              		.loc 1 22 24 view .LVU8
+  69 0022 FFF7FEFF 		bl	__aeabi_f2d
+  70              	.LVL4:
+  71 0026 41EC180B 		vmov	d8, r0, r1
+  72 002a 2846     		mov	r0, r5	@ float
+  73 002c FFF7FEFF 		bl	__aeabi_f2d
+  74              	.LVL5:
+  75 0030 B0EE481A 		vmov.f32	s2, s16
+  76 0034 F0EE681A 		vmov.f32	s3, s17
+  77 0038 41EC100B 		vmov	d0, r0, r1
+  78 003c 2046     		mov	r0, r4
+  79 003e FFF7FEFF 		bl	_ZN3PID8SetLimitEdd
+  80              	.LVL6:
+  23:src/algorithm/defence/defence.cpp ****       ball_pid.SetSamplingFreq(100);
+  81              		.loc 1 23 7 is_stmt 1 view .LVU9
+  82              		.loc 1 23 31 is_stmt 0 view .LVU10
+  83 0042 6421     		movs	r1, #100
+  84 0044 2046     		mov	r0, r4
+  85 0046 FFF7FEFF 		bl	_ZN3PID15SetSamplingFreqEt
+  86              	.LVL7:
+  24:src/algorithm/defence/defence.cpp ****       ball_pid.SetType(0);
+  87              		.loc 1 24 7 is_stmt 1 view .LVU11
+  88              		.loc 1 24 23 is_stmt 0 view .LVU12
+  89 004a 0021     		movs	r1, #0
+  90 004c 2046     		mov	r0, r4
+  91 004e FFF7FEFF 		bl	_ZN3PID7SetTypeEh
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s 			page 3
+
+
+  92              	.LVL8:
+  25:src/algorithm/defence/defence.cpp **** }
+  93              		.loc 1 25 1 view .LVU13
+  94 0052 BDEC028B 		vldm	sp!, {d8}
+  95              	.LCFI2:
+  96              		.cfi_restore 80
+  97              		.cfi_restore 81
+  98              		.cfi_def_cfa_offset 16
+  99 0056 38BD     		pop	{r3, r4, r5, pc}
+ 100              	.L4:
+ 101              		.align	2
+ 102              	.L3:
+ 103 0058 00000000 		.word	_ZL8ball_pid
+ 104 005c 8FC2F53C 		.word	1022739087
+ 105 0060 00000000 		.word	0
+ 106 0064 9A99193E 		.word	1041865114
+ 107              		.cfi_endproc
+ 108              	.LFE1197:
+ 109              		.fnend
+ 111              		.global	__aeabi_i2d
+ 112              		.global	__aeabi_dmul
+ 113              		.global	__aeabi_d2f
+ 114              		.section	.text._ZL9LineTraceP5Robot,"ax",%progbits
+ 115              		.align	1
+ 116              		.syntax unified
+ 117              		.thumb
+ 118              		.thumb_func
+ 120              	_ZL9LineTraceP5Robot:
+ 121              		.fnstart
+ 122              	.LVL9:
+ 123              	.LFB1198:
+  26:src/algorithm/defence/defence.cpp **** 
+  27:src/algorithm/defence/defence.cpp **** static void LineTrace(Robot* robot) {
+ 124              		.loc 1 27 37 is_stmt 1 view -0
+ 125              		.cfi_startproc
+ 126              		@ args = 0, pretend = 0, frame = 0
+ 127              		@ frame_needed = 0, uses_anonymous_args = 0
+ 128              		.loc 1 27 37 is_stmt 0 view .LVU15
+ 129 0000 70B5     		push	{r4, r5, r6, lr}
+ 130              		.save {r4, r5, r6, lr}
+ 131              	.LCFI3:
+ 132              		.cfi_def_cfa_offset 16
+ 133              		.cfi_offset 4, -16
+ 134              		.cfi_offset 5, -12
+ 135              		.cfi_offset 6, -8
+ 136              		.cfi_offset 14, -4
+ 137 0002 2DED048B 		vpush.64	{d8, d9}
+ 138              		.vsave {d8, d9}
+ 139              	.LCFI4:
+ 140              		.cfi_def_cfa_offset 32
+ 141              		.cfi_offset 80, -32
+ 142              		.cfi_offset 81, -28
+ 143              		.cfi_offset 82, -24
+ 144              		.cfi_offset 83, -20
+ 145 0006 0446     		mov	r4, r0
+ 146 0008 0026     		movs	r6, #0
+  28:src/algorithm/defence/defence.cpp ****       if (!is_pid_initialized) {
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s 			page 4
+
+
+ 147              		.loc 1 28 7 is_stmt 1 view .LVU16
+ 148              		.loc 1 28 11 is_stmt 0 view .LVU17
+ 149 000a 7F4B     		ldr	r3, .L28+8
+ 150 000c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 151              		.loc 1 28 7 view .LVU18
+ 152 000e D3B1     		cbz	r3, .L24
+ 153              	.LVL10:
+ 154              	.L6:
+  29:src/algorithm/defence/defence.cpp ****             InitializePID(robot);
+  30:src/algorithm/defence/defence.cpp ****             is_pid_initialized = true;
+  31:src/algorithm/defence/defence.cpp ****       }
+  32:src/algorithm/defence/defence.cpp ****       ball_pid.Compute(0, robot->info.Cam.ball_x);
+ 155              		.loc 1 32 7 is_stmt 1 view .LVU19
+ 156              		.loc 1 32 23 is_stmt 0 view .LVU20
+ 157 0010 7E4D     		ldr	r5, .L28+12
+ 158 0012 D4ED150A 		vldr.32	s1, [r4, #84]
+ 159 0016 9FED7E0A 		vldr.32	s0, .L28+16
+ 160 001a 2846     		mov	r0, r5
+ 161 001c FFF7FEFF 		bl	_ZN3PID7ComputeEff
+ 162              	.LVL11:
+  33:src/algorithm/defence/defence.cpp ****       float move_speed = ball_pid.Get();
+ 163              		.loc 1 33 7 is_stmt 1 view .LVU21
+ 164              		.loc 1 33 38 is_stmt 0 view .LVU22
+ 165 0020 2846     		mov	r0, r5
+ 166 0022 FFF7FEFF 		bl	_ZN3PID3GetEv
+ 167              	.LVL12:
+ 168 0026 B0EE409A 		vmov.f32	s18, s0
+ 169              	.LVL13:
+  34:src/algorithm/defence/defence.cpp **** 
+  35:src/algorithm/defence/defence.cpp ****       int16_t vector_x, vector_y;
+ 170              		.loc 1 35 7 is_stmt 1 view .LVU23
+  36:src/algorithm/defence/defence.cpp ****       int16_t ball_almost_angle;
+ 171              		.loc 1 36 7 view .LVU24
+  37:src/algorithm/defence/defence.cpp ****       int16_t tmp_moving_dir;
+ 172              		.loc 1 37 7 view .LVU25
+  38:src/algorithm/defence/defence.cpp ****       float tmp_moving_speed;
+ 173              		.loc 1 38 7 view .LVU26
+  39:src/algorithm/defence/defence.cpp ****       if (robot->info.Line.dir > -90 && robot->info.Line.dir < 90) {
+ 174              		.loc 1 39 7 view .LVU27
+ 175              		.loc 1 39 28 is_stmt 0 view .LVU28
+ 176 002a B4F92600 		ldrsh	r0, [r4, #38]
+ 177              		.loc 1 39 38 view .LVU29
+ 178 002e 82B2     		uxth	r2, r0
+ 179 0030 02F15903 		add	r3, r2, #89
+ 180 0034 9BB2     		uxth	r3, r3
+ 181              		.loc 1 39 7 view .LVU30
+ 182 0036 B22B     		cmp	r3, #178
+ 183 0038 10D9     		bls	.L21
+  40:src/algorithm/defence/defence.cpp ****             ball_almost_angle = robot->info.Line.dir;
+  41:src/algorithm/defence/defence.cpp ****       } else if (robot->info.Line.dir < -90) {
+ 184              		.loc 1 41 14 is_stmt 1 view .LVU31
+ 185 003a 10F15A0F 		cmn	r0, #90
+ 186 003e 08DA     		bge	.L8
+  42:src/algorithm/defence/defence.cpp ****             ball_almost_angle = robot->info.Line.dir + 180;
+ 187              		.loc 1 42 13 view .LVU32
+ 188              		.loc 1 42 54 is_stmt 0 view .LVU33
+ 189 0040 B432     		adds	r2, r2, #180
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s 			page 5
+
+
+ 190              		.loc 1 42 31 view .LVU34
+ 191 0042 16B2     		sxth	r6, r2
+ 192              	.LVL14:
+ 193              		.loc 1 42 31 view .LVU35
+ 194 0044 0BE0     		b	.L7
+ 195              	.LVL15:
+ 196              	.L24:
+  29:src/algorithm/defence/defence.cpp ****             is_pid_initialized = true;
+ 197              		.loc 1 29 13 is_stmt 1 view .LVU36
+  29:src/algorithm/defence/defence.cpp ****             is_pid_initialized = true;
+ 198              		.loc 1 29 26 is_stmt 0 view .LVU37
+ 199 0046 FFF7FEFF 		bl	_ZL13InitializePIDP5Robot
+ 200              	.LVL16:
+  30:src/algorithm/defence/defence.cpp ****       }
+ 201              		.loc 1 30 13 is_stmt 1 view .LVU38
+  30:src/algorithm/defence/defence.cpp ****       }
+ 202              		.loc 1 30 32 is_stmt 0 view .LVU39
+ 203 004a 6F4B     		ldr	r3, .L28+8
+ 204 004c 0122     		movs	r2, #1
+ 205 004e 1A70     		strb	r2, [r3]
+ 206 0050 DEE7     		b	.L6
+ 207              	.LVL17:
+ 208              	.L8:
+  43:src/algorithm/defence/defence.cpp ****       } else if (robot->info.Line.dir > 90) {
+ 209              		.loc 1 43 14 is_stmt 1 view .LVU40
+ 210 0052 5A28     		cmp	r0, #90
+ 211 0054 03DD     		ble	.L7
+  44:src/algorithm/defence/defence.cpp ****             ball_almost_angle = robot->info.Line.dir - 180;
+ 212              		.loc 1 44 13 view .LVU41
+ 213              		.loc 1 44 54 is_stmt 0 view .LVU42
+ 214 0056 B43A     		subs	r2, r2, #180
+ 215              		.loc 1 44 31 view .LVU43
+ 216 0058 16B2     		sxth	r6, r2
+ 217              	.LVL18:
+ 218              		.loc 1 44 31 view .LVU44
+ 219 005a 00E0     		b	.L7
+ 220              	.LVL19:
+ 221              	.L21:
+  40:src/algorithm/defence/defence.cpp ****       } else if (robot->info.Line.dir < -90) {
+ 222              		.loc 1 40 31 view .LVU45
+ 223 005c 0646     		mov	r6, r0
+ 224              	.L7:
+ 225              	.LVL20:
+  45:src/algorithm/defence/defence.cpp ****       }
+  46:src/algorithm/defence/defence.cpp ****       if (robot->info.Cam.ball_dir < 0) {
+ 226              		.loc 1 46 7 is_stmt 1 view .LVU46
+ 227              		.loc 1 46 27 is_stmt 0 view .LVU47
+ 228 005e B4F94E30 		ldrsh	r3, [r4, #78]
+ 229              		.loc 1 46 7 view .LVU48
+ 230 0062 002B     		cmp	r3, #0
+ 231 0064 C0F28780 		blt	.L25
+  47:src/algorithm/defence/defence.cpp ****             ball_almost_angle -= 90;
+  48:src/algorithm/defence/defence.cpp ****       } else {
+  49:src/algorithm/defence/defence.cpp ****             ball_almost_angle += 90;
+ 232              		.loc 1 49 13 is_stmt 1 view .LVU49
+ 233              		.loc 1 49 31 is_stmt 0 view .LVU50
+ 234 0068 5A36     		adds	r6, r6, #90
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s 			page 6
+
+
+ 235              	.LVL21:
+ 236              		.loc 1 49 31 view .LVU51
+ 237 006a 36B2     		sxth	r6, r6
+ 238              	.LVL22:
+ 239              	.L10:
+  50:src/algorithm/defence/defence.cpp ****       }
+  51:src/algorithm/defence/defence.cpp **** 
+  52:src/algorithm/defence/defence.cpp ****       vector_x = (12 - robot->info.Line.interval) * MyMath::sinDeg(robot->info.Line.dir) + robot->i
+ 240              		.loc 1 52 7 is_stmt 1 view .LVU52
+ 241              		.loc 1 52 41 is_stmt 0 view .LVU53
+ 242 006c 94F82130 		ldrb	r3, [r4, #33]	@ zero_extendqisi2
+ 243              		.loc 1 52 22 view .LVU54
+ 244 0070 C3F10C03 		rsb	r3, r3, #12
+ 245 0074 08EE103A 		vmov	s16, r3	@ int
+ 246              		.loc 1 52 51 view .LVU55
+ 247 0078 B8EEC88A 		vcvt.f32.s32	s16, s16
+ 248              		.loc 1 52 67 view .LVU56
+ 249 007c FFF7FEFF 		bl	sinDeg
+ 250              	.LVL23:
+ 251              		.loc 1 52 51 view .LVU57
+ 252 0080 28EE008A 		vmul.f32	s16, s16, s0
+ 253              		.loc 1 52 109 view .LVU58
+ 254 0084 94F82130 		ldrb	r3, [r4, #33]	@ zero_extendqisi2
+ 255 0088 08EE903A 		vmov	s17, r3	@ int
+ 256              		.loc 1 52 118 view .LVU59
+ 257 008c F8EEE88A 		vcvt.f32.s32	s17, s17
+ 258              		.loc 1 52 134 view .LVU60
+ 259 0090 3046     		mov	r0, r6
+ 260 0092 FFF7FEFF 		bl	sinDeg
+ 261              	.LVL24:
+ 262              		.loc 1 52 118 view .LVU61
+ 263 0096 68EE808A 		vmul.f32	s17, s17, s0
+ 264              		.loc 1 52 90 view .LVU62
+ 265 009a 38EE288A 		vadd.f32	s16, s16, s17
+ 266              		.loc 1 52 16 view .LVU63
+ 267 009e BDEEC88A 		vcvt.s32.f32	s16, s16
+ 268 00a2 18EE103A 		vmov	r3, s16	@ int
+ 269 00a6 1DB2     		sxth	r5, r3
+ 270              	.LVL25:
+  53:src/algorithm/defence/defence.cpp ****       vector_y = (12 - robot->info.Line.interval) * MyMath::cosDeg(robot->info.Line.dir) + robot->i
+ 271              		.loc 1 53 7 is_stmt 1 view .LVU64
+ 272              		.loc 1 53 41 is_stmt 0 view .LVU65
+ 273 00a8 94F82130 		ldrb	r3, [r4, #33]	@ zero_extendqisi2
+ 274              		.loc 1 53 22 view .LVU66
+ 275 00ac C3F10C03 		rsb	r3, r3, #12
+ 276 00b0 08EE103A 		vmov	s16, r3	@ int
+ 277              		.loc 1 53 51 view .LVU67
+ 278 00b4 B8EEC88A 		vcvt.f32.s32	s16, s16
+ 279              		.loc 1 53 67 view .LVU68
+ 280 00b8 B4F92600 		ldrsh	r0, [r4, #38]
+ 281 00bc FFF7FEFF 		bl	cosDeg
+ 282              	.LVL26:
+ 283              		.loc 1 53 51 view .LVU69
+ 284 00c0 28EE008A 		vmul.f32	s16, s16, s0
+ 285              		.loc 1 53 109 view .LVU70
+ 286 00c4 94F82130 		ldrb	r3, [r4, #33]	@ zero_extendqisi2
+ 287 00c8 08EE903A 		vmov	s17, r3	@ int
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s 			page 7
+
+
+ 288              		.loc 1 53 118 view .LVU71
+ 289 00cc F8EEE88A 		vcvt.f32.s32	s17, s17
+ 290              		.loc 1 53 134 view .LVU72
+ 291 00d0 3046     		mov	r0, r6
+ 292 00d2 FFF7FEFF 		bl	cosDeg
+ 293              	.LVL27:
+ 294              		.loc 1 53 118 view .LVU73
+ 295 00d6 68EE808A 		vmul.f32	s17, s17, s0
+ 296              		.loc 1 53 90 view .LVU74
+ 297 00da 38EE288A 		vadd.f32	s16, s16, s17
+ 298              		.loc 1 53 16 view .LVU75
+ 299 00de BDEEC88A 		vcvt.s32.f32	s16, s16
+ 300 00e2 18EE103A 		vmov	r3, s16	@ int
+ 301 00e6 1BB2     		sxth	r3, r3
+ 302              	.LVL28:
+  54:src/algorithm/defence/defence.cpp **** 
+  55:src/algorithm/defence/defence.cpp ****       if (abs(robot->info.Line.dir) > 60 && abs(robot->info.Line.dir) < 120) {
+ 303              		.loc 1 55 7 is_stmt 1 view .LVU76
+ 304              		.loc 1 55 11 is_stmt 0 view .LVU77
+ 305 00e8 B4F92660 		ldrsh	r6, [r4, #38]
+ 306              	.LVL29:
+ 307              		.loc 1 55 11 view .LVU78
+ 308 00ec 86EAE672 		eor	r2, r6, r6, asr #31
+ 309 00f0 A2EBE672 		sub	r2, r2, r6, asr #31
+ 310 00f4 92B2     		uxth	r2, r2
+ 311              		.loc 1 55 42 view .LVU79
+ 312 00f6 3D3A     		subs	r2, r2, #61
+ 313 00f8 92B2     		uxth	r2, r2
+ 314              		.loc 1 55 7 view .LVU80
+ 315 00fa 3A2A     		cmp	r2, #58
+ 316 00fc 3ED9     		bls	.L26
+  56:src/algorithm/defence/defence.cpp ****             robot->motor.Drive(0, 0.5, 1);
+  57:src/algorithm/defence/defence.cpp ****       } else if ((robot->info.Line.dir > 90 && robot->info.Line.dir < 135 && robot->info.Cam.ball_d
+ 317              		.loc 1 57 14 is_stmt 1 view .LVU81
+ 318              		.loc 1 57 45 is_stmt 0 view .LVU82
+ 319 00fe B2B2     		uxth	r2, r6
+ 320 0100 A2F15B01 		sub	r1, r2, #91
+ 321 0104 89B2     		uxth	r1, r1
+ 322              		.loc 1 57 14 view .LVU83
+ 323 0106 2B29     		cmp	r1, #43
+ 324 0108 03D8     		bhi	.L13
+ 325              		.loc 1 57 94 discriminator 1 view .LVU84
+ 326 010a B4F94E10 		ldrsh	r1, [r4, #78]
+ 327              		.loc 1 57 75 discriminator 1 view .LVU85
+ 328 010e 0029     		cmp	r1, #0
+ 329 0110 0BDB     		blt	.L14
+ 330              	.L13:
+ 331              		.loc 1 57 139 discriminator 3 view .LVU86
+ 332 0112 8632     		adds	r2, r2, #134
+ 333 0114 92B2     		uxth	r2, r2
+ 334              		.loc 1 57 108 discriminator 3 view .LVU87
+ 335 0116 2B2A     		cmp	r2, #43
+ 336 0118 03D8     		bhi	.L15
+ 337              		.loc 1 57 189 discriminator 4 view .LVU88
+ 338 011a B4F94E20 		ldrsh	r2, [r4, #78]
+ 339              		.loc 1 57 170 discriminator 4 view .LVU89
+ 340 011e 002A     		cmp	r2, #0
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s 			page 8
+
+
+ 341 0120 03DC     		bgt	.L14
+ 342              	.L15:
+ 343              		.loc 1 57 222 discriminator 6 view .LVU90
+ 344 0122 94F85020 		ldrb	r2, [r4, #80]	@ zero_extendqisi2
+ 345              		.loc 1 57 203 discriminator 6 view .LVU91
+ 346 0126 322A     		cmp	r2, #50
+ 347 0128 36D9     		bls	.L16
+ 348              	.L14:
+  58:src/algorithm/defence/defence.cpp ****             tmp_moving_speed = (12 - robot->info.Line.interval) * 0.1;
+ 349              		.loc 1 58 13 is_stmt 1 view .LVU92
+ 350              		.loc 1 58 55 is_stmt 0 view .LVU93
+ 351 012a 94F82100 		ldrb	r0, [r4, #33]	@ zero_extendqisi2
+ 352              		.loc 1 58 65 view .LVU94
+ 353 012e C0F10C00 		rsb	r0, r0, #12
+ 354 0132 FFF7FEFF 		bl	__aeabi_i2d
+ 355              	.LVL30:
+ 356              		.loc 1 58 65 view .LVU95
+ 357 0136 32A3     		adr	r3, .L28
+ 358 0138 D3E90023 		ldrd	r2, [r3]
+ 359 013c FFF7FEFF 		bl	__aeabi_dmul
+ 360              	.LVL31:
+ 361              		.loc 1 58 30 view .LVU96
+ 362 0140 FFF7FEFF 		bl	__aeabi_d2f
+ 363              	.LVL32:
+ 364 0144 07EE900A 		vmov	s15, r0
+ 365              	.LVL33:
+  59:src/algorithm/defence/defence.cpp ****             if (tmp_moving_speed > robot->info.target_move_speed) tmp_moving_speed = robot->info.ta
+ 366              		.loc 1 59 13 is_stmt 1 view .LVU97
+ 367              		.loc 1 59 48 is_stmt 0 view .LVU98
+ 368 0148 94ED060A 		vldr.32	s0, [r4, #24]
+ 369              		.loc 1 59 13 view .LVU99
+ 370 014c B4EEE70A 		vcmpe.f32	s0, s15
+ 371 0150 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 372 0154 01D4     		bmi	.L17
+  58:src/algorithm/defence/defence.cpp ****             tmp_moving_speed = (12 - robot->info.Line.interval) * 0.1;
+ 373              		.loc 1 58 30 view .LVU100
+ 374 0156 B0EE670A 		vmov.f32	s0, s15
+ 375              	.L17:
+ 376              	.LVL34:
+  60:src/algorithm/defence/defence.cpp ****             robot->motor.Drive(robot->info.Line.dir, tmp_moving_speed, 1);
+ 377              		.loc 1 60 13 is_stmt 1 view .LVU101
+ 378              		.loc 1 60 31 is_stmt 0 view .LVU102
+ 379 015a 0023     		movs	r3, #0
+ 380 015c 9FED2C1A 		vldr.32	s2, .L28+16
+ 381 0160 1A46     		mov	r2, r3
+ 382 0162 F7EE000A 		vmov.f32	s1, #1.0e+0
+ 383 0166 3146     		mov	r1, r6
+ 384 0168 04F5C870 		add	r0, r4, #400
+ 385 016c FFF7FEFF 		bl	_ZN10MotorDrive5DriveEsffsfh
+ 386              	.LVL35:
+ 387              	.L5:
+  61:src/algorithm/defence/defence.cpp ****       } else {
+  62:src/algorithm/defence/defence.cpp ****             tmp_moving_dir = MyMath::NormalizeDeg180(MyMath::atan2(vector_x, vector_y));
+  63:src/algorithm/defence/defence.cpp ****             tmp_moving_speed = abs(move_speed);
+  64:src/algorithm/defence/defence.cpp ****             if (abs(robot->info.Cam.ball_dir) > 120) tmp_moving_speed = 0;
+  65:src/algorithm/defence/defence.cpp ****             if (tmp_moving_speed > robot->info.target_move_speed) tmp_moving_speed = robot->info.ta
+  66:src/algorithm/defence/defence.cpp ****             robot->motor.Drive(tmp_moving_dir, tmp_moving_speed);
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s 			page 9
+
+
+  67:src/algorithm/defence/defence.cpp ****       }
+  68:src/algorithm/defence/defence.cpp **** }
+ 388              		.loc 1 68 1 view .LVU103
+ 389 0170 BDEC048B 		vldm	sp!, {d8-d9}
+ 390              	.LCFI5:
+ 391              		.cfi_remember_state
+ 392              		.cfi_restore 82
+ 393              		.cfi_restore 83
+ 394              		.cfi_restore 80
+ 395              		.cfi_restore 81
+ 396              		.cfi_def_cfa_offset 16
+ 397              	.LVL36:
+ 398              		.loc 1 68 1 view .LVU104
+ 399 0174 70BD     		pop	{r4, r5, r6, pc}
+ 400              	.LVL37:
+ 401              	.L25:
+ 402              	.LCFI6:
+ 403              		.cfi_restore_state
+  47:src/algorithm/defence/defence.cpp ****       } else {
+ 404              		.loc 1 47 13 is_stmt 1 view .LVU105
+  47:src/algorithm/defence/defence.cpp ****       } else {
+ 405              		.loc 1 47 31 is_stmt 0 view .LVU106
+ 406 0176 5A3E     		subs	r6, r6, #90
+ 407              	.LVL38:
+  47:src/algorithm/defence/defence.cpp ****       } else {
+ 408              		.loc 1 47 31 view .LVU107
+ 409 0178 36B2     		sxth	r6, r6
+ 410              	.LVL39:
+  47:src/algorithm/defence/defence.cpp ****       } else {
+ 411              		.loc 1 47 31 view .LVU108
+ 412 017a 77E7     		b	.L10
+ 413              	.LVL40:
+ 414              	.L26:
+  56:src/algorithm/defence/defence.cpp ****       } else if ((robot->info.Line.dir > 90 && robot->info.Line.dir < 135 && robot->info.Cam.ball_d
+ 415              		.loc 1 56 13 is_stmt 1 view .LVU109
+  56:src/algorithm/defence/defence.cpp ****       } else if ((robot->info.Line.dir > 90 && robot->info.Line.dir < 135 && robot->info.Cam.ball_d
+ 416              		.loc 1 56 31 is_stmt 0 view .LVU110
+ 417 017c 0023     		movs	r3, #0
+ 418              	.LVL41:
+  56:src/algorithm/defence/defence.cpp ****       } else if ((robot->info.Line.dir > 90 && robot->info.Line.dir < 135 && robot->info.Cam.ball_d
+ 419              		.loc 1 56 31 view .LVU111
+ 420 017e 9FED241A 		vldr.32	s2, .L28+16
+ 421 0182 1A46     		mov	r2, r3
+ 422 0184 F7EE000A 		vmov.f32	s1, #1.0e+0
+ 423 0188 B6EE000A 		vmov.f32	s0, #5.0e-1
+ 424 018c 1946     		mov	r1, r3
+ 425 018e 04F5C870 		add	r0, r4, #400
+ 426 0192 FFF7FEFF 		bl	_ZN10MotorDrive5DriveEsffsfh
+ 427              	.LVL42:
+ 428 0196 EBE7     		b	.L5
+ 429              	.LVL43:
+ 430              	.L16:
+  62:src/algorithm/defence/defence.cpp ****             tmp_moving_speed = abs(move_speed);
+ 431              		.loc 1 62 13 is_stmt 1 view .LVU112
+  62:src/algorithm/defence/defence.cpp ****             tmp_moving_speed = abs(move_speed);
+ 432              		.loc 1 62 53 is_stmt 0 view .LVU113
+ 433 0198 07EE903A 		vmov	s15, r3	@ int
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s 			page 10
+
+
+ 434 019c F8EEE70A 		vcvt.f32.s32	s1, s15
+ 435 01a0 07EE905A 		vmov	s15, r5	@ int
+ 436 01a4 B8EEE70A 		vcvt.f32.s32	s0, s15
+ 437 01a8 FFF7FEFF 		bl	atan2
+ 438              	.LVL44:
+  62:src/algorithm/defence/defence.cpp ****             tmp_moving_speed = abs(move_speed);
+ 439              		.loc 1 62 53 view .LVU114
+ 440 01ac FFF7FEFF 		bl	NormalizeDeg180
+ 441              	.LVL45:
+  62:src/algorithm/defence/defence.cpp ****             tmp_moving_speed = abs(move_speed);
+ 442              		.loc 1 62 28 view .LVU115
+ 443 01b0 01B2     		sxth	r1, r0
+ 444              	.LVL46:
+  63:src/algorithm/defence/defence.cpp ****             if (abs(robot->info.Cam.ball_dir) > 120) tmp_moving_speed = 0;
+ 445              		.loc 1 63 13 is_stmt 1 view .LVU116
+  63:src/algorithm/defence/defence.cpp ****             if (abs(robot->info.Cam.ball_dir) > 120) tmp_moving_speed = 0;
+ 446              		.loc 1 63 32 is_stmt 0 view .LVU117
+ 447 01b2 B5EEC09A 		vcmpe.f32	s18, #0
+ 448 01b6 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 449 01ba 1DDD     		ble	.L27
+ 450              	.LVL47:
+ 451              	.L18:
+  64:src/algorithm/defence/defence.cpp ****             if (tmp_moving_speed > robot->info.target_move_speed) tmp_moving_speed = robot->info.ta
+ 452              		.loc 1 64 13 is_stmt 1 discriminator 4 view .LVU118
+  64:src/algorithm/defence/defence.cpp ****             if (tmp_moving_speed > robot->info.target_move_speed) tmp_moving_speed = robot->info.ta
+ 453              		.loc 1 64 17 is_stmt 0 discriminator 4 view .LVU119
+ 454 01bc B4F94E30 		ldrsh	r3, [r4, #78]
+ 455 01c0 002B     		cmp	r3, #0
+ 456 01c2 B8BF     		it	lt
+ 457 01c4 5B42     		rsblt	r3, r3, #0
+ 458 01c6 9BB2     		uxth	r3, r3
+  64:src/algorithm/defence/defence.cpp ****             if (tmp_moving_speed > robot->info.target_move_speed) tmp_moving_speed = robot->info.ta
+ 459              		.loc 1 64 13 discriminator 4 view .LVU120
+ 460 01c8 782B     		cmp	r3, #120
+ 461 01ca 01D9     		bls	.L19
+  64:src/algorithm/defence/defence.cpp ****             if (tmp_moving_speed > robot->info.target_move_speed) tmp_moving_speed = robot->info.ta
+ 462              		.loc 1 64 71 view .LVU121
+ 463 01cc 9FED109A 		vldr.32	s18, .L28+16
+ 464              	.LVL48:
+ 465              	.L19:
+  65:src/algorithm/defence/defence.cpp ****             robot->motor.Drive(tmp_moving_dir, tmp_moving_speed);
+ 466              		.loc 1 65 13 is_stmt 1 view .LVU122
+  65:src/algorithm/defence/defence.cpp ****             robot->motor.Drive(tmp_moving_dir, tmp_moving_speed);
+ 467              		.loc 1 65 48 is_stmt 0 view .LVU123
+ 468 01d0 94ED060A 		vldr.32	s0, [r4, #24]
+  65:src/algorithm/defence/defence.cpp ****             robot->motor.Drive(tmp_moving_dir, tmp_moving_speed);
+ 469              		.loc 1 65 13 view .LVU124
+ 470 01d4 B4EEC90A 		vcmpe.f32	s0, s18
+ 471 01d8 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 472 01dc 01D4     		bmi	.L20
+ 473 01de B0EE490A 		vmov.f32	s0, s18
+ 474              	.L20:
+ 475              	.LVL49:
+  66:src/algorithm/defence/defence.cpp ****       }
+ 476              		.loc 1 66 13 is_stmt 1 view .LVU125
+  66:src/algorithm/defence/defence.cpp ****       }
+ 477              		.loc 1 66 31 is_stmt 0 view .LVU126
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s 			page 11
+
+
+ 478 01e2 DFED0B0A 		vldr.32	s1, .L28+16
+ 479 01e6 0023     		movs	r3, #0
+ 480 01e8 B0EE601A 		vmov.f32	s2, s1
+ 481 01ec 1A46     		mov	r2, r3
+ 482 01ee 04F5C870 		add	r0, r4, #400
+ 483 01f2 FFF7FEFF 		bl	_ZN10MotorDrive5DriveEsffsfh
+ 484              	.LVL50:
+ 485              		.loc 1 68 1 view .LVU127
+ 486 01f6 BBE7     		b	.L5
+ 487              	.LVL51:
+ 488              	.L27:
+  63:src/algorithm/defence/defence.cpp ****             if (abs(robot->info.Cam.ball_dir) > 120) tmp_moving_speed = 0;
+ 489              		.loc 1 63 32 discriminator 2 view .LVU128
+ 490 01f8 B1EE499A 		vneg.f32	s18, s18
+ 491              	.LVL52:
+  63:src/algorithm/defence/defence.cpp ****             if (abs(robot->info.Cam.ball_dir) > 120) tmp_moving_speed = 0;
+ 492              		.loc 1 63 32 discriminator 2 view .LVU129
+ 493 01fc DEE7     		b	.L18
+ 494              	.L29:
+ 495 01fe 00BF     		.align	3
+ 496              	.L28:
+ 497 0200 9A999999 		.word	-1717986918
+ 498 0204 9999B93F 		.word	1069128089
+ 499 0208 00000000 		.word	_ZL18is_pid_initialized
+ 500 020c 00000000 		.word	_ZL8ball_pid
+ 501 0210 00000000 		.word	0
+ 502              		.cfi_endproc
+ 503              	.LFE1198:
+ 504              		.fnend
+ 506              		.section	.text._Z41__static_initialization_and_destruction_0ii,"ax",%progbits
+ 507              		.align	1
+ 508              		.syntax unified
+ 509              		.thumb
+ 510              		.thumb_func
+ 512              	_Z41__static_initialization_and_destruction_0ii:
+ 513              		.fnstart
+ 514              	.LVL53:
+ 515              	.LFB1314:
+  69:src/algorithm/defence/defence.cpp **** 
+  70:src/algorithm/defence/defence.cpp **** void Mode::Defence() {
+  71:src/algorithm/defence/defence.cpp ****       if (enable_shoot == false) {
+  72:src/algorithm/defence/defence.cpp ****             if (!(abs(robot->info.Cam.ball_dir) < 15 && robot->info.Cam.ball_dis < 50 && robot->inf
+  73:src/algorithm/defence/defence.cpp ****                   shoot_wait_timer.reset();  // 打つ条件
+  74:src/algorithm/defence/defence.cpp ****                   enable_shoot = false;
+  75:src/algorithm/defence/defence.cpp ****             }
+  76:src/algorithm/defence/defence.cpp ****             if (shoot_wait_timer.read_ms() > SHOOT_WAIT_TIME) {
+  77:src/algorithm/defence/defence.cpp ****                   enable_shoot = true;
+  78:src/algorithm/defence/defence.cpp ****                   shoot_timer.reset();
+  79:src/algorithm/defence/defence.cpp ****             }
+  80:src/algorithm/defence/defence.cpp ****       }
+  81:src/algorithm/defence/defence.cpp ****       if (robot->info.Catch.is_front) {
+  82:src/algorithm/defence/defence.cpp ****             robot->dribbler_front.Hold(HOLD_MAX_POWER);
+  83:src/algorithm/defence/defence.cpp ****       } else if (BALL_NEAR_FRONT) {
+  84:src/algorithm/defence/defence.cpp ****             robot->dribbler_front.Hold(HOLD_WAIT_POWER);
+  85:src/algorithm/defence/defence.cpp ****       } else {
+  86:src/algorithm/defence/defence.cpp ****             robot->dribbler_front.Hold(0);
+  87:src/algorithm/defence/defence.cpp ****       }
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s 			page 12
+
+
+  88:src/algorithm/defence/defence.cpp **** 
+  89:src/algorithm/defence/defence.cpp ****       if (enable_shoot == true) {
+  90:src/algorithm/defence/defence.cpp ****             if (shoot_timer.read_ms() > SHOOT_TIME) {
+  91:src/algorithm/defence/defence.cpp ****                   enable_shoot = false;
+  92:src/algorithm/defence/defence.cpp ****                   robot->kicker.Kick();
+  93:src/algorithm/defence/defence.cpp ****                   shoot_wait_timer.reset();
+  94:src/algorithm/defence/defence.cpp ****                   shoot_timer.reset();
+  95:src/algorithm/defence/defence.cpp ****             }
+  96:src/algorithm/defence/defence.cpp ****             if (robot->info.Catch.is_front == true) {
+  97:src/algorithm/defence/defence.cpp ****                   robot->motor.Drive(0, robot->info.target_move_speed, 1, robot->info.Cam.ops_goal_
+  98:src/algorithm/defence/defence.cpp ****             } else {
+  99:src/algorithm/defence/defence.cpp ****                   CaptureBall(robot, 0);
+ 100:src/algorithm/defence/defence.cpp ****             }
+ 101:src/algorithm/defence/defence.cpp **** 
+ 102:src/algorithm/defence/defence.cpp ****       } else if (robot->info.Line.is_on_line == 1) {
+ 103:src/algorithm/defence/defence.cpp ****             LineTrace(robot);
+ 104:src/algorithm/defence/defence.cpp ****             pre_line_dir = robot->info.Line.dir;
+ 105:src/algorithm/defence/defence.cpp ****             out_line_timer.reset();
+ 106:src/algorithm/defence/defence.cpp ****       } else {
+ 107:src/algorithm/defence/defence.cpp ****             if (out_line_timer.read_ms() < SHOOT_TIME) {
+ 108:src/algorithm/defence/defence.cpp ****                   robot->motor.Drive(pre_line_dir, 1, 1);
+ 109:src/algorithm/defence/defence.cpp ****             } else {
+ 110:src/algorithm/defence/defence.cpp ****                   robot->motor.Drive(robot->info.Cam.own_goal_dir, 0.5, 1);
+ 111:src/algorithm/defence/defence.cpp ****             }
+ 112:src/algorithm/defence/defence.cpp ****       }
+ 113:src/algorithm/defence/defence.cpp **** }...
+ 516              		.loc 1 113 1 is_stmt 1 view -0
+ 517              		.cfi_startproc
+ 518              		@ args = 0, pretend = 0, frame = 0
+ 519              		@ frame_needed = 0, uses_anonymous_args = 0
+ 520              		.loc 1 113 1 is_stmt 0 view .LVU131
+ 521 0000 0128     		cmp	r0, #1
+ 522 0002 00D0     		beq	.L36
+ 523 0004 7047     		bx	lr
+ 524              	.L36:
+ 525              		.loc 1 113 1 discriminator 1 view .LVU132
+ 526 0006 08B5     		push	{r3, lr}
+ 527              	.LCFI7:
+ 528              		.cfi_def_cfa_offset 8
+ 529              		.cfi_offset 3, -8
+ 530              		.cfi_offset 14, -4
+ 531              		.loc 1 113 1 discriminator 1 view .LVU133
+ 532 0008 4FF6FF73 		movw	r3, #65535
+ 533 000c 9942     		cmp	r1, r3
+ 534 000e 00D0     		beq	.L37
+ 535              	.LVL54:
+ 536              	.L30:
+ 537              		.loc 1 113 1 view .LVU134
+ 538 0010 08BD     		pop	{r3, pc}
+ 539              	.LVL55:
+ 540              	.L37:
+   7:src/algorithm/defence/defence.cpp **** static PID ball_pid;
+ 541              		.loc 1 7 12 view .LVU135
+ 542 0012 0648     		ldr	r0, .L38
+ 543              	.LVL56:
+   7:src/algorithm/defence/defence.cpp **** static PID ball_pid;
+ 544              		.loc 1 7 12 view .LVU136
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s 			page 13
+
+
+ 545 0014 FFF7FEFF 		bl	_ZN3PIDC1Ev
+ 546              	.LVL57:
+   9:src/algorithm/defence/defence.cpp **** static Timer shoot_wait_timer;
+ 547              		.loc 1 9 14 view .LVU137
+ 548 0018 0548     		ldr	r0, .L38+4
+ 549 001a FFF7FEFF 		bl	_ZN5TimerC1Ev
+ 550              	.LVL58:
+  10:src/algorithm/defence/defence.cpp **** static Timer shoot_timer;
+ 551              		.loc 1 10 14 view .LVU138
+ 552 001e 0548     		ldr	r0, .L38+8
+ 553 0020 FFF7FEFF 		bl	_ZN5TimerC1Ev
+ 554              	.LVL59:
+  12:src/algorithm/defence/defence.cpp **** static Timer out_line_timer;
+ 555              		.loc 1 12 14 view .LVU139
+ 556 0024 0448     		ldr	r0, .L38+12
+ 557 0026 FFF7FEFF 		bl	_ZN5TimerC1Ev
+ 558              	.LVL60:
+ 559              		.loc 1 113 1 view .LVU140
+ 560 002a F1E7     		b	.L30
+ 561              	.L39:
+ 562              		.align	2
+ 563              	.L38:
+ 564 002c 00000000 		.word	_ZL8ball_pid
+ 565 0030 00000000 		.word	_ZL16shoot_wait_timer
+ 566 0034 00000000 		.word	_ZL11shoot_timer
+ 567 0038 00000000 		.word	_ZL14out_line_timer
+ 568              		.cfi_endproc
+ 569              	.LFE1314:
+ 570              		.cantunwind
+ 571              		.fnend
+ 573              		.section	.text._ZN4Mode7DefenceEv,"ax",%progbits
+ 574              		.align	1
+ 575              		.global	_ZN4Mode7DefenceEv
+ 576              		.syntax unified
+ 577              		.thumb
+ 578              		.thumb_func
+ 580              	_ZN4Mode7DefenceEv:
+ 581              		.fnstart
+ 582              	.LVL61:
+ 583              	.LFB1199:
+  70:src/algorithm/defence/defence.cpp **** void Mode::Defence() {
+ 584              		.loc 1 70 22 is_stmt 1 view -0
+ 585              		.cfi_startproc
+ 586              		@ args = 0, pretend = 0, frame = 0
+ 587              		@ frame_needed = 0, uses_anonymous_args = 0
+  70:src/algorithm/defence/defence.cpp **** void Mode::Defence() {
+ 588              		.loc 1 70 22 is_stmt 0 view .LVU142
+ 589 0000 10B5     		push	{r4, lr}
+ 590              		.save {r4, lr}
+ 591              	.LCFI8:
+ 592              		.cfi_def_cfa_offset 8
+ 593              		.cfi_offset 4, -8
+ 594              		.cfi_offset 14, -4
+ 595 0002 0446     		mov	r4, r0
+  71:src/algorithm/defence/defence.cpp ****       if (enable_shoot == false) {
+ 596              		.loc 1 71 7 is_stmt 1 view .LVU143
+  71:src/algorithm/defence/defence.cpp ****       if (enable_shoot == false) {
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s 			page 14
+
+
+ 597              		.loc 1 71 24 is_stmt 0 view .LVU144
+ 598 0004 594B     		ldr	r3, .L59
+ 599 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  71:src/algorithm/defence/defence.cpp ****       if (enable_shoot == false) {
+ 600              		.loc 1 71 7 view .LVU145
+ 601 0008 E3B9     		cbnz	r3, .L41
+  72:src/algorithm/defence/defence.cpp ****             if (!(abs(robot->info.Cam.ball_dir) < 15 && robot->info.Cam.ball_dis < 50 && robot->inf
+ 602              		.loc 1 72 13 is_stmt 1 view .LVU146
+  72:src/algorithm/defence/defence.cpp ****             if (!(abs(robot->info.Cam.ball_dir) < 15 && robot->info.Cam.ball_dis < 50 && robot->inf
+ 603              		.loc 1 72 19 is_stmt 0 view .LVU147
+ 604 000a 4268     		ldr	r2, [r0, #4]
+ 605 000c B2F94E30 		ldrsh	r3, [r2, #78]
+ 606 0010 002B     		cmp	r3, #0
+ 607 0012 B8BF     		it	lt
+ 608 0014 5B42     		rsblt	r3, r3, #0
+ 609 0016 9BB2     		uxth	r3, r3
+  72:src/algorithm/defence/defence.cpp ****             if (!(abs(robot->info.Cam.ball_dir) < 15 && robot->info.Cam.ball_dis < 50 && robot->inf
+ 610              		.loc 1 72 13 view .LVU148
+ 611 0018 0E2B     		cmp	r3, #14
+ 612 001a 06D8     		bhi	.L42
+  72:src/algorithm/defence/defence.cpp ****             if (!(abs(robot->info.Cam.ball_dir) < 15 && robot->info.Cam.ball_dis < 50 && robot->inf
+ 613              		.loc 1 72 73 discriminator 1 view .LVU149
+ 614 001c 92F85030 		ldrb	r3, [r2, #80]	@ zero_extendqisi2
+  72:src/algorithm/defence/defence.cpp ****             if (!(abs(robot->info.Cam.ball_dir) < 15 && robot->info.Cam.ball_dis < 50 && robot->inf
+ 615              		.loc 1 72 54 discriminator 1 view .LVU150
+ 616 0020 312B     		cmp	r3, #49
+ 617 0022 02D8     		bhi	.L42
+  72:src/algorithm/defence/defence.cpp ****             if (!(abs(robot->info.Cam.ball_dir) < 15 && robot->info.Cam.ball_dis < 50 && robot->inf
+ 618              		.loc 1 72 107 discriminator 2 view .LVU151
+ 619 0024 92F82330 		ldrb	r3, [r2, #35]	@ zero_extendqisi2
+  72:src/algorithm/defence/defence.cpp ****             if (!(abs(robot->info.Cam.ball_dir) < 15 && robot->info.Cam.ball_dis < 50 && robot->inf
+ 620              		.loc 1 72 17 discriminator 2 view .LVU152
+ 621 0028 2BB9     		cbnz	r3, .L43
+ 622              	.L42:
+  73:src/algorithm/defence/defence.cpp ****                   shoot_wait_timer.reset();  // 打つ条件
+ 623              		.loc 1 73 19 is_stmt 1 view .LVU153
+  73:src/algorithm/defence/defence.cpp ****                   shoot_wait_timer.reset();  // 打つ条件
+ 624              		.loc 1 73 41 is_stmt 0 view .LVU154
+ 625 002a 5148     		ldr	r0, .L59+4
+ 626              	.LVL62:
+  73:src/algorithm/defence/defence.cpp ****                   shoot_wait_timer.reset();  // 打つ条件
+ 627              		.loc 1 73 41 view .LVU155
+ 628 002c FFF7FEFF 		bl	_ZN5Timer5resetEv
+ 629              	.LVL63:
+  74:src/algorithm/defence/defence.cpp ****                   enable_shoot = false;
+ 630              		.loc 1 74 19 is_stmt 1 view .LVU156
+  74:src/algorithm/defence/defence.cpp ****                   enable_shoot = false;
+ 631              		.loc 1 74 32 is_stmt 0 view .LVU157
+ 632 0030 4E4B     		ldr	r3, .L59
+ 633 0032 0022     		movs	r2, #0
+ 634 0034 1A70     		strb	r2, [r3]
+ 635              	.L43:
+  76:src/algorithm/defence/defence.cpp ****             if (shoot_wait_timer.read_ms() > SHOOT_WAIT_TIME) {
+ 636              		.loc 1 76 13 is_stmt 1 view .LVU158
+  76:src/algorithm/defence/defence.cpp ****             if (shoot_wait_timer.read_ms() > SHOOT_WAIT_TIME) {
+ 637              		.loc 1 76 41 is_stmt 0 view .LVU159
+ 638 0036 4E48     		ldr	r0, .L59+4
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s 			page 15
+
+
+ 639 0038 FFF7FEFF 		bl	_ZN5Timer7read_msEv
+ 640              	.LVL64:
+  76:src/algorithm/defence/defence.cpp ****             if (shoot_wait_timer.read_ms() > SHOOT_WAIT_TIME) {
+ 641              		.loc 1 76 13 view .LVU160
+ 642 003c 40F2DC53 		movw	r3, #1500
+ 643 0040 9842     		cmp	r0, r3
+ 644 0042 28D8     		bhi	.L54
+ 645              	.L41:
+  81:src/algorithm/defence/defence.cpp ****       if (robot->info.Catch.is_front) {
+ 646              		.loc 1 81 7 is_stmt 1 view .LVU161
+  81:src/algorithm/defence/defence.cpp ****       if (robot->info.Catch.is_front) {
+ 647              		.loc 1 81 11 is_stmt 0 view .LVU162
+ 648 0044 6068     		ldr	r0, [r4, #4]
+  81:src/algorithm/defence/defence.cpp ****       if (robot->info.Catch.is_front) {
+ 649              		.loc 1 81 29 view .LVU163
+ 650 0046 90F82E30 		ldrb	r3, [r0, #46]	@ zero_extendqisi2
+  81:src/algorithm/defence/defence.cpp ****       if (robot->info.Catch.is_front) {
+ 651              		.loc 1 81 7 view .LVU164
+ 652 004a 5BBB     		cbnz	r3, .L55
+  83:src/algorithm/defence/defence.cpp ****       } else if (BALL_NEAR_FRONT) {
+ 653              		.loc 1 83 14 is_stmt 1 view .LVU165
+  83:src/algorithm/defence/defence.cpp ****       } else if (BALL_NEAR_FRONT) {
+ 654              		.loc 1 83 18 is_stmt 0 view .LVU166
+ 655 004c B0F94E30 		ldrsh	r3, [r0, #78]
+ 656 0050 002B     		cmp	r3, #0
+ 657 0052 B8BF     		it	lt
+ 658 0054 5B42     		rsblt	r3, r3, #0
+ 659 0056 9BB2     		uxth	r3, r3
+  83:src/algorithm/defence/defence.cpp ****       } else if (BALL_NEAR_FRONT) {
+ 660              		.loc 1 83 14 view .LVU167
+ 661 0058 1D2B     		cmp	r3, #29
+ 662 005a 03D8     		bhi	.L46
+  83:src/algorithm/defence/defence.cpp ****       } else if (BALL_NEAR_FRONT) {
+ 663              		.loc 1 83 18 discriminator 1 view .LVU168
+ 664 005c 90F85030 		ldrb	r3, [r0, #80]	@ zero_extendqisi2
+ 665 0060 132B     		cmp	r3, #19
+ 666 0062 26D9     		bls	.L56
+ 667              	.L46:
+  86:src/algorithm/defence/defence.cpp ****             robot->dribbler_front.Hold(0);
+ 668              		.loc 1 86 13 is_stmt 1 view .LVU169
+  86:src/algorithm/defence/defence.cpp ****             robot->dribbler_front.Hold(0);
+ 669              		.loc 1 86 39 is_stmt 0 view .LVU170
+ 670 0064 0021     		movs	r1, #0
+ 671 0066 00F58650 		add	r0, r0, #4288
+ 672 006a 0830     		adds	r0, r0, #8
+ 673 006c FFF7FEFF 		bl	_ZN13DribblerDrive4HoldEh
+ 674              	.LVL65:
+ 675              	.L45:
+  89:src/algorithm/defence/defence.cpp ****       if (enable_shoot == true) {
+ 676              		.loc 1 89 7 is_stmt 1 view .LVU171
+  89:src/algorithm/defence/defence.cpp ****       if (enable_shoot == true) {
+ 677              		.loc 1 89 24 is_stmt 0 view .LVU172
+ 678 0070 3E4B     		ldr	r3, .L59
+ 679 0072 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  89:src/algorithm/defence/defence.cpp ****       if (enable_shoot == true) {
+ 680              		.loc 1 89 7 view .LVU173
+ 681 0074 23BB     		cbnz	r3, .L57
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s 			page 16
+
+
+ 102:src/algorithm/defence/defence.cpp ****       } else if (robot->info.Line.is_on_line == 1) {
+ 682              		.loc 1 102 14 is_stmt 1 view .LVU174
+ 102:src/algorithm/defence/defence.cpp ****       } else if (robot->info.Line.is_on_line == 1) {
+ 683              		.loc 1 102 18 is_stmt 0 view .LVU175
+ 684 0076 6068     		ldr	r0, [r4, #4]
+ 102:src/algorithm/defence/defence.cpp ****       } else if (robot->info.Line.is_on_line == 1) {
+ 685              		.loc 1 102 35 view .LVU176
+ 686 0078 90F82330 		ldrb	r3, [r0, #35]	@ zero_extendqisi2
+ 102:src/algorithm/defence/defence.cpp ****       } else if (robot->info.Line.is_on_line == 1) {
+ 687              		.loc 1 102 14 view .LVU177
+ 688 007c 002B     		cmp	r3, #0
+ 689 007e 4ED0     		beq	.L51
+ 103:src/algorithm/defence/defence.cpp ****             LineTrace(robot);
+ 690              		.loc 1 103 13 is_stmt 1 view .LVU178
+ 103:src/algorithm/defence/defence.cpp ****             LineTrace(robot);
+ 691              		.loc 1 103 22 is_stmt 0 view .LVU179
+ 692 0080 FFF7FEFF 		bl	_ZL9LineTraceP5Robot
+ 693              	.LVL66:
+ 104:src/algorithm/defence/defence.cpp ****             pre_line_dir = robot->info.Line.dir;
+ 694              		.loc 1 104 13 is_stmt 1 view .LVU180
+ 104:src/algorithm/defence/defence.cpp ****             pre_line_dir = robot->info.Line.dir;
+ 695              		.loc 1 104 28 is_stmt 0 view .LVU181
+ 696 0084 6368     		ldr	r3, [r4, #4]
+ 104:src/algorithm/defence/defence.cpp ****             pre_line_dir = robot->info.Line.dir;
+ 697              		.loc 1 104 45 view .LVU182
+ 698 0086 B3F92620 		ldrsh	r2, [r3, #38]
+ 104:src/algorithm/defence/defence.cpp ****             pre_line_dir = robot->info.Line.dir;
+ 699              		.loc 1 104 26 view .LVU183
+ 700 008a 3A4B     		ldr	r3, .L59+8
+ 701 008c 1A80     		strh	r2, [r3]	@ movhi
+ 105:src/algorithm/defence/defence.cpp ****             out_line_timer.reset();
+ 702              		.loc 1 105 13 is_stmt 1 view .LVU184
+ 105:src/algorithm/defence/defence.cpp ****             out_line_timer.reset();
+ 703              		.loc 1 105 33 is_stmt 0 view .LVU185
+ 704 008e 3A48     		ldr	r0, .L59+12
+ 705 0090 FFF7FEFF 		bl	_ZN5Timer5resetEv
+ 706              	.LVL67:
+ 707              	.L40:
+ 708              		.loc 1 113 1 view .LVU186
+ 709 0094 10BD     		pop	{r4, pc}
+ 710              	.LVL68:
+ 711              	.L54:
+  77:src/algorithm/defence/defence.cpp ****                   enable_shoot = true;
+ 712              		.loc 1 77 19 is_stmt 1 view .LVU187
+  77:src/algorithm/defence/defence.cpp ****                   enable_shoot = true;
+ 713              		.loc 1 77 32 is_stmt 0 view .LVU188
+ 714 0096 354B     		ldr	r3, .L59
+ 715 0098 0122     		movs	r2, #1
+ 716 009a 1A70     		strb	r2, [r3]
+  78:src/algorithm/defence/defence.cpp ****                   shoot_timer.reset();
+ 717              		.loc 1 78 19 is_stmt 1 view .LVU189
+  78:src/algorithm/defence/defence.cpp ****                   shoot_timer.reset();
+ 718              		.loc 1 78 36 is_stmt 0 view .LVU190
+ 719 009c 3748     		ldr	r0, .L59+16
+ 720 009e FFF7FEFF 		bl	_ZN5Timer5resetEv
+ 721              	.LVL69:
+ 722 00a2 CFE7     		b	.L41
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s 			page 17
+
+
+ 723              	.L55:
+  82:src/algorithm/defence/defence.cpp ****             robot->dribbler_front.Hold(HOLD_MAX_POWER);
+ 724              		.loc 1 82 13 is_stmt 1 view .LVU191
+  82:src/algorithm/defence/defence.cpp ****             robot->dribbler_front.Hold(HOLD_MAX_POWER);
+ 725              		.loc 1 82 39 is_stmt 0 view .LVU192
+ 726 00a4 6421     		movs	r1, #100
+ 727 00a6 00F58650 		add	r0, r0, #4288
+ 728 00aa 0830     		adds	r0, r0, #8
+ 729 00ac FFF7FEFF 		bl	_ZN13DribblerDrive4HoldEh
+ 730              	.LVL70:
+ 731 00b0 DEE7     		b	.L45
+ 732              	.L56:
+  84:src/algorithm/defence/defence.cpp ****             robot->dribbler_front.Hold(HOLD_WAIT_POWER);
+ 733              		.loc 1 84 13 is_stmt 1 view .LVU193
+  84:src/algorithm/defence/defence.cpp ****             robot->dribbler_front.Hold(HOLD_WAIT_POWER);
+ 734              		.loc 1 84 39 is_stmt 0 view .LVU194
+ 735 00b2 3221     		movs	r1, #50
+ 736 00b4 00F58650 		add	r0, r0, #4288
+ 737 00b8 0830     		adds	r0, r0, #8
+ 738 00ba FFF7FEFF 		bl	_ZN13DribblerDrive4HoldEh
+ 739              	.LVL71:
+ 740 00be D7E7     		b	.L45
+ 741              	.L57:
+  90:src/algorithm/defence/defence.cpp ****             if (shoot_timer.read_ms() > SHOOT_TIME) {
+ 742              		.loc 1 90 13 is_stmt 1 view .LVU195
+  90:src/algorithm/defence/defence.cpp ****             if (shoot_timer.read_ms() > SHOOT_TIME) {
+ 743              		.loc 1 90 36 is_stmt 0 view .LVU196
+ 744 00c0 2E48     		ldr	r0, .L59+16
+ 745 00c2 FFF7FEFF 		bl	_ZN5Timer7read_msEv
+ 746              	.LVL72:
+  90:src/algorithm/defence/defence.cpp ****             if (shoot_timer.read_ms() > SHOOT_TIME) {
+ 747              		.loc 1 90 13 view .LVU197
+ 748 00c6 B0F57A7F 		cmp	r0, #1000
+ 749 00ca 12D8     		bhi	.L58
+ 750              	.L48:
+  96:src/algorithm/defence/defence.cpp ****             if (robot->info.Catch.is_front == true) {
+ 751              		.loc 1 96 13 is_stmt 1 view .LVU198
+  96:src/algorithm/defence/defence.cpp ****             if (robot->info.Catch.is_front == true) {
+ 752              		.loc 1 96 17 is_stmt 0 view .LVU199
+ 753 00cc 6068     		ldr	r0, [r4, #4]
+  96:src/algorithm/defence/defence.cpp ****             if (robot->info.Catch.is_front == true) {
+ 754              		.loc 1 96 35 view .LVU200
+ 755 00ce 90F82E30 		ldrb	r3, [r0, #46]	@ zero_extendqisi2
+  96:src/algorithm/defence/defence.cpp ****             if (robot->info.Catch.is_front == true) {
+ 756              		.loc 1 96 13 view .LVU201
+ 757 00d2 03B3     		cbz	r3, .L49
+  97:src/algorithm/defence/defence.cpp ****                   robot->motor.Drive(0, robot->info.target_move_speed, 1, robot->info.Cam.ops_goal_
+ 758              		.loc 1 97 19 is_stmt 1 view .LVU202
+  97:src/algorithm/defence/defence.cpp ****                   robot->motor.Drive(0, robot->info.target_move_speed, 1, robot->info.Cam.ops_goal_
+ 759              		.loc 1 97 37 is_stmt 0 view .LVU203
+ 760 00d4 0123     		movs	r3, #1
+ 761 00d6 9FED2A1A 		vldr.32	s2, .L59+20
+ 762 00da B0F97420 		ldrsh	r2, [r0, #116]
+ 763 00de F7EE000A 		vmov.f32	s1, #1.0e+0
+ 764 00e2 90ED060A 		vldr.32	s0, [r0, #24]
+ 765 00e6 0021     		movs	r1, #0
+ 766 00e8 00F5C870 		add	r0, r0, #400
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s 			page 18
+
+
+ 767 00ec FFF7FEFF 		bl	_ZN10MotorDrive5DriveEsffsfh
+ 768              	.LVL73:
+ 769 00f0 D0E7     		b	.L40
+ 770              	.L58:
+  91:src/algorithm/defence/defence.cpp ****                   enable_shoot = false;
+ 771              		.loc 1 91 19 is_stmt 1 view .LVU204
+  91:src/algorithm/defence/defence.cpp ****                   enable_shoot = false;
+ 772              		.loc 1 91 32 is_stmt 0 view .LVU205
+ 773 00f2 1E4B     		ldr	r3, .L59
+ 774 00f4 0022     		movs	r2, #0
+ 775 00f6 1A70     		strb	r2, [r3]
+  92:src/algorithm/defence/defence.cpp ****                   robot->kicker.Kick();
+ 776              		.loc 1 92 19 is_stmt 1 view .LVU206
+ 777 00f8 6068     		ldr	r0, [r4, #4]
+  92:src/algorithm/defence/defence.cpp ****                   robot->kicker.Kick();
+ 778              		.loc 1 92 37 is_stmt 0 view .LVU207
+ 779 00fa B7EE000A 		vmov.f32	s0, #1.0e+0
+ 780 00fe 00F58750 		add	r0, r0, #4320
+ 781 0102 1830     		adds	r0, r0, #24
+ 782 0104 FFF7FEFF 		bl	_ZN6Kicker4KickEf
+ 783              	.LVL74:
+  93:src/algorithm/defence/defence.cpp ****                   shoot_wait_timer.reset();
+ 784              		.loc 1 93 19 is_stmt 1 view .LVU208
+  93:src/algorithm/defence/defence.cpp ****                   shoot_wait_timer.reset();
+ 785              		.loc 1 93 41 is_stmt 0 view .LVU209
+ 786 0108 1948     		ldr	r0, .L59+4
+ 787 010a FFF7FEFF 		bl	_ZN5Timer5resetEv
+ 788              	.LVL75:
+  94:src/algorithm/defence/defence.cpp ****                   shoot_timer.reset();
+ 789              		.loc 1 94 19 is_stmt 1 view .LVU210
+  94:src/algorithm/defence/defence.cpp ****                   shoot_timer.reset();
+ 790              		.loc 1 94 36 is_stmt 0 view .LVU211
+ 791 010e 1B48     		ldr	r0, .L59+16
+ 792 0110 FFF7FEFF 		bl	_ZN5Timer5resetEv
+ 793              	.LVL76:
+ 794 0114 DAE7     		b	.L48
+ 795              	.L49:
+  99:src/algorithm/defence/defence.cpp ****                   CaptureBall(robot, 0);
+ 796              		.loc 1 99 19 is_stmt 1 view .LVU212
+  99:src/algorithm/defence/defence.cpp ****                   CaptureBall(robot, 0);
+ 797              		.loc 1 99 30 is_stmt 0 view .LVU213
+ 798 0116 0021     		movs	r1, #0
+ 799 0118 FFF7FEFF 		bl	_Z11CaptureBallP5Robots
+ 800              	.LVL77:
+ 801 011c BAE7     		b	.L40
+ 802              	.L51:
+ 107:src/algorithm/defence/defence.cpp ****             if (out_line_timer.read_ms() < SHOOT_TIME) {
+ 803              		.loc 1 107 13 is_stmt 1 view .LVU214
+ 107:src/algorithm/defence/defence.cpp ****             if (out_line_timer.read_ms() < SHOOT_TIME) {
+ 804              		.loc 1 107 39 is_stmt 0 view .LVU215
+ 805 011e 1648     		ldr	r0, .L59+12
+ 806 0120 FFF7FEFF 		bl	_ZN5Timer7read_msEv
+ 807              	.LVL78:
+ 107:src/algorithm/defence/defence.cpp ****             if (out_line_timer.read_ms() < SHOOT_TIME) {
+ 808              		.loc 1 107 13 view .LVU216
+ 809 0124 B0F57A7F 		cmp	r0, #1000
+ 810 0128 10D2     		bcs	.L52
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s 			page 19
+
+
+ 108:src/algorithm/defence/defence.cpp ****                   robot->motor.Drive(pre_line_dir, 1, 1);
+ 811              		.loc 1 108 19 is_stmt 1 view .LVU217
+ 812 012a 6068     		ldr	r0, [r4, #4]
+ 108:src/algorithm/defence/defence.cpp ****                   robot->motor.Drive(pre_line_dir, 1, 1);
+ 813              		.loc 1 108 37 is_stmt 0 view .LVU218
+ 814 012c 0023     		movs	r3, #0
+ 815 012e 9FED151A 		vldr.32	s2, .L59+24
+ 816 0132 1A46     		mov	r2, r3
+ 817 0134 F7EE000A 		vmov.f32	s1, #1.0e+0
+ 818 0138 B0EE600A 		vmov.f32	s0, s1
+ 819 013c 0D49     		ldr	r1, .L59+8
+ 820 013e B1F90010 		ldrsh	r1, [r1]
+ 821 0142 00F5C870 		add	r0, r0, #400
+ 822 0146 FFF7FEFF 		bl	_ZN10MotorDrive5DriveEsffsfh
+ 823              	.LVL79:
+ 824 014a A3E7     		b	.L40
+ 825              	.L52:
+ 110:src/algorithm/defence/defence.cpp ****                   robot->motor.Drive(robot->info.Cam.own_goal_dir, 0.5, 1);
+ 826              		.loc 1 110 19 is_stmt 1 view .LVU219
+ 827 014c 6068     		ldr	r0, [r4, #4]
+ 110:src/algorithm/defence/defence.cpp ****                   robot->motor.Drive(robot->info.Cam.own_goal_dir, 0.5, 1);
+ 828              		.loc 1 110 37 is_stmt 0 view .LVU220
+ 829 014e 0023     		movs	r3, #0
+ 830 0150 9FED0C1A 		vldr.32	s2, .L59+24
+ 831 0154 1A46     		mov	r2, r3
+ 832 0156 F7EE000A 		vmov.f32	s1, #1.0e+0
+ 833 015a B6EE000A 		vmov.f32	s0, #5.0e-1
+ 834 015e B0F97010 		ldrsh	r1, [r0, #112]
+ 835 0162 00F5C870 		add	r0, r0, #400
+ 836 0166 FFF7FEFF 		bl	_ZN10MotorDrive5DriveEsffsfh
+ 837              	.LVL80:
+ 838              		.loc 1 113 1 view .LVU221
+ 839 016a 93E7     		b	.L40
+ 840              	.L60:
+ 841              		.align	2
+ 842              	.L59:
+ 843 016c 00000000 		.word	_ZL12enable_shoot
+ 844 0170 00000000 		.word	_ZL16shoot_wait_timer
+ 845 0174 00000000 		.word	_ZL12pre_line_dir
+ 846 0178 00000000 		.word	_ZL14out_line_timer
+ 847 017c 00000000 		.word	_ZL11shoot_timer
+ 848 0180 DB0FC940 		.word	1086918619
+ 849 0184 00000000 		.word	0
+ 850              		.cfi_endproc
+ 851              	.LFE1199:
+ 852              		.fnend
+ 854              		.section	.text._GLOBAL__sub_I__ZN4Mode7DefenceEv,"ax",%progbits
+ 855              		.align	1
+ 856              		.syntax unified
+ 857              		.thumb
+ 858              		.thumb_func
+ 860              	_GLOBAL__sub_I__ZN4Mode7DefenceEv:
+ 861              		.fnstart
+ 862              	.LFB1315:
+ 863              		.loc 1 113 1 is_stmt 1 view -0
+ 864              		.cfi_startproc
+ 865              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s 			page 20
+
+
+ 866              		@ frame_needed = 0, uses_anonymous_args = 0
+ 867 0000 08B5     		push	{r3, lr}
+ 868              	.LCFI9:
+ 869              		.cfi_def_cfa_offset 8
+ 870              		.cfi_offset 3, -8
+ 871              		.cfi_offset 14, -4
+ 872              		.loc 1 113 1 is_stmt 0 view .LVU223
+ 873 0002 4FF6FF71 		movw	r1, #65535
+ 874 0006 0120     		movs	r0, #1
+ 875 0008 FFF7FEFF 		bl	_Z41__static_initialization_and_destruction_0ii
+ 876              	.LVL81:
+ 877 000c 08BD     		pop	{r3, pc}
+ 878              		.cfi_endproc
+ 879              	.LFE1315:
+ 880              		.cantunwind
+ 881              		.fnend
+ 883              		.section	.init_array,"aw",%init_array
+ 884              		.align	2
+ 885 0000 00000000 		.word	_GLOBAL__sub_I__ZN4Mode7DefenceEv(target1)
+ 886              		.section	.bss._ZL18is_pid_initialized,"aw",%nobits
+ 889              	_ZL18is_pid_initialized:
+ 890 0000 00       		.space	1
+ 891              		.section	.bss._ZL12enable_shoot,"aw",%nobits
+ 894              	_ZL12enable_shoot:
+ 895 0000 00       		.space	1
+ 896              		.section	.bss._ZL12pre_line_dir,"aw",%nobits
+ 897              		.align	1
+ 900              	_ZL12pre_line_dir:
+ 901 0000 0000     		.space	2
+ 902              		.section	.bss._ZL14out_line_timer,"aw",%nobits
+ 903              		.align	2
+ 906              	_ZL14out_line_timer:
+ 907 0000 00000000 		.space	4
+ 908              		.section	.bss._ZL11shoot_timer,"aw",%nobits
+ 909              		.align	2
+ 912              	_ZL11shoot_timer:
+ 913 0000 00000000 		.space	4
+ 914              		.section	.bss._ZL16shoot_wait_timer,"aw",%nobits
+ 915              		.align	2
+ 918              	_ZL16shoot_wait_timer:
+ 919 0000 00000000 		.space	4
+ 920              		.section	.bss._ZL8ball_pid,"aw",%nobits
+ 921              		.align	3
+ 924              	_ZL8ball_pid:
+ 925 0000 00000000 		.space	104
+ 925      00000000 
+ 925      00000000 
+ 925      00000000 
+ 925      00000000 
+ 926              		.text
+ 927              	.Letext0:
+ 928              		.file 2 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/cmath"
+ 929              		.file 3 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/type_tra
+ 930              		.file 4 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/debug/de
+ 931              		.file 5 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/cstdio"
+ 932              		.file 6 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/bits/stl
+ 933              		.file 7 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/arm-none
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s 			page 21
+
+
+ 934              		.file 8 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/bits/pre
+ 935              		.file 9 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/lib/gcc/arm-none-eabi/12.3.1/include/stdd
+ 936              		.file 10 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/machine/_default_t
+ 937              		.file 11 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_types.h"
+ 938              		.file 12 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/reent.h"
+ 939              		.file 13 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/lock.h"
+ 940              		.file 14 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/math.h"
+ 941              		.file 15 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/stdio.h"
+ 942              		.file 16 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_stdint.h"
+ 943              		.file 17 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h"
+ 944              		.file 18 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
+ 945              		.file 19 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 946              		.file 20 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 947              		.file 21 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h"
+ 948              		.file 22 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h"
+ 949              		.file 23 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
+ 950              		.file 24 "Lib/BufferedSerial/BufferedSerial.hpp"
+ 951              		.file 25 "Lib/DigitalInOut/DigitalInOut.hpp"
+ 952              		.file 26 "Lib/MovingAve/MovingAve.hpp"
+ 953              		.file 27 "Lib/PWMSingle/PWMSingle.hpp"
+ 954              		.file 28 "Lib/Timer/Timer.hpp"
+ 955              		.file 29 "src/unit/dribbler_drive/dribbler_drive.hpp"
+ 956              		.file 30 "src/unit/kicker/kicker.hpp"
+ 957              		.file 31 "Lib/pid/pid.hpp"
+ 958              		.file 32 "src/unit/motor_drive/motor_drive.hpp"
+ 959              		.file 33 "src/unit/robot/robot.hpp"
+ 960              		.file 34 "src/mode/mode.hpp"
+ 961              		.file 35 "Lib/MyMath/MyMath.hpp"
+ 962              		.file 36 "src/algorithm/capture_ball.hpp"
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s 			page 22
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 defence.cpp
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:22     .text._ZL13InitializePIDP5Robot:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:27     .text._ZL13InitializePIDP5Robot:00000000 _ZL13InitializePIDP5Robot
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:103    .text._ZL13InitializePIDP5Robot:00000058 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:924    .bss._ZL8ball_pid:00000000 _ZL8ball_pid
+.ARM.extab.text._ZL13InitializePIDP5Robot:00000000 $d
+.ARM.exidx.text._ZL13InitializePIDP5Robot:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:115    .text._ZL9LineTraceP5Robot:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:120    .text._ZL9LineTraceP5Robot:00000000 _ZL9LineTraceP5Robot
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:497    .text._ZL9LineTraceP5Robot:00000200 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:889    .bss._ZL18is_pid_initialized:00000000 _ZL18is_pid_initialized
+.ARM.exidx.text._ZL9LineTraceP5Robot:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:507    .text._Z41__static_initialization_and_destruction_0ii:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:512    .text._Z41__static_initialization_and_destruction_0ii:00000000 _Z41__static_initialization_and_destruction_0ii
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:564    .text._Z41__static_initialization_and_destruction_0ii:0000002c $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:918    .bss._ZL16shoot_wait_timer:00000000 _ZL16shoot_wait_timer
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:912    .bss._ZL11shoot_timer:00000000 _ZL11shoot_timer
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:906    .bss._ZL14out_line_timer:00000000 _ZL14out_line_timer
+.ARM.exidx.text._Z41__static_initialization_and_destruction_0ii:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:574    .text._ZN4Mode7DefenceEv:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:580    .text._ZN4Mode7DefenceEv:00000000 _ZN4Mode7DefenceEv
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:843    .text._ZN4Mode7DefenceEv:0000016c $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:894    .bss._ZL12enable_shoot:00000000 _ZL12enable_shoot
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:900    .bss._ZL12pre_line_dir:00000000 _ZL12pre_line_dir
+.ARM.exidx.text._ZN4Mode7DefenceEv:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:855    .text._GLOBAL__sub_I__ZN4Mode7DefenceEv:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:860    .text._GLOBAL__sub_I__ZN4Mode7DefenceEv:00000000 _GLOBAL__sub_I__ZN4Mode7DefenceEv
+.ARM.exidx.text._GLOBAL__sub_I__ZN4Mode7DefenceEv:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:884    .init_array:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:890    .bss._ZL18is_pid_initialized:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:895    .bss._ZL12enable_shoot:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:897    .bss._ZL12pre_line_dir:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:903    .bss._ZL14out_line_timer:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:909    .bss._ZL11shoot_timer:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:915    .bss._ZL16shoot_wait_timer:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s:921    .bss._ZL8ball_pid:00000000 $d
+
+UNDEFINED SYMBOLS
+__aeabi_f2d
+_ZN3PID7SetGainEfff
+_ZN3PID8SetLimitEdd
+_ZN3PID15SetSamplingFreqEt
+_ZN3PID7SetTypeEh
+__aeabi_unwind_cpp_pr1
+__aeabi_i2d
+__aeabi_dmul
+__aeabi_d2f
+_ZN3PID7ComputeEff
+_ZN3PID3GetEv
+sinDeg
+cosDeg
+_ZN10MotorDrive5DriveEsffsfh
+atan2
+NormalizeDeg180
+__aeabi_unwind_cpp_pr0
+_ZN3PIDC1Ev
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc22R5SV.s 			page 23
+
+
+_ZN5TimerC1Ev
+_ZN5Timer5resetEv
+_ZN5Timer7read_msEv
+_ZN13DribblerDrive4HoldEh
+_ZN6Kicker4KickEf
+_Z11CaptureBallP5Robots

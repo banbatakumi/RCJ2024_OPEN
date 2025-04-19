@@ -1,0 +1,1383 @@
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"capture_ball.cpp"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "src/algorithm/capture_ball.cpp"
+  20              		.global	__aeabi_f2d
+  21              		.section	.text._ZL13InitializePIDP5Robot,"ax",%progbits
+  22              		.align	1
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	_ZL13InitializePIDP5Robot:
+  28              		.fnstart
+  29              	.LVL0:
+  30              	.LFB1194:
+   1:src/algorithm/capture_ball.cpp **** #include "capture_ball.hpp"
+   2:src/algorithm/capture_ball.cpp **** 
+   3:src/algorithm/capture_ball.cpp **** #define CAPTURE_R 20  // cm
+   4:src/algorithm/capture_ball.cpp **** 
+   5:src/algorithm/capture_ball.cpp **** static PID ball_capture_pid;
+   6:src/algorithm/capture_ball.cpp **** static PID ball_dis_capture_pid;
+   7:src/algorithm/capture_ball.cpp **** 
+   8:src/algorithm/capture_ball.cpp **** static bool is_pid_initialized = false;
+   9:src/algorithm/capture_ball.cpp **** static void InitializePID(Robot* robot) {
+  31              		.loc 1 9 41 view -0
+  32              		.cfi_startproc
+  33              		@ args = 0, pretend = 0, frame = 0
+  34              		@ frame_needed = 0, uses_anonymous_args = 0
+  35              		.loc 1 9 41 is_stmt 0 view .LVU1
+  36 0000 38B5     		push	{r3, r4, r5, lr}
+  37              		.save {r3, r4, r5, lr}
+  38              	.LCFI0:
+  39              		.cfi_def_cfa_offset 16
+  40              		.cfi_offset 3, -16
+  41              		.cfi_offset 4, -12
+  42              		.cfi_offset 5, -8
+  43              		.cfi_offset 14, -4
+  44 0002 2DED028B 		vpush.64	{d8}
+  45              		.vsave {d8}
+  46              	.LCFI1:
+  47              		.cfi_def_cfa_offset 24
+  48              		.cfi_offset 80, -24
+  49              		.cfi_offset 81, -20
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s 			page 2
+
+
+  50 0006 0546     		mov	r5, r0
+  10:src/algorithm/capture_ball.cpp ****       ball_capture_pid.SetGain(0.2, 0, 0.02);
+  51              		.loc 1 10 7 is_stmt 1 view .LVU2
+  52              		.loc 1 10 31 is_stmt 0 view .LVU3
+  53 0008 9FED258A 		vldr.32	s16, .L3+16
+  54 000c 254C     		ldr	r4, .L3+20
+  55 000e 9FED261A 		vldr.32	s2, .L3+24
+  56 0012 F0EE480A 		vmov.f32	s1, s16
+  57 0016 9FED250A 		vldr.32	s0, .L3+28
+  58 001a 2046     		mov	r0, r4
+  59              	.LVL1:
+  60              		.loc 1 10 31 view .LVU4
+  61 001c FFF7FEFF 		bl	_ZN3PID7SetGainEfff
+  62              	.LVL2:
+  11:src/algorithm/capture_ball.cpp ****       ball_capture_pid.SetLimit(-2, 2);
+  63              		.loc 1 11 7 is_stmt 1 view .LVU5
+  64              		.loc 1 11 32 is_stmt 0 view .LVU6
+  65 0020 9FED1B1B 		vldr.64	d1, .L3
+  66 0024 9FED1C0B 		vldr.64	d0, .L3+8
+  67 0028 2046     		mov	r0, r4
+  68 002a FFF7FEFF 		bl	_ZN3PID8SetLimitEdd
+  69              	.LVL3:
+  12:src/algorithm/capture_ball.cpp ****       ball_capture_pid.SetSamplingFreq(100);
+  70              		.loc 1 12 7 is_stmt 1 view .LVU7
+  71              		.loc 1 12 39 is_stmt 0 view .LVU8
+  72 002e 6421     		movs	r1, #100
+  73 0030 2046     		mov	r0, r4
+  74 0032 FFF7FEFF 		bl	_ZN3PID15SetSamplingFreqEt
+  75              	.LVL4:
+  13:src/algorithm/capture_ball.cpp ****       ball_capture_pid.SetType(0);
+  76              		.loc 1 13 7 is_stmt 1 view .LVU9
+  77              		.loc 1 13 31 is_stmt 0 view .LVU10
+  78 0036 0021     		movs	r1, #0
+  79 0038 2046     		mov	r0, r4
+  80 003a FFF7FEFF 		bl	_ZN3PID7SetTypeEh
+  81              	.LVL5:
+  14:src/algorithm/capture_ball.cpp **** 
+  15:src/algorithm/capture_ball.cpp ****       ball_dis_capture_pid.SetGain(0.05, 0, 0.01);
+  82              		.loc 1 15 7 is_stmt 1 view .LVU11
+  83              		.loc 1 15 35 is_stmt 0 view .LVU12
+  84 003e 1C4C     		ldr	r4, .L3+32
+  85 0040 9FED1C1A 		vldr.32	s2, .L3+36
+  86 0044 F0EE480A 		vmov.f32	s1, s16
+  87 0048 9FED1B0A 		vldr.32	s0, .L3+40
+  88 004c 2046     		mov	r0, r4
+  89 004e FFF7FEFF 		bl	_ZN3PID7SetGainEfff
+  90              	.LVL6:
+  16:src/algorithm/capture_ball.cpp ****       ball_dis_capture_pid.SetLimit(-robot->info.target_move_speed, robot->info.target_move_speed);
+  91              		.loc 1 16 7 is_stmt 1 view .LVU13
+  92              		.loc 1 16 50 is_stmt 0 view .LVU14
+  93 0052 A869     		ldr	r0, [r5, #24]	@ float
+  94              		.loc 1 16 37 view .LVU15
+  95 0054 80F00045 		eor	r5, r0, #-2147483648
+  96              	.LVL7:
+  97              		.loc 1 16 36 view .LVU16
+  98 0058 FFF7FEFF 		bl	__aeabi_f2d
+  99              	.LVL8:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s 			page 3
+
+
+ 100 005c 41EC180B 		vmov	d8, r0, r1
+ 101 0060 2846     		mov	r0, r5	@ float
+ 102 0062 FFF7FEFF 		bl	__aeabi_f2d
+ 103              	.LVL9:
+ 104 0066 B0EE481A 		vmov.f32	s2, s16
+ 105 006a F0EE681A 		vmov.f32	s3, s17
+ 106 006e 41EC100B 		vmov	d0, r0, r1
+ 107 0072 2046     		mov	r0, r4
+ 108 0074 FFF7FEFF 		bl	_ZN3PID8SetLimitEdd
+ 109              	.LVL10:
+  17:src/algorithm/capture_ball.cpp ****       ball_dis_capture_pid.SetSamplingFreq(100);
+ 110              		.loc 1 17 7 is_stmt 1 view .LVU17
+ 111              		.loc 1 17 43 is_stmt 0 view .LVU18
+ 112 0078 6421     		movs	r1, #100
+ 113 007a 2046     		mov	r0, r4
+ 114 007c FFF7FEFF 		bl	_ZN3PID15SetSamplingFreqEt
+ 115              	.LVL11:
+  18:src/algorithm/capture_ball.cpp ****       ball_dis_capture_pid.SetType(0);
+ 116              		.loc 1 18 7 is_stmt 1 view .LVU19
+ 117              		.loc 1 18 35 is_stmt 0 view .LVU20
+ 118 0080 0021     		movs	r1, #0
+ 119 0082 2046     		mov	r0, r4
+ 120 0084 FFF7FEFF 		bl	_ZN3PID7SetTypeEh
+ 121              	.LVL12:
+  19:src/algorithm/capture_ball.cpp **** }
+ 122              		.loc 1 19 1 view .LVU21
+ 123 0088 BDEC028B 		vldm	sp!, {d8}
+ 124              	.LCFI2:
+ 125              		.cfi_restore 80
+ 126              		.cfi_restore 81
+ 127              		.cfi_def_cfa_offset 16
+ 128 008c 38BD     		pop	{r3, r4, r5, pc}
+ 129              	.L4:
+ 130 008e 00BF     		.align	3
+ 131              	.L3:
+ 132 0090 00000000 		.word	0
+ 133 0094 00000040 		.word	1073741824
+ 134 0098 00000000 		.word	0
+ 135 009c 000000C0 		.word	-1073741824
+ 136 00a0 00000000 		.word	0
+ 137 00a4 00000000 		.word	_ZL16ball_capture_pid
+ 138 00a8 0AD7A33C 		.word	1017370378
+ 139 00ac CDCC4C3E 		.word	1045220557
+ 140 00b0 00000000 		.word	_ZL20ball_dis_capture_pid
+ 141 00b4 0AD7233C 		.word	1008981770
+ 142 00b8 CDCC4C3D 		.word	1028443341
+ 143              		.cfi_endproc
+ 144              	.LFE1194:
+ 145              		.fnend
+ 147              		.section	.text._Z41__static_initialization_and_destruction_0ii,"ax",%progbits
+ 148              		.align	1
+ 149              		.syntax unified
+ 150              		.thumb
+ 151              		.thumb_func
+ 153              	_Z41__static_initialization_and_destruction_0ii:
+ 154              		.fnstart
+ 155              	.LVL13:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s 			page 4
+
+
+ 156              	.LFB1310:
+  20:src/algorithm/capture_ball.cpp **** 
+  21:src/algorithm/capture_ball.cpp **** void CaptureBall(Robot* robot, int16_t target_dir) {
+  22:src/algorithm/capture_ball.cpp ****       if (!is_pid_initialized) {
+  23:src/algorithm/capture_ball.cpp ****             InitializePID(robot);
+  24:src/algorithm/capture_ball.cpp ****             is_pid_initialized = true;
+  25:src/algorithm/capture_ball.cpp ****       }
+  26:src/algorithm/capture_ball.cpp ****       ball_capture_pid.Compute(0, robot->info.Cam.ball_x);
+  27:src/algorithm/capture_ball.cpp ****       ball_dis_capture_pid.Compute(CAPTURE_R, robot->info.Cam.ball_dis);
+  28:src/algorithm/capture_ball.cpp **** 
+  29:src/algorithm/capture_ball.cpp ****       int16_t ball_dir = MyMath::NormalizeDeg180(robot->info.Cam.ball_dir + target_dir);
+  30:src/algorithm/capture_ball.cpp ****       int16_t move_dir;
+  31:src/algorithm/capture_ball.cpp ****       float move_speed;
+  32:src/algorithm/capture_ball.cpp ****       float theta;
+  33:src/algorithm/capture_ball.cpp **** 
+  34:src/algorithm/capture_ball.cpp ****       float move_vel_x, move_vel_y;
+  35:src/algorithm/capture_ball.cpp **** 
+  36:src/algorithm/capture_ball.cpp ****       if (abs(robot->info.Cam.ball_x) <= 16 && abs(ball_dir) < 30) {
+  37:src/algorithm/capture_ball.cpp ****             if (abs(target_dir) < 90) {
+  38:src/algorithm/capture_ball.cpp ****                   move_vel_x = ball_capture_pid.Get();
+  39:src/algorithm/capture_ball.cpp ****                   move_vel_y = (MyMath::sqrt(16) - MyMath::sqrt(abs(robot->info.Cam.ball_x))) * 0.1
+  40:src/algorithm/capture_ball.cpp ****             } else {
+  41:src/algorithm/capture_ball.cpp ****                   move_vel_x = ball_capture_pid.Get() * -1;
+  42:src/algorithm/capture_ball.cpp ****                   move_vel_y = (MyMath::sqrt(16) - MyMath::sqrt(abs(robot->info.Cam.ball_x))) * 0.1
+  43:src/algorithm/capture_ball.cpp ****             }
+  44:src/algorithm/capture_ball.cpp ****             if (robot->info.Cam.ball_dis > CAPTURE_R) move_vel_y += ball_dis_capture_pid.Get();
+  45:src/algorithm/capture_ball.cpp ****             move_dir = MyMath::atan2(move_vel_x, move_vel_y);
+  46:src/algorithm/capture_ball.cpp ****       } else if (robot->info.Cam.ball_dis < CAPTURE_R) {
+  47:src/algorithm/capture_ball.cpp ****             theta = 90 + float(robot->info.Cam.ball_dis / CAPTURE_R) * 30;
+  48:src/algorithm/capture_ball.cpp ****             move_dir = ball_dir + (ball_dir > 0 ? theta : -theta);
+  49:src/algorithm/capture_ball.cpp **** 
+  50:src/algorithm/capture_ball.cpp ****             if (abs(target_dir) < 90) {
+  51:src/algorithm/capture_ball.cpp ****                   move_vel_x = 0.4 * MyMath::sinDeg(move_dir);
+  52:src/algorithm/capture_ball.cpp ****                   move_vel_y = 0.4 * MyMath::cosDeg(move_dir);
+  53:src/algorithm/capture_ball.cpp ****             } else {
+  54:src/algorithm/capture_ball.cpp ****                   move_vel_x = 0.4 * MyMath::sinDeg(move_dir);
+  55:src/algorithm/capture_ball.cpp ****                   move_vel_y = 0.4 * MyMath::cosDeg(move_dir);
+  56:src/algorithm/capture_ball.cpp ****             }
+  57:src/algorithm/capture_ball.cpp ****       } else {
+  58:src/algorithm/capture_ball.cpp ****             float ratio = (float)CAPTURE_R / robot->info.Cam.ball_dis;
+  59:src/algorithm/capture_ball.cpp ****             if (ratio > 1.0f) ratio = 1.0f;
+  60:src/algorithm/capture_ball.cpp ****             theta = asin(ratio) * 180 / PI;
+  61:src/algorithm/capture_ball.cpp ****             move_dir = ball_dir + (ball_dir > 0 ? theta : -theta);
+  62:src/algorithm/capture_ball.cpp **** 
+  63:src/algorithm/capture_ball.cpp ****             if (abs(target_dir) < 90) {
+  64:src/algorithm/capture_ball.cpp ****                   move_vel_x = 0.5 * MyMath::sinDeg(move_dir);
+  65:src/algorithm/capture_ball.cpp ****                   move_vel_y = 0.5 * MyMath::cosDeg(move_dir);
+  66:src/algorithm/capture_ball.cpp **** 
+  67:src/algorithm/capture_ball.cpp ****             } else {
+  68:src/algorithm/capture_ball.cpp ****                   move_vel_x = 0.5 * MyMath::sinDeg(move_dir);
+  69:src/algorithm/capture_ball.cpp ****                   move_vel_y = 0.5 * MyMath::cosDeg(move_dir);
+  70:src/algorithm/capture_ball.cpp ****             }
+  71:src/algorithm/capture_ball.cpp ****       }
+  72:src/algorithm/capture_ball.cpp ****       // 速度にボールの速度を加算
+  73:src/algorithm/capture_ball.cpp ****       float add_vel_x = robot->info.Cam.ball_vel_x + robot->motor.moving_vel_x;
+  74:src/algorithm/capture_ball.cpp ****       float add_vel_y = robot->info.Cam.ball_vel_y + robot->motor.moving_vel_y;
+  75:src/algorithm/capture_ball.cpp ****       if (abs(add_vel_x) > 0.5) add_vel_x = 0.5 * (add_vel_x / abs(add_vel_x));
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s 			page 5
+
+
+  76:src/algorithm/capture_ball.cpp ****       if (abs(add_vel_y) > 0.5) add_vel_y = 0.5 * (add_vel_y / abs(add_vel_y));
+  77:src/algorithm/capture_ball.cpp ****       move_vel_x += add_vel_x;
+  78:src/algorithm/capture_ball.cpp ****       move_vel_y += add_vel_y;
+  79:src/algorithm/capture_ball.cpp ****       move_speed = MyMath::sqrt(move_vel_x * move_vel_x + move_vel_y * move_vel_y);
+  80:src/algorithm/capture_ball.cpp **** 
+  81:src/algorithm/capture_ball.cpp ****       if (abs(target_dir) > 90 && move_speed > 0.75) move_speed = 0.75;
+  82:src/algorithm/capture_ball.cpp ****       if (move_speed > robot->info.target_move_speed) move_speed = robot->info.target_move_speed;
+  83:src/algorithm/capture_ball.cpp ****       if (move_speed < 0) move_speed = 0;
+  84:src/algorithm/capture_ball.cpp **** 
+  85:src/algorithm/capture_ball.cpp ****       robot->motor.Drive(MyMath::NormalizeDeg180(move_dir + target_dir), move_speed);
+  86:src/algorithm/capture_ball.cpp **** }
+ 157              		.loc 1 86 1 is_stmt 1 view -0
+ 158              		.cfi_startproc
+ 159              		@ args = 0, pretend = 0, frame = 0
+ 160              		@ frame_needed = 0, uses_anonymous_args = 0
+ 161              		.loc 1 86 1 is_stmt 0 view .LVU23
+ 162 0000 0128     		cmp	r0, #1
+ 163 0002 00D0     		beq	.L11
+ 164 0004 7047     		bx	lr
+ 165              	.L11:
+ 166              		.loc 1 86 1 discriminator 1 view .LVU24
+ 167 0006 08B5     		push	{r3, lr}
+ 168              	.LCFI3:
+ 169              		.cfi_def_cfa_offset 8
+ 170              		.cfi_offset 3, -8
+ 171              		.cfi_offset 14, -4
+ 172              		.loc 1 86 1 discriminator 1 view .LVU25
+ 173 0008 4FF6FF73 		movw	r3, #65535
+ 174 000c 9942     		cmp	r1, r3
+ 175 000e 00D0     		beq	.L12
+ 176              	.LVL14:
+ 177              	.L5:
+ 178              		.loc 1 86 1 view .LVU26
+ 179 0010 08BD     		pop	{r3, pc}
+ 180              	.LVL15:
+ 181              	.L12:
+   5:src/algorithm/capture_ball.cpp **** static PID ball_dis_capture_pid;
+ 182              		.loc 1 5 12 view .LVU27
+ 183 0012 0348     		ldr	r0, .L13
+ 184              	.LVL16:
+   5:src/algorithm/capture_ball.cpp **** static PID ball_dis_capture_pid;
+ 185              		.loc 1 5 12 view .LVU28
+ 186 0014 FFF7FEFF 		bl	_ZN3PIDC1Ev
+ 187              	.LVL17:
+   6:src/algorithm/capture_ball.cpp **** 
+ 188              		.loc 1 6 12 view .LVU29
+ 189 0018 0248     		ldr	r0, .L13+4
+ 190 001a FFF7FEFF 		bl	_ZN3PIDC1Ev
+ 191              	.LVL18:
+ 192              		.loc 1 86 1 view .LVU30
+ 193 001e F7E7     		b	.L5
+ 194              	.L14:
+ 195              		.align	2
+ 196              	.L13:
+ 197 0020 00000000 		.word	_ZL16ball_capture_pid
+ 198 0024 00000000 		.word	_ZL20ball_dis_capture_pid
+ 199              		.cfi_endproc
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s 			page 6
+
+
+ 200              	.LFE1310:
+ 201              		.cantunwind
+ 202              		.fnend
+ 204              		.global	__aeabi_dmul
+ 205              		.global	__aeabi_d2f
+ 206              		.global	__aeabi_ddiv
+ 207              		.section	.text._Z11CaptureBallP5Robots,"ax",%progbits
+ 208              		.align	1
+ 209              		.global	_Z11CaptureBallP5Robots
+ 210              		.syntax unified
+ 211              		.thumb
+ 212              		.thumb_func
+ 214              	_Z11CaptureBallP5Robots:
+ 215              		.fnstart
+ 216              	.LVL19:
+ 217              	.LFB1195:
+  21:src/algorithm/capture_ball.cpp ****       if (!is_pid_initialized) {
+ 218              		.loc 1 21 52 is_stmt 1 view -0
+ 219              		.cfi_startproc
+ 220              		@ args = 0, pretend = 0, frame = 0
+ 221              		@ frame_needed = 0, uses_anonymous_args = 0
+  21:src/algorithm/capture_ball.cpp ****       if (!is_pid_initialized) {
+ 222              		.loc 1 21 52 is_stmt 0 view .LVU32
+ 223 0000 70B5     		push	{r4, r5, r6, lr}
+ 224              		.save {r4, r5, r6, lr}
+ 225              	.LCFI4:
+ 226              		.cfi_def_cfa_offset 16
+ 227              		.cfi_offset 4, -16
+ 228              		.cfi_offset 5, -12
+ 229              		.cfi_offset 6, -8
+ 230              		.cfi_offset 14, -4
+ 231 0002 2DED048B 		vpush.64	{d8, d9}
+ 232              		.vsave {d8, d9}
+ 233              	.LCFI5:
+ 234              		.cfi_def_cfa_offset 32
+ 235              		.cfi_offset 80, -32
+ 236              		.cfi_offset 81, -28
+ 237              		.cfi_offset 82, -24
+ 238              		.cfi_offset 83, -20
+ 239 0006 0446     		mov	r4, r0
+ 240 0008 0E46     		mov	r6, r1
+  22:src/algorithm/capture_ball.cpp ****             InitializePID(robot);
+ 241              		.loc 1 22 7 is_stmt 1 view .LVU33
+  22:src/algorithm/capture_ball.cpp ****             InitializePID(robot);
+ 242              		.loc 1 22 11 is_stmt 0 view .LVU34
+ 243 000a C74B     		ldr	r3, .L60+16
+ 244 000c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  22:src/algorithm/capture_ball.cpp ****             InitializePID(robot);
+ 245              		.loc 1 22 7 view .LVU35
+ 246 000e 002B     		cmp	r3, #0
+ 247 0010 00F0DC80 		beq	.L50
+ 248              	.LVL20:
+ 249              	.L16:
+  26:src/algorithm/capture_ball.cpp ****       ball_dis_capture_pid.Compute(CAPTURE_R, robot->info.Cam.ball_dis);
+ 250              		.loc 1 26 7 is_stmt 1 view .LVU36
+  26:src/algorithm/capture_ball.cpp ****       ball_dis_capture_pid.Compute(CAPTURE_R, robot->info.Cam.ball_dis);
+ 251              		.loc 1 26 31 is_stmt 0 view .LVU37
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s 			page 7
+
+
+ 252 0014 D4ED150A 		vldr.32	s1, [r4, #84]
+ 253 0018 9FEDC40A 		vldr.32	s0, .L60+20
+ 254 001c C448     		ldr	r0, .L60+24
+ 255 001e FFF7FEFF 		bl	_ZN3PID7ComputeEff
+ 256              	.LVL21:
+  27:src/algorithm/capture_ball.cpp **** 
+ 257              		.loc 1 27 7 is_stmt 1 view .LVU38
+  27:src/algorithm/capture_ball.cpp **** 
+ 258              		.loc 1 27 63 is_stmt 0 view .LVU39
+ 259 0022 94F85030 		ldrb	r3, [r4, #80]	@ zero_extendqisi2
+ 260 0026 00EE903A 		vmov	s1, r3	@ int
+  27:src/algorithm/capture_ball.cpp **** 
+ 261              		.loc 1 27 35 view .LVU40
+ 262 002a F8EE600A 		vcvt.f32.u32	s1, s1
+ 263 002e B3EE040A 		vmov.f32	s0, #2.0e+1
+ 264 0032 C048     		ldr	r0, .L60+28
+ 265 0034 FFF7FEFF 		bl	_ZN3PID7ComputeEff
+ 266              	.LVL22:
+  29:src/algorithm/capture_ball.cpp ****       int16_t move_dir;
+ 267              		.loc 1 29 7 is_stmt 1 view .LVU41
+  29:src/algorithm/capture_ball.cpp ****       int16_t move_dir;
+ 268              		.loc 1 29 66 is_stmt 0 view .LVU42
+ 269 0038 B4F94E00 		ldrsh	r0, [r4, #78]
+  29:src/algorithm/capture_ball.cpp ****       int16_t move_dir;
+ 270              		.loc 1 29 49 view .LVU43
+ 271 003c 3044     		add	r0, r0, r6
+ 272 003e FFF7FEFF 		bl	NormalizeDeg180
+ 273              	.LVL23:
+  29:src/algorithm/capture_ball.cpp ****       int16_t move_dir;
+ 274              		.loc 1 29 87 view .LVU44
+ 275 0042 05B2     		sxth	r5, r0
+ 276              	.LVL24:
+  30:src/algorithm/capture_ball.cpp ****       float move_speed;
+ 277              		.loc 1 30 7 is_stmt 1 view .LVU45
+  31:src/algorithm/capture_ball.cpp ****       float theta;
+ 278              		.loc 1 31 7 view .LVU46
+  32:src/algorithm/capture_ball.cpp **** 
+ 279              		.loc 1 32 7 view .LVU47
+  34:src/algorithm/capture_ball.cpp **** 
+ 280              		.loc 1 34 7 view .LVU48
+  36:src/algorithm/capture_ball.cpp ****             if (abs(target_dir) < 90) {
+ 281              		.loc 1 36 7 view .LVU49
+ 282              	.LBB2:
+  36:src/algorithm/capture_ball.cpp ****             if (abs(target_dir) < 90) {
+ 283              		.loc 1 36 11 is_stmt 0 view .LVU50
+ 284 0044 D4ED157A 		vldr.32	s15, [r4, #84]
+ 285 0048 F5EEC07A 		vcmpe.f32	s15, #0
+ 286 004c F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 287 0050 40F3C280 		ble	.L51
+ 288              	.L17:
+  36:src/algorithm/capture_ball.cpp ****             if (abs(target_dir) < 90) {
+ 289              		.loc 1 36 7 discriminator 4 view .LVU51
+ 290 0054 B3EE007A 		vmov.f32	s14, #1.6e+1
+ 291 0058 F4EEC77A 		vcmpe.f32	s15, s14
+ 292 005c F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 293 0060 00F2ED80 		bhi	.L18
+  36:src/algorithm/capture_ball.cpp ****             if (abs(target_dir) < 90) {
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s 			page 8
+
+
+ 294              		.loc 1 36 48 discriminator 5 view .LVU52
+ 295 0064 85EAE573 		eor	r3, r5, r5, asr #31
+ 296 0068 A3EBE573 		sub	r3, r3, r5, asr #31
+ 297 006c 9BB2     		uxth	r3, r3
+  36:src/algorithm/capture_ball.cpp ****             if (abs(target_dir) < 90) {
+ 298              		.loc 1 36 45 discriminator 5 view .LVU53
+ 299 006e 1D2B     		cmp	r3, #29
+ 300 0070 00F2E580 		bhi	.L18
+  37:src/algorithm/capture_ball.cpp ****                   move_vel_x = ball_capture_pid.Get();
+ 301              		.loc 1 37 13 is_stmt 1 view .LVU54
+  37:src/algorithm/capture_ball.cpp ****                   move_vel_x = ball_capture_pid.Get();
+ 302              		.loc 1 37 17 is_stmt 0 view .LVU55
+ 303 0074 86EAE673 		eor	r3, r6, r6, asr #31
+ 304 0078 A3EBE673 		sub	r3, r3, r6, asr #31
+ 305 007c 9BB2     		uxth	r3, r3
+  37:src/algorithm/capture_ball.cpp ****                   move_vel_x = ball_capture_pid.Get();
+ 306              		.loc 1 37 13 view .LVU56
+ 307 007e 592B     		cmp	r3, #89
+ 308 0080 00F2B080 		bhi	.L20
+  38:src/algorithm/capture_ball.cpp ****                   move_vel_y = (MyMath::sqrt(16) - MyMath::sqrt(abs(robot->info.Cam.ball_x))) * 0.1
+ 309              		.loc 1 38 19 is_stmt 1 view .LVU57
+  38:src/algorithm/capture_ball.cpp ****                   move_vel_y = (MyMath::sqrt(16) - MyMath::sqrt(abs(robot->info.Cam.ball_x))) * 0.1
+ 310              		.loc 1 38 52 is_stmt 0 view .LVU58
+ 311 0084 AA48     		ldr	r0, .L60+24
+ 312 0086 FFF7FEFF 		bl	_ZN3PID3GetEv
+ 313              	.LVL25:
+ 314 008a F0EE408A 		vmov.f32	s17, s0
+ 315              	.LVL26:
+  39:src/algorithm/capture_ball.cpp ****             } else {
+ 316              		.loc 1 39 19 is_stmt 1 view .LVU59
+  39:src/algorithm/capture_ball.cpp ****             } else {
+ 317              		.loc 1 39 45 is_stmt 0 view .LVU60
+ 318 008e B3EE000A 		vmov.f32	s0, #1.6e+1
+ 319              	.LVL27:
+  39:src/algorithm/capture_ball.cpp ****             } else {
+ 320              		.loc 1 39 45 view .LVU61
+ 321 0092 FFF7FEFF 		bl	sqrt
+ 322              	.LVL28:
+ 323 0096 B0EE408A 		vmov.f32	s16, s0
+  39:src/algorithm/capture_ball.cpp ****             } else {
+ 324              		.loc 1 39 65 view .LVU62
+ 325 009a 94ED150A 		vldr.32	s0, [r4, #84]
+  39:src/algorithm/capture_ball.cpp ****             } else {
+ 326              		.loc 1 39 64 view .LVU63
+ 327 009e B5EEC00A 		vcmpe.f32	s0, #0
+ 328 00a2 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 329 00a6 40F39A80 		ble	.L52
+ 330              	.L21:
+  39:src/algorithm/capture_ball.cpp ****             } else {
+ 331              		.loc 1 39 64 discriminator 4 view .LVU64
+ 332 00aa FFF7FEFF 		bl	sqrt
+ 333              	.LVL29:
+  39:src/algorithm/capture_ball.cpp ****             } else {
+ 334              		.loc 1 39 50 discriminator 4 view .LVU65
+ 335 00ae 78EE407A 		vsub.f32	s15, s16, s0
+ 336 00b2 17EE900A 		vmov	r0, s15
+ 337 00b6 FFF7FEFF 		bl	__aeabi_f2d
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s 			page 9
+
+
+ 338              	.LVL30:
+  39:src/algorithm/capture_ball.cpp ****             } else {
+ 339              		.loc 1 39 95 discriminator 4 view .LVU66
+ 340 00ba 97A3     		adr	r3, .L60
+ 341 00bc D3E90023 		ldrd	r2, [r3]
+ 342 00c0 FFF7FEFF 		bl	__aeabi_dmul
+ 343              	.LVL31:
+  39:src/algorithm/capture_ball.cpp ****             } else {
+ 344              		.loc 1 39 30 discriminator 4 view .LVU67
+ 345 00c4 FFF7FEFF 		bl	__aeabi_d2f
+ 346              	.LVL32:
+ 347 00c8 09EE100A 		vmov	s18, r0
+ 348              	.LVL33:
+ 349              	.L22:
+  44:src/algorithm/capture_ball.cpp ****             move_dir = MyMath::atan2(move_vel_x, move_vel_y);
+ 350              		.loc 1 44 13 is_stmt 1 view .LVU68
+  44:src/algorithm/capture_ball.cpp ****             move_dir = MyMath::atan2(move_vel_x, move_vel_y);
+ 351              		.loc 1 44 33 is_stmt 0 view .LVU69
+ 352 00cc 94F85030 		ldrb	r3, [r4, #80]	@ zero_extendqisi2
+  44:src/algorithm/capture_ball.cpp ****             move_dir = MyMath::atan2(move_vel_x, move_vel_y);
+ 353              		.loc 1 44 13 view .LVU70
+ 354 00d0 142B     		cmp	r3, #20
+ 355 00d2 00F2AE80 		bhi	.L53
+ 356              	.LVL34:
+ 357              	.L24:
+  45:src/algorithm/capture_ball.cpp ****       } else if (robot->info.Cam.ball_dis < CAPTURE_R) {
+ 358              		.loc 1 45 13 is_stmt 1 view .LVU71
+  45:src/algorithm/capture_ball.cpp ****       } else if (robot->info.Cam.ball_dis < CAPTURE_R) {
+ 359              		.loc 1 45 37 is_stmt 0 view .LVU72
+ 360 00d6 F0EE490A 		vmov.f32	s1, s18
+ 361 00da B0EE680A 		vmov.f32	s0, s17
+ 362 00de FFF7FEFF 		bl	atan2
+ 363              	.LVL35:
+  45:src/algorithm/capture_ball.cpp ****       } else if (robot->info.Cam.ball_dis < CAPTURE_R) {
+ 364              		.loc 1 45 22 view .LVU73
+ 365 00e2 05B2     		sxth	r5, r0
+ 366              	.LVL36:
+ 367              	.L25:
+  45:src/algorithm/capture_ball.cpp ****       } else if (robot->info.Cam.ball_dis < CAPTURE_R) {
+ 368              		.loc 1 45 22 view .LVU74
+ 369              	.LBE2:
+  73:src/algorithm/capture_ball.cpp ****       float add_vel_y = robot->info.Cam.ball_vel_y + robot->motor.moving_vel_y;
+ 370              		.loc 1 73 7 is_stmt 1 view .LVU75
+  73:src/algorithm/capture_ball.cpp ****       float add_vel_y = robot->info.Cam.ball_vel_y + robot->motor.moving_vel_y;
+ 371              		.loc 1 73 41 is_stmt 0 view .LVU76
+ 372 00e4 94ED187A 		vldr.32	s14, [r4, #96]
+  73:src/algorithm/capture_ball.cpp ****       float add_vel_y = robot->info.Cam.ball_vel_y + robot->motor.moving_vel_y;
+ 373              		.loc 1 73 67 view .LVU77
+ 374 00e8 D4ED647A 		vldr.32	s15, [r4, #400]
+  73:src/algorithm/capture_ball.cpp ****       float add_vel_y = robot->info.Cam.ball_vel_y + robot->motor.moving_vel_y;
+ 375              		.loc 1 73 13 view .LVU78
+ 376 00ec 37EE277A 		vadd.f32	s14, s14, s15
+ 377              	.LVL37:
+  74:src/algorithm/capture_ball.cpp ****       if (abs(add_vel_x) > 0.5) add_vel_x = 0.5 * (add_vel_x / abs(add_vel_x));
+ 378              		.loc 1 74 7 is_stmt 1 view .LVU79
+  74:src/algorithm/capture_ball.cpp ****       if (abs(add_vel_x) > 0.5) add_vel_x = 0.5 * (add_vel_x / abs(add_vel_x));
+ 379              		.loc 1 74 41 is_stmt 0 view .LVU80
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s 			page 10
+
+
+ 380 00f0 D4ED197A 		vldr.32	s15, [r4, #100]
+  74:src/algorithm/capture_ball.cpp ****       if (abs(add_vel_x) > 0.5) add_vel_x = 0.5 * (add_vel_x / abs(add_vel_x));
+ 381              		.loc 1 74 67 view .LVU81
+ 382 00f4 D4ED656A 		vldr.32	s13, [r4, #404]
+  74:src/algorithm/capture_ball.cpp ****       if (abs(add_vel_x) > 0.5) add_vel_x = 0.5 * (add_vel_x / abs(add_vel_x));
+ 383              		.loc 1 74 13 view .LVU82
+ 384 00f8 77EEA67A 		vadd.f32	s15, s15, s13
+ 385              	.LVL38:
+  75:src/algorithm/capture_ball.cpp ****       if (abs(add_vel_y) > 0.5) add_vel_y = 0.5 * (add_vel_y / abs(add_vel_y));
+ 386              		.loc 1 75 7 is_stmt 1 view .LVU83
+  75:src/algorithm/capture_ball.cpp ****       if (abs(add_vel_y) > 0.5) add_vel_y = 0.5 * (add_vel_y / abs(add_vel_y));
+ 387              		.loc 1 75 11 is_stmt 0 view .LVU84
+ 388 00fc B5EEC07A 		vcmpe.f32	s14, #0
+ 389 0100 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 390 0104 40F37581 		ble	.L54
+  75:src/algorithm/capture_ball.cpp ****       if (abs(add_vel_y) > 0.5) add_vel_y = 0.5 * (add_vel_y / abs(add_vel_y));
+ 391              		.loc 1 75 11 view .LVU85
+ 392 0108 F0EE476A 		vmov.f32	s13, s14
+ 393              	.L32:
+  75:src/algorithm/capture_ball.cpp ****       if (abs(add_vel_y) > 0.5) add_vel_y = 0.5 * (add_vel_y / abs(add_vel_y));
+ 394              		.loc 1 75 7 discriminator 4 view .LVU86
+ 395 010c B6EE006A 		vmov.f32	s12, #5.0e-1
+ 396 0110 F4EEC66A 		vcmpe.f32	s13, s12
+ 397 0114 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 398 0118 05DD     		ble	.L33
+  75:src/algorithm/capture_ball.cpp ****       if (abs(add_vel_y) > 0.5) add_vel_y = 0.5 * (add_vel_y / abs(add_vel_y));
+ 399              		.loc 1 75 33 is_stmt 1 discriminator 9 view .LVU87
+  75:src/algorithm/capture_ball.cpp ****       if (abs(add_vel_y) > 0.5) add_vel_y = 0.5 * (add_vel_y / abs(add_vel_y));
+ 400              		.loc 1 75 62 is_stmt 0 discriminator 9 view .LVU88
+ 401 011a 87EE266A 		vdiv.f32	s12, s14, s13
+  75:src/algorithm/capture_ball.cpp ****       if (abs(add_vel_y) > 0.5) add_vel_y = 0.5 * (add_vel_y / abs(add_vel_y));
+ 402              		.loc 1 75 43 discriminator 9 view .LVU89
+ 403 011e B6EE007A 		vmov.f32	s14, #5.0e-1
+ 404              	.LVL39:
+  75:src/algorithm/capture_ball.cpp ****       if (abs(add_vel_y) > 0.5) add_vel_y = 0.5 * (add_vel_y / abs(add_vel_y));
+ 405              		.loc 1 75 43 discriminator 9 view .LVU90
+ 406 0122 26EE077A 		vmul.f32	s14, s12, s14
+ 407              	.LVL40:
+ 408              	.L33:
+  76:src/algorithm/capture_ball.cpp ****       move_vel_x += add_vel_x;
+ 409              		.loc 1 76 7 is_stmt 1 view .LVU91
+  76:src/algorithm/capture_ball.cpp ****       move_vel_x += add_vel_x;
+ 410              		.loc 1 76 11 is_stmt 0 view .LVU92
+ 411 0126 F5EEC07A 		vcmpe.f32	s15, #0
+ 412 012a F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 413 012e 40F36381 		ble	.L55
+  76:src/algorithm/capture_ball.cpp ****       move_vel_x += add_vel_x;
+ 414              		.loc 1 76 11 view .LVU93
+ 415 0132 F0EE676A 		vmov.f32	s13, s15
+ 416              	.L35:
+  76:src/algorithm/capture_ball.cpp ****       move_vel_x += add_vel_x;
+ 417              		.loc 1 76 7 discriminator 4 view .LVU94
+ 418 0136 B6EE006A 		vmov.f32	s12, #5.0e-1
+ 419 013a F4EEC66A 		vcmpe.f32	s13, s12
+ 420 013e F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 421 0142 05DD     		ble	.L36
+  76:src/algorithm/capture_ball.cpp ****       move_vel_x += add_vel_x;
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s 			page 11
+
+
+ 422              		.loc 1 76 33 is_stmt 1 discriminator 9 view .LVU95
+  76:src/algorithm/capture_ball.cpp ****       move_vel_x += add_vel_x;
+ 423              		.loc 1 76 62 is_stmt 0 discriminator 9 view .LVU96
+ 424 0144 87EEA66A 		vdiv.f32	s12, s15, s13
+  76:src/algorithm/capture_ball.cpp ****       move_vel_x += add_vel_x;
+ 425              		.loc 1 76 43 discriminator 9 view .LVU97
+ 426 0148 F6EE007A 		vmov.f32	s15, #5.0e-1
+ 427              	.LVL41:
+  76:src/algorithm/capture_ball.cpp ****       move_vel_x += add_vel_x;
+ 428              		.loc 1 76 43 discriminator 9 view .LVU98
+ 429 014c 66EE277A 		vmul.f32	s15, s12, s15
+ 430              	.LVL42:
+ 431              	.L36:
+  77:src/algorithm/capture_ball.cpp ****       move_vel_y += add_vel_y;
+ 432              		.loc 1 77 7 is_stmt 1 view .LVU99
+  77:src/algorithm/capture_ball.cpp ****       move_vel_y += add_vel_y;
+ 433              		.loc 1 77 18 is_stmt 0 view .LVU100
+ 434 0150 38EE870A 		vadd.f32	s0, s17, s14
+ 435              	.LVL43:
+  78:src/algorithm/capture_ball.cpp ****       move_speed = MyMath::sqrt(move_vel_x * move_vel_x + move_vel_y * move_vel_y);
+ 436              		.loc 1 78 7 is_stmt 1 view .LVU101
+  78:src/algorithm/capture_ball.cpp ****       move_speed = MyMath::sqrt(move_vel_x * move_vel_x + move_vel_y * move_vel_y);
+ 437              		.loc 1 78 18 is_stmt 0 view .LVU102
+ 438 0154 79EE270A 		vadd.f32	s1, s18, s15
+ 439              	.LVL44:
+  79:src/algorithm/capture_ball.cpp **** 
+ 440              		.loc 1 79 7 is_stmt 1 view .LVU103
+  79:src/algorithm/capture_ball.cpp **** 
+ 441              		.loc 1 79 44 is_stmt 0 view .LVU104
+ 442 0158 20EE000A 		vmul.f32	s0, s0, s0
+ 443              	.LVL45:
+  79:src/algorithm/capture_ball.cpp **** 
+ 444              		.loc 1 79 70 view .LVU105
+ 445 015c 60EEA00A 		vmul.f32	s1, s1, s1
+ 446              	.LVL46:
+  79:src/algorithm/capture_ball.cpp **** 
+ 447              		.loc 1 79 32 view .LVU106
+ 448 0160 30EE200A 		vadd.f32	s0, s0, s1
+ 449 0164 FFF7FEFF 		bl	sqrt
+ 450              	.LVL47:
+  81:src/algorithm/capture_ball.cpp ****       if (move_speed > robot->info.target_move_speed) move_speed = robot->info.target_move_speed;
+ 451              		.loc 1 81 7 is_stmt 1 view .LVU107
+  81:src/algorithm/capture_ball.cpp ****       if (move_speed > robot->info.target_move_speed) move_speed = robot->info.target_move_speed;
+ 452              		.loc 1 81 11 is_stmt 0 view .LVU108
+ 453 0168 86EAE673 		eor	r3, r6, r6, asr #31
+ 454 016c A3EBE673 		sub	r3, r3, r6, asr #31
+ 455 0170 9BB2     		uxth	r3, r3
+  81:src/algorithm/capture_ball.cpp ****       if (move_speed > robot->info.target_move_speed) move_speed = robot->info.target_move_speed;
+ 456              		.loc 1 81 7 view .LVU109
+ 457 0172 5A2B     		cmp	r3, #90
+ 458 0174 08D9     		bls	.L38
+  81:src/algorithm/capture_ball.cpp ****       if (move_speed > robot->info.target_move_speed) move_speed = robot->info.target_move_speed;
+ 459              		.loc 1 81 32 discriminator 1 view .LVU110
+ 460 0176 F6EE087A 		vmov.f32	s15, #7.5e-1
+ 461 017a B4EEE70A 		vcmpe.f32	s0, s15
+ 462 017e F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 463 0182 01DD     		ble	.L38
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s 			page 12
+
+
+  81:src/algorithm/capture_ball.cpp ****       if (move_speed > robot->info.target_move_speed) move_speed = robot->info.target_move_speed;
+ 464              		.loc 1 81 65 view .LVU111
+ 465 0184 B0EE670A 		vmov.f32	s0, s15
+ 466              	.LVL48:
+ 467              	.L38:
+  82:src/algorithm/capture_ball.cpp ****       if (move_speed < 0) move_speed = 0;
+ 468              		.loc 1 82 7 is_stmt 1 view .LVU112
+  82:src/algorithm/capture_ball.cpp ****       if (move_speed < 0) move_speed = 0;
+ 469              		.loc 1 82 36 is_stmt 0 view .LVU113
+ 470 0188 94ED068A 		vldr.32	s16, [r4, #24]
+  82:src/algorithm/capture_ball.cpp ****       if (move_speed < 0) move_speed = 0;
+ 471              		.loc 1 82 7 view .LVU114
+ 472 018c B4EEC08A 		vcmpe.f32	s16, s0
+ 473 0190 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 474 0194 01D4     		bmi	.L39
+ 475 0196 B0EE408A 		vmov.f32	s16, s0
+ 476              	.L39:
+ 477              	.LVL49:
+  83:src/algorithm/capture_ball.cpp **** 
+ 478              		.loc 1 83 7 is_stmt 1 view .LVU115
+ 479 019a B5EEC08A 		vcmpe.f32	s16, #0
+ 480 019e F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 481 01a2 00F12C81 		bmi	.L56
+ 482              	.LVL50:
+ 483              	.L40:
+  85:src/algorithm/capture_ball.cpp **** }
+ 484              		.loc 1 85 7 view .LVU116
+  85:src/algorithm/capture_ball.cpp **** }
+ 485              		.loc 1 85 49 is_stmt 0 view .LVU117
+ 486 01a6 7019     		adds	r0, r6, r5
+ 487 01a8 FFF7FEFF 		bl	NormalizeDeg180
+ 488              	.LVL51:
+  85:src/algorithm/capture_ball.cpp **** }
+ 489              		.loc 1 85 25 view .LVU118
+ 490 01ac DFED5F0A 		vldr.32	s1, .L60+20
+ 491 01b0 0023     		movs	r3, #0
+ 492 01b2 B0EE601A 		vmov.f32	s2, s1
+ 493 01b6 1A46     		mov	r2, r3
+ 494 01b8 B0EE480A 		vmov.f32	s0, s16
+ 495 01bc 01B2     		sxth	r1, r0
+ 496 01be 04F5C870 		add	r0, r4, #400
+ 497 01c2 FFF7FEFF 		bl	_ZN10MotorDrive5DriveEsffsfh
+ 498              	.LVL52:
+ 499              		.loc 1 86 1 view .LVU119
+ 500 01c6 BDEC048B 		vldm	sp!, {d8-d9}
+ 501              	.LCFI6:
+ 502              		.cfi_remember_state
+ 503              		.cfi_restore 82
+ 504              		.cfi_restore 83
+ 505              		.cfi_restore 80
+ 506              		.cfi_restore 81
+ 507              		.cfi_def_cfa_offset 16
+ 508              	.LVL53:
+ 509              		.loc 1 86 1 view .LVU120
+ 510 01ca 70BD     		pop	{r4, r5, r6, pc}
+ 511              	.LVL54:
+ 512              	.L50:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s 			page 13
+
+
+ 513              	.LCFI7:
+ 514              		.cfi_restore_state
+  23:src/algorithm/capture_ball.cpp ****             is_pid_initialized = true;
+ 515              		.loc 1 23 13 is_stmt 1 view .LVU121
+  23:src/algorithm/capture_ball.cpp ****             is_pid_initialized = true;
+ 516              		.loc 1 23 26 is_stmt 0 view .LVU122
+ 517 01cc FFF7FEFF 		bl	_ZL13InitializePIDP5Robot
+ 518              	.LVL55:
+  24:src/algorithm/capture_ball.cpp ****       }
+ 519              		.loc 1 24 13 is_stmt 1 view .LVU123
+  24:src/algorithm/capture_ball.cpp ****       }
+ 520              		.loc 1 24 32 is_stmt 0 view .LVU124
+ 521 01d0 554B     		ldr	r3, .L60+16
+ 522 01d2 0122     		movs	r2, #1
+ 523 01d4 1A70     		strb	r2, [r3]
+ 524 01d6 1DE7     		b	.L16
+ 525              	.LVL56:
+ 526              	.L51:
+ 527              	.LBB5:
+  36:src/algorithm/capture_ball.cpp ****             if (abs(target_dir) < 90) {
+ 528              		.loc 1 36 11 discriminator 2 view .LVU125
+ 529 01d8 F1EE677A 		vneg.f32	s15, s15
+ 530 01dc 3AE7     		b	.L17
+ 531              	.LVL57:
+ 532              	.L52:
+  39:src/algorithm/capture_ball.cpp ****             } else {
+ 533              		.loc 1 39 64 discriminator 2 view .LVU126
+ 534 01de B1EE400A 		vneg.f32	s0, s0
+ 535 01e2 62E7     		b	.L21
+ 536              	.LVL58:
+ 537              	.L20:
+  41:src/algorithm/capture_ball.cpp ****                   move_vel_y = (MyMath::sqrt(16) - MyMath::sqrt(abs(robot->info.Cam.ball_x))) * 0.1
+ 538              		.loc 1 41 19 is_stmt 1 view .LVU127
+  41:src/algorithm/capture_ball.cpp ****                   move_vel_y = (MyMath::sqrt(16) - MyMath::sqrt(abs(robot->info.Cam.ball_x))) * 0.1
+ 539              		.loc 1 41 52 is_stmt 0 view .LVU128
+ 540 01e4 5248     		ldr	r0, .L60+24
+ 541 01e6 FFF7FEFF 		bl	_ZN3PID3GetEv
+ 542              	.LVL59:
+  41:src/algorithm/capture_ball.cpp ****                   move_vel_y = (MyMath::sqrt(16) - MyMath::sqrt(abs(robot->info.Cam.ball_x))) * 0.1
+ 543              		.loc 1 41 30 view .LVU129
+ 544 01ea F1EE408A 		vneg.f32	s17, s0
+ 545              	.LVL60:
+  42:src/algorithm/capture_ball.cpp ****             }
+ 546              		.loc 1 42 19 is_stmt 1 view .LVU130
+  42:src/algorithm/capture_ball.cpp ****             }
+ 547              		.loc 1 42 45 is_stmt 0 view .LVU131
+ 548 01ee B3EE000A 		vmov.f32	s0, #1.6e+1
+ 549 01f2 FFF7FEFF 		bl	sqrt
+ 550              	.LVL61:
+ 551 01f6 B0EE408A 		vmov.f32	s16, s0
+  42:src/algorithm/capture_ball.cpp ****             }
+ 552              		.loc 1 42 65 view .LVU132
+ 553 01fa 94ED150A 		vldr.32	s0, [r4, #84]
+  42:src/algorithm/capture_ball.cpp ****             }
+ 554              		.loc 1 42 64 view .LVU133
+ 555 01fe B5EEC00A 		vcmpe.f32	s0, #0
+ 556 0202 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s 			page 14
+
+
+ 557 0206 11DD     		ble	.L57
+ 558              	.L23:
+  42:src/algorithm/capture_ball.cpp ****             }
+ 559              		.loc 1 42 64 discriminator 4 view .LVU134
+ 560 0208 FFF7FEFF 		bl	sqrt
+ 561              	.LVL62:
+  42:src/algorithm/capture_ball.cpp ****             }
+ 562              		.loc 1 42 50 discriminator 4 view .LVU135
+ 563 020c 78EE407A 		vsub.f32	s15, s16, s0
+ 564 0210 17EE900A 		vmov	r0, s15
+ 565 0214 FFF7FEFF 		bl	__aeabi_f2d
+ 566              	.LVL63:
+  42:src/algorithm/capture_ball.cpp ****             }
+ 567              		.loc 1 42 95 discriminator 4 view .LVU136
+ 568 0218 3FA3     		adr	r3, .L60
+ 569 021a D3E90023 		ldrd	r2, [r3]
+ 570 021e FFF7FEFF 		bl	__aeabi_dmul
+ 571              	.LVL64:
+  42:src/algorithm/capture_ball.cpp ****             }
+ 572              		.loc 1 42 30 discriminator 4 view .LVU137
+ 573 0222 FFF7FEFF 		bl	__aeabi_d2f
+ 574              	.LVL65:
+ 575 0226 09EE100A 		vmov	s18, r0
+ 576              	.LVL66:
+  42:src/algorithm/capture_ball.cpp ****             }
+ 577              		.loc 1 42 30 discriminator 4 view .LVU138
+ 578 022a 4FE7     		b	.L22
+ 579              	.LVL67:
+ 580              	.L57:
+  42:src/algorithm/capture_ball.cpp ****             }
+ 581              		.loc 1 42 64 discriminator 2 view .LVU139
+ 582 022c B1EE400A 		vneg.f32	s0, s0
+ 583 0230 EAE7     		b	.L23
+ 584              	.LVL68:
+ 585              	.L53:
+  44:src/algorithm/capture_ball.cpp ****             move_dir = MyMath::atan2(move_vel_x, move_vel_y);
+ 586              		.loc 1 44 55 is_stmt 1 discriminator 1 view .LVU140
+  44:src/algorithm/capture_ball.cpp ****             move_dir = MyMath::atan2(move_vel_x, move_vel_y);
+ 587              		.loc 1 44 93 is_stmt 0 discriminator 1 view .LVU141
+ 588 0232 4048     		ldr	r0, .L60+28
+ 589              	.LVL69:
+  44:src/algorithm/capture_ball.cpp ****             move_dir = MyMath::atan2(move_vel_x, move_vel_y);
+ 590              		.loc 1 44 93 discriminator 1 view .LVU142
+ 591 0234 FFF7FEFF 		bl	_ZN3PID3GetEv
+ 592              	.LVL70:
+  44:src/algorithm/capture_ball.cpp ****             move_dir = MyMath::atan2(move_vel_x, move_vel_y);
+ 593              		.loc 1 44 66 discriminator 1 view .LVU143
+ 594 0238 39EE009A 		vadd.f32	s18, s18, s0
+ 595              	.LVL71:
+  44:src/algorithm/capture_ball.cpp ****             move_dir = MyMath::atan2(move_vel_x, move_vel_y);
+ 596              		.loc 1 44 66 discriminator 1 view .LVU144
+ 597 023c 4BE7     		b	.L24
+ 598              	.LVL72:
+ 599              	.L18:
+  44:src/algorithm/capture_ball.cpp ****             move_dir = MyMath::atan2(move_vel_x, move_vel_y);
+ 600              		.loc 1 44 66 discriminator 1 view .LVU145
+ 601              	.LBE5:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s 			page 15
+
+
+  46:src/algorithm/capture_ball.cpp ****             theta = 90 + float(robot->info.Cam.ball_dis / CAPTURE_R) * 30;
+ 602              		.loc 1 46 14 is_stmt 1 view .LVU146
+ 603              	.LBB6:
+ 604              	.LBB3:
+  46:src/algorithm/capture_ball.cpp ****             theta = 90 + float(robot->info.Cam.ball_dis / CAPTURE_R) * 30;
+ 605              		.loc 1 46 34 is_stmt 0 view .LVU147
+ 606 023e 94F85030 		ldrb	r3, [r4, #80]	@ zero_extendqisi2
+  46:src/algorithm/capture_ball.cpp ****             theta = 90 + float(robot->info.Cam.ball_dis / CAPTURE_R) * 30;
+ 607              		.loc 1 46 14 view .LVU148
+ 608 0242 132B     		cmp	r3, #19
+ 609 0244 7CD8     		bhi	.L26
+  47:src/algorithm/capture_ball.cpp ****             move_dir = ball_dir + (ball_dir > 0 ? theta : -theta);
+ 610              		.loc 1 47 13 is_stmt 1 view .LVU149
+  47:src/algorithm/capture_ball.cpp ****             move_dir = ball_dir + (ball_dir > 0 ? theta : -theta);
+ 611              		.loc 1 47 57 is_stmt 0 view .LVU150
+ 612 0246 3C4A     		ldr	r2, .L60+32
+ 613 0248 A2FB0323 		umull	r2, r3, r2, r3
+ 614 024c 1B09     		lsrs	r3, r3, #4
+ 615 024e 07EE903A 		vmov	s15, r3	@ int
+  47:src/algorithm/capture_ball.cpp ****             move_dir = ball_dir + (ball_dir > 0 ? theta : -theta);
+ 616              		.loc 1 47 26 view .LVU151
+ 617 0252 F8EEE77A 		vcvt.f32.s32	s15, s15
+  47:src/algorithm/capture_ball.cpp ****             move_dir = ball_dir + (ball_dir > 0 ? theta : -theta);
+ 618              		.loc 1 47 70 view .LVU152
+ 619 0256 B3EE0E7A 		vmov.f32	s14, #3.0e+1
+ 620 025a 67EE877A 		vmul.f32	s15, s15, s14
+  47:src/algorithm/capture_ball.cpp ****             move_dir = ball_dir + (ball_dir > 0 ? theta : -theta);
+ 621              		.loc 1 47 19 view .LVU153
+ 622 025e 9FED377A 		vldr.32	s14, .L60+36
+ 623 0262 77EE877A 		vadd.f32	s15, s15, s14
+ 624              	.LVL73:
+  48:src/algorithm/capture_ball.cpp **** 
+ 625              		.loc 1 48 13 is_stmt 1 view .LVU154
+  48:src/algorithm/capture_ball.cpp **** 
+ 626              		.loc 1 48 33 is_stmt 0 view .LVU155
+ 627 0266 07EE105A 		vmov	s14, r5	@ int
+ 628 026a B8EEC77A 		vcvt.f32.s32	s14, s14
+  48:src/algorithm/capture_ball.cpp **** 
+ 629              		.loc 1 48 49 view .LVU156
+ 630 026e 002D     		cmp	r5, #0
+ 631 0270 2EDD     		ble	.L58
+ 632              	.LVL74:
+ 633              	.L27:
+  48:src/algorithm/capture_ball.cpp **** 
+ 634              		.loc 1 48 33 discriminator 4 view .LVU157
+ 635 0272 77EE277A 		vadd.f32	s15, s14, s15
+  48:src/algorithm/capture_ball.cpp **** 
+ 636              		.loc 1 48 22 discriminator 4 view .LVU158
+ 637 0276 FDEEE77A 		vcvt.s32.f32	s15, s15
+ 638 027a 17EE903A 		vmov	r3, s15	@ int
+ 639              	.LVL75:
+  48:src/algorithm/capture_ball.cpp **** 
+ 640              		.loc 1 48 22 discriminator 4 view .LVU159
+ 641 027e 1DB2     		sxth	r5, r3
+ 642              	.LVL76:
+  50:src/algorithm/capture_ball.cpp ****                   move_vel_x = 0.4 * MyMath::sinDeg(move_dir);
+ 643              		.loc 1 50 13 is_stmt 1 discriminator 4 view .LVU160
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s 			page 16
+
+
+  50:src/algorithm/capture_ball.cpp ****                   move_vel_x = 0.4 * MyMath::sinDeg(move_dir);
+ 644              		.loc 1 50 17 is_stmt 0 discriminator 4 view .LVU161
+ 645 0280 86EAE673 		eor	r3, r6, r6, asr #31
+ 646 0284 A3EBE673 		sub	r3, r3, r6, asr #31
+ 647 0288 9BB2     		uxth	r3, r3
+  50:src/algorithm/capture_ball.cpp ****                   move_vel_x = 0.4 * MyMath::sinDeg(move_dir);
+ 648              		.loc 1 50 13 discriminator 4 view .LVU162
+ 649 028a 592B     		cmp	r3, #89
+ 650 028c 23D8     		bhi	.L28
+  51:src/algorithm/capture_ball.cpp ****                   move_vel_y = 0.4 * MyMath::cosDeg(move_dir);
+ 651              		.loc 1 51 19 is_stmt 1 view .LVU163
+  51:src/algorithm/capture_ball.cpp ****                   move_vel_y = 0.4 * MyMath::cosDeg(move_dir);
+ 652              		.loc 1 51 52 is_stmt 0 view .LVU164
+ 653 028e 2846     		mov	r0, r5
+ 654              	.LVL77:
+  51:src/algorithm/capture_ball.cpp ****                   move_vel_y = 0.4 * MyMath::cosDeg(move_dir);
+ 655              		.loc 1 51 52 view .LVU165
+ 656 0290 FFF7FEFF 		bl	sinDeg
+ 657              	.LVL78:
+  51:src/algorithm/capture_ball.cpp ****                   move_vel_y = 0.4 * MyMath::cosDeg(move_dir);
+ 658              		.loc 1 51 52 view .LVU166
+ 659 0294 10EE100A 		vmov	r0, s0
+ 660 0298 FFF7FEFF 		bl	__aeabi_f2d
+ 661              	.LVL79:
+  51:src/algorithm/capture_ball.cpp ****                   move_vel_y = 0.4 * MyMath::cosDeg(move_dir);
+ 662              		.loc 1 51 36 view .LVU167
+ 663 029c 20A3     		adr	r3, .L60+8
+ 664 029e D3E90023 		ldrd	r2, [r3]
+ 665 02a2 FFF7FEFF 		bl	__aeabi_dmul
+ 666              	.LVL80:
+  51:src/algorithm/capture_ball.cpp ****                   move_vel_y = 0.4 * MyMath::cosDeg(move_dir);
+ 667              		.loc 1 51 30 view .LVU168
+ 668 02a6 FFF7FEFF 		bl	__aeabi_d2f
+ 669              	.LVL81:
+ 670 02aa 08EE900A 		vmov	s17, r0
+ 671              	.LVL82:
+  52:src/algorithm/capture_ball.cpp ****             } else {
+ 672              		.loc 1 52 19 is_stmt 1 view .LVU169
+  52:src/algorithm/capture_ball.cpp ****             } else {
+ 673              		.loc 1 52 52 is_stmt 0 view .LVU170
+ 674 02ae 2846     		mov	r0, r5
+ 675              	.LVL83:
+  52:src/algorithm/capture_ball.cpp ****             } else {
+ 676              		.loc 1 52 52 view .LVU171
+ 677 02b0 FFF7FEFF 		bl	cosDeg
+ 678              	.LVL84:
+ 679 02b4 10EE100A 		vmov	r0, s0
+ 680 02b8 FFF7FEFF 		bl	__aeabi_f2d
+ 681              	.LVL85:
+  52:src/algorithm/capture_ball.cpp ****             } else {
+ 682              		.loc 1 52 36 view .LVU172
+ 683 02bc 18A3     		adr	r3, .L60+8
+ 684 02be D3E90023 		ldrd	r2, [r3]
+ 685 02c2 FFF7FEFF 		bl	__aeabi_dmul
+ 686              	.LVL86:
+  52:src/algorithm/capture_ball.cpp ****             } else {
+ 687              		.loc 1 52 30 view .LVU173
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s 			page 17
+
+
+ 688 02c6 FFF7FEFF 		bl	__aeabi_d2f
+ 689              	.LVL87:
+ 690 02ca 09EE100A 		vmov	s18, r0
+ 691              	.LVL88:
+  52:src/algorithm/capture_ball.cpp ****             } else {
+ 692              		.loc 1 52 30 view .LVU174
+ 693 02ce 09E7     		b	.L25
+ 694              	.LVL89:
+ 695              	.L58:
+  48:src/algorithm/capture_ball.cpp **** 
+ 696              		.loc 1 48 49 discriminator 1 view .LVU175
+ 697 02d0 F1EE677A 		vneg.f32	s15, s15
+ 698              	.LVL90:
+  48:src/algorithm/capture_ball.cpp **** 
+ 699              		.loc 1 48 49 discriminator 1 view .LVU176
+ 700 02d4 CDE7     		b	.L27
+ 701              	.LVL91:
+ 702              	.L28:
+  54:src/algorithm/capture_ball.cpp ****                   move_vel_y = 0.4 * MyMath::cosDeg(move_dir);
+ 703              		.loc 1 54 19 is_stmt 1 view .LVU177
+  54:src/algorithm/capture_ball.cpp ****                   move_vel_y = 0.4 * MyMath::cosDeg(move_dir);
+ 704              		.loc 1 54 52 is_stmt 0 view .LVU178
+ 705 02d6 2846     		mov	r0, r5
+ 706              	.LVL92:
+  54:src/algorithm/capture_ball.cpp ****                   move_vel_y = 0.4 * MyMath::cosDeg(move_dir);
+ 707              		.loc 1 54 52 view .LVU179
+ 708 02d8 FFF7FEFF 		bl	sinDeg
+ 709              	.LVL93:
+  54:src/algorithm/capture_ball.cpp ****                   move_vel_y = 0.4 * MyMath::cosDeg(move_dir);
+ 710              		.loc 1 54 52 view .LVU180
+ 711 02dc 10EE100A 		vmov	r0, s0
+ 712 02e0 FFF7FEFF 		bl	__aeabi_f2d
+ 713              	.LVL94:
+  54:src/algorithm/capture_ball.cpp ****                   move_vel_y = 0.4 * MyMath::cosDeg(move_dir);
+ 714              		.loc 1 54 36 view .LVU181
+ 715 02e4 0EA3     		adr	r3, .L60+8
+ 716 02e6 D3E90023 		ldrd	r2, [r3]
+ 717 02ea FFF7FEFF 		bl	__aeabi_dmul
+ 718              	.LVL95:
+  54:src/algorithm/capture_ball.cpp ****                   move_vel_y = 0.4 * MyMath::cosDeg(move_dir);
+ 719              		.loc 1 54 30 view .LVU182
+ 720 02ee FFF7FEFF 		bl	__aeabi_d2f
+ 721              	.LVL96:
+ 722 02f2 08EE900A 		vmov	s17, r0
+ 723              	.LVL97:
+  55:src/algorithm/capture_ball.cpp ****             }
+ 724              		.loc 1 55 19 is_stmt 1 view .LVU183
+  55:src/algorithm/capture_ball.cpp ****             }
+ 725              		.loc 1 55 52 is_stmt 0 view .LVU184
+ 726 02f6 2846     		mov	r0, r5
+ 727              	.LVL98:
+  55:src/algorithm/capture_ball.cpp ****             }
+ 728              		.loc 1 55 52 view .LVU185
+ 729 02f8 FFF7FEFF 		bl	cosDeg
+ 730              	.LVL99:
+ 731 02fc 10EE100A 		vmov	r0, s0
+ 732 0300 FFF7FEFF 		bl	__aeabi_f2d
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s 			page 18
+
+
+ 733              	.LVL100:
+  55:src/algorithm/capture_ball.cpp ****             }
+ 734              		.loc 1 55 36 view .LVU186
+ 735 0304 06A3     		adr	r3, .L60+8
+ 736 0306 D3E90023 		ldrd	r2, [r3]
+ 737 030a FFF7FEFF 		bl	__aeabi_dmul
+ 738              	.LVL101:
+  55:src/algorithm/capture_ball.cpp ****             }
+ 739              		.loc 1 55 30 view .LVU187
+ 740 030e FFF7FEFF 		bl	__aeabi_d2f
+ 741              	.LVL102:
+ 742 0312 09EE100A 		vmov	s18, r0
+ 743              	.LVL103:
+  55:src/algorithm/capture_ball.cpp ****             }
+ 744              		.loc 1 55 30 view .LVU188
+ 745 0316 E5E6     		b	.L25
+ 746              	.L61:
+ 747              		.align	3
+ 748              	.L60:
+ 749 0318 9A999999 		.word	-1717986918
+ 750 031c 9999B93F 		.word	1069128089
+ 751 0320 9A999999 		.word	-1717986918
+ 752 0324 9999D93F 		.word	1071225241
+ 753 0328 00000000 		.word	_ZL18is_pid_initialized
+ 754 032c 00000000 		.word	0
+ 755 0330 00000000 		.word	_ZL16ball_capture_pid
+ 756 0334 00000000 		.word	_ZL20ball_dis_capture_pid
+ 757 0338 CDCCCCCC 		.word	-858993459
+ 758 033c 0000B442 		.word	1119092736
+ 759              	.LVL104:
+ 760              	.L26:
+ 761              	.LBB4:
+  58:src/algorithm/capture_ball.cpp ****             if (ratio > 1.0f) ratio = 1.0f;
+ 762              		.loc 1 58 13 is_stmt 1 view .LVU189
+  58:src/algorithm/capture_ball.cpp ****             if (ratio > 1.0f) ratio = 1.0f;
+ 763              		.loc 1 58 44 is_stmt 0 view .LVU190
+ 764 0340 07EE903A 		vmov	s15, r3	@ int
+ 765 0344 F8EEE77A 		vcvt.f32.s32	s15, s15
+  58:src/algorithm/capture_ball.cpp ****             if (ratio > 1.0f) ratio = 1.0f;
+ 766              		.loc 1 58 19 view .LVU191
+ 767 0348 F3EE046A 		vmov.f32	s13, #2.0e+1
+ 768 034c 86EEA77A 		vdiv.f32	s14, s13, s15
+ 769              	.LVL105:
+  59:src/algorithm/capture_ball.cpp ****             theta = asin(ratio) * 180 / PI;
+ 770              		.loc 1 59 13 is_stmt 1 view .LVU192
+ 771 0350 F7EE007A 		vmov.f32	s15, #1.0e+0
+ 772 0354 B4EEE77A 		vcmpe.f32	s14, s15
+ 773 0358 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 774 035c 01DD     		ble	.L29
+  59:src/algorithm/capture_ball.cpp ****             theta = asin(ratio) * 180 / PI;
+ 775              		.loc 1 59 37 is_stmt 0 view .LVU193
+ 776 035e B0EE677A 		vmov.f32	s14, s15
+ 777              	.LVL106:
+ 778              	.L29:
+  60:src/algorithm/capture_ball.cpp ****             move_dir = ball_dir + (ball_dir > 0 ? theta : -theta);
+ 779              		.loc 1 60 13 is_stmt 1 view .LVU194
+  60:src/algorithm/capture_ball.cpp ****             move_dir = ball_dir + (ball_dir > 0 ? theta : -theta);
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s 			page 19
+
+
+ 780              		.loc 1 60 25 is_stmt 0 view .LVU195
+ 781 0362 17EE100A 		vmov	r0, s14
+ 782 0366 FFF7FEFF 		bl	__aeabi_f2d
+ 783              	.LVL107:
+  60:src/algorithm/capture_ball.cpp ****             move_dir = ball_dir + (ball_dir > 0 ? theta : -theta);
+ 784              		.loc 1 60 25 view .LVU196
+ 785 036a 41EC100B 		vmov	d0, r0, r1
+ 786 036e FFF7FEFF 		bl	asin
+ 787              	.LVL108:
+ 788 0372 51EC100B 		vmov	r0, r1, d0
+  60:src/algorithm/capture_ball.cpp ****             move_dir = ball_dir + (ball_dir > 0 ? theta : -theta);
+ 789              		.loc 1 60 33 view .LVU197
+ 790 0376 0022     		movs	r2, #0
+ 791 0378 254B     		ldr	r3, .L62+8
+ 792 037a FFF7FEFF 		bl	__aeabi_dmul
+ 793              	.LVL109:
+  60:src/algorithm/capture_ball.cpp ****             move_dir = ball_dir + (ball_dir > 0 ? theta : -theta);
+ 794              		.loc 1 60 39 view .LVU198
+ 795 037e 22A3     		adr	r3, .L62
+ 796 0380 D3E90023 		ldrd	r2, [r3]
+ 797 0384 FFF7FEFF 		bl	__aeabi_ddiv
+ 798              	.LVL110:
+  60:src/algorithm/capture_ball.cpp ****             move_dir = ball_dir + (ball_dir > 0 ? theta : -theta);
+ 799              		.loc 1 60 19 view .LVU199
+ 800 0388 FFF7FEFF 		bl	__aeabi_d2f
+ 801              	.LVL111:
+ 802 038c 07EE100A 		vmov	s14, r0
+ 803              	.LVL112:
+  61:src/algorithm/capture_ball.cpp **** 
+ 804              		.loc 1 61 13 is_stmt 1 view .LVU200
+  61:src/algorithm/capture_ball.cpp **** 
+ 805              		.loc 1 61 33 is_stmt 0 view .LVU201
+ 806 0390 07EE905A 		vmov	s15, r5	@ int
+ 807 0394 F8EEE77A 		vcvt.f32.s32	s15, s15
+  61:src/algorithm/capture_ball.cpp **** 
+ 808              		.loc 1 61 49 view .LVU202
+ 809 0398 002D     		cmp	r5, #0
+ 810 039a 1ADD     		ble	.L59
+ 811              	.L30:
+  61:src/algorithm/capture_ball.cpp **** 
+ 812              		.loc 1 61 33 discriminator 4 view .LVU203
+ 813 039c 77EE877A 		vadd.f32	s15, s15, s14
+  61:src/algorithm/capture_ball.cpp **** 
+ 814              		.loc 1 61 22 discriminator 4 view .LVU204
+ 815 03a0 FDEEE77A 		vcvt.s32.f32	s15, s15
+ 816 03a4 17EE903A 		vmov	r3, s15	@ int
+ 817 03a8 1DB2     		sxth	r5, r3
+ 818              	.LVL113:
+  63:src/algorithm/capture_ball.cpp ****                   move_vel_x = 0.5 * MyMath::sinDeg(move_dir);
+ 819              		.loc 1 63 13 is_stmt 1 discriminator 4 view .LVU205
+  63:src/algorithm/capture_ball.cpp ****                   move_vel_x = 0.5 * MyMath::sinDeg(move_dir);
+ 820              		.loc 1 63 17 is_stmt 0 discriminator 4 view .LVU206
+ 821 03aa 86EAE673 		eor	r3, r6, r6, asr #31
+ 822 03ae A3EBE673 		sub	r3, r3, r6, asr #31
+ 823 03b2 9BB2     		uxth	r3, r3
+  63:src/algorithm/capture_ball.cpp ****                   move_vel_x = 0.5 * MyMath::sinDeg(move_dir);
+ 824              		.loc 1 63 13 discriminator 4 view .LVU207
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s 			page 20
+
+
+ 825 03b4 592B     		cmp	r3, #89
+ 826 03b6 0FD8     		bhi	.L31
+  64:src/algorithm/capture_ball.cpp ****                   move_vel_y = 0.5 * MyMath::cosDeg(move_dir);
+ 827              		.loc 1 64 19 is_stmt 1 view .LVU208
+  64:src/algorithm/capture_ball.cpp ****                   move_vel_y = 0.5 * MyMath::cosDeg(move_dir);
+ 828              		.loc 1 64 52 is_stmt 0 view .LVU209
+ 829 03b8 2846     		mov	r0, r5
+ 830              	.LVL114:
+  64:src/algorithm/capture_ball.cpp ****                   move_vel_y = 0.5 * MyMath::cosDeg(move_dir);
+ 831              		.loc 1 64 52 view .LVU210
+ 832 03ba FFF7FEFF 		bl	sinDeg
+ 833              	.LVL115:
+ 834 03be B6EE009A 		vmov.f32	s18, #5.0e-1
+ 835 03c2 60EE098A 		vmul.f32	s17, s0, s18
+ 836              	.LVL116:
+  65:src/algorithm/capture_ball.cpp **** 
+ 837              		.loc 1 65 19 is_stmt 1 view .LVU211
+  65:src/algorithm/capture_ball.cpp **** 
+ 838              		.loc 1 65 52 is_stmt 0 view .LVU212
+ 839 03c6 2846     		mov	r0, r5
+ 840 03c8 FFF7FEFF 		bl	cosDeg
+ 841              	.LVL117:
+ 842 03cc 20EE099A 		vmul.f32	s18, s0, s18
+ 843              	.LVL118:
+  65:src/algorithm/capture_ball.cpp **** 
+ 844              		.loc 1 65 52 view .LVU213
+ 845 03d0 88E6     		b	.L25
+ 846              	.LVL119:
+ 847              	.L59:
+  61:src/algorithm/capture_ball.cpp **** 
+ 848              		.loc 1 61 49 discriminator 1 view .LVU214
+ 849 03d2 B1EE477A 		vneg.f32	s14, s14
+ 850 03d6 E1E7     		b	.L30
+ 851              	.LVL120:
+ 852              	.L31:
+  68:src/algorithm/capture_ball.cpp ****                   move_vel_y = 0.5 * MyMath::cosDeg(move_dir);
+ 853              		.loc 1 68 19 is_stmt 1 view .LVU215
+  68:src/algorithm/capture_ball.cpp ****                   move_vel_y = 0.5 * MyMath::cosDeg(move_dir);
+ 854              		.loc 1 68 52 is_stmt 0 view .LVU216
+ 855 03d8 2846     		mov	r0, r5
+ 856              	.LVL121:
+  68:src/algorithm/capture_ball.cpp ****                   move_vel_y = 0.5 * MyMath::cosDeg(move_dir);
+ 857              		.loc 1 68 52 view .LVU217
+ 858 03da FFF7FEFF 		bl	sinDeg
+ 859              	.LVL122:
+ 860 03de B6EE009A 		vmov.f32	s18, #5.0e-1
+ 861 03e2 60EE098A 		vmul.f32	s17, s0, s18
+ 862              	.LVL123:
+  69:src/algorithm/capture_ball.cpp ****             }
+ 863              		.loc 1 69 19 is_stmt 1 view .LVU218
+  69:src/algorithm/capture_ball.cpp ****             }
+ 864              		.loc 1 69 52 is_stmt 0 view .LVU219
+ 865 03e6 2846     		mov	r0, r5
+ 866 03e8 FFF7FEFF 		bl	cosDeg
+ 867              	.LVL124:
+ 868 03ec 20EE099A 		vmul.f32	s18, s0, s18
+ 869              	.LVL125:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s 			page 21
+
+
+  69:src/algorithm/capture_ball.cpp ****             }
+ 870              		.loc 1 69 52 view .LVU220
+ 871 03f0 78E6     		b	.L25
+ 872              	.LVL126:
+ 873              	.L54:
+  69:src/algorithm/capture_ball.cpp ****             }
+ 874              		.loc 1 69 52 view .LVU221
+ 875              	.LBE4:
+ 876              	.LBE3:
+ 877              	.LBE6:
+  75:src/algorithm/capture_ball.cpp ****       if (abs(add_vel_y) > 0.5) add_vel_y = 0.5 * (add_vel_y / abs(add_vel_y));
+ 878              		.loc 1 75 11 discriminator 2 view .LVU222
+ 879 03f2 F1EE476A 		vneg.f32	s13, s14
+ 880 03f6 89E6     		b	.L32
+ 881              	.L55:
+  76:src/algorithm/capture_ball.cpp ****       move_vel_x += add_vel_x;
+ 882              		.loc 1 76 11 discriminator 2 view .LVU223
+ 883 03f8 F1EE676A 		vneg.f32	s13, s15
+ 884 03fc 9BE6     		b	.L35
+ 885              	.LVL127:
+ 886              	.L56:
+  83:src/algorithm/capture_ball.cpp **** 
+ 887              		.loc 1 83 38 view .LVU224
+ 888 03fe 9FED058A 		vldr.32	s16, .L62+12
+ 889              	.LVL128:
+  83:src/algorithm/capture_ball.cpp **** 
+ 890              		.loc 1 83 38 view .LVU225
+ 891 0402 D0E6     		b	.L40
+ 892              	.L63:
+ 893 0404 AFF30080 		.align	3
+ 894              	.L62:
+ 895 0408 182D4454 		.word	1413754136
+ 896 040c FB210940 		.word	1074340347
+ 897 0410 00806640 		.word	1080459264
+ 898 0414 00000000 		.word	0
+ 899              		.cfi_endproc
+ 900              	.LFE1195:
+ 901              		.fnend
+ 903              		.section	.text._GLOBAL__sub_I__Z11CaptureBallP5Robots,"ax",%progbits
+ 904              		.align	1
+ 905              		.syntax unified
+ 906              		.thumb
+ 907              		.thumb_func
+ 909              	_GLOBAL__sub_I__Z11CaptureBallP5Robots:
+ 910              		.fnstart
+ 911              	.LFB1311:
+ 912              		.loc 1 86 1 is_stmt 1 view -0
+ 913              		.cfi_startproc
+ 914              		@ args = 0, pretend = 0, frame = 0
+ 915              		@ frame_needed = 0, uses_anonymous_args = 0
+ 916 0000 08B5     		push	{r3, lr}
+ 917              	.LCFI8:
+ 918              		.cfi_def_cfa_offset 8
+ 919              		.cfi_offset 3, -8
+ 920              		.cfi_offset 14, -4
+ 921              		.loc 1 86 1 is_stmt 0 view .LVU227
+ 922 0002 4FF6FF71 		movw	r1, #65535
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s 			page 22
+
+
+ 923 0006 0120     		movs	r0, #1
+ 924 0008 FFF7FEFF 		bl	_Z41__static_initialization_and_destruction_0ii
+ 925              	.LVL129:
+ 926 000c 08BD     		pop	{r3, pc}
+ 927              		.cfi_endproc
+ 928              	.LFE1311:
+ 929              		.cantunwind
+ 930              		.fnend
+ 932              		.section	.init_array,"aw",%init_array
+ 933              		.align	2
+ 934 0000 00000000 		.word	_GLOBAL__sub_I__Z11CaptureBallP5Robots(target1)
+ 935              		.section	.bss._ZL18is_pid_initialized,"aw",%nobits
+ 938              	_ZL18is_pid_initialized:
+ 939 0000 00       		.space	1
+ 940              		.section	.bss._ZL20ball_dis_capture_pid,"aw",%nobits
+ 941              		.align	3
+ 944              	_ZL20ball_dis_capture_pid:
+ 945 0000 00000000 		.space	104
+ 945      00000000 
+ 945      00000000 
+ 945      00000000 
+ 945      00000000 
+ 946              		.section	.bss._ZL16ball_capture_pid,"aw",%nobits
+ 947              		.align	3
+ 950              	_ZL16ball_capture_pid:
+ 951 0000 00000000 		.space	104
+ 951      00000000 
+ 951      00000000 
+ 951      00000000 
+ 951      00000000 
+ 952              		.text
+ 953              	.Letext0:
+ 954              		.file 2 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/cmath"
+ 955              		.file 3 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/type_tra
+ 956              		.file 4 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/debug/de
+ 957              		.file 5 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/cstdio"
+ 958              		.file 6 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/bits/stl
+ 959              		.file 7 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/arm-none
+ 960              		.file 8 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/bits/pre
+ 961              		.file 9 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/lib/gcc/arm-none-eabi/12.3.1/include/stdd
+ 962              		.file 10 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/machine/_default_t
+ 963              		.file 11 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_types.h"
+ 964              		.file 12 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/reent.h"
+ 965              		.file 13 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/lock.h"
+ 966              		.file 14 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/math.h"
+ 967              		.file 15 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/stdio.h"
+ 968              		.file 16 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_stdint.h"
+ 969              		.file 17 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h"
+ 970              		.file 18 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
+ 971              		.file 19 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 972              		.file 20 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 973              		.file 21 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h"
+ 974              		.file 22 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h"
+ 975              		.file 23 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
+ 976              		.file 24 "Lib/BufferedSerial/BufferedSerial.hpp"
+ 977              		.file 25 "Lib/DigitalInOut/DigitalInOut.hpp"
+ 978              		.file 26 "Lib/MovingAve/MovingAve.hpp"
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s 			page 23
+
+
+ 979              		.file 27 "Lib/PWMSingle/PWMSingle.hpp"
+ 980              		.file 28 "Lib/Timer/Timer.hpp"
+ 981              		.file 29 "src/unit/dribbler_drive/dribbler_drive.hpp"
+ 982              		.file 30 "src/unit/kicker/kicker.hpp"
+ 983              		.file 31 "Lib/pid/pid.hpp"
+ 984              		.file 32 "src/unit/motor_drive/motor_drive.hpp"
+ 985              		.file 33 "src/unit/robot/robot.hpp"
+ 986              		.file 34 "Lib/MyMath/MyMath.hpp"
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s 			page 24
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 capture_ball.cpp
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s:22     .text._ZL13InitializePIDP5Robot:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s:27     .text._ZL13InitializePIDP5Robot:00000000 _ZL13InitializePIDP5Robot
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s:132    .text._ZL13InitializePIDP5Robot:00000090 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s:950    .bss._ZL16ball_capture_pid:00000000 _ZL16ball_capture_pid
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s:944    .bss._ZL20ball_dis_capture_pid:00000000 _ZL20ball_dis_capture_pid
+.ARM.extab.text._ZL13InitializePIDP5Robot:00000000 $d
+.ARM.exidx.text._ZL13InitializePIDP5Robot:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s:148    .text._Z41__static_initialization_and_destruction_0ii:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s:153    .text._Z41__static_initialization_and_destruction_0ii:00000000 _Z41__static_initialization_and_destruction_0ii
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s:197    .text._Z41__static_initialization_and_destruction_0ii:00000020 $d
+.ARM.exidx.text._Z41__static_initialization_and_destruction_0ii:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s:208    .text._Z11CaptureBallP5Robots:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s:214    .text._Z11CaptureBallP5Robots:00000000 _Z11CaptureBallP5Robots
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s:749    .text._Z11CaptureBallP5Robots:00000318 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s:938    .bss._ZL18is_pid_initialized:00000000 _ZL18is_pid_initialized
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s:764    .text._Z11CaptureBallP5Robots:00000340 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s:895    .text._Z11CaptureBallP5Robots:00000408 $d
+.ARM.exidx.text._Z11CaptureBallP5Robots:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s:904    .text._GLOBAL__sub_I__Z11CaptureBallP5Robots:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s:909    .text._GLOBAL__sub_I__Z11CaptureBallP5Robots:00000000 _GLOBAL__sub_I__Z11CaptureBallP5Robots
+.ARM.exidx.text._GLOBAL__sub_I__Z11CaptureBallP5Robots:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s:933    .init_array:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s:939    .bss._ZL18is_pid_initialized:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s:941    .bss._ZL20ball_dis_capture_pid:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccv33IEU.s:947    .bss._ZL16ball_capture_pid:00000000 $d
+
+UNDEFINED SYMBOLS
+__aeabi_f2d
+_ZN3PID7SetGainEfff
+_ZN3PID8SetLimitEdd
+_ZN3PID15SetSamplingFreqEt
+_ZN3PID7SetTypeEh
+__aeabi_unwind_cpp_pr1
+_ZN3PIDC1Ev
+__aeabi_dmul
+__aeabi_d2f
+__aeabi_ddiv
+_ZN3PID7ComputeEff
+NormalizeDeg180
+_ZN3PID3GetEv
+sqrt
+atan2
+_ZN10MotorDrive5DriveEsffsfh
+sinDeg
+cosDeg
+asin
+__aeabi_unwind_cpp_pr0

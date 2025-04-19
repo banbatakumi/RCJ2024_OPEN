@@ -1,0 +1,869 @@
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"on_line.cpp"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "src/algorithm/offence/on_line.cpp"
+  20              		.global	__aeabi_f2d
+  21              		.global	__aeabi_dmul
+  22              		.global	__aeabi_d2f
+  23              		.section	.text._ZL9LineTraceP5Robot,"ax",%progbits
+  24              		.align	1
+  25              		.syntax unified
+  26              		.thumb
+  27              		.thumb_func
+  29              	_ZL9LineTraceP5Robot:
+  30              		.fnstart
+  31              	.LVL0:
+  32              	.LFB272:
+   1:src/algorithm/offence/on_line.cpp **** #include "on_line.hpp"
+   2:src/algorithm/offence/on_line.cpp **** 
+   3:src/algorithm/offence/on_line.cpp **** Timer back_to_inside_timer;
+   4:src/algorithm/offence/on_line.cpp **** 
+   5:src/algorithm/offence/on_line.cpp **** static int16_t pre_line_inside_dir;
+   6:src/algorithm/offence/on_line.cpp **** float pre_speed;
+   7:src/algorithm/offence/on_line.cpp **** bool is_pre_on_line;
+   8:src/algorithm/offence/on_line.cpp **** // bool is_pre_leftside;
+   9:src/algorithm/offence/on_line.cpp **** // bool is_pre_rightside;
+  10:src/algorithm/offence/on_line.cpp **** 
+  11:src/algorithm/offence/on_line.cpp **** static void LineTrace(Robot* robot) {
+  33              		.loc 1 11 37 view -0
+  34              		.cfi_startproc
+  35              		@ args = 0, pretend = 0, frame = 0
+  36              		@ frame_needed = 0, uses_anonymous_args = 0
+  37              		.loc 1 11 37 is_stmt 0 view .LVU1
+  38 0000 38B5     		push	{r3, r4, r5, lr}
+  39              		.save {r3, r4, r5, lr}
+  40              	.LCFI0:
+  41              		.cfi_def_cfa_offset 16
+  42              		.cfi_offset 3, -16
+  43              		.cfi_offset 4, -12
+  44              		.cfi_offset 5, -8
+  45              		.cfi_offset 14, -4
+  46 0002 2DED048B 		vpush.64	{d8, d9}
+  47              		.vsave {d8, d9}
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s 			page 2
+
+
+  48              	.LCFI1:
+  49              		.cfi_def_cfa_offset 32
+  50              		.cfi_offset 80, -32
+  51              		.cfi_offset 81, -28
+  52              		.cfi_offset 82, -24
+  53              		.cfi_offset 83, -20
+  54 0006 0446     		mov	r4, r0
+  12:src/algorithm/offence/on_line.cpp ****       float vector_x, vector_y;
+  55              		.loc 1 12 7 is_stmt 1 view .LVU2
+  13:src/algorithm/offence/on_line.cpp ****       float vector_mag, vector_dir;
+  56              		.loc 1 13 7 view .LVU3
+  14:src/algorithm/offence/on_line.cpp ****       float line_vector_gain, ball_vector_gain;
+  57              		.loc 1 14 7 view .LVU4
+  15:src/algorithm/offence/on_line.cpp ****       float moving_speed;
+  58              		.loc 1 15 7 view .LVU5
+  16:src/algorithm/offence/on_line.cpp ****       int16_t rotation_dir;
+  59              		.loc 1 16 7 view .LVU6
+  17:src/algorithm/offence/on_line.cpp **** 
+  18:src/algorithm/offence/on_line.cpp ****       if (abs(robot->info.Cam.ball_dir) < 90 && abs(robot->info.Line.inside_dir + robot->info.Imu.y
+  60              		.loc 1 18 7 view .LVU7
+  61              		.loc 1 18 11 is_stmt 0 view .LVU8
+  62 0008 B0F94E30 		ldrsh	r3, [r0, #78]
+  63 000c 002B     		cmp	r3, #0
+  64 000e B8BF     		it	lt
+  65 0010 5B42     		rsblt	r3, r3, #0
+  66 0012 9BB2     		uxth	r3, r3
+  67              		.loc 1 18 7 view .LVU9
+  68 0014 592B     		cmp	r3, #89
+  69 0016 0FD8     		bhi	.L9
+  70              		.loc 1 18 49 discriminator 1 view .LVU10
+  71 0018 B0F92830 		ldrsh	r3, [r0, #40]
+  72 001c B0F93620 		ldrsh	r2, [r0, #54]
+  73 0020 1344     		add	r3, r3, r2
+  74 0022 002B     		cmp	r3, #0
+  75 0024 B8BF     		it	lt
+  76 0026 5B42     		rsblt	r3, r3, #0
+  77              		.loc 1 18 46 discriminator 1 view .LVU11
+  78 0028 872B     		cmp	r3, #135
+  79 002a 00F3AD80 		bgt	.L10
+  19:src/algorithm/offence/on_line.cpp ****             line_vector_gain = 0.4;
+  20:src/algorithm/offence/on_line.cpp ****             ball_vector_gain = 0.6;
+  21:src/algorithm/offence/on_line.cpp ****       } else {  // 通常待機
+  22:src/algorithm/offence/on_line.cpp ****             line_vector_gain = 0.6;
+  23:src/algorithm/offence/on_line.cpp ****             ball_vector_gain = 0.4;
+  80              		.loc 1 23 30 view .LVU12
+  81 002e DFED649A 		vldr.32	s19, .L16+16
+  22:src/algorithm/offence/on_line.cpp ****             ball_vector_gain = 0.4;
+  82              		.loc 1 22 30 view .LVU13
+  83 0032 9FED649A 		vldr.32	s18, .L16+20
+  84 0036 03E0     		b	.L2
+  85              	.L9:
+  86              		.loc 1 23 30 view .LVU14
+  87 0038 DFED619A 		vldr.32	s19, .L16+16
+  22:src/algorithm/offence/on_line.cpp ****             ball_vector_gain = 0.4;
+  88              		.loc 1 22 30 view .LVU15
+  89 003c 9FED619A 		vldr.32	s18, .L16+20
+  90              	.L2:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s 			page 3
+
+
+  91              	.LVL1:
+  24:src/algorithm/offence/on_line.cpp ****       }
+  25:src/algorithm/offence/on_line.cpp **** 
+  26:src/algorithm/offence/on_line.cpp ****       vector_x = robot->info.Line.depth * MyMath::sinDeg(robot->info.Line.inside_dir) * line_vector
+  92              		.loc 1 26 7 is_stmt 1 view .LVU16
+  93              		.loc 1 26 35 is_stmt 0 view .LVU17
+  94 0040 94F82230 		ldrb	r3, [r4, #34]	@ zero_extendqisi2
+  95 0044 08EE103A 		vmov	s16, r3	@ int
+  96              		.loc 1 26 41 view .LVU18
+  97 0048 B8EEC88A 		vcvt.f32.s32	s16, s16
+  98              		.loc 1 26 57 view .LVU19
+  99 004c B4F92800 		ldrsh	r0, [r4, #40]
+ 100              	.LVL2:
+ 101              		.loc 1 26 57 view .LVU20
+ 102 0050 FFF7FEFF 		bl	sinDeg
+ 103              	.LVL3:
+ 104              		.loc 1 26 41 view .LVU21
+ 105 0054 28EE008A 		vmul.f32	s16, s16, s0
+ 106              		.loc 1 26 16 view .LVU22
+ 107 0058 28EE098A 		vmul.f32	s16, s16, s18
+ 108              	.LVL4:
+  27:src/algorithm/offence/on_line.cpp ****       vector_y = robot->info.Line.depth * MyMath::cosDeg(robot->info.Line.inside_dir) * line_vector
+ 109              		.loc 1 27 7 is_stmt 1 view .LVU23
+ 110              		.loc 1 27 35 is_stmt 0 view .LVU24
+ 111 005c 94F82230 		ldrb	r3, [r4, #34]	@ zero_extendqisi2
+ 112 0060 08EE903A 		vmov	s17, r3	@ int
+ 113              		.loc 1 27 41 view .LVU25
+ 114 0064 F8EEE88A 		vcvt.f32.s32	s17, s17
+ 115              		.loc 1 27 57 view .LVU26
+ 116 0068 B4F92800 		ldrsh	r0, [r4, #40]
+ 117 006c FFF7FEFF 		bl	cosDeg
+ 118              	.LVL5:
+ 119              		.loc 1 27 41 view .LVU27
+ 120 0070 68EE808A 		vmul.f32	s17, s17, s0
+ 121              		.loc 1 27 16 view .LVU28
+ 122 0074 68EE898A 		vmul.f32	s17, s17, s18
+ 123              	.LVL6:
+  28:src/algorithm/offence/on_line.cpp ****       vector_x += ((24 - robot->info.Line.depth) * MyMath::sinDeg(robot->info.Cam.ball_dir)) * ball
+ 124              		.loc 1 28 7 is_stmt 1 view .LVU29
+ 125              		.loc 1 28 43 is_stmt 0 view .LVU30
+ 126 0078 94F82230 		ldrb	r3, [r4, #34]	@ zero_extendqisi2
+ 127              		.loc 1 28 24 view .LVU31
+ 128 007c C3F11803 		rsb	r3, r3, #24
+ 129              		.loc 1 28 50 view .LVU32
+ 130 0080 07EE903A 		vmov	s15, r3	@ int
+ 131 0084 B8EEE79A 		vcvt.f32.s32	s18, s15
+ 132              	.LVL7:
+ 133              		.loc 1 28 66 view .LVU33
+ 134 0088 B4F94E00 		ldrsh	r0, [r4, #78]
+ 135 008c FFF7FEFF 		bl	sinDeg
+ 136              	.LVL8:
+ 137              		.loc 1 28 50 view .LVU34
+ 138 0090 29EE009A 		vmul.f32	s18, s18, s0
+ 139              		.loc 1 28 94 view .LVU35
+ 140 0094 29EE299A 		vmul.f32	s18, s18, s19
+ 141              		.loc 1 28 16 view .LVU36
+ 142 0098 38EE098A 		vadd.f32	s16, s16, s18
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s 			page 4
+
+
+ 143              	.LVL9:
+  29:src/algorithm/offence/on_line.cpp ****       vector_y += ((24 - robot->info.Line.depth) * MyMath::cosDeg(robot->info.Cam.ball_dir)) * ball
+ 144              		.loc 1 29 7 is_stmt 1 view .LVU37
+ 145              		.loc 1 29 43 is_stmt 0 view .LVU38
+ 146 009c 94F82230 		ldrb	r3, [r4, #34]	@ zero_extendqisi2
+ 147              		.loc 1 29 24 view .LVU39
+ 148 00a0 C3F11803 		rsb	r3, r3, #24
+ 149              		.loc 1 29 50 view .LVU40
+ 150 00a4 07EE903A 		vmov	s15, r3	@ int
+ 151 00a8 B8EEE79A 		vcvt.f32.s32	s18, s15
+ 152              		.loc 1 29 66 view .LVU41
+ 153 00ac B4F94E00 		ldrsh	r0, [r4, #78]
+ 154 00b0 FFF7FEFF 		bl	cosDeg
+ 155              	.LVL10:
+ 156              		.loc 1 29 50 view .LVU42
+ 157 00b4 29EE009A 		vmul.f32	s18, s18, s0
+ 158              		.loc 1 29 94 view .LVU43
+ 159 00b8 29EE299A 		vmul.f32	s18, s18, s19
+ 160              		.loc 1 29 16 view .LVU44
+ 161 00bc 78EE898A 		vadd.f32	s17, s17, s18
+ 162              	.LVL11:
+  30:src/algorithm/offence/on_line.cpp ****       vector_dir = MyMath::atan2(vector_x, vector_y);
+ 163              		.loc 1 30 7 is_stmt 1 view .LVU45
+ 164              		.loc 1 30 33 is_stmt 0 view .LVU46
+ 165 00c0 F0EE680A 		vmov.f32	s1, s17
+ 166 00c4 B0EE480A 		vmov.f32	s0, s16
+ 167 00c8 FFF7FEFF 		bl	atan2
+ 168              	.LVL12:
+ 169 00cc 09EE100A 		vmov	s18, r0	@ int
+ 170              		.loc 1 30 18 view .LVU47
+ 171 00d0 B8EEC99A 		vcvt.f32.s32	s18, s18
+ 172              	.LVL13:
+  31:src/algorithm/offence/on_line.cpp ****       vector_mag = abs(MyMath::sqrt(vector_x * vector_x + vector_y * vector_y)) * 0.1;
+ 173              		.loc 1 31 7 is_stmt 1 view .LVU48
+ 174              		.loc 1 31 20 is_stmt 0 view .LVU49
+ 175 00d4 28EE088A 		vmul.f32	s16, s16, s16
+ 176              	.LVL14:
+ 177              		.loc 1 31 20 view .LVU50
+ 178 00d8 68EEA88A 		vmul.f32	s17, s17, s17
+ 179              	.LVL15:
+ 180              		.loc 1 31 20 view .LVU51
+ 181 00dc 38EE288A 		vadd.f32	s16, s16, s17
+ 182 00e0 B0EE480A 		vmov.f32	s0, s16
+ 183 00e4 FFF7FEFF 		bl	sqrt
+ 184              	.LVL16:
+ 185 00e8 B5EEC00A 		vcmpe.f32	s0, #0
+ 186 00ec F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 187 00f0 4FDD     		ble	.L13
+ 188              		.loc 1 31 20 discriminator 1 view .LVU52
+ 189 00f2 B0EE480A 		vmov.f32	s0, s16
+ 190 00f6 FFF7FEFF 		bl	sqrt
+ 191              	.LVL17:
+ 192 00fa 10EE100A 		vmov	r0, s0
+ 193              	.L5:
+ 194              		.loc 1 31 20 discriminator 4 view .LVU53
+ 195 00fe FFF7FEFF 		bl	__aeabi_f2d
+ 196              	.LVL18:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s 			page 5
+
+
+ 197              		.loc 1 31 81 discriminator 4 view .LVU54
+ 198 0102 2BA3     		adr	r3, .L16
+ 199 0104 D3E90023 		ldrd	r2, [r3]
+ 200 0108 FFF7FEFF 		bl	__aeabi_dmul
+ 201              	.LVL19:
+ 202              		.loc 1 31 18 discriminator 4 view .LVU55
+ 203 010c FFF7FEFF 		bl	__aeabi_d2f
+ 204              	.LVL20:
+ 205 0110 07EE900A 		vmov	s15, r0
+ 206              	.LVL21:
+  32:src/algorithm/offence/on_line.cpp ****       if (vector_mag > robot->info.target_move_speed) vector_mag = robot->info.target_move_speed;
+ 207              		.loc 1 32 7 is_stmt 1 discriminator 4 view .LVU56
+ 208              		.loc 1 32 36 is_stmt 0 discriminator 4 view .LVU57
+ 209 0114 94ED068A 		vldr.32	s16, [r4, #24]
+ 210              		.loc 1 32 7 discriminator 4 view .LVU58
+ 211 0118 B4EEE78A 		vcmpe.f32	s16, s15
+ 212 011c F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 213 0120 01D4     		bmi	.L6
+  31:src/algorithm/offence/on_line.cpp ****       vector_mag = abs(MyMath::sqrt(vector_x * vector_x + vector_y * vector_y)) * 0.1;
+ 214              		.loc 1 31 18 view .LVU59
+ 215 0122 B0EE678A 		vmov.f32	s16, s15
+ 216              	.L6:
+ 217              	.LVL22:
+  33:src/algorithm/offence/on_line.cpp **** 
+  34:src/algorithm/offence/on_line.cpp ****       if (abs(robot->info.Cam.ball_dir) < 90) {
+ 218              		.loc 1 34 7 is_stmt 1 view .LVU60
+ 219              		.loc 1 34 11 is_stmt 0 view .LVU61
+ 220 0126 B4F94E50 		ldrsh	r5, [r4, #78]
+ 221 012a 85EAE573 		eor	r3, r5, r5, asr #31
+ 222 012e A3EBE573 		sub	r3, r3, r5, asr #31
+ 223 0132 9BB2     		uxth	r3, r3
+ 224              		.loc 1 34 7 view .LVU62
+ 225 0134 592B     		cmp	r3, #89
+ 226 0136 35D8     		bhi	.L15
+ 227              	.L7:
+ 228              	.LVL23:
+  35:src/algorithm/offence/on_line.cpp ****             rotation_dir = robot->info.Cam.ball_dir;
+  36:src/algorithm/offence/on_line.cpp ****       } else {
+  37:src/algorithm/offence/on_line.cpp ****             rotation_dir = MyMath::NormalizeDeg180(robot->info.Cam.ball_dir + 180);
+  38:src/algorithm/offence/on_line.cpp ****       }
+  39:src/algorithm/offence/on_line.cpp **** 
+  40:src/algorithm/offence/on_line.cpp ****       moving_speed = vector_mag * 0.4;
+ 229              		.loc 1 40 7 is_stmt 1 view .LVU63
+ 230              		.loc 1 40 22 is_stmt 0 view .LVU64
+ 231 0138 18EE100A 		vmov	r0, s16
+ 232 013c FFF7FEFF 		bl	__aeabi_f2d
+ 233              	.LVL24:
+ 234              		.loc 1 40 33 view .LVU65
+ 235 0140 1DA3     		adr	r3, .L16+8
+ 236 0142 D3E90023 		ldrd	r2, [r3]
+ 237 0146 FFF7FEFF 		bl	__aeabi_dmul
+ 238              	.LVL25:
+ 239              		.loc 1 40 20 view .LVU66
+ 240 014a FFF7FEFF 		bl	__aeabi_d2f
+ 241              	.LVL26:
+ 242 014e 00EE100A 		vmov	s0, r0
+ 243              	.LVL27:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s 			page 6
+
+
+  41:src/algorithm/offence/on_line.cpp ****       if (moving_speed > 0.5) moving_speed = 0.5;
+ 244              		.loc 1 41 7 is_stmt 1 view .LVU67
+ 245 0152 F6EE007A 		vmov.f32	s15, #5.0e-1
+ 246 0156 B4EEE70A 		vcmpe.f32	s0, s15
+ 247 015a F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 248 015e 01DD     		ble	.L8
+ 249              		.loc 1 41 44 is_stmt 0 view .LVU68
+ 250 0160 B0EE670A 		vmov.f32	s0, s15
+ 251              	.L8:
+ 252              	.LVL28:
+  42:src/algorithm/offence/on_line.cpp ****       robot->motor.Drive(vector_dir, moving_speed, 0, rotation_dir, PI);
+ 253              		.loc 1 42 7 is_stmt 1 view .LVU69
+ 254              		.loc 1 42 25 is_stmt 0 view .LVU70
+ 255 0164 BDEEC99A 		vcvt.s32.f32	s18, s18
+ 256              	.LVL29:
+ 257              		.loc 1 42 25 view .LVU71
+ 258 0168 0023     		movs	r3, #0
+ 259 016a 9FED171A 		vldr.32	s2, .L16+24
+ 260 016e 2A46     		mov	r2, r5
+ 261 0170 DFED160A 		vldr.32	s1, .L16+28
+ 262 0174 19EE101A 		vmov	r1, s18	@ int
+ 263 0178 09B2     		sxth	r1, r1
+ 264 017a 04F5C870 		add	r0, r4, #400
+ 265 017e FFF7FEFF 		bl	_ZN10MotorDrive5DriveEsffsfh
+ 266              	.LVL30:
+  43:src/algorithm/offence/on_line.cpp **** }
+ 267              		.loc 1 43 1 view .LVU72
+ 268 0182 BDEC048B 		vldm	sp!, {d8-d9}
+ 269              	.LCFI2:
+ 270              		.cfi_remember_state
+ 271              		.cfi_restore 82
+ 272              		.cfi_restore 83
+ 273              		.cfi_restore 80
+ 274              		.cfi_restore 81
+ 275              		.cfi_def_cfa_offset 16
+ 276              	.LVL31:
+ 277              		.loc 1 43 1 view .LVU73
+ 278 0186 38BD     		pop	{r3, r4, r5, pc}
+ 279              	.LVL32:
+ 280              	.L10:
+ 281              	.LCFI3:
+ 282              		.cfi_restore_state
+  20:src/algorithm/offence/on_line.cpp ****       } else {  // 通常待機
+ 283              		.loc 1 20 30 view .LVU74
+ 284 0188 DFED0E9A 		vldr.32	s19, .L16+20
+  19:src/algorithm/offence/on_line.cpp ****             ball_vector_gain = 0.6;
+ 285              		.loc 1 19 30 view .LVU75
+ 286 018c 9FED0C9A 		vldr.32	s18, .L16+16
+ 287 0190 56E7     		b	.L2
+ 288              	.LVL33:
+ 289              	.L13:
+  31:src/algorithm/offence/on_line.cpp ****       if (vector_mag > robot->info.target_move_speed) vector_mag = robot->info.target_move_speed;
+ 290              		.loc 1 31 20 discriminator 2 view .LVU76
+ 291 0192 B0EE480A 		vmov.f32	s0, s16
+ 292 0196 FFF7FEFF 		bl	sqrt
+ 293              	.LVL34:
+ 294 019a F1EE407A 		vneg.f32	s15, s0
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s 			page 7
+
+
+ 295 019e 17EE900A 		vmov	r0, s15
+ 296 01a2 ACE7     		b	.L5
+ 297              	.LVL35:
+ 298              	.L15:
+  37:src/algorithm/offence/on_line.cpp ****       }
+ 299              		.loc 1 37 13 is_stmt 1 view .LVU77
+  37:src/algorithm/offence/on_line.cpp ****       }
+ 300              		.loc 1 37 51 is_stmt 0 view .LVU78
+ 301 01a4 05F1B400 		add	r0, r5, #180
+ 302 01a8 FFF7FEFF 		bl	NormalizeDeg180
+ 303              	.LVL36:
+  37:src/algorithm/offence/on_line.cpp ****       }
+ 304              		.loc 1 37 26 view .LVU79
+ 305 01ac 05B2     		sxth	r5, r0
+ 306              	.LVL37:
+  37:src/algorithm/offence/on_line.cpp ****       }
+ 307              		.loc 1 37 26 view .LVU80
+ 308 01ae C3E7     		b	.L7
+ 309              	.L17:
+ 310              		.align	3
+ 311              	.L16:
+ 312 01b0 9A999999 		.word	-1717986918
+ 313 01b4 9999B93F 		.word	1069128089
+ 314 01b8 9A999999 		.word	-1717986918
+ 315 01bc 9999D93F 		.word	1071225241
+ 316 01c0 CDCCCC3E 		.word	1053609165
+ 317 01c4 9A99193F 		.word	1058642330
+ 318 01c8 DB0F4940 		.word	1078530011
+ 319 01cc 00000000 		.word	0
+ 320              		.cfi_endproc
+ 321              	.LFE272:
+ 322              		.fnend
+ 324              		.section	.text._Z41__static_initialization_and_destruction_0ii,"ax",%progbits
+ 325              		.align	1
+ 326              		.syntax unified
+ 327              		.thumb
+ 328              		.thumb_func
+ 330              	_Z41__static_initialization_and_destruction_0ii:
+ 331              		.fnstart
+ 332              	.LVL38:
+ 333              	.LFB274:
+  44:src/algorithm/offence/on_line.cpp **** 
+  45:src/algorithm/offence/on_line.cpp **** void OnLine(Robot* robot) {
+  46:src/algorithm/offence/on_line.cpp ****       if (robot->info.Catch.is_front == true || robot->info.Catch.is_back == true) {
+  47:src/algorithm/offence/on_line.cpp ****             robot->motor.Drive(robot->info.Line.inside_dir, 0.5, 0.5, 0, PI * 0.5, FRONT);
+  48:src/algorithm/offence/on_line.cpp ****       } else {
+  49:src/algorithm/offence/on_line.cpp ****             if (back_to_inside_timer.read_ms() > (pre_speed * 1000) && is_pre_on_line == false) {
+  50:src/algorithm/offence/on_line.cpp ****                   robot->motor.Brake(10);
+  51:src/algorithm/offence/on_line.cpp ****                   back_to_inside_timer.reset();
+  52:src/algorithm/offence/on_line.cpp ****                   is_pre_on_line = true;
+  53:src/algorithm/offence/on_line.cpp ****                   pre_speed = robot->motor.moving_speed;
+  54:src/algorithm/offence/on_line.cpp ****                   pre_line_inside_dir = robot->info.Line.inside_dir;
+  55:src/algorithm/offence/on_line.cpp ****             }
+  56:src/algorithm/offence/on_line.cpp ****             if (back_to_inside_timer.read_ms() < (pre_speed * BACK_TO_INSIDE_TIME)) {
+  57:src/algorithm/offence/on_line.cpp ****                   robot->motor.Drive(pre_line_inside_dir, robot->info.target_line_move_speed, 20);
+  58:src/algorithm/offence/on_line.cpp ****             } else {
+  59:src/algorithm/offence/on_line.cpp ****                   if (MyMath::GapDeg(robot->info.Line.inside_dir, robot->info.Cam.ball_dir) < 90) {
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s 			page 8
+
+
+  60:src/algorithm/offence/on_line.cpp ****                         robot->motor.Drive(robot->info.Line.inside_dir, robot->info.target_line_mov
+  61:src/algorithm/offence/on_line.cpp ****                   } else {
+  62:src/algorithm/offence/on_line.cpp ****                         LineTrace(robot);
+  63:src/algorithm/offence/on_line.cpp ****                   }
+  64:src/algorithm/offence/on_line.cpp ****             }
+  65:src/algorithm/offence/on_line.cpp ****       }
+  66:src/algorithm/offence/on_line.cpp ****       //  else if (robot->info.Line.is_leftside == true || (is_pre_leftside == true && back_to_insi
+  67:src/algorithm/offence/on_line.cpp ****       //       if (back_to_inside_timer.read_ms() > 500 && is_pre_leftside == false) {
+  68:src/algorithm/offence/on_line.cpp ****       //             back_to_inside_timer.reset();
+  69:src/algorithm/offence/on_line.cpp ****       //             is_pre_leftside = true;
+  70:src/algorithm/offence/on_line.cpp ****       //       }
+  71:src/algorithm/offence/on_line.cpp ****       //       if (back_to_inside_timer.read_ms() < BACK_TO_INSIDE_TIME) {
+  72:src/algorithm/offence/on_line.cpp ****       //             robot->motor.Drive(90, robot->info.target_line_move_speed);
+  73:src/algorithm/offence/on_line.cpp ****       //       } else {
+  74:src/algorithm/offence/on_line.cpp ****       //             if (robot->info.Cam.ball_dir > 0) {
+  75:src/algorithm/offence/on_line.cpp ****       //                   robot->motor.Drive(90, 1, 1);
+  76:src/algorithm/offence/on_line.cpp ****       //             } else {
+  77:src/algorithm/offence/on_line.cpp ****       //                   robot->motor.Drive(-90, 0.5, 0.5);
+  78:src/algorithm/offence/on_line.cpp ****       //             }
+  79:src/algorithm/offence/on_line.cpp ****       //       }
+  80:src/algorithm/offence/on_line.cpp ****       // } else if (robot->info.Line.is_rightside == true || (is_pre_rightside == true && back_to_i
+  81:src/algorithm/offence/on_line.cpp ****       //       if (back_to_inside_timer.read_ms() > 500 && is_pre_rightside == false) {
+  82:src/algorithm/offence/on_line.cpp ****       //             back_to_inside_timer.reset();
+  83:src/algorithm/offence/on_line.cpp ****       //             is_pre_rightside = true;
+  84:src/algorithm/offence/on_line.cpp ****       //       }
+  85:src/algorithm/offence/on_line.cpp ****       //       if (back_to_inside_timer.read_ms() < BACK_TO_INSIDE_TIME) {
+  86:src/algorithm/offence/on_line.cpp ****       //             robot->motor.Drive(-90, robot->info.target_line_move_speed);
+  87:src/algorithm/offence/on_line.cpp ****       //       } else {
+  88:src/algorithm/offence/on_line.cpp ****       //             if (robot->info.Cam.ball_dir < 0) {
+  89:src/algorithm/offence/on_line.cpp ****       //                   robot->motor.Drive(-90, 1, 1);
+  90:src/algorithm/offence/on_line.cpp ****       //             } else {
+  91:src/algorithm/offence/on_line.cpp ****       //                   robot->motor.Drive(90, 0.5, 0.5);
+  92:src/algorithm/offence/on_line.cpp ****       //             }
+  93:src/algorithm/offence/on_line.cpp ****       //       }
+  94:src/algorithm/offence/on_line.cpp ****       // }
+  95:src/algorithm/offence/on_line.cpp **** }...
+ 334              		.loc 1 95 1 is_stmt 1 view -0
+ 335              		.cfi_startproc
+ 336              		@ args = 0, pretend = 0, frame = 0
+ 337              		@ frame_needed = 0, uses_anonymous_args = 0
+ 338              		.loc 1 95 1 is_stmt 0 view .LVU82
+ 339 0000 0128     		cmp	r0, #1
+ 340 0002 00D0     		beq	.L24
+ 341 0004 7047     		bx	lr
+ 342              	.L24:
+ 343              		.loc 1 95 1 discriminator 1 view .LVU83
+ 344 0006 08B5     		push	{r3, lr}
+ 345              	.LCFI4:
+ 346              		.cfi_def_cfa_offset 8
+ 347              		.cfi_offset 3, -8
+ 348              		.cfi_offset 14, -4
+ 349              		.loc 1 95 1 discriminator 1 view .LVU84
+ 350 0008 4FF6FF73 		movw	r3, #65535
+ 351 000c 9942     		cmp	r1, r3
+ 352 000e 00D0     		beq	.L25
+ 353              	.LVL39:
+ 354              	.L18:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s 			page 9
+
+
+ 355              		.loc 1 95 1 view .LVU85
+ 356 0010 08BD     		pop	{r3, pc}
+ 357              	.LVL40:
+ 358              	.L25:
+   3:src/algorithm/offence/on_line.cpp **** 
+ 359              		.loc 1 3 7 view .LVU86
+ 360 0012 0248     		ldr	r0, .L26
+ 361              	.LVL41:
+   3:src/algorithm/offence/on_line.cpp **** 
+ 362              		.loc 1 3 7 view .LVU87
+ 363 0014 FFF7FEFF 		bl	_ZN5TimerC1Ev
+ 364              	.LVL42:
+ 365              		.loc 1 95 1 view .LVU88
+ 366 0018 FAE7     		b	.L18
+ 367              	.L27:
+ 368 001a 00BF     		.align	2
+ 369              	.L26:
+ 370 001c 00000000 		.word	back_to_inside_timer
+ 371              		.cfi_endproc
+ 372              	.LFE274:
+ 373              		.cantunwind
+ 374              		.fnend
+ 376              		.section	.text._Z6OnLineP5Robot,"ax",%progbits
+ 377              		.align	1
+ 378              		.global	_Z6OnLineP5Robot
+ 379              		.syntax unified
+ 380              		.thumb
+ 381              		.thumb_func
+ 383              	_Z6OnLineP5Robot:
+ 384              		.fnstart
+ 385              	.LVL43:
+ 386              	.LFB273:
+  45:src/algorithm/offence/on_line.cpp **** void OnLine(Robot* robot) {
+ 387              		.loc 1 45 27 is_stmt 1 view -0
+ 388              		.cfi_startproc
+ 389              		@ args = 0, pretend = 0, frame = 0
+ 390              		@ frame_needed = 0, uses_anonymous_args = 0
+  45:src/algorithm/offence/on_line.cpp **** void OnLine(Robot* robot) {
+ 391              		.loc 1 45 27 is_stmt 0 view .LVU90
+ 392 0000 10B5     		push	{r4, lr}
+ 393              		.save {r4, lr}
+ 394              	.LCFI5:
+ 395              		.cfi_def_cfa_offset 8
+ 396              		.cfi_offset 4, -8
+ 397              		.cfi_offset 14, -4
+ 398 0002 0446     		mov	r4, r0
+  46:src/algorithm/offence/on_line.cpp ****       if (robot->info.Catch.is_front == true || robot->info.Catch.is_back == true) {
+ 399              		.loc 1 46 7 is_stmt 1 view .LVU91
+  46:src/algorithm/offence/on_line.cpp ****       if (robot->info.Catch.is_front == true || robot->info.Catch.is_back == true) {
+ 400              		.loc 1 46 29 is_stmt 0 view .LVU92
+ 401 0004 90F82E30 		ldrb	r3, [r0, #46]	@ zero_extendqisi2
+  46:src/algorithm/offence/on_line.cpp ****       if (robot->info.Catch.is_front == true || robot->info.Catch.is_back == true) {
+ 402              		.loc 1 46 7 view .LVU93
+ 403 0008 13B9     		cbnz	r3, .L29
+  46:src/algorithm/offence/on_line.cpp ****       if (robot->info.Catch.is_front == true || robot->info.Catch.is_back == true) {
+ 404              		.loc 1 46 67 discriminator 1 view .LVU94
+ 405 000a 90F83230 		ldrb	r3, [r0, #50]	@ zero_extendqisi2
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s 			page 10
+
+
+  46:src/algorithm/offence/on_line.cpp ****       if (robot->info.Catch.is_front == true || robot->info.Catch.is_back == true) {
+ 406              		.loc 1 46 46 discriminator 1 view .LVU95
+ 407 000e 73B1     		cbz	r3, .L30
+ 408              	.L29:
+  47:src/algorithm/offence/on_line.cpp ****             robot->motor.Drive(robot->info.Line.inside_dir, 0.5, 0.5, 0, PI * 0.5, FRONT);
+ 409              		.loc 1 47 13 is_stmt 1 view .LVU96
+  47:src/algorithm/offence/on_line.cpp ****             robot->motor.Drive(robot->info.Line.inside_dir, 0.5, 0.5, 0, PI * 0.5, FRONT);
+ 410              		.loc 1 47 31 is_stmt 0 view .LVU97
+ 411 0010 0123     		movs	r3, #1
+ 412 0012 9FED3B1A 		vldr.32	s2, .L42
+ 413 0016 0022     		movs	r2, #0
+ 414 0018 F6EE000A 		vmov.f32	s1, #5.0e-1
+ 415 001c B0EE600A 		vmov.f32	s0, s1
+ 416 0020 B4F92810 		ldrsh	r1, [r4, #40]
+ 417 0024 04F5C870 		add	r0, r4, #400
+ 418              	.LVL44:
+  47:src/algorithm/offence/on_line.cpp ****             robot->motor.Drive(robot->info.Line.inside_dir, 0.5, 0.5, 0, PI * 0.5, FRONT);
+ 419              		.loc 1 47 31 view .LVU98
+ 420 0028 FFF7FEFF 		bl	_ZN10MotorDrive5DriveEsffsfh
+ 421              	.LVL45:
+ 422              	.L28:
+ 423              		.loc 1 95 1 view .LVU99
+ 424 002c 10BD     		pop	{r4, pc}
+ 425              	.LVL46:
+ 426              	.L30:
+  49:src/algorithm/offence/on_line.cpp ****             if (back_to_inside_timer.read_ms() > (pre_speed * 1000) && is_pre_on_line == false) {
+ 427              		.loc 1 49 13 is_stmt 1 view .LVU100
+  49:src/algorithm/offence/on_line.cpp ****             if (back_to_inside_timer.read_ms() > (pre_speed * 1000) && is_pre_on_line == false) {
+ 428              		.loc 1 49 45 is_stmt 0 view .LVU101
+ 429 002e 3548     		ldr	r0, .L42+4
+ 430              	.LVL47:
+  49:src/algorithm/offence/on_line.cpp ****             if (back_to_inside_timer.read_ms() > (pre_speed * 1000) && is_pre_on_line == false) {
+ 431              		.loc 1 49 45 view .LVU102
+ 432 0030 FFF7FEFF 		bl	_ZN5Timer7read_msEv
+ 433              	.LVL48:
+ 434 0034 07EE100A 		vmov	s14, r0	@ int
+  49:src/algorithm/offence/on_line.cpp ****             if (back_to_inside_timer.read_ms() > (pre_speed * 1000) && is_pre_on_line == false) {
+ 435              		.loc 1 49 48 view .LVU103
+ 436 0038 B8EE477A 		vcvt.f32.u32	s14, s14
+  49:src/algorithm/offence/on_line.cpp ****             if (back_to_inside_timer.read_ms() > (pre_speed * 1000) && is_pre_on_line == false) {
+ 437              		.loc 1 49 61 view .LVU104
+ 438 003c 324B     		ldr	r3, .L42+8
+ 439 003e D3ED007A 		vldr.32	s15, [r3]
+ 440 0042 DFED326A 		vldr.32	s13, .L42+12
+ 441 0046 67EEA67A 		vmul.f32	s15, s15, s13
+  49:src/algorithm/offence/on_line.cpp ****             if (back_to_inside_timer.read_ms() > (pre_speed * 1000) && is_pre_on_line == false) {
+ 442              		.loc 1 49 69 view .LVU105
+ 443 004a B4EEE77A 		vcmpe.f32	s14, s15
+ 444 004e F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 445 0052 02DD     		ble	.L32
+  49:src/algorithm/offence/on_line.cpp ****             if (back_to_inside_timer.read_ms() > (pre_speed * 1000) && is_pre_on_line == false) {
+ 446              		.loc 1 49 87 discriminator 1 view .LVU106
+ 447 0054 2E4B     		ldr	r3, .L42+16
+ 448 0056 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  49:src/algorithm/offence/on_line.cpp ****             if (back_to_inside_timer.read_ms() > (pre_speed * 1000) && is_pre_on_line == false) {
+ 449              		.loc 1 49 69 discriminator 1 view .LVU107
+ 450 0058 13B3     		cbz	r3, .L41
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s 			page 11
+
+
+ 451              	.L32:
+  56:src/algorithm/offence/on_line.cpp ****             if (back_to_inside_timer.read_ms() < (pre_speed * BACK_TO_INSIDE_TIME)) {
+ 452              		.loc 1 56 13 is_stmt 1 view .LVU108
+  56:src/algorithm/offence/on_line.cpp ****             if (back_to_inside_timer.read_ms() < (pre_speed * BACK_TO_INSIDE_TIME)) {
+ 453              		.loc 1 56 45 is_stmt 0 view .LVU109
+ 454 005a 2A48     		ldr	r0, .L42+4
+ 455 005c FFF7FEFF 		bl	_ZN5Timer7read_msEv
+ 456              	.LVL49:
+ 457 0060 07EE100A 		vmov	s14, r0	@ int
+  56:src/algorithm/offence/on_line.cpp ****             if (back_to_inside_timer.read_ms() < (pre_speed * BACK_TO_INSIDE_TIME)) {
+ 458              		.loc 1 56 48 view .LVU110
+ 459 0064 B8EE477A 		vcvt.f32.u32	s14, s14
+  56:src/algorithm/offence/on_line.cpp ****             if (back_to_inside_timer.read_ms() < (pre_speed * BACK_TO_INSIDE_TIME)) {
+ 460              		.loc 1 56 61 view .LVU111
+ 461 0068 274B     		ldr	r3, .L42+8
+ 462 006a D3ED007A 		vldr.32	s15, [r3]
+ 463 006e DFED296A 		vldr.32	s13, .L42+20
+ 464 0072 67EEA67A 		vmul.f32	s15, s15, s13
+  56:src/algorithm/offence/on_line.cpp ****             if (back_to_inside_timer.read_ms() < (pre_speed * BACK_TO_INSIDE_TIME)) {
+ 465              		.loc 1 56 13 view .LVU112
+ 466 0076 B4EEE77A 		vcmpe.f32	s14, s15
+ 467 007a F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 468 007e 23D5     		bpl	.L39
+  57:src/algorithm/offence/on_line.cpp ****                   robot->motor.Drive(pre_line_inside_dir, robot->info.target_line_move_speed, 20);
+ 469              		.loc 1 57 19 is_stmt 1 view .LVU113
+  57:src/algorithm/offence/on_line.cpp ****                   robot->motor.Drive(pre_line_inside_dir, robot->info.target_line_move_speed, 20);
+ 470              		.loc 1 57 37 is_stmt 0 view .LVU114
+ 471 0080 0023     		movs	r3, #0
+ 472 0082 9FED251A 		vldr.32	s2, .L42+24
+ 473 0086 1A46     		mov	r2, r3
+ 474 0088 F3EE040A 		vmov.f32	s1, #2.0e+1
+ 475 008c 94ED070A 		vldr.32	s0, [r4, #28]
+ 476 0090 2249     		ldr	r1, .L42+28
+ 477 0092 B1F90010 		ldrsh	r1, [r1]
+ 478 0096 04F5C870 		add	r0, r4, #400
+ 479 009a FFF7FEFF 		bl	_ZN10MotorDrive5DriveEsffsfh
+ 480              	.LVL50:
+ 481 009e C5E7     		b	.L28
+ 482              	.L41:
+  50:src/algorithm/offence/on_line.cpp ****                   robot->motor.Brake(10);
+ 483              		.loc 1 50 19 is_stmt 1 view .LVU115
+  50:src/algorithm/offence/on_line.cpp ****                   robot->motor.Brake(10);
+ 484              		.loc 1 50 37 is_stmt 0 view .LVU116
+ 485 00a0 0A21     		movs	r1, #10
+ 486 00a2 04F5C870 		add	r0, r4, #400
+ 487 00a6 FFF7FEFF 		bl	_ZN10MotorDrive5BrakeEt
+ 488              	.LVL51:
+  51:src/algorithm/offence/on_line.cpp ****                   back_to_inside_timer.reset();
+ 489              		.loc 1 51 19 is_stmt 1 view .LVU117
+  51:src/algorithm/offence/on_line.cpp ****                   back_to_inside_timer.reset();
+ 490              		.loc 1 51 45 is_stmt 0 view .LVU118
+ 491 00aa 1648     		ldr	r0, .L42+4
+ 492 00ac FFF7FEFF 		bl	_ZN5Timer5resetEv
+ 493              	.LVL52:
+  52:src/algorithm/offence/on_line.cpp ****                   is_pre_on_line = true;
+ 494              		.loc 1 52 19 is_stmt 1 view .LVU119
+  52:src/algorithm/offence/on_line.cpp ****                   is_pre_on_line = true;
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s 			page 12
+
+
+ 495              		.loc 1 52 34 is_stmt 0 view .LVU120
+ 496 00b0 174B     		ldr	r3, .L42+16
+ 497 00b2 0122     		movs	r2, #1
+ 498 00b4 1A70     		strb	r2, [r3]
+  53:src/algorithm/offence/on_line.cpp ****                   pre_speed = robot->motor.moving_speed;
+ 499              		.loc 1 53 19 is_stmt 1 view .LVU121
+  53:src/algorithm/offence/on_line.cpp ****                   pre_speed = robot->motor.moving_speed;
+ 500              		.loc 1 53 44 is_stmt 0 view .LVU122
+ 501 00b6 D4F89821 		ldr	r2, [r4, #408]	@ float
+  53:src/algorithm/offence/on_line.cpp ****                   pre_speed = robot->motor.moving_speed;
+ 502              		.loc 1 53 29 view .LVU123
+ 503 00ba 134B     		ldr	r3, .L42+8
+ 504 00bc 1A60     		str	r2, [r3]	@ float
+  54:src/algorithm/offence/on_line.cpp ****                   pre_line_inside_dir = robot->info.Line.inside_dir;
+ 505              		.loc 1 54 19 is_stmt 1 view .LVU124
+  54:src/algorithm/offence/on_line.cpp ****                   pre_line_inside_dir = robot->info.Line.inside_dir;
+ 506              		.loc 1 54 58 is_stmt 0 view .LVU125
+ 507 00be B4F92820 		ldrsh	r2, [r4, #40]
+  54:src/algorithm/offence/on_line.cpp ****                   pre_line_inside_dir = robot->info.Line.inside_dir;
+ 508              		.loc 1 54 39 view .LVU126
+ 509 00c2 164B     		ldr	r3, .L42+28
+ 510 00c4 1A80     		strh	r2, [r3]	@ movhi
+ 511 00c6 C8E7     		b	.L32
+ 512              	.L39:
+  59:src/algorithm/offence/on_line.cpp ****                   if (MyMath::GapDeg(robot->info.Line.inside_dir, robot->info.Cam.ball_dir) < 90) {
+ 513              		.loc 1 59 19 is_stmt 1 view .LVU127
+  59:src/algorithm/offence/on_line.cpp ****                   if (MyMath::GapDeg(robot->info.Line.inside_dir, robot->info.Cam.ball_dir) < 90) {
+ 514              		.loc 1 59 37 is_stmt 0 view .LVU128
+ 515 00c8 B4F94E10 		ldrsh	r1, [r4, #78]
+ 516 00cc B4F92800 		ldrsh	r0, [r4, #40]
+ 517 00d0 FFF7FEFF 		bl	GapDeg
+ 518              	.LVL53:
+  59:src/algorithm/offence/on_line.cpp ****                   if (MyMath::GapDeg(robot->info.Line.inside_dir, robot->info.Cam.ball_dir) < 90) {
+ 519              		.loc 1 59 19 view .LVU129
+ 520 00d4 5928     		cmp	r0, #89
+ 521 00d6 0EDC     		bgt	.L36
+  60:src/algorithm/offence/on_line.cpp ****                         robot->motor.Drive(robot->info.Line.inside_dir, robot->info.target_line_mov
+ 522              		.loc 1 60 25 is_stmt 1 view .LVU130
+  60:src/algorithm/offence/on_line.cpp ****                         robot->motor.Drive(robot->info.Line.inside_dir, robot->info.target_line_mov
+ 523              		.loc 1 60 43 is_stmt 0 view .LVU131
+ 524 00d8 0023     		movs	r3, #0
+ 525 00da 9FED0F1A 		vldr.32	s2, .L42+24
+ 526 00de 1A46     		mov	r2, r3
+ 527 00e0 F7EE000A 		vmov.f32	s1, #1.0e+0
+ 528 00e4 94ED070A 		vldr.32	s0, [r4, #28]
+ 529 00e8 B4F92810 		ldrsh	r1, [r4, #40]
+ 530 00ec 04F5C870 		add	r0, r4, #400
+ 531 00f0 FFF7FEFF 		bl	_ZN10MotorDrive5DriveEsffsfh
+ 532              	.LVL54:
+ 533 00f4 9AE7     		b	.L28
+ 534              	.L36:
+  62:src/algorithm/offence/on_line.cpp ****                         LineTrace(robot);
+ 535              		.loc 1 62 25 is_stmt 1 view .LVU132
+  62:src/algorithm/offence/on_line.cpp ****                         LineTrace(robot);
+ 536              		.loc 1 62 34 is_stmt 0 view .LVU133
+ 537 00f6 2046     		mov	r0, r4
+ 538 00f8 FFF7FEFF 		bl	_ZL9LineTraceP5Robot
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s 			page 13
+
+
+ 539              	.LVL55:
+ 540              		.loc 1 95 1 view .LVU134
+ 541 00fc 96E7     		b	.L28
+ 542              	.L43:
+ 543 00fe 00BF     		.align	2
+ 544              	.L42:
+ 545 0100 DB0FC93F 		.word	1070141403
+ 546 0104 00000000 		.word	back_to_inside_timer
+ 547 0108 00000000 		.word	pre_speed
+ 548 010c 00007A44 		.word	1148846080
+ 549 0110 00000000 		.word	is_pre_on_line
+ 550 0114 00004843 		.word	1128792064
+ 551 0118 00000000 		.word	0
+ 552 011c 00000000 		.word	_ZL19pre_line_inside_dir
+ 553              		.cfi_endproc
+ 554              	.LFE273:
+ 555              		.fnend
+ 557              		.section	.text._GLOBAL__sub_I_back_to_inside_timer,"ax",%progbits
+ 558              		.align	1
+ 559              		.syntax unified
+ 560              		.thumb
+ 561              		.thumb_func
+ 563              	_GLOBAL__sub_I_back_to_inside_timer:
+ 564              		.fnstart
+ 565              	.LFB275:
+ 566              		.loc 1 95 1 is_stmt 1 view -0
+ 567              		.cfi_startproc
+ 568              		@ args = 0, pretend = 0, frame = 0
+ 569              		@ frame_needed = 0, uses_anonymous_args = 0
+ 570 0000 08B5     		push	{r3, lr}
+ 571              	.LCFI6:
+ 572              		.cfi_def_cfa_offset 8
+ 573              		.cfi_offset 3, -8
+ 574              		.cfi_offset 14, -4
+ 575              		.loc 1 95 1 is_stmt 0 view .LVU136
+ 576 0002 4FF6FF71 		movw	r1, #65535
+ 577 0006 0120     		movs	r0, #1
+ 578 0008 FFF7FEFF 		bl	_Z41__static_initialization_and_destruction_0ii
+ 579              	.LVL56:
+ 580 000c 08BD     		pop	{r3, pc}
+ 581              		.cfi_endproc
+ 582              	.LFE275:
+ 583              		.cantunwind
+ 584              		.fnend
+ 586              		.section	.init_array,"aw",%init_array
+ 587              		.align	2
+ 588 0000 00000000 		.word	_GLOBAL__sub_I_back_to_inside_timer(target1)
+ 589              		.global	is_pre_on_line
+ 590              		.section	.bss.is_pre_on_line,"aw",%nobits
+ 593              	is_pre_on_line:
+ 594 0000 00       		.space	1
+ 595              		.global	pre_speed
+ 596              		.section	.bss.pre_speed,"aw",%nobits
+ 597              		.align	2
+ 600              	pre_speed:
+ 601 0000 00000000 		.space	4
+ 602              		.section	.bss._ZL19pre_line_inside_dir,"aw",%nobits
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s 			page 14
+
+
+ 603              		.align	1
+ 606              	_ZL19pre_line_inside_dir:
+ 607 0000 0000     		.space	2
+ 608              		.global	back_to_inside_timer
+ 609              		.section	.bss.back_to_inside_timer,"aw",%nobits
+ 610              		.align	2
+ 613              	back_to_inside_timer:
+ 614 0000 00000000 		.space	4
+ 615              		.text
+ 616              	.Letext0:
+ 617              		.file 2 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/machine/_default_ty
+ 618              		.file 3 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/lib/gcc/arm-none-eabi/12.3.1/include/stdd
+ 619              		.file 4 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_types.h"
+ 620              		.file 5 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/reent.h"
+ 621              		.file 6 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/lock.h"
+ 622              		.file 7 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/stdio.h"
+ 623              		.file 8 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_stdint.h"
+ 624              		.file 9 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h"
+ 625              		.file 10 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
+ 626              		.file 11 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 627              		.file 12 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 628              		.file 13 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h"
+ 629              		.file 14 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h"
+ 630              		.file 15 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
+ 631              		.file 16 "Lib/BufferedSerial/BufferedSerial.hpp"
+ 632              		.file 17 "Lib/DigitalInOut/DigitalInOut.hpp"
+ 633              		.file 18 "Lib/MovingAve/MovingAve.hpp"
+ 634              		.file 19 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/cstdio"
+ 635              		.file 20 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/arm-non
+ 636              		.file 21 "Lib/PWMSingle/PWMSingle.hpp"
+ 637              		.file 22 "Lib/Timer/Timer.hpp"
+ 638              		.file 23 "src/unit/dribbler_drive/dribbler_drive.hpp"
+ 639              		.file 24 "src/unit/kicker/kicker.hpp"
+ 640              		.file 25 "Lib/pid/pid.hpp"
+ 641              		.file 26 "src/unit/motor_drive/motor_drive.hpp"
+ 642              		.file 27 "src/unit/robot/robot.hpp"
+ 643              		.file 28 "src/algorithm/offence/on_line.hpp"
+ 644              		.file 29 "Lib/MyMath/MyMath.hpp"
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s 			page 15
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 on_line.cpp
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s:24     .text._ZL9LineTraceP5Robot:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s:29     .text._ZL9LineTraceP5Robot:00000000 _ZL9LineTraceP5Robot
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s:312    .text._ZL9LineTraceP5Robot:000001b0 $d
+.ARM.extab.text._ZL9LineTraceP5Robot:00000000 $d
+.ARM.exidx.text._ZL9LineTraceP5Robot:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s:325    .text._Z41__static_initialization_and_destruction_0ii:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s:330    .text._Z41__static_initialization_and_destruction_0ii:00000000 _Z41__static_initialization_and_destruction_0ii
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s:370    .text._Z41__static_initialization_and_destruction_0ii:0000001c $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s:613    .bss.back_to_inside_timer:00000000 back_to_inside_timer
+.ARM.exidx.text._Z41__static_initialization_and_destruction_0ii:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s:377    .text._Z6OnLineP5Robot:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s:383    .text._Z6OnLineP5Robot:00000000 _Z6OnLineP5Robot
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s:545    .text._Z6OnLineP5Robot:00000100 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s:600    .bss.pre_speed:00000000 pre_speed
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s:593    .bss.is_pre_on_line:00000000 is_pre_on_line
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s:606    .bss._ZL19pre_line_inside_dir:00000000 _ZL19pre_line_inside_dir
+ .ARM.exidx.text._Z6OnLineP5Robot:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s:558    .text._GLOBAL__sub_I_back_to_inside_timer:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s:563    .text._GLOBAL__sub_I_back_to_inside_timer:00000000 _GLOBAL__sub_I_back_to_inside_timer
+.ARM.exidx.text._GLOBAL__sub_I_back_to_inside_timer:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s:587    .init_array:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s:594    .bss.is_pre_on_line:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s:597    .bss.pre_speed:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s:603    .bss._ZL19pre_line_inside_dir:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccGPLA0q.s:610    .bss.back_to_inside_timer:00000000 $d
+
+UNDEFINED SYMBOLS
+__aeabi_f2d
+__aeabi_dmul
+__aeabi_d2f
+sinDeg
+cosDeg
+atan2
+sqrt
+_ZN10MotorDrive5DriveEsffsfh
+NormalizeDeg180
+__aeabi_unwind_cpp_pr1
+_ZN5TimerC1Ev
+_ZN5Timer7read_msEv
+_ZN10MotorDrive5BrakeEt
+_ZN5Timer5resetEv
+GapDeg
+__aeabi_unwind_cpp_pr0

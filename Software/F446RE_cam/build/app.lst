@@ -1,0 +1,2102 @@
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"app.cpp"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "src/app/app.cpp"
+  20              		.section	.text._Z41__static_initialization_and_destruction_0ii,"ax",%progbits
+  21              		.align	1
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	_Z41__static_initialization_and_destruction_0ii:
+  27              		.fnstart
+  28              	.LVL0:
+  29              	.LFB171:
+   1:src/app/app.cpp **** #include "app.h"
+   2:src/app/app.cpp **** 
+   3:src/app/app.cpp **** #include "MyMath.hpp"
+   4:src/app/app.cpp **** #include "Timer.hpp"
+   5:src/app/app.cpp **** #include "config.h"
+   6:src/app/app.cpp **** #include "hardware.hpp"
+   7:src/app/app.cpp **** 
+   8:src/app/app.cpp **** Hardware hardware;
+   9:src/app/app.cpp **** Timer process_timer;
+  10:src/app/app.cpp **** 
+  11:src/app/app.cpp **** Timer ball_miss_timer;
+  12:src/app/app.cpp **** Timer yellow_goal_miss_timer;
+  13:src/app/app.cpp **** Timer blue_goal_miss_timer;
+  14:src/app/app.cpp **** 
+  15:src/app/app.cpp **** uint16_t process_time;  // us
+  16:src/app/app.cpp **** 
+  17:src/app/app.cpp **** // cortex-debug
+  18:src/app/app.cpp **** int process_freq;
+  19:src/app/app.cpp **** 
+  20:src/app/app.cpp **** void setup() {
+  21:src/app/app.cpp ****       hardware.Init();
+  22:src/app/app.cpp **** 
+  23:src/app/app.cpp ****       for (uint8_t i = 0; i < 10; i++) {
+  24:src/app/app.cpp ****             hardware.led1 = i % 2;
+  25:src/app/app.cpp ****             HAL_Delay(100);
+  26:src/app/app.cpp ****       }
+  27:src/app/app.cpp ****       hardware.led1 = 1;
+  28:src/app/app.cpp **** }
+  29:src/app/app.cpp **** 
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 2
+
+
+  30:src/app/app.cpp **** void BallConversion() {
+  31:src/app/app.cpp ****       uint8_t min_dis = 200;
+  32:src/app/app.cpp ****       uint8_t min_dis_num = 0;
+  33:src/app/app.cpp ****       static int16_t pre_ball_dir, pre_ball_dis;
+  34:src/app/app.cpp **** 
+  35:src/app/app.cpp ****       for (int i = 0; i < 4; i++) {  // ロボットから一番近いボールを捉えている�
+  36:src/app/app.cpp ****             if (hardware.info.Cam[i].ball_dis > 0 && hardware.info.Cam[i].ball_dis < min_dis) {
+  37:src/app/app.cpp ****                   min_dis = hardware.info.Cam[i].ball_dis;
+  38:src/app/app.cpp ****                   min_dis_num = i;
+  39:src/app/app.cpp ****             }
+  40:src/app/app.cpp ****       }
+  41:src/app/app.cpp ****       if (min_dis == 200) min_dis = 0;
+  42:src/app/app.cpp ****       hardware.info.ball_dis = min_dis;
+  43:src/app/app.cpp **** 
+  44:src/app/app.cpp ****       if (hardware.info.ball_dis != 0) ball_miss_timer.reset();
+  45:src/app/app.cpp **** 
+  46:src/app/app.cpp ****       if (hardware.info.ball_dis == 0) {  // ボールが見つからない
+  47:src/app/app.cpp ****             if (ball_miss_timer.read_ms() > BALL_MISS_TIME) {
+  48:src/app/app.cpp ****                   hardware.info.ball_dir = 0;
+  49:src/app/app.cpp ****                   hardware.info.ball_dis = 0;
+  50:src/app/app.cpp ****             } else {
+  51:src/app/app.cpp ****                   hardware.info.ball_dir = pre_ball_dir;
+  52:src/app/app.cpp ****                   hardware.info.ball_dis = pre_ball_dis;
+  53:src/app/app.cpp ****             }
+  54:src/app/app.cpp ****       } else if (min_dis_num == 0) {
+  55:src/app/app.cpp ****             hardware.info.ball_dir = hardware.info.Cam[0].ball_dir + 315;
+  56:src/app/app.cpp ****       } else if (min_dis_num == 1) {
+  57:src/app/app.cpp ****             hardware.info.ball_dir = hardware.info.Cam[1].ball_dir + 45;
+  58:src/app/app.cpp ****       } else if (min_dis_num == 2) {
+  59:src/app/app.cpp ****             hardware.info.ball_dir = hardware.info.Cam[2].ball_dir + 135;
+  60:src/app/app.cpp ****       } else if (min_dis_num == 3) {
+  61:src/app/app.cpp ****             hardware.info.ball_dir = hardware.info.Cam[3].ball_dir + 225;
+  62:src/app/app.cpp ****       }
+  63:src/app/app.cpp ****       hardware.info.ball_dir = MyMath::NormalizeDeg180(hardware.info.ball_dir);
+  64:src/app/app.cpp **** 
+  65:src/app/app.cpp ****       pre_ball_dir = hardware.info.ball_dir;
+  66:src/app/app.cpp ****       pre_ball_dis = hardware.info.ball_dis;
+  67:src/app/app.cpp **** }
+  68:src/app/app.cpp **** 
+  69:src/app/app.cpp **** void YellowGoalConversion() {
+  70:src/app/app.cpp ****       uint8_t max_height = 0;
+  71:src/app/app.cpp ****       uint8_t max_height_num = 0;
+  72:src/app/app.cpp ****       static uint8_t pre_yellow_goal_dis, pre_yellow_goal_dir;
+  73:src/app/app.cpp ****       for (int i = 0; i < 4; i++) {  // ゴールの縦サイズが一番大きいカメラを特�
+  74:src/app/app.cpp ****             if (hardware.info.Cam[i].yellow_goal_dis > max_height) {
+  75:src/app/app.cpp ****                   max_height = hardware.info.Cam[i].yellow_goal_dis;
+  76:src/app/app.cpp ****                   max_height_num = i;
+  77:src/app/app.cpp ****             }
+  78:src/app/app.cpp ****       }
+  79:src/app/app.cpp ****       hardware.info.yellow_goal_dis = max_height;
+  80:src/app/app.cpp **** 
+  81:src/app/app.cpp ****       if (hardware.info.yellow_goal_dis != 0) {
+  82:src/app/app.cpp ****             yellow_goal_miss_timer.reset();
+  83:src/app/app.cpp **** 
+  84:src/app/app.cpp ****             if (hardware.info.yellow_goal_dis == 0) {  // ゴールが見つからない
+  85:src/app/app.cpp ****                   if (yellow_goal_miss_timer.read_ms() > GOAL_MISS_TIME) {
+  86:src/app/app.cpp ****                         hardware.info.yellow_goal_dir = 0;
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 3
+
+
+  87:src/app/app.cpp ****                         hardware.info.yellow_goal_dis = 0;
+  88:src/app/app.cpp ****                   } else {
+  89:src/app/app.cpp ****                         hardware.info.yellow_goal_dir = pre_yellow_goal_dir;
+  90:src/app/app.cpp ****                         hardware.info.yellow_goal_dis = pre_yellow_goal_dis;
+  91:src/app/app.cpp ****                   }
+  92:src/app/app.cpp ****             } else if (max_height_num == 0) {
+  93:src/app/app.cpp ****                   hardware.info.yellow_goal_dir = hardware.info.Cam[0].yellow_goal_dir + 315;
+  94:src/app/app.cpp ****             } else if (max_height_num == 1) {
+  95:src/app/app.cpp ****                   hardware.info.yellow_goal_dir = hardware.info.Cam[1].yellow_goal_dir + 45;
+  96:src/app/app.cpp ****             } else if (max_height_num == 2) {
+  97:src/app/app.cpp ****                   hardware.info.yellow_goal_dir = hardware.info.Cam[2].yellow_goal_dir + 135;
+  98:src/app/app.cpp ****             } else if (max_height_num == 3) {
+  99:src/app/app.cpp ****                   hardware.info.yellow_goal_dir = hardware.info.Cam[3].yellow_goal_dir + 225;
+ 100:src/app/app.cpp ****             }
+ 101:src/app/app.cpp ****             hardware.info.yellow_goal_dir = MyMath::NormalizeDeg180(hardware.info.yellow_goal_dir);
+ 102:src/app/app.cpp **** 
+ 103:src/app/app.cpp ****             pre_yellow_goal_dir = hardware.info.yellow_goal_dir;
+ 104:src/app/app.cpp ****             pre_yellow_goal_dis = hardware.info.yellow_goal_dis;
+ 105:src/app/app.cpp ****       }
+ 106:src/app/app.cpp **** }
+ 107:src/app/app.cpp **** 
+ 108:src/app/app.cpp **** void BlueGoalConversion() {
+ 109:src/app/app.cpp ****       uint8_t max_height = 0;
+ 110:src/app/app.cpp ****       uint8_t max_height_num = 0;
+ 111:src/app/app.cpp ****       static uint8_t pre_blue_goal_dis, pre_blue_goal_dir;
+ 112:src/app/app.cpp ****       for (int i = 0; i < 4; i++) {  // ゴールの縦サイズが一番大きいカメラを特�
+ 113:src/app/app.cpp ****             if (hardware.info.Cam[i].blue_goal_dis > max_height) {
+ 114:src/app/app.cpp ****                   max_height = hardware.info.Cam[i].blue_goal_dis;
+ 115:src/app/app.cpp ****                   max_height_num = i;
+ 116:src/app/app.cpp ****             }
+ 117:src/app/app.cpp ****       }
+ 118:src/app/app.cpp ****       hardware.info.blue_goal_dis = max_height;
+ 119:src/app/app.cpp **** 
+ 120:src/app/app.cpp ****       if (hardware.info.blue_goal_dis != 0) {
+ 121:src/app/app.cpp ****             blue_goal_miss_timer.reset();
+ 122:src/app/app.cpp **** 
+ 123:src/app/app.cpp ****             if (hardware.info.blue_goal_dis == 0) {  // ゴールが見つからない
+ 124:src/app/app.cpp ****                   if (blue_goal_miss_timer.read_ms() > GOAL_MISS_TIME) {
+ 125:src/app/app.cpp ****                         hardware.info.blue_goal_dir = 0;
+ 126:src/app/app.cpp ****                         hardware.info.blue_goal_dis = 0;
+ 127:src/app/app.cpp ****                   } else {
+ 128:src/app/app.cpp ****                         hardware.info.blue_goal_dir = pre_blue_goal_dir;
+ 129:src/app/app.cpp ****                         hardware.info.blue_goal_dis = pre_blue_goal_dis;
+ 130:src/app/app.cpp ****                   }
+ 131:src/app/app.cpp ****             } else if (max_height_num == 0) {
+ 132:src/app/app.cpp ****                   hardware.info.blue_goal_dir = hardware.info.Cam[0].blue_goal_dir + 315;
+ 133:src/app/app.cpp ****             } else if (max_height_num == 1) {
+ 134:src/app/app.cpp ****                   hardware.info.blue_goal_dir = hardware.info.Cam[1].blue_goal_dir + 45;
+ 135:src/app/app.cpp ****             } else if (max_height_num == 2) {
+ 136:src/app/app.cpp ****                   hardware.info.blue_goal_dir = hardware.info.Cam[2].blue_goal_dir + 135;
+ 137:src/app/app.cpp ****             } else if (max_height_num == 3) {
+ 138:src/app/app.cpp ****                   hardware.info.blue_goal_dir = hardware.info.Cam[3].blue_goal_dir + 225;
+ 139:src/app/app.cpp ****             }
+ 140:src/app/app.cpp ****             hardware.info.blue_goal_dir = MyMath::NormalizeDeg180(hardware.info.blue_goal_dir);
+ 141:src/app/app.cpp **** 
+ 142:src/app/app.cpp ****             pre_blue_goal_dir = hardware.info.blue_goal_dir;
+ 143:src/app/app.cpp ****             pre_blue_goal_dis = hardware.info.blue_goal_dis;
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 4
+
+
+ 144:src/app/app.cpp ****       }
+ 145:src/app/app.cpp **** }
+ 146:src/app/app.cpp **** 
+ 147:src/app/app.cpp **** void main_app() {
+ 148:src/app/app.cpp ****       while (1) {
+ 149:src/app/app.cpp ****             process_timer.reset();
+ 150:src/app/app.cpp ****             hardware.MainUart();
+ 151:src/app/app.cpp ****             hardware.M1nUart();
+ 152:src/app/app.cpp **** 
+ 153:src/app/app.cpp ****             if (hardware.info.Cam[0].is_camera_initialized && hardware.info.Cam[1].is_camera_initia
+ 154:src/app/app.cpp ****                   hardware.led2 = 1;
+ 155:src/app/app.cpp ****                   hardware.led1 = 0;
+ 156:src/app/app.cpp ****             }
+ 157:src/app/app.cpp **** 
+ 158:src/app/app.cpp ****             BallConversion();
+ 159:src/app/app.cpp ****             YellowGoalConversion();
+ 160:src/app/app.cpp ****             BlueGoalConversion();
+ 161:src/app/app.cpp **** 
+ 162:src/app/app.cpp ****             hardware.info.own_x = hardware.info.Cam[3].wall_dis - hardware.info.Cam[1].wall_dis;
+ 163:src/app/app.cpp ****             hardware.info.own_y = hardware.info.Cam[2].wall_dis - hardware.info.Cam[0].wall_dis;
+ 164:src/app/app.cpp **** 
+ 165:src/app/app.cpp ****             //  定周期処理
+ 166:src/app/app.cpp ****             process_time = process_timer.read_us();
+ 167:src/app/app.cpp ****             if (process_time < PERIOD_US) {
+ 168:src/app/app.cpp ****                   while (process_timer.read_us() < PERIOD_US);
+ 169:src/app/app.cpp ****             }
+ 170:src/app/app.cpp ****             process_freq = 1.0f / (process_timer.read_us() * 0.000001f);
+ 171:src/app/app.cpp ****       }
+ 172:src/app/app.cpp **** }...
+  30              		.loc 1 172 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 172 1 is_stmt 0 view .LVU1
+  35 0000 0128     		cmp	r0, #1
+  36 0002 00D0     		beq	.L7
+  37              	.L4:
+  38 0004 7047     		bx	lr
+  39              	.L7:
+  40              		.loc 1 172 1 discriminator 1 view .LVU2
+  41 0006 4FF6FF73 		movw	r3, #65535
+  42 000a 9942     		cmp	r1, r3
+  43 000c FAD1     		bne	.L4
+  44              		.loc 1 172 1 view .LVU3
+  45 000e 10B5     		push	{r4, lr}
+  46              	.LCFI0:
+  47              		.cfi_def_cfa_offset 8
+  48              		.cfi_offset 4, -8
+  49              		.cfi_offset 14, -4
+   8:src/app/app.cpp **** Hardware hardware;
+  50              		.loc 1 8 10 view .LVU4
+  51 0010 0A4C     		ldr	r4, .L8
+  52 0012 2046     		mov	r0, r4
+  53              	.LVL1:
+   8:src/app/app.cpp **** Hardware hardware;
+  54              		.loc 1 8 10 view .LVU5
+  55 0014 FFF7FEFF 		bl	_ZN8HardwareC1Ev
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 5
+
+
+  56              	.LVL2:
+   8:src/app/app.cpp **** Hardware hardware;
+  57              		.loc 1 8 10 view .LVU6
+  58 0018 094A     		ldr	r2, .L8+4
+  59 001a 0A49     		ldr	r1, .L8+8
+  60 001c 2046     		mov	r0, r4
+  61 001e FFF7FEFF 		bl	__aeabi_atexit
+  62              	.LVL3:
+   9:src/app/app.cpp **** Timer process_timer;
+  63              		.loc 1 9 7 view .LVU7
+  64 0022 0948     		ldr	r0, .L8+12
+  65 0024 FFF7FEFF 		bl	_ZN5TimerC1Ev
+  66              	.LVL4:
+  11:src/app/app.cpp **** Timer ball_miss_timer;
+  67              		.loc 1 11 7 view .LVU8
+  68 0028 0848     		ldr	r0, .L8+16
+  69 002a FFF7FEFF 		bl	_ZN5TimerC1Ev
+  70              	.LVL5:
+  12:src/app/app.cpp **** Timer yellow_goal_miss_timer;
+  71              		.loc 1 12 7 view .LVU9
+  72 002e 0848     		ldr	r0, .L8+20
+  73 0030 FFF7FEFF 		bl	_ZN5TimerC1Ev
+  74              	.LVL6:
+  13:src/app/app.cpp **** Timer blue_goal_miss_timer;
+  75              		.loc 1 13 7 view .LVU10
+  76 0034 0748     		ldr	r0, .L8+24
+  77 0036 FFF7FEFF 		bl	_ZN5TimerC1Ev
+  78              	.LVL7:
+  79              		.loc 1 172 1 view .LVU11
+  80 003a 10BD     		pop	{r4, pc}
+  81              	.L9:
+  82              		.align	2
+  83              	.L8:
+  84 003c 00000000 		.word	hardware
+  85 0040 00000000 		.word	__dso_handle
+  86 0044 00000000 		.word	_ZN8HardwareD1Ev
+  87 0048 00000000 		.word	process_timer
+  88 004c 00000000 		.word	ball_miss_timer
+  89 0050 00000000 		.word	yellow_goal_miss_timer
+  90 0054 00000000 		.word	blue_goal_miss_timer
+  91              		.cfi_endproc
+  92              	.LFE171:
+  93              		.cantunwind
+  94              		.fnend
+  96              		.section	.text._ZN8HardwareD2Ev,"axG",%progbits,_ZN8HardwareD5Ev,comdat
+  97              		.align	1
+  98              		.weak	_ZN8HardwareD2Ev
+  99              		.syntax unified
+ 100              		.thumb
+ 101              		.thumb_func
+ 103              	_ZN8HardwareD2Ev:
+ 104              		.fnstart
+ 105              	.LVL8:
+ 106              	.LFB173:
+ 107              		.file 2 "src/unit/hardware/hardware.hpp"
+   1:src/unit/hardware/hardware.hpp **** #ifndef __HARDWARE__
+   2:src/unit/hardware/hardware.hpp **** #define __HARDWARE__
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 6
+
+
+   3:src/unit/hardware/hardware.hpp **** 
+   4:src/unit/hardware/hardware.hpp **** #include "BufferedSerial.hpp"
+   5:src/unit/hardware/hardware.hpp **** #include "DigitalInOut.hpp"
+   6:src/unit/hardware/hardware.hpp **** #include "PWMSingle.hpp"
+   7:src/unit/hardware/hardware.hpp **** #include "Timer.hpp"
+   8:src/unit/hardware/hardware.hpp **** #include "config.h"
+   9:src/unit/hardware/hardware.hpp **** #include "main.h"
+  10:src/unit/hardware/hardware.hpp **** 
+  11:src/unit/hardware/hardware.hpp **** typedef struct {
+  12:src/unit/hardware/hardware.hpp ****       int16_t yaw;
+  13:src/unit/hardware/hardware.hpp **** 
+  14:src/unit/hardware/hardware.hpp ****       struct {
+  15:src/unit/hardware/hardware.hpp ****             uint8_t ball_dir;
+  16:src/unit/hardware/hardware.hpp ****             uint8_t ball_dis;
+  17:src/unit/hardware/hardware.hpp ****             uint8_t yellow_goal_dir;
+  18:src/unit/hardware/hardware.hpp ****             uint8_t yellow_goal_dis;
+  19:src/unit/hardware/hardware.hpp ****             uint8_t blue_goal_dir;
+  20:src/unit/hardware/hardware.hpp ****             uint8_t blue_goal_dis;
+  21:src/unit/hardware/hardware.hpp ****             uint8_t wall_dis;
+  22:src/unit/hardware/hardware.hpp **** 
+  23:src/unit/hardware/hardware.hpp ****             uint8_t proximity;
+  24:src/unit/hardware/hardware.hpp ****             bool is_goal_front;
+  25:src/unit/hardware/hardware.hpp ****             bool is_camera_initialized = 0;
+  26:src/unit/hardware/hardware.hpp ****       } Cam[4];
+  27:src/unit/hardware/hardware.hpp **** 
+  28:src/unit/hardware/hardware.hpp ****       int16_t ball_dir;
+  29:src/unit/hardware/hardware.hpp ****       int16_t ball_dis;
+  30:src/unit/hardware/hardware.hpp ****       int16_t yellow_goal_dir;
+  31:src/unit/hardware/hardware.hpp ****       int16_t yellow_goal_dis;
+  32:src/unit/hardware/hardware.hpp ****       int16_t blue_goal_dir;
+  33:src/unit/hardware/hardware.hpp ****       int16_t blue_goal_dis;
+  34:src/unit/hardware/hardware.hpp ****       int16_t own_x;
+  35:src/unit/hardware/hardware.hpp ****       int16_t own_y;
+  36:src/unit/hardware/hardware.hpp **** 
+  37:src/unit/hardware/hardware.hpp ****       bool is_goal_front;
+  38:src/unit/hardware/hardware.hpp **** } Info;
+  39:src/unit/hardware/hardware.hpp **** 
+  40:src/unit/hardware/hardware.hpp **** class Hardware {
+ 108              		.loc 2 40 7 is_stmt 1 view -0
+ 109              		.cfi_startproc
+ 110              		@ args = 0, pretend = 0, frame = 0
+ 111              		@ frame_needed = 0, uses_anonymous_args = 0
+ 112              		.loc 2 40 7 is_stmt 0 view .LVU13
+ 113 0000 70B5     		push	{r4, r5, r6, lr}
+ 114              	.LCFI1:
+ 115              		.cfi_def_cfa_offset 16
+ 116              		.cfi_offset 4, -16
+ 117              		.cfi_offset 5, -12
+ 118              		.cfi_offset 6, -8
+ 119              		.cfi_offset 14, -4
+ 120 0002 0546     		mov	r5, r0
+ 121              	.LBB18:
+ 122              		.loc 2 40 7 view .LVU14
+ 123 0004 00F18C06 		add	r6, r0, #140
+ 124 0008 00F1CC04 		add	r4, r0, #204
+ 125              	.LVL9:
+ 126              	.L13:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 7
+
+
+ 127              		.loc 2 40 7 discriminator 6 view .LVU15
+ 128 000c A642     		cmp	r6, r4
+ 129 000e 06D0     		beq	.L11
+ 130              		.loc 2 40 7 discriminator 5 view .LVU16
+ 131 0010 103C     		subs	r4, r4, #16
+ 132              	.LVL10:
+ 133              	.LBB19:
+ 134              	.LBI19:
+ 135              		.file 3 "Lib/BufferedSerial/BufferedSerial.hpp"
+   1:Lib/BufferedSerial/BufferedSerial.hpp **** #ifndef __BUFFERED_SERIAL__
+   2:Lib/BufferedSerial/BufferedSerial.hpp **** #define __BUFFERED_SERIAL__
+   3:Lib/BufferedSerial/BufferedSerial.hpp **** 
+   4:Lib/BufferedSerial/BufferedSerial.hpp **** #include <stdio.h>
+   5:Lib/BufferedSerial/BufferedSerial.hpp **** 
+   6:Lib/BufferedSerial/BufferedSerial.hpp **** #include "usart.h"
+   7:Lib/BufferedSerial/BufferedSerial.hpp **** 
+   8:Lib/BufferedSerial/BufferedSerial.hpp **** #ifdef __cplusplus
+   9:Lib/BufferedSerial/BufferedSerial.hpp **** 
+  10:Lib/BufferedSerial/BufferedSerial.hpp **** /*
+  11:Lib/BufferedSerial/BufferedSerial.hpp ****  Initの順番をDMAが先になるようにする
+  12:Lib/BufferedSerial/BufferedSerial.hpp ****  - MX_DMA_Init();
+  13:Lib/BufferedSerial/BufferedSerial.hpp ****  - MX_USART2_UART_Init();
+  14:Lib/BufferedSerial/BufferedSerial.hpp ****  - DMAはCircularモードにする
+  15:Lib/BufferedSerial/BufferedSerial.hpp **** */
+  16:Lib/BufferedSerial/BufferedSerial.hpp **** 
+  17:Lib/BufferedSerial/BufferedSerial.hpp **** class BufferedSerial {
+  18:Lib/BufferedSerial/BufferedSerial.hpp ****      public:
+  19:Lib/BufferedSerial/BufferedSerial.hpp ****       BufferedSerial(UART_HandleTypeDef *huart, uint16_t rxBufSize)
+  20:Lib/BufferedSerial/BufferedSerial.hpp ****           : _huart(huart),
+  21:Lib/BufferedSerial/BufferedSerial.hpp ****             _rxBuf(new uint8_t[rxBufSize]),
+  22:Lib/BufferedSerial/BufferedSerial.hpp ****             rxTop(0),
+  23:Lib/BufferedSerial/BufferedSerial.hpp ****             rxBtm(0),
+  24:Lib/BufferedSerial/BufferedSerial.hpp ****             _rxBufSize(rxBufSize),
+  25:Lib/BufferedSerial/BufferedSerial.hpp ****             _useDMA(false) {}
+  26:Lib/BufferedSerial/BufferedSerial.hpp ****       ~BufferedSerial() {
+ 136              		.loc 3 26 7 is_stmt 1 discriminator 5 view .LVU17
+ 137              	.LBB20:
+ 138              	.LBB21:
+  27:Lib/BufferedSerial/BufferedSerial.hpp ****             delete[] _rxBuf;
+ 139              		.loc 3 27 13 discriminator 5 view .LVU18
+ 140              		.loc 3 27 22 is_stmt 0 discriminator 5 view .LVU19
+ 141 0012 6068     		ldr	r0, [r4, #4]
+ 142              		.loc 3 27 13 discriminator 5 view .LVU20
+ 143 0014 0028     		cmp	r0, #0
+ 144 0016 F9D0     		beq	.L13
+ 145              		.loc 3 27 22 view .LVU21
+ 146 0018 FFF7FEFF 		bl	_ZdaPv
+ 147              	.LVL11:
+ 148              	.LBE21:
+  28:Lib/BufferedSerial/BufferedSerial.hpp ****       }
+ 149              		.loc 3 28 7 view .LVU22
+ 150 001c F6E7     		b	.L13
+ 151              	.LVL12:
+ 152              	.L11:
+ 153              		.loc 3 28 7 view .LVU23
+ 154              	.LBE20:
+ 155              	.LBE19:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 8
+
+
+ 156              	.LBB22:
+ 157              	.LBI22:
+  26:Lib/BufferedSerial/BufferedSerial.hpp ****             delete[] _rxBuf;
+ 158              		.loc 3 26 7 is_stmt 1 discriminator 7 view .LVU24
+ 159              	.LBB23:
+  27:Lib/BufferedSerial/BufferedSerial.hpp ****             delete[] _rxBuf;
+ 160              		.loc 3 27 13 discriminator 7 view .LVU25
+  27:Lib/BufferedSerial/BufferedSerial.hpp ****             delete[] _rxBuf;
+ 161              		.loc 3 27 22 is_stmt 0 discriminator 7 view .LVU26
+ 162 001e D5F88000 		ldr	r0, [r5, #128]
+  27:Lib/BufferedSerial/BufferedSerial.hpp ****             delete[] _rxBuf;
+ 163              		.loc 3 27 13 discriminator 7 view .LVU27
+ 164 0022 08B1     		cbz	r0, .L14
+  27:Lib/BufferedSerial/BufferedSerial.hpp ****             delete[] _rxBuf;
+ 165              		.loc 3 27 22 view .LVU28
+ 166 0024 FFF7FEFF 		bl	_ZdaPv
+ 167              	.LVL13:
+ 168              	.L14:
+  27:Lib/BufferedSerial/BufferedSerial.hpp ****             delete[] _rxBuf;
+ 169              		.loc 3 27 22 view .LVU29
+ 170              	.LBE23:
+ 171              	.LBE22:
+ 172              	.LBE18:
+ 173              		.loc 2 40 7 view .LVU30
+ 174 0028 2846     		mov	r0, r5
+ 175 002a 70BD     		pop	{r4, r5, r6, pc}
+ 176              		.loc 2 40 7 view .LVU31
+ 177              		.cfi_endproc
+ 178              	.LFE173:
+ 179              		.cantunwind
+ 180              		.fnend
+ 182              		.weak	_ZN8HardwareD1Ev
+ 183              		.thumb_set _ZN8HardwareD1Ev,_ZN8HardwareD2Ev
+ 184              		.global	__aeabi_f2d
+ 185              		.global	__aeabi_ui2d
+ 186              		.global	__aeabi_dmul
+ 187              		.global	__aeabi_d2iz
+ 188              		.section	.text._ZN12PwmSingleOut5writeEf,"axG",%progbits,_ZN12PwmSingleOut5writeEf,comdat
+ 189              		.align	1
+ 190              		.weak	_ZN12PwmSingleOut5writeEf
+ 191              		.syntax unified
+ 192              		.thumb
+ 193              		.thumb_func
+ 195              	_ZN12PwmSingleOut5writeEf:
+ 196              		.fnstart
+ 197              	.LVL14:
+ 198              	.LFB163:
+ 199              		.file 4 "Lib/PWMSingle/PWMSingle.hpp"
+   1:Lib/PWMSingle/PWMSingle.hpp **** #ifndef __PWMSINGLE__
+   2:Lib/PWMSingle/PWMSingle.hpp **** #define __PWMSINGLE__
+   3:Lib/PWMSingle/PWMSingle.hpp **** 
+   4:Lib/PWMSingle/PWMSingle.hpp **** #include "MyMath.hpp"
+   5:Lib/PWMSingle/PWMSingle.hpp **** #include "tim.h"
+   6:Lib/PWMSingle/PWMSingle.hpp **** 
+   7:Lib/PWMSingle/PWMSingle.hpp **** #ifdef __cplusplus
+   8:Lib/PWMSingle/PWMSingle.hpp **** extern "C" {
+   9:Lib/PWMSingle/PWMSingle.hpp **** 
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 9
+
+
+  10:Lib/PWMSingle/PWMSingle.hpp **** class PwmSingleOut {
+  11:Lib/PWMSingle/PWMSingle.hpp ****      public:
+  12:Lib/PWMSingle/PWMSingle.hpp ****       PwmSingleOut(TIM_HandleTypeDef *htim, uint32_t channel)
+  13:Lib/PWMSingle/PWMSingle.hpp ****           : _htim(htim), _channel(channel), _maxValue(_htim->Init.Period) {
+  14:Lib/PWMSingle/PWMSingle.hpp ****       }
+  15:Lib/PWMSingle/PWMSingle.hpp **** 
+  16:Lib/PWMSingle/PWMSingle.hpp ****       void init() {
+  17:Lib/PWMSingle/PWMSingle.hpp ****             HAL_TIM_PWM_Start(_htim, _channel);
+  18:Lib/PWMSingle/PWMSingle.hpp ****             _maxValue = _htim->Init.Period;
+  19:Lib/PWMSingle/PWMSingle.hpp ****       }
+  20:Lib/PWMSingle/PWMSingle.hpp **** 
+  21:Lib/PWMSingle/PWMSingle.hpp ****       void write(float duty) {
+ 200              		.loc 4 21 12 is_stmt 1 view -0
+ 201              		.cfi_startproc
+ 202              		@ args = 0, pretend = 0, frame = 0
+ 203              		@ frame_needed = 0, uses_anonymous_args = 0
+ 204              		.loc 4 21 12 is_stmt 0 view .LVU33
+ 205 0000 D0B5     		push	{r4, r6, r7, lr}
+ 206              	.LCFI2:
+ 207              		.cfi_def_cfa_offset 16
+ 208              		.cfi_offset 4, -16
+ 209              		.cfi_offset 6, -12
+ 210              		.cfi_offset 7, -8
+ 211              		.cfi_offset 14, -4
+ 212 0002 0446     		mov	r4, r0
+  22:Lib/PWMSingle/PWMSingle.hpp ****             duty = (int)(Constrain(duty, 0.0, 1.0) * _maxValue);
+ 213              		.loc 4 22 13 is_stmt 1 view .LVU34
+ 214              		.loc 4 22 26 is_stmt 0 view .LVU35
+ 215 0004 B5EEC00A 		vcmpe.f32	s0, #0
+ 216 0008 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 217 000c 10D4     		bmi	.L22
+ 218              		.loc 4 22 26 discriminator 2 view .LVU36
+ 219 000e F7EE007A 		vmov.f32	s15, #1.0e+0
+ 220 0012 B4EEE70A 		vcmpe.f32	s0, s15
+ 221 0016 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 222 001a 02DD     		ble	.L25
+ 223              		.loc 4 22 26 view .LVU37
+ 224 001c 0026     		movs	r6, #0
+ 225 001e 1D4F     		ldr	r7, .L28
+ 226 0020 08E0     		b	.L17
+ 227              	.L25:
+ 228              		.loc 4 22 26 discriminator 5 view .LVU38
+ 229 0022 10EE100A 		vmov	r0, s0
+ 230              	.LVL15:
+ 231              		.loc 4 22 26 discriminator 5 view .LVU39
+ 232 0026 FFF7FEFF 		bl	__aeabi_f2d
+ 233              	.LVL16:
+ 234              		.loc 4 22 26 discriminator 5 view .LVU40
+ 235 002a 0646     		mov	r6, r0
+ 236 002c 0F46     		mov	r7, r1
+ 237 002e 01E0     		b	.L17
+ 238              	.LVL17:
+ 239              	.L22:
+ 240              		.loc 4 22 26 view .LVU41
+ 241 0030 0026     		movs	r6, #0
+ 242 0032 0027     		movs	r7, #0
+ 243              	.LVL18:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 10
+
+
+ 244              	.L17:
+ 245              		.loc 4 22 52 discriminator 8 view .LVU42
+ 246 0034 A068     		ldr	r0, [r4, #8]
+ 247 0036 FFF7FEFF 		bl	__aeabi_ui2d
+ 248              	.LVL19:
+ 249 003a 3246     		mov	r2, r6
+ 250 003c 3B46     		mov	r3, r7
+ 251 003e FFF7FEFF 		bl	__aeabi_dmul
+ 252              	.LVL20:
+ 253              		.loc 4 22 20 discriminator 8 view .LVU43
+ 254 0042 FFF7FEFF 		bl	__aeabi_d2iz
+ 255              	.LVL21:
+ 256 0046 07EE900A 		vmov	s15, r0	@ int
+ 257              		.loc 4 22 18 discriminator 8 view .LVU44
+ 258 004a F8EEE77A 		vcvt.f32.s32	s15, s15
+ 259              	.LVL22:
+  23:Lib/PWMSingle/PWMSingle.hpp ****             __HAL_TIM_SET_COMPARE(_htim, _channel, duty);
+ 260              		.loc 4 23 13 is_stmt 1 discriminator 8 view .LVU45
+ 261 004e 6368     		ldr	r3, [r4, #4]
+ 262 0050 33B9     		cbnz	r3, .L18
+ 263              		.loc 4 23 13 is_stmt 0 discriminator 1 view .LVU46
+ 264 0052 2368     		ldr	r3, [r4]
+ 265 0054 1B68     		ldr	r3, [r3]
+ 266 0056 FCEEE77A 		vcvt.u32.f32	s15, s15
+ 267              	.LVL23:
+ 268              		.loc 4 23 13 discriminator 1 view .LVU47
+ 269 005a C3ED0D7A 		vstr.32	s15, [r3, #52]	@ int
+ 270              	.L16:
+  24:Lib/PWMSingle/PWMSingle.hpp ****       }
+ 271              		.loc 4 24 7 view .LVU48
+ 272 005e D0BD     		pop	{r4, r6, r7, pc}
+ 273              	.LVL24:
+ 274              	.L18:
+  23:Lib/PWMSingle/PWMSingle.hpp ****             __HAL_TIM_SET_COMPARE(_htim, _channel, duty);
+ 275              		.loc 4 23 13 discriminator 2 view .LVU49
+ 276 0060 042B     		cmp	r3, #4
+ 277 0062 08D0     		beq	.L26
+  23:Lib/PWMSingle/PWMSingle.hpp ****             __HAL_TIM_SET_COMPARE(_htim, _channel, duty);
+ 278              		.loc 4 23 13 discriminator 4 view .LVU50
+ 279 0064 082B     		cmp	r3, #8
+ 280 0066 0DD0     		beq	.L27
+  23:Lib/PWMSingle/PWMSingle.hpp ****             __HAL_TIM_SET_COMPARE(_htim, _channel, duty);
+ 281              		.loc 4 23 13 discriminator 6 view .LVU51
+ 282 0068 2368     		ldr	r3, [r4]
+ 283 006a 1B68     		ldr	r3, [r3]
+ 284 006c FCEEE77A 		vcvt.u32.f32	s15, s15
+ 285              	.LVL25:
+  23:Lib/PWMSingle/PWMSingle.hpp ****             __HAL_TIM_SET_COMPARE(_htim, _channel, duty);
+ 286              		.loc 4 23 13 discriminator 6 view .LVU52
+ 287 0070 C3ED107A 		vstr.32	s15, [r3, #64]	@ int
+ 288              		.loc 4 24 7 discriminator 6 view .LVU53
+ 289 0074 F3E7     		b	.L16
+ 290              	.LVL26:
+ 291              	.L26:
+  23:Lib/PWMSingle/PWMSingle.hpp ****             __HAL_TIM_SET_COMPARE(_htim, _channel, duty);
+ 292              		.loc 4 23 13 discriminator 3 view .LVU54
+ 293 0076 2368     		ldr	r3, [r4]
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 11
+
+
+ 294 0078 1B68     		ldr	r3, [r3]
+ 295 007a FCEEE77A 		vcvt.u32.f32	s15, s15
+ 296              	.LVL27:
+  23:Lib/PWMSingle/PWMSingle.hpp ****             __HAL_TIM_SET_COMPARE(_htim, _channel, duty);
+ 297              		.loc 4 23 13 discriminator 3 view .LVU55
+ 298 007e C3ED0E7A 		vstr.32	s15, [r3, #56]	@ int
+ 299 0082 ECE7     		b	.L16
+ 300              	.LVL28:
+ 301              	.L27:
+  23:Lib/PWMSingle/PWMSingle.hpp ****             __HAL_TIM_SET_COMPARE(_htim, _channel, duty);
+ 302              		.loc 4 23 13 discriminator 5 view .LVU56
+ 303 0084 2368     		ldr	r3, [r4]
+ 304 0086 1B68     		ldr	r3, [r3]
+ 305 0088 FCEEE77A 		vcvt.u32.f32	s15, s15
+ 306              	.LVL29:
+  23:Lib/PWMSingle/PWMSingle.hpp ****             __HAL_TIM_SET_COMPARE(_htim, _channel, duty);
+ 307              		.loc 4 23 13 discriminator 5 view .LVU57
+ 308 008c C3ED0F7A 		vstr.32	s15, [r3, #60]	@ int
+ 309 0090 E5E7     		b	.L16
+ 310              	.L29:
+ 311 0092 00BF     		.align	2
+ 312              	.L28:
+ 313 0094 0000F03F 		.word	1072693248
+ 314              		.cfi_endproc
+ 315              	.LFE163:
+ 316              		.cantunwind
+ 317              		.fnend
+ 319              		.section	.text.setup,"ax",%progbits
+ 320              		.align	1
+ 321              		.global	setup
+ 322              		.syntax unified
+ 323              		.thumb
+ 324              		.thumb_func
+ 326              	setup:
+ 327              		.fnstart
+ 328              	.LFB166:
+  20:src/app/app.cpp **** void setup() {
+ 329              		.loc 1 20 14 is_stmt 1 view -0
+ 330              		.cfi_startproc
+ 331              		@ args = 0, pretend = 0, frame = 0
+ 332              		@ frame_needed = 0, uses_anonymous_args = 0
+ 333 0000 10B5     		push	{r4, lr}
+ 334              		.save {r4, lr}
+ 335              	.LCFI3:
+ 336              		.cfi_def_cfa_offset 8
+ 337              		.cfi_offset 4, -8
+ 338              		.cfi_offset 14, -4
+  21:src/app/app.cpp ****       hardware.Init();
+ 339              		.loc 1 21 7 view .LVU59
+  21:src/app/app.cpp ****       hardware.Init();
+ 340              		.loc 1 21 20 is_stmt 0 view .LVU60
+ 341 0002 0D48     		ldr	r0, .L34
+ 342 0004 FFF7FEFF 		bl	_ZN8Hardware4InitEv
+ 343              	.LVL30:
+  23:src/app/app.cpp ****       for (uint8_t i = 0; i < 10; i++) {
+ 344              		.loc 1 23 7 is_stmt 1 view .LVU61
+ 345              	.LBB24:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 12
+
+
+  23:src/app/app.cpp ****       for (uint8_t i = 0; i < 10; i++) {
+ 346              		.loc 1 23 20 is_stmt 0 view .LVU62
+ 347 0008 0024     		movs	r4, #0
+  23:src/app/app.cpp ****       for (uint8_t i = 0; i < 10; i++) {
+ 348              		.loc 1 23 7 view .LVU63
+ 349 000a 0DE0     		b	.L31
+ 350              	.LVL31:
+ 351              	.L32:
+  24:src/app/app.cpp ****             hardware.led1 = i % 2;
+ 352              		.loc 1 24 13 is_stmt 1 discriminator 3 view .LVU64
+  24:src/app/app.cpp ****             hardware.led1 = i % 2;
+ 353              		.loc 1 24 31 is_stmt 0 discriminator 3 view .LVU65
+ 354 000c 04F00103 		and	r3, r4, #1
+ 355 0010 00EE103A 		vmov	s0, r3	@ int
+ 356              	.LVL32:
+ 357              	.LBB25:
+ 358              	.LBI25:
+  25:Lib/PWMSingle/PWMSingle.hpp **** 
+  26:Lib/PWMSingle/PWMSingle.hpp ****       void operator=(float duty) {
+ 359              		.loc 4 26 12 is_stmt 1 discriminator 3 view .LVU66
+ 360              	.LBB26:
+  27:Lib/PWMSingle/PWMSingle.hpp ****             write(duty);
+ 361              		.loc 4 27 13 discriminator 3 view .LVU67
+ 362              		.loc 4 27 18 is_stmt 0 discriminator 3 view .LVU68
+ 363 0014 B8EEC00A 		vcvt.f32.s32	s0, s0
+ 364              	.LVL33:
+ 365              		.loc 4 27 18 discriminator 3 view .LVU69
+ 366 0018 0848     		ldr	r0, .L34+4
+ 367              	.LVL34:
+ 368              		.loc 4 27 18 discriminator 3 view .LVU70
+ 369 001a FFF7FEFF 		bl	_ZN12PwmSingleOut5writeEf
+ 370              	.LVL35:
+ 371              		.loc 4 27 18 discriminator 3 view .LVU71
+ 372              	.LBE26:
+ 373              	.LBE25:
+  25:src/app/app.cpp ****             HAL_Delay(100);
+ 374              		.loc 1 25 13 is_stmt 1 discriminator 3 view .LVU72
+  25:src/app/app.cpp ****             HAL_Delay(100);
+ 375              		.loc 1 25 22 is_stmt 0 discriminator 3 view .LVU73
+ 376 001e 6420     		movs	r0, #100
+ 377 0020 FFF7FEFF 		bl	HAL_Delay
+ 378              	.LVL36:
+  23:src/app/app.cpp ****       for (uint8_t i = 0; i < 10; i++) {
+ 379              		.loc 1 23 7 is_stmt 1 discriminator 3 view .LVU74
+ 380 0024 0134     		adds	r4, r4, #1
+ 381              	.LVL37:
+  23:src/app/app.cpp ****       for (uint8_t i = 0; i < 10; i++) {
+ 382              		.loc 1 23 7 is_stmt 0 discriminator 3 view .LVU75
+ 383 0026 E4B2     		uxtb	r4, r4
+ 384              	.LVL38:
+ 385              	.L31:
+  23:src/app/app.cpp ****       for (uint8_t i = 0; i < 10; i++) {
+ 386              		.loc 1 23 29 is_stmt 1 discriminator 1 view .LVU76
+ 387 0028 092C     		cmp	r4, #9
+ 388 002a EFD9     		bls	.L32
+ 389              	.LBE24:
+  27:src/app/app.cpp ****       hardware.led1 = 1;
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 13
+
+
+ 390              		.loc 1 27 7 view .LVU77
+ 391              	.LVL39:
+ 392              	.LBB27:
+ 393              	.LBI27:
+  26:Lib/PWMSingle/PWMSingle.hpp ****             write(duty);
+ 394              		.loc 4 26 12 view .LVU78
+ 395              	.LBB28:
+ 396              		.loc 4 27 13 view .LVU79
+ 397              		.loc 4 27 18 is_stmt 0 view .LVU80
+ 398 002c B7EE000A 		vmov.f32	s0, #1.0e+0
+ 399 0030 0248     		ldr	r0, .L34+4
+ 400              	.LVL40:
+ 401              		.loc 4 27 18 view .LVU81
+ 402 0032 FFF7FEFF 		bl	_ZN12PwmSingleOut5writeEf
+ 403              	.LVL41:
+ 404              		.loc 4 27 18 view .LVU82
+ 405              	.LBE28:
+ 406              	.LBE27:
+  28:src/app/app.cpp **** }
+ 407              		.loc 1 28 1 view .LVU83
+ 408 0036 10BD     		pop	{r4, pc}
+ 409              	.LVL42:
+ 410              	.L35:
+  28:src/app/app.cpp **** }
+ 411              		.loc 1 28 1 view .LVU84
+ 412              		.align	2
+ 413              	.L34:
+ 414 0038 00000000 		.word	hardware
+ 415 003c 3C000000 		.word	hardware+60
+ 416              		.cfi_endproc
+ 417              	.LFE166:
+ 418              		.fnend
+ 420              		.section	.text._Z14BallConversionv,"ax",%progbits
+ 421              		.align	1
+ 422              		.global	_Z14BallConversionv
+ 423              		.syntax unified
+ 424              		.thumb
+ 425              		.thumb_func
+ 427              	_Z14BallConversionv:
+ 428              		.fnstart
+ 429              	.LFB167:
+  30:src/app/app.cpp **** void BallConversion() {
+ 430              		.loc 1 30 23 is_stmt 1 view -0
+ 431              		.cfi_startproc
+ 432              		@ args = 0, pretend = 0, frame = 0
+ 433              		@ frame_needed = 0, uses_anonymous_args = 0
+ 434 0000 10B5     		push	{r4, lr}
+ 435              		.save {r4, lr}
+ 436              	.LCFI4:
+ 437              		.cfi_def_cfa_offset 8
+ 438              		.cfi_offset 4, -8
+ 439              		.cfi_offset 14, -4
+  31:src/app/app.cpp ****       uint8_t min_dis = 200;
+ 440              		.loc 1 31 7 view .LVU86
+ 441              	.LVL43:
+  32:src/app/app.cpp ****       uint8_t min_dis_num = 0;
+ 442              		.loc 1 32 7 view .LVU87
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 14
+
+
+  33:src/app/app.cpp ****       static int16_t pre_ball_dir, pre_ball_dis;
+ 443              		.loc 1 33 7 view .LVU88
+  35:src/app/app.cpp ****       for (int i = 0; i < 4; i++) {  // ロボットから一番近いボールを捉えている�
+ 444              		.loc 1 35 7 view .LVU89
+ 445              	.LBB29:
+  35:src/app/app.cpp ****       for (int i = 0; i < 4; i++) {  // ロボットから一番近いボールを捉えている�
+ 446              		.loc 1 35 16 is_stmt 0 view .LVU90
+ 447 0002 0023     		movs	r3, #0
+ 448              	.LBE29:
+  32:src/app/app.cpp ****       uint8_t min_dis_num = 0;
+ 449              		.loc 1 32 15 view .LVU91
+ 450 0004 1C46     		mov	r4, r3
+  31:src/app/app.cpp ****       uint8_t min_dis = 200;
+ 451              		.loc 1 31 15 view .LVU92
+ 452 0006 C820     		movs	r0, #200
+ 453              	.LBB30:
+  35:src/app/app.cpp ****       for (int i = 0; i < 4; i++) {  // ロボットから一番近いボールを捉えている�
+ 454              		.loc 1 35 7 view .LVU93
+ 455 0008 00E0     		b	.L37
+ 456              	.LVL44:
+ 457              	.L38:
+  35:src/app/app.cpp ****       for (int i = 0; i < 4; i++) {  // ロボットから一番近いボールを捉えている�
+ 458              		.loc 1 35 7 is_stmt 1 discriminator 2 view .LVU94
+ 459 000a 0133     		adds	r3, r3, #1
+ 460              	.LVL45:
+ 461              	.L37:
+  35:src/app/app.cpp ****       for (int i = 0; i < 4; i++) {  // ロボットから一番近いボールを捉えている�
+ 462              		.loc 1 35 25 discriminator 1 view .LVU95
+ 463 000c 032B     		cmp	r3, #3
+ 464 000e 0CDC     		bgt	.L53
+  36:src/app/app.cpp ****             if (hardware.info.Cam[i].ball_dis > 0 && hardware.info.Cam[i].ball_dis < min_dis) {
+ 465              		.loc 1 36 13 view .LVU96
+  36:src/app/app.cpp ****             if (hardware.info.Cam[i].ball_dis > 0 && hardware.info.Cam[i].ball_dis < min_dis) {
+ 466              		.loc 1 36 38 is_stmt 0 view .LVU97
+ 467 0010 03EB8301 		add	r1, r3, r3, lsl #2
+ 468 0014 2B4A     		ldr	r2, .L57
+ 469 0016 02EB4102 		add	r2, r2, r1, lsl #1
+ 470 001a D278     		ldrb	r2, [r2, #3]	@ zero_extendqisi2
+  36:src/app/app.cpp ****             if (hardware.info.Cam[i].ball_dis > 0 && hardware.info.Cam[i].ball_dis < min_dis) {
+ 471              		.loc 1 36 13 view .LVU98
+ 472 001c 002A     		cmp	r2, #0
+ 473 001e F4D0     		beq	.L38
+  36:src/app/app.cpp ****             if (hardware.info.Cam[i].ball_dis > 0 && hardware.info.Cam[i].ball_dis < min_dis) {
+ 474              		.loc 1 36 51 discriminator 1 view .LVU99
+ 475 0020 8242     		cmp	r2, r0
+ 476 0022 F2D2     		bcs	.L38
+  37:src/app/app.cpp ****                   min_dis = hardware.info.Cam[i].ball_dis;
+ 477              		.loc 1 37 19 is_stmt 1 view .LVU100
+ 478              	.LVL46:
+  38:src/app/app.cpp ****                   min_dis_num = i;
+ 479              		.loc 1 38 19 view .LVU101
+  38:src/app/app.cpp ****                   min_dis_num = i;
+ 480              		.loc 1 38 31 is_stmt 0 view .LVU102
+ 481 0024 DCB2     		uxtb	r4, r3
+ 482              	.LVL47:
+  37:src/app/app.cpp ****                   min_dis = hardware.info.Cam[i].ball_dis;
+ 483              		.loc 1 37 27 view .LVU103
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 15
+
+
+ 484 0026 1046     		mov	r0, r2
+ 485 0028 EFE7     		b	.L38
+ 486              	.LVL48:
+ 487              	.L53:
+  37:src/app/app.cpp ****                   min_dis = hardware.info.Cam[i].ball_dis;
+ 488              		.loc 1 37 27 view .LVU104
+ 489              	.LBE30:
+  41:src/app/app.cpp ****       if (min_dis == 200) min_dis = 0;
+ 490              		.loc 1 41 7 is_stmt 1 view .LVU105
+ 491 002a C828     		cmp	r0, #200
+ 492 002c 0DD0     		beq	.L54
+ 493              	.LVL49:
+ 494              	.L40:
+  42:src/app/app.cpp ****       hardware.info.ball_dis = min_dis;
+ 495              		.loc 1 42 7 view .LVU106
+  42:src/app/app.cpp ****       hardware.info.ball_dis = min_dis;
+ 496              		.loc 1 42 32 is_stmt 0 view .LVU107
+ 497 002e 00B2     		sxth	r0, r0
+ 498              	.LVL50:
+  42:src/app/app.cpp ****       hardware.info.ball_dis = min_dis;
+ 499              		.loc 1 42 30 view .LVU108
+ 500 0030 244B     		ldr	r3, .L57
+ 501              	.LVL51:
+  42:src/app/app.cpp ****       hardware.info.ball_dis = min_dis;
+ 502              		.loc 1 42 30 view .LVU109
+ 503 0032 9885     		strh	r0, [r3, #44]	@ movhi
+  44:src/app/app.cpp ****       if (hardware.info.ball_dis != 0) ball_miss_timer.reset();
+ 504              		.loc 1 44 7 is_stmt 1 view .LVU110
+ 505 0034 58B9     		cbnz	r0, .L55
+ 506              	.L41:
+  46:src/app/app.cpp ****       if (hardware.info.ball_dis == 0) {  // ボールが見つからない
+ 507              		.loc 1 46 7 view .LVU111
+  46:src/app/app.cpp ****       if (hardware.info.ball_dis == 0) {  // ボールが見つからない
+ 508              		.loc 1 46 25 is_stmt 0 view .LVU112
+ 509 0036 234B     		ldr	r3, .L57
+ 510 0038 B3F92C30 		ldrsh	r3, [r3, #44]
+  46:src/app/app.cpp ****       if (hardware.info.ball_dis == 0) {  // ボールが見つからない
+ 511              		.loc 1 46 7 view .LVU113
+ 512 003c 5BB1     		cbz	r3, .L56
+  54:src/app/app.cpp ****       } else if (min_dis_num == 0) {
+ 513              		.loc 1 54 14 is_stmt 1 view .LVU114
+ 514 003e 032C     		cmp	r4, #3
+ 515 0040 13D8     		bhi	.L44
+ 516 0042 DFE804F0 		tbb	[pc, r4]
+ 517              	.L46:
+ 518 0046 28       		.byte	(.L49-.L46)/2
+ 519 0047 2E       		.byte	(.L48-.L46)/2
+ 520 0048 33       		.byte	(.L47-.L46)/2
+ 521 0049 38       		.byte	(.L45-.L46)/2
+ 522              	.LVL52:
+ 523              		.p2align 1
+ 524              	.L54:
+  41:src/app/app.cpp ****       if (min_dis == 200) min_dis = 0;
+ 525              		.loc 1 41 35 is_stmt 0 view .LVU115
+ 526 004a 0020     		movs	r0, #0
+ 527              	.LVL53:
+  41:src/app/app.cpp ****       if (min_dis == 200) min_dis = 0;
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 16
+
+
+ 528              		.loc 1 41 35 view .LVU116
+ 529 004c EFE7     		b	.L40
+ 530              	.LVL54:
+ 531              	.L55:
+  44:src/app/app.cpp ****       if (hardware.info.ball_dis != 0) ball_miss_timer.reset();
+ 532              		.loc 1 44 40 is_stmt 1 discriminator 1 view .LVU117
+  44:src/app/app.cpp ****       if (hardware.info.ball_dis != 0) ball_miss_timer.reset();
+ 533              		.loc 1 44 61 is_stmt 0 discriminator 1 view .LVU118
+ 534 004e 1E48     		ldr	r0, .L57+4
+ 535 0050 FFF7FEFF 		bl	_ZN5Timer5resetEv
+ 536              	.LVL55:
+ 537 0054 EFE7     		b	.L41
+ 538              	.L56:
+  47:src/app/app.cpp ****             if (ball_miss_timer.read_ms() > BALL_MISS_TIME) {
+ 539              		.loc 1 47 13 is_stmt 1 view .LVU119
+  47:src/app/app.cpp ****             if (ball_miss_timer.read_ms() > BALL_MISS_TIME) {
+ 540              		.loc 1 47 40 is_stmt 0 view .LVU120
+ 541 0056 1C48     		ldr	r0, .L57+4
+ 542 0058 FFF7FEFF 		bl	_ZN5Timer7read_msEv
+ 543              	.LVL56:
+  47:src/app/app.cpp ****             if (ball_miss_timer.read_ms() > BALL_MISS_TIME) {
+ 544              		.loc 1 47 13 view .LVU121
+ 545 005c B0F57A7F 		cmp	r0, #1000
+ 546 0060 11D9     		bls	.L43
+  48:src/app/app.cpp ****                   hardware.info.ball_dir = 0;
+ 547              		.loc 1 48 19 is_stmt 1 view .LVU122
+  48:src/app/app.cpp ****                   hardware.info.ball_dir = 0;
+ 548              		.loc 1 48 42 is_stmt 0 view .LVU123
+ 549 0062 184B     		ldr	r3, .L57
+ 550 0064 0022     		movs	r2, #0
+ 551 0066 5A85     		strh	r2, [r3, #42]	@ movhi
+  49:src/app/app.cpp ****                   hardware.info.ball_dis = 0;
+ 552              		.loc 1 49 19 is_stmt 1 view .LVU124
+  49:src/app/app.cpp ****                   hardware.info.ball_dis = 0;
+ 553              		.loc 1 49 42 is_stmt 0 view .LVU125
+ 554 0068 9A85     		strh	r2, [r3, #44]	@ movhi
+ 555              	.L44:
+  63:src/app/app.cpp ****       hardware.info.ball_dir = MyMath::NormalizeDeg180(hardware.info.ball_dir);
+ 556              		.loc 1 63 7 is_stmt 1 view .LVU126
+  63:src/app/app.cpp ****       hardware.info.ball_dir = MyMath::NormalizeDeg180(hardware.info.ball_dir);
+ 557              		.loc 1 63 70 is_stmt 0 view .LVU127
+ 558 006a 164C     		ldr	r4, .L57
+ 559              	.LVL57:
+  63:src/app/app.cpp ****       hardware.info.ball_dir = MyMath::NormalizeDeg180(hardware.info.ball_dir);
+ 560              		.loc 1 63 55 view .LVU128
+ 561 006c B4F92A00 		ldrsh	r0, [r4, #42]
+ 562 0070 FFF7FEFF 		bl	NormalizeDeg180
+ 563              	.LVL58:
+  63:src/app/app.cpp ****       hardware.info.ball_dir = MyMath::NormalizeDeg180(hardware.info.ball_dir);
+ 564              		.loc 1 63 30 view .LVU129
+ 565 0074 00B2     		sxth	r0, r0
+ 566 0076 6085     		strh	r0, [r4, #42]	@ movhi
+  65:src/app/app.cpp ****       pre_ball_dir = hardware.info.ball_dir;
+ 567              		.loc 1 65 7 is_stmt 1 view .LVU130
+  65:src/app/app.cpp ****       pre_ball_dir = hardware.info.ball_dir;
+ 568              		.loc 1 65 20 is_stmt 0 view .LVU131
+ 569 0078 144B     		ldr	r3, .L57+8
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 17
+
+
+ 570 007a 1880     		strh	r0, [r3]	@ movhi
+  66:src/app/app.cpp ****       pre_ball_dis = hardware.info.ball_dis;
+ 571              		.loc 1 66 7 is_stmt 1 view .LVU132
+  66:src/app/app.cpp ****       pre_ball_dis = hardware.info.ball_dis;
+ 572              		.loc 1 66 36 is_stmt 0 view .LVU133
+ 573 007c B4F92C20 		ldrsh	r2, [r4, #44]
+  66:src/app/app.cpp ****       pre_ball_dis = hardware.info.ball_dis;
+ 574              		.loc 1 66 20 view .LVU134
+ 575 0080 134B     		ldr	r3, .L57+12
+ 576 0082 1A80     		strh	r2, [r3]	@ movhi
+  67:src/app/app.cpp **** }
+ 577              		.loc 1 67 1 view .LVU135
+ 578 0084 10BD     		pop	{r4, pc}
+ 579              	.LVL59:
+ 580              	.L43:
+  51:src/app/app.cpp ****                   hardware.info.ball_dir = pre_ball_dir;
+ 581              		.loc 1 51 19 is_stmt 1 view .LVU136
+  51:src/app/app.cpp ****                   hardware.info.ball_dir = pre_ball_dir;
+ 582              		.loc 1 51 42 is_stmt 0 view .LVU137
+ 583 0086 0F4B     		ldr	r3, .L57
+ 584 0088 104A     		ldr	r2, .L57+8
+ 585 008a 1288     		ldrh	r2, [r2]
+ 586 008c 5A85     		strh	r2, [r3, #42]	@ movhi
+  52:src/app/app.cpp ****                   hardware.info.ball_dis = pre_ball_dis;
+ 587              		.loc 1 52 19 is_stmt 1 view .LVU138
+  52:src/app/app.cpp ****                   hardware.info.ball_dis = pre_ball_dis;
+ 588              		.loc 1 52 42 is_stmt 0 view .LVU139
+ 589 008e 104A     		ldr	r2, .L57+12
+ 590 0090 1288     		ldrh	r2, [r2]
+ 591 0092 9A85     		strh	r2, [r3, #44]	@ movhi
+ 592 0094 E9E7     		b	.L44
+ 593              	.L49:
+  55:src/app/app.cpp ****             hardware.info.ball_dir = hardware.info.Cam[0].ball_dir + 315;
+ 594              		.loc 1 55 13 is_stmt 1 view .LVU140
+  55:src/app/app.cpp ****             hardware.info.ball_dir = hardware.info.Cam[0].ball_dir + 315;
+ 595              		.loc 1 55 59 is_stmt 0 view .LVU141
+ 596 0096 0B4A     		ldr	r2, .L57
+ 597 0098 9378     		ldrb	r3, [r2, #2]	@ zero_extendqisi2
+  55:src/app/app.cpp ****             hardware.info.ball_dir = hardware.info.Cam[0].ball_dir + 315;
+ 598              		.loc 1 55 68 view .LVU142
+ 599 009a 03F23B13 		addw	r3, r3, #315
+  55:src/app/app.cpp ****             hardware.info.ball_dir = hardware.info.Cam[0].ball_dir + 315;
+ 600              		.loc 1 55 36 view .LVU143
+ 601 009e 5385     		strh	r3, [r2, #42]	@ movhi
+ 602 00a0 E3E7     		b	.L44
+ 603              	.L48:
+  57:src/app/app.cpp ****             hardware.info.ball_dir = hardware.info.Cam[1].ball_dir + 45;
+ 604              		.loc 1 57 13 is_stmt 1 view .LVU144
+  57:src/app/app.cpp ****             hardware.info.ball_dir = hardware.info.Cam[1].ball_dir + 45;
+ 605              		.loc 1 57 59 is_stmt 0 view .LVU145
+ 606 00a2 084A     		ldr	r2, .L57
+ 607 00a4 137B     		ldrb	r3, [r2, #12]	@ zero_extendqisi2
+  57:src/app/app.cpp ****             hardware.info.ball_dir = hardware.info.Cam[1].ball_dir + 45;
+ 608              		.loc 1 57 68 view .LVU146
+ 609 00a6 2D33     		adds	r3, r3, #45
+  57:src/app/app.cpp ****             hardware.info.ball_dir = hardware.info.Cam[1].ball_dir + 45;
+ 610              		.loc 1 57 36 view .LVU147
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 18
+
+
+ 611 00a8 5385     		strh	r3, [r2, #42]	@ movhi
+ 612 00aa DEE7     		b	.L44
+ 613              	.L47:
+  59:src/app/app.cpp ****             hardware.info.ball_dir = hardware.info.Cam[2].ball_dir + 135;
+ 614              		.loc 1 59 13 is_stmt 1 view .LVU148
+  59:src/app/app.cpp ****             hardware.info.ball_dir = hardware.info.Cam[2].ball_dir + 135;
+ 615              		.loc 1 59 59 is_stmt 0 view .LVU149
+ 616 00ac 054A     		ldr	r2, .L57
+ 617 00ae 937D     		ldrb	r3, [r2, #22]	@ zero_extendqisi2
+  59:src/app/app.cpp ****             hardware.info.ball_dir = hardware.info.Cam[2].ball_dir + 135;
+ 618              		.loc 1 59 68 view .LVU150
+ 619 00b0 8733     		adds	r3, r3, #135
+  59:src/app/app.cpp ****             hardware.info.ball_dir = hardware.info.Cam[2].ball_dir + 135;
+ 620              		.loc 1 59 36 view .LVU151
+ 621 00b2 5385     		strh	r3, [r2, #42]	@ movhi
+ 622 00b4 D9E7     		b	.L44
+ 623              	.L45:
+  61:src/app/app.cpp ****             hardware.info.ball_dir = hardware.info.Cam[3].ball_dir + 225;
+ 624              		.loc 1 61 13 is_stmt 1 view .LVU152
+  61:src/app/app.cpp ****             hardware.info.ball_dir = hardware.info.Cam[3].ball_dir + 225;
+ 625              		.loc 1 61 59 is_stmt 0 view .LVU153
+ 626 00b6 034A     		ldr	r2, .L57
+ 627 00b8 92F82030 		ldrb	r3, [r2, #32]	@ zero_extendqisi2
+  61:src/app/app.cpp ****             hardware.info.ball_dir = hardware.info.Cam[3].ball_dir + 225;
+ 628              		.loc 1 61 68 view .LVU154
+ 629 00bc E133     		adds	r3, r3, #225
+  61:src/app/app.cpp ****             hardware.info.ball_dir = hardware.info.Cam[3].ball_dir + 225;
+ 630              		.loc 1 61 36 view .LVU155
+ 631 00be 5385     		strh	r3, [r2, #42]	@ movhi
+ 632 00c0 D3E7     		b	.L44
+ 633              	.L58:
+ 634 00c2 00BF     		.align	2
+ 635              	.L57:
+ 636 00c4 00000000 		.word	hardware
+ 637 00c8 00000000 		.word	ball_miss_timer
+ 638 00cc 00000000 		.word	_ZZ14BallConversionvE12pre_ball_dir
+ 639 00d0 00000000 		.word	_ZZ14BallConversionvE12pre_ball_dis
+ 640              		.cfi_endproc
+ 641              	.LFE167:
+ 642              		.fnend
+ 644              		.section	.text._Z20YellowGoalConversionv,"ax",%progbits
+ 645              		.align	1
+ 646              		.global	_Z20YellowGoalConversionv
+ 647              		.syntax unified
+ 648              		.thumb
+ 649              		.thumb_func
+ 651              	_Z20YellowGoalConversionv:
+ 652              		.fnstart
+ 653              	.LFB168:
+  69:src/app/app.cpp **** void YellowGoalConversion() {
+ 654              		.loc 1 69 29 is_stmt 1 view -0
+ 655              		.cfi_startproc
+ 656              		@ args = 0, pretend = 0, frame = 0
+ 657              		@ frame_needed = 0, uses_anonymous_args = 0
+ 658 0000 10B5     		push	{r4, lr}
+ 659              		.save {r4, lr}
+ 660              	.LCFI5:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 19
+
+
+ 661              		.cfi_def_cfa_offset 8
+ 662              		.cfi_offset 4, -8
+ 663              		.cfi_offset 14, -4
+  70:src/app/app.cpp ****       uint8_t max_height = 0;
+ 664              		.loc 1 70 7 view .LVU157
+ 665              	.LVL60:
+  71:src/app/app.cpp ****       uint8_t max_height_num = 0;
+ 666              		.loc 1 71 7 view .LVU158
+  72:src/app/app.cpp ****       static uint8_t pre_yellow_goal_dis, pre_yellow_goal_dir;
+ 667              		.loc 1 72 7 view .LVU159
+  73:src/app/app.cpp ****       for (int i = 0; i < 4; i++) {  // ゴールの縦サイズが一番大きいカメラを特�
+ 668              		.loc 1 73 7 view .LVU160
+ 669              	.LBB31:
+  73:src/app/app.cpp ****       for (int i = 0; i < 4; i++) {  // ゴールの縦サイズが一番大きいカメラを特�
+ 670              		.loc 1 73 16 is_stmt 0 view .LVU161
+ 671 0002 0023     		movs	r3, #0
+ 672              	.LBE31:
+  71:src/app/app.cpp ****       uint8_t max_height_num = 0;
+ 673              		.loc 1 71 15 view .LVU162
+ 674 0004 1C46     		mov	r4, r3
+  70:src/app/app.cpp ****       uint8_t max_height = 0;
+ 675              		.loc 1 70 15 view .LVU163
+ 676 0006 1846     		mov	r0, r3
+ 677              	.LBB32:
+  73:src/app/app.cpp ****       for (int i = 0; i < 4; i++) {  // ゴールの縦サイズが一番大きいカメラを特�
+ 678              		.loc 1 73 7 view .LVU164
+ 679 0008 00E0     		b	.L60
+ 680              	.LVL61:
+ 681              	.L61:
+  73:src/app/app.cpp ****       for (int i = 0; i < 4; i++) {  // ゴールの縦サイズが一番大きいカメラを特�
+ 682              		.loc 1 73 7 is_stmt 1 discriminator 2 view .LVU165
+ 683 000a 0133     		adds	r3, r3, #1
+ 684              	.LVL62:
+ 685              	.L60:
+  73:src/app/app.cpp ****       for (int i = 0; i < 4; i++) {  // ゴールの縦サイズが一番大きいカメラを特�
+ 686              		.loc 1 73 25 discriminator 1 view .LVU166
+ 687 000c 032B     		cmp	r3, #3
+ 688 000e 0ADC     		bgt	.L74
+  74:src/app/app.cpp ****             if (hardware.info.Cam[i].yellow_goal_dis > max_height) {
+ 689              		.loc 1 74 13 view .LVU167
+  74:src/app/app.cpp ****             if (hardware.info.Cam[i].yellow_goal_dis > max_height) {
+ 690              		.loc 1 74 38 is_stmt 0 view .LVU168
+ 691 0010 03EB8301 		add	r1, r3, r3, lsl #2
+ 692 0014 274A     		ldr	r2, .L77
+ 693 0016 02EB4102 		add	r2, r2, r1, lsl #1
+ 694 001a 5279     		ldrb	r2, [r2, #5]	@ zero_extendqisi2
+  74:src/app/app.cpp ****             if (hardware.info.Cam[i].yellow_goal_dis > max_height) {
+ 695              		.loc 1 74 13 view .LVU169
+ 696 001c 8242     		cmp	r2, r0
+ 697 001e F4D9     		bls	.L61
+  75:src/app/app.cpp ****                   max_height = hardware.info.Cam[i].yellow_goal_dis;
+ 698              		.loc 1 75 19 is_stmt 1 view .LVU170
+ 699              	.LVL63:
+  76:src/app/app.cpp ****                   max_height_num = i;
+ 700              		.loc 1 76 19 view .LVU171
+  76:src/app/app.cpp ****                   max_height_num = i;
+ 701              		.loc 1 76 34 is_stmt 0 view .LVU172
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 20
+
+
+ 702 0020 DCB2     		uxtb	r4, r3
+ 703              	.LVL64:
+  75:src/app/app.cpp ****                   max_height = hardware.info.Cam[i].yellow_goal_dis;
+ 704              		.loc 1 75 30 view .LVU173
+ 705 0022 1046     		mov	r0, r2
+ 706 0024 F1E7     		b	.L61
+ 707              	.LVL65:
+ 708              	.L74:
+  75:src/app/app.cpp ****                   max_height = hardware.info.Cam[i].yellow_goal_dis;
+ 709              		.loc 1 75 30 view .LVU174
+ 710              	.LBE32:
+  79:src/app/app.cpp ****       hardware.info.yellow_goal_dis = max_height;
+ 711              		.loc 1 79 7 is_stmt 1 view .LVU175
+  79:src/app/app.cpp ****       hardware.info.yellow_goal_dis = max_height;
+ 712              		.loc 1 79 39 is_stmt 0 view .LVU176
+ 713 0026 00B2     		sxth	r0, r0
+ 714              	.LVL66:
+  79:src/app/app.cpp ****       hardware.info.yellow_goal_dis = max_height;
+ 715              		.loc 1 79 37 view .LVU177
+ 716 0028 224B     		ldr	r3, .L77
+ 717              	.LVL67:
+  79:src/app/app.cpp ****       hardware.info.yellow_goal_dis = max_height;
+ 718              		.loc 1 79 37 view .LVU178
+ 719 002a 1886     		strh	r0, [r3, #48]	@ movhi
+  81:src/app/app.cpp ****       if (hardware.info.yellow_goal_dis != 0) {
+ 720              		.loc 1 81 7 is_stmt 1 view .LVU179
+ 721 002c 00B9     		cbnz	r0, .L75
+ 722              	.LVL68:
+ 723              	.L59:
+ 106:src/app/app.cpp **** }
+ 724              		.loc 1 106 1 is_stmt 0 view .LVU180
+ 725 002e 10BD     		pop	{r4, pc}
+ 726              	.LVL69:
+ 727              	.L75:
+  82:src/app/app.cpp ****             yellow_goal_miss_timer.reset();
+ 728              		.loc 1 82 13 is_stmt 1 view .LVU181
+  82:src/app/app.cpp ****             yellow_goal_miss_timer.reset();
+ 729              		.loc 1 82 41 is_stmt 0 view .LVU182
+ 730 0030 2148     		ldr	r0, .L77+4
+ 731 0032 FFF7FEFF 		bl	_ZN5Timer5resetEv
+ 732              	.LVL70:
+  84:src/app/app.cpp ****             if (hardware.info.yellow_goal_dis == 0) {  // ゴールが見つからない
+ 733              		.loc 1 84 13 is_stmt 1 view .LVU183
+  84:src/app/app.cpp ****             if (hardware.info.yellow_goal_dis == 0) {  // ゴールが見つからない
+ 734              		.loc 1 84 31 is_stmt 0 view .LVU184
+ 735 0036 1F4B     		ldr	r3, .L77
+ 736 0038 B3F93030 		ldrsh	r3, [r3, #48]
+  84:src/app/app.cpp ****             if (hardware.info.yellow_goal_dis == 0) {  // ゴールが見つからない
+ 737              		.loc 1 84 13 view .LVU185
+ 738 003c 2BB1     		cbz	r3, .L76
+  92:src/app/app.cpp ****             } else if (max_height_num == 0) {
+ 739              		.loc 1 92 20 is_stmt 1 view .LVU186
+ 740 003e 032C     		cmp	r4, #3
+ 741 0040 0DD8     		bhi	.L66
+ 742 0042 DFE804F0 		tbb	[pc, r4]
+ 743              	.L68:
+ 744 0046 21       		.byte	(.L71-.L68)/2
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 21
+
+
+ 745 0047 27       		.byte	(.L70-.L68)/2
+ 746 0048 2C       		.byte	(.L69-.L68)/2
+ 747 0049 31       		.byte	(.L67-.L68)/2
+ 748              		.p2align 1
+ 749              	.L76:
+  85:src/app/app.cpp ****                   if (yellow_goal_miss_timer.read_ms() > GOAL_MISS_TIME) {
+ 750              		.loc 1 85 19 view .LVU187
+  85:src/app/app.cpp ****                   if (yellow_goal_miss_timer.read_ms() > GOAL_MISS_TIME) {
+ 751              		.loc 1 85 53 is_stmt 0 view .LVU188
+ 752 004a 1B48     		ldr	r0, .L77+4
+ 753 004c FFF7FEFF 		bl	_ZN5Timer7read_msEv
+ 754              	.LVL71:
+  85:src/app/app.cpp ****                   if (yellow_goal_miss_timer.read_ms() > GOAL_MISS_TIME) {
+ 755              		.loc 1 85 19 view .LVU189
+ 756 0050 B0F5FA7F 		cmp	r0, #500
+ 757 0054 10D9     		bls	.L65
+  86:src/app/app.cpp ****                         hardware.info.yellow_goal_dir = 0;
+ 758              		.loc 1 86 25 is_stmt 1 view .LVU190
+  86:src/app/app.cpp ****                         hardware.info.yellow_goal_dir = 0;
+ 759              		.loc 1 86 55 is_stmt 0 view .LVU191
+ 760 0056 174B     		ldr	r3, .L77
+ 761 0058 0022     		movs	r2, #0
+ 762 005a DA85     		strh	r2, [r3, #46]	@ movhi
+  87:src/app/app.cpp ****                         hardware.info.yellow_goal_dis = 0;
+ 763              		.loc 1 87 25 is_stmt 1 view .LVU192
+  87:src/app/app.cpp ****                         hardware.info.yellow_goal_dis = 0;
+ 764              		.loc 1 87 55 is_stmt 0 view .LVU193
+ 765 005c 1A86     		strh	r2, [r3, #48]	@ movhi
+ 766              	.L66:
+ 101:src/app/app.cpp ****             hardware.info.yellow_goal_dir = MyMath::NormalizeDeg180(hardware.info.yellow_goal_dir);
+ 767              		.loc 1 101 13 is_stmt 1 view .LVU194
+ 101:src/app/app.cpp ****             hardware.info.yellow_goal_dir = MyMath::NormalizeDeg180(hardware.info.yellow_goal_dir);
+ 768              		.loc 1 101 83 is_stmt 0 view .LVU195
+ 769 005e 154C     		ldr	r4, .L77
+ 770              	.LVL72:
+ 101:src/app/app.cpp ****             hardware.info.yellow_goal_dir = MyMath::NormalizeDeg180(hardware.info.yellow_goal_dir);
+ 771              		.loc 1 101 68 view .LVU196
+ 772 0060 B4F92E00 		ldrsh	r0, [r4, #46]
+ 773 0064 FFF7FEFF 		bl	NormalizeDeg180
+ 774              	.LVL73:
+ 101:src/app/app.cpp ****             hardware.info.yellow_goal_dir = MyMath::NormalizeDeg180(hardware.info.yellow_goal_dir);
+ 775              		.loc 1 101 43 view .LVU197
+ 776 0068 E085     		strh	r0, [r4, #46]	@ movhi
+ 103:src/app/app.cpp ****             pre_yellow_goal_dir = hardware.info.yellow_goal_dir;
+ 777              		.loc 1 103 13 is_stmt 1 view .LVU198
+ 103:src/app/app.cpp ****             pre_yellow_goal_dir = hardware.info.yellow_goal_dir;
+ 778              		.loc 1 103 33 is_stmt 0 view .LVU199
+ 779 006a 144B     		ldr	r3, .L77+8
+ 780 006c 1870     		strb	r0, [r3]
+ 104:src/app/app.cpp ****             pre_yellow_goal_dis = hardware.info.yellow_goal_dis;
+ 781              		.loc 1 104 13 is_stmt 1 view .LVU200
+ 104:src/app/app.cpp ****             pre_yellow_goal_dis = hardware.info.yellow_goal_dis;
+ 782              		.loc 1 104 49 is_stmt 0 view .LVU201
+ 783 006e B4F93020 		ldrsh	r2, [r4, #48]
+ 104:src/app/app.cpp ****             pre_yellow_goal_dis = hardware.info.yellow_goal_dis;
+ 784              		.loc 1 104 33 view .LVU202
+ 785 0072 134B     		ldr	r3, .L77+12
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 22
+
+
+ 786 0074 1A70     		strb	r2, [r3]
+ 106:src/app/app.cpp **** }
+ 787              		.loc 1 106 1 view .LVU203
+ 788 0076 DAE7     		b	.L59
+ 789              	.LVL74:
+ 790              	.L65:
+  89:src/app/app.cpp ****                         hardware.info.yellow_goal_dir = pre_yellow_goal_dir;
+ 791              		.loc 1 89 25 is_stmt 1 view .LVU204
+  89:src/app/app.cpp ****                         hardware.info.yellow_goal_dir = pre_yellow_goal_dir;
+ 792              		.loc 1 89 57 is_stmt 0 view .LVU205
+ 793 0078 104B     		ldr	r3, .L77+8
+ 794 007a 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+  89:src/app/app.cpp ****                         hardware.info.yellow_goal_dir = pre_yellow_goal_dir;
+ 795              		.loc 1 89 55 view .LVU206
+ 796 007c 0D4B     		ldr	r3, .L77
+ 797 007e DA85     		strh	r2, [r3, #46]	@ movhi
+  90:src/app/app.cpp ****                         hardware.info.yellow_goal_dis = pre_yellow_goal_dis;
+ 798              		.loc 1 90 25 is_stmt 1 view .LVU207
+  90:src/app/app.cpp ****                         hardware.info.yellow_goal_dis = pre_yellow_goal_dis;
+ 799              		.loc 1 90 57 is_stmt 0 view .LVU208
+ 800 0080 0F4A     		ldr	r2, .L77+12
+ 801 0082 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+  90:src/app/app.cpp ****                         hardware.info.yellow_goal_dis = pre_yellow_goal_dis;
+ 802              		.loc 1 90 55 view .LVU209
+ 803 0084 1A86     		strh	r2, [r3, #48]	@ movhi
+ 804 0086 EAE7     		b	.L66
+ 805              	.L71:
+  93:src/app/app.cpp ****                   hardware.info.yellow_goal_dir = hardware.info.Cam[0].yellow_goal_dir + 315;
+ 806              		.loc 1 93 19 is_stmt 1 view .LVU210
+  93:src/app/app.cpp ****                   hardware.info.yellow_goal_dir = hardware.info.Cam[0].yellow_goal_dir + 315;
+ 807              		.loc 1 93 72 is_stmt 0 view .LVU211
+ 808 0088 0A4A     		ldr	r2, .L77
+ 809 008a 1379     		ldrb	r3, [r2, #4]	@ zero_extendqisi2
+  93:src/app/app.cpp ****                   hardware.info.yellow_goal_dir = hardware.info.Cam[0].yellow_goal_dir + 315;
+ 810              		.loc 1 93 88 view .LVU212
+ 811 008c 03F23B13 		addw	r3, r3, #315
+  93:src/app/app.cpp ****                   hardware.info.yellow_goal_dir = hardware.info.Cam[0].yellow_goal_dir + 315;
+ 812              		.loc 1 93 49 view .LVU213
+ 813 0090 D385     		strh	r3, [r2, #46]	@ movhi
+ 814 0092 E4E7     		b	.L66
+ 815              	.L70:
+  95:src/app/app.cpp ****                   hardware.info.yellow_goal_dir = hardware.info.Cam[1].yellow_goal_dir + 45;
+ 816              		.loc 1 95 19 is_stmt 1 view .LVU214
+  95:src/app/app.cpp ****                   hardware.info.yellow_goal_dir = hardware.info.Cam[1].yellow_goal_dir + 45;
+ 817              		.loc 1 95 72 is_stmt 0 view .LVU215
+ 818 0094 074A     		ldr	r2, .L77
+ 819 0096 937B     		ldrb	r3, [r2, #14]	@ zero_extendqisi2
+  95:src/app/app.cpp ****                   hardware.info.yellow_goal_dir = hardware.info.Cam[1].yellow_goal_dir + 45;
+ 820              		.loc 1 95 88 view .LVU216
+ 821 0098 2D33     		adds	r3, r3, #45
+  95:src/app/app.cpp ****                   hardware.info.yellow_goal_dir = hardware.info.Cam[1].yellow_goal_dir + 45;
+ 822              		.loc 1 95 49 view .LVU217
+ 823 009a D385     		strh	r3, [r2, #46]	@ movhi
+ 824 009c DFE7     		b	.L66
+ 825              	.L69:
+  97:src/app/app.cpp ****                   hardware.info.yellow_goal_dir = hardware.info.Cam[2].yellow_goal_dir + 135;
+ 826              		.loc 1 97 19 is_stmt 1 view .LVU218
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 23
+
+
+  97:src/app/app.cpp ****                   hardware.info.yellow_goal_dir = hardware.info.Cam[2].yellow_goal_dir + 135;
+ 827              		.loc 1 97 72 is_stmt 0 view .LVU219
+ 828 009e 054A     		ldr	r2, .L77
+ 829 00a0 137E     		ldrb	r3, [r2, #24]	@ zero_extendqisi2
+  97:src/app/app.cpp ****                   hardware.info.yellow_goal_dir = hardware.info.Cam[2].yellow_goal_dir + 135;
+ 830              		.loc 1 97 88 view .LVU220
+ 831 00a2 8733     		adds	r3, r3, #135
+  97:src/app/app.cpp ****                   hardware.info.yellow_goal_dir = hardware.info.Cam[2].yellow_goal_dir + 135;
+ 832              		.loc 1 97 49 view .LVU221
+ 833 00a4 D385     		strh	r3, [r2, #46]	@ movhi
+ 834 00a6 DAE7     		b	.L66
+ 835              	.L67:
+  99:src/app/app.cpp ****                   hardware.info.yellow_goal_dir = hardware.info.Cam[3].yellow_goal_dir + 225;
+ 836              		.loc 1 99 19 is_stmt 1 view .LVU222
+  99:src/app/app.cpp ****                   hardware.info.yellow_goal_dir = hardware.info.Cam[3].yellow_goal_dir + 225;
+ 837              		.loc 1 99 72 is_stmt 0 view .LVU223
+ 838 00a8 024A     		ldr	r2, .L77
+ 839 00aa 92F82230 		ldrb	r3, [r2, #34]	@ zero_extendqisi2
+  99:src/app/app.cpp ****                   hardware.info.yellow_goal_dir = hardware.info.Cam[3].yellow_goal_dir + 225;
+ 840              		.loc 1 99 88 view .LVU224
+ 841 00ae E133     		adds	r3, r3, #225
+  99:src/app/app.cpp ****                   hardware.info.yellow_goal_dir = hardware.info.Cam[3].yellow_goal_dir + 225;
+ 842              		.loc 1 99 49 view .LVU225
+ 843 00b0 D385     		strh	r3, [r2, #46]	@ movhi
+ 844 00b2 D4E7     		b	.L66
+ 845              	.L78:
+ 846              		.align	2
+ 847              	.L77:
+ 848 00b4 00000000 		.word	hardware
+ 849 00b8 00000000 		.word	yellow_goal_miss_timer
+ 850 00bc 00000000 		.word	_ZZ20YellowGoalConversionvE19pre_yellow_goal_dir
+ 851 00c0 00000000 		.word	_ZZ20YellowGoalConversionvE19pre_yellow_goal_dis
+ 852              		.cfi_endproc
+ 853              	.LFE168:
+ 854              		.fnend
+ 856              		.section	.text._Z18BlueGoalConversionv,"ax",%progbits
+ 857              		.align	1
+ 858              		.global	_Z18BlueGoalConversionv
+ 859              		.syntax unified
+ 860              		.thumb
+ 861              		.thumb_func
+ 863              	_Z18BlueGoalConversionv:
+ 864              		.fnstart
+ 865              	.LFB169:
+ 108:src/app/app.cpp **** void BlueGoalConversion() {
+ 866              		.loc 1 108 27 is_stmt 1 view -0
+ 867              		.cfi_startproc
+ 868              		@ args = 0, pretend = 0, frame = 0
+ 869              		@ frame_needed = 0, uses_anonymous_args = 0
+ 870 0000 10B5     		push	{r4, lr}
+ 871              		.save {r4, lr}
+ 872              	.LCFI6:
+ 873              		.cfi_def_cfa_offset 8
+ 874              		.cfi_offset 4, -8
+ 875              		.cfi_offset 14, -4
+ 109:src/app/app.cpp ****       uint8_t max_height = 0;
+ 876              		.loc 1 109 7 view .LVU227
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 24
+
+
+ 877              	.LVL75:
+ 110:src/app/app.cpp ****       uint8_t max_height_num = 0;
+ 878              		.loc 1 110 7 view .LVU228
+ 111:src/app/app.cpp ****       static uint8_t pre_blue_goal_dis, pre_blue_goal_dir;
+ 879              		.loc 1 111 7 view .LVU229
+ 112:src/app/app.cpp ****       for (int i = 0; i < 4; i++) {  // ゴールの縦サイズが一番大きいカメラを特�
+ 880              		.loc 1 112 7 view .LVU230
+ 881              	.LBB33:
+ 112:src/app/app.cpp ****       for (int i = 0; i < 4; i++) {  // ゴールの縦サイズが一番大きいカメラを特�
+ 882              		.loc 1 112 16 is_stmt 0 view .LVU231
+ 883 0002 0023     		movs	r3, #0
+ 884              	.LBE33:
+ 110:src/app/app.cpp ****       uint8_t max_height_num = 0;
+ 885              		.loc 1 110 15 view .LVU232
+ 886 0004 1C46     		mov	r4, r3
+ 109:src/app/app.cpp ****       uint8_t max_height = 0;
+ 887              		.loc 1 109 15 view .LVU233
+ 888 0006 1846     		mov	r0, r3
+ 889              	.LBB34:
+ 112:src/app/app.cpp ****       for (int i = 0; i < 4; i++) {  // ゴールの縦サイズが一番大きいカメラを特�
+ 890              		.loc 1 112 7 view .LVU234
+ 891 0008 00E0     		b	.L80
+ 892              	.LVL76:
+ 893              	.L81:
+ 112:src/app/app.cpp ****       for (int i = 0; i < 4; i++) {  // ゴールの縦サイズが一番大きいカメラを特�
+ 894              		.loc 1 112 7 is_stmt 1 discriminator 2 view .LVU235
+ 895 000a 0133     		adds	r3, r3, #1
+ 896              	.LVL77:
+ 897              	.L80:
+ 112:src/app/app.cpp ****       for (int i = 0; i < 4; i++) {  // ゴールの縦サイズが一番大きいカメラを特�
+ 898              		.loc 1 112 25 discriminator 1 view .LVU236
+ 899 000c 032B     		cmp	r3, #3
+ 900 000e 0ADC     		bgt	.L94
+ 113:src/app/app.cpp ****             if (hardware.info.Cam[i].blue_goal_dis > max_height) {
+ 901              		.loc 1 113 13 view .LVU237
+ 113:src/app/app.cpp ****             if (hardware.info.Cam[i].blue_goal_dis > max_height) {
+ 902              		.loc 1 113 38 is_stmt 0 view .LVU238
+ 903 0010 03EB8301 		add	r1, r3, r3, lsl #2
+ 904 0014 274A     		ldr	r2, .L97
+ 905 0016 02EB4102 		add	r2, r2, r1, lsl #1
+ 906 001a D279     		ldrb	r2, [r2, #7]	@ zero_extendqisi2
+ 113:src/app/app.cpp ****             if (hardware.info.Cam[i].blue_goal_dis > max_height) {
+ 907              		.loc 1 113 13 view .LVU239
+ 908 001c 8242     		cmp	r2, r0
+ 909 001e F4D9     		bls	.L81
+ 114:src/app/app.cpp ****                   max_height = hardware.info.Cam[i].blue_goal_dis;
+ 910              		.loc 1 114 19 is_stmt 1 view .LVU240
+ 911              	.LVL78:
+ 115:src/app/app.cpp ****                   max_height_num = i;
+ 912              		.loc 1 115 19 view .LVU241
+ 115:src/app/app.cpp ****                   max_height_num = i;
+ 913              		.loc 1 115 34 is_stmt 0 view .LVU242
+ 914 0020 DCB2     		uxtb	r4, r3
+ 915              	.LVL79:
+ 114:src/app/app.cpp ****                   max_height = hardware.info.Cam[i].blue_goal_dis;
+ 916              		.loc 1 114 30 view .LVU243
+ 917 0022 1046     		mov	r0, r2
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 25
+
+
+ 918 0024 F1E7     		b	.L81
+ 919              	.LVL80:
+ 920              	.L94:
+ 114:src/app/app.cpp ****                   max_height = hardware.info.Cam[i].blue_goal_dis;
+ 921              		.loc 1 114 30 view .LVU244
+ 922              	.LBE34:
+ 118:src/app/app.cpp ****       hardware.info.blue_goal_dis = max_height;
+ 923              		.loc 1 118 7 is_stmt 1 view .LVU245
+ 118:src/app/app.cpp ****       hardware.info.blue_goal_dis = max_height;
+ 924              		.loc 1 118 37 is_stmt 0 view .LVU246
+ 925 0026 00B2     		sxth	r0, r0
+ 926              	.LVL81:
+ 118:src/app/app.cpp ****       hardware.info.blue_goal_dis = max_height;
+ 927              		.loc 1 118 35 view .LVU247
+ 928 0028 224B     		ldr	r3, .L97
+ 929              	.LVL82:
+ 118:src/app/app.cpp ****       hardware.info.blue_goal_dis = max_height;
+ 930              		.loc 1 118 35 view .LVU248
+ 931 002a 9886     		strh	r0, [r3, #52]	@ movhi
+ 120:src/app/app.cpp ****       if (hardware.info.blue_goal_dis != 0) {
+ 932              		.loc 1 120 7 is_stmt 1 view .LVU249
+ 933 002c 00B9     		cbnz	r0, .L95
+ 934              	.LVL83:
+ 935              	.L79:
+ 145:src/app/app.cpp **** }
+ 936              		.loc 1 145 1 is_stmt 0 view .LVU250
+ 937 002e 10BD     		pop	{r4, pc}
+ 938              	.LVL84:
+ 939              	.L95:
+ 121:src/app/app.cpp ****             blue_goal_miss_timer.reset();
+ 940              		.loc 1 121 13 is_stmt 1 view .LVU251
+ 121:src/app/app.cpp ****             blue_goal_miss_timer.reset();
+ 941              		.loc 1 121 39 is_stmt 0 view .LVU252
+ 942 0030 2148     		ldr	r0, .L97+4
+ 943 0032 FFF7FEFF 		bl	_ZN5Timer5resetEv
+ 944              	.LVL85:
+ 123:src/app/app.cpp ****             if (hardware.info.blue_goal_dis == 0) {  // ゴールが見つからない
+ 945              		.loc 1 123 13 is_stmt 1 view .LVU253
+ 123:src/app/app.cpp ****             if (hardware.info.blue_goal_dis == 0) {  // ゴールが見つからない
+ 946              		.loc 1 123 31 is_stmt 0 view .LVU254
+ 947 0036 1F4B     		ldr	r3, .L97
+ 948 0038 B3F93430 		ldrsh	r3, [r3, #52]
+ 123:src/app/app.cpp ****             if (hardware.info.blue_goal_dis == 0) {  // ゴールが見つからない
+ 949              		.loc 1 123 13 view .LVU255
+ 950 003c 2BB1     		cbz	r3, .L96
+ 131:src/app/app.cpp ****             } else if (max_height_num == 0) {
+ 951              		.loc 1 131 20 is_stmt 1 view .LVU256
+ 952 003e 032C     		cmp	r4, #3
+ 953 0040 0DD8     		bhi	.L86
+ 954 0042 DFE804F0 		tbb	[pc, r4]
+ 955              	.L88:
+ 956 0046 21       		.byte	(.L91-.L88)/2
+ 957 0047 27       		.byte	(.L90-.L88)/2
+ 958 0048 2C       		.byte	(.L89-.L88)/2
+ 959 0049 31       		.byte	(.L87-.L88)/2
+ 960              		.p2align 1
+ 961              	.L96:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 26
+
+
+ 124:src/app/app.cpp ****                   if (blue_goal_miss_timer.read_ms() > GOAL_MISS_TIME) {
+ 962              		.loc 1 124 19 view .LVU257
+ 124:src/app/app.cpp ****                   if (blue_goal_miss_timer.read_ms() > GOAL_MISS_TIME) {
+ 963              		.loc 1 124 51 is_stmt 0 view .LVU258
+ 964 004a 1B48     		ldr	r0, .L97+4
+ 965 004c FFF7FEFF 		bl	_ZN5Timer7read_msEv
+ 966              	.LVL86:
+ 124:src/app/app.cpp ****                   if (blue_goal_miss_timer.read_ms() > GOAL_MISS_TIME) {
+ 967              		.loc 1 124 19 view .LVU259
+ 968 0050 B0F5FA7F 		cmp	r0, #500
+ 969 0054 10D9     		bls	.L85
+ 125:src/app/app.cpp ****                         hardware.info.blue_goal_dir = 0;
+ 970              		.loc 1 125 25 is_stmt 1 view .LVU260
+ 125:src/app/app.cpp ****                         hardware.info.blue_goal_dir = 0;
+ 971              		.loc 1 125 53 is_stmt 0 view .LVU261
+ 972 0056 174B     		ldr	r3, .L97
+ 973 0058 0022     		movs	r2, #0
+ 974 005a 5A86     		strh	r2, [r3, #50]	@ movhi
+ 126:src/app/app.cpp ****                         hardware.info.blue_goal_dis = 0;
+ 975              		.loc 1 126 25 is_stmt 1 view .LVU262
+ 126:src/app/app.cpp ****                         hardware.info.blue_goal_dis = 0;
+ 976              		.loc 1 126 53 is_stmt 0 view .LVU263
+ 977 005c 9A86     		strh	r2, [r3, #52]	@ movhi
+ 978              	.L86:
+ 140:src/app/app.cpp ****             hardware.info.blue_goal_dir = MyMath::NormalizeDeg180(hardware.info.blue_goal_dir);
+ 979              		.loc 1 140 13 is_stmt 1 view .LVU264
+ 140:src/app/app.cpp ****             hardware.info.blue_goal_dir = MyMath::NormalizeDeg180(hardware.info.blue_goal_dir);
+ 980              		.loc 1 140 81 is_stmt 0 view .LVU265
+ 981 005e 154C     		ldr	r4, .L97
+ 982              	.LVL87:
+ 140:src/app/app.cpp ****             hardware.info.blue_goal_dir = MyMath::NormalizeDeg180(hardware.info.blue_goal_dir);
+ 983              		.loc 1 140 66 view .LVU266
+ 984 0060 B4F93200 		ldrsh	r0, [r4, #50]
+ 985 0064 FFF7FEFF 		bl	NormalizeDeg180
+ 986              	.LVL88:
+ 140:src/app/app.cpp ****             hardware.info.blue_goal_dir = MyMath::NormalizeDeg180(hardware.info.blue_goal_dir);
+ 987              		.loc 1 140 41 view .LVU267
+ 988 0068 6086     		strh	r0, [r4, #50]	@ movhi
+ 142:src/app/app.cpp ****             pre_blue_goal_dir = hardware.info.blue_goal_dir;
+ 989              		.loc 1 142 13 is_stmt 1 view .LVU268
+ 142:src/app/app.cpp ****             pre_blue_goal_dir = hardware.info.blue_goal_dir;
+ 990              		.loc 1 142 31 is_stmt 0 view .LVU269
+ 991 006a 144B     		ldr	r3, .L97+8
+ 992 006c 1870     		strb	r0, [r3]
+ 143:src/app/app.cpp ****             pre_blue_goal_dis = hardware.info.blue_goal_dis;
+ 993              		.loc 1 143 13 is_stmt 1 view .LVU270
+ 143:src/app/app.cpp ****             pre_blue_goal_dis = hardware.info.blue_goal_dis;
+ 994              		.loc 1 143 47 is_stmt 0 view .LVU271
+ 995 006e B4F93420 		ldrsh	r2, [r4, #52]
+ 143:src/app/app.cpp ****             pre_blue_goal_dis = hardware.info.blue_goal_dis;
+ 996              		.loc 1 143 31 view .LVU272
+ 997 0072 134B     		ldr	r3, .L97+12
+ 998 0074 1A70     		strb	r2, [r3]
+ 145:src/app/app.cpp **** }
+ 999              		.loc 1 145 1 view .LVU273
+ 1000 0076 DAE7     		b	.L79
+ 1001              	.LVL89:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 27
+
+
+ 1002              	.L85:
+ 128:src/app/app.cpp ****                         hardware.info.blue_goal_dir = pre_blue_goal_dir;
+ 1003              		.loc 1 128 25 is_stmt 1 view .LVU274
+ 128:src/app/app.cpp ****                         hardware.info.blue_goal_dir = pre_blue_goal_dir;
+ 1004              		.loc 1 128 55 is_stmt 0 view .LVU275
+ 1005 0078 104B     		ldr	r3, .L97+8
+ 1006 007a 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 128:src/app/app.cpp ****                         hardware.info.blue_goal_dir = pre_blue_goal_dir;
+ 1007              		.loc 1 128 53 view .LVU276
+ 1008 007c 0D4B     		ldr	r3, .L97
+ 1009 007e 5A86     		strh	r2, [r3, #50]	@ movhi
+ 129:src/app/app.cpp ****                         hardware.info.blue_goal_dis = pre_blue_goal_dis;
+ 1010              		.loc 1 129 25 is_stmt 1 view .LVU277
+ 129:src/app/app.cpp ****                         hardware.info.blue_goal_dis = pre_blue_goal_dis;
+ 1011              		.loc 1 129 55 is_stmt 0 view .LVU278
+ 1012 0080 0F4A     		ldr	r2, .L97+12
+ 1013 0082 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 129:src/app/app.cpp ****                         hardware.info.blue_goal_dis = pre_blue_goal_dis;
+ 1014              		.loc 1 129 53 view .LVU279
+ 1015 0084 9A86     		strh	r2, [r3, #52]	@ movhi
+ 1016 0086 EAE7     		b	.L86
+ 1017              	.L91:
+ 132:src/app/app.cpp ****                   hardware.info.blue_goal_dir = hardware.info.Cam[0].blue_goal_dir + 315;
+ 1018              		.loc 1 132 19 is_stmt 1 view .LVU280
+ 132:src/app/app.cpp ****                   hardware.info.blue_goal_dir = hardware.info.Cam[0].blue_goal_dir + 315;
+ 1019              		.loc 1 132 70 is_stmt 0 view .LVU281
+ 1020 0088 0A4A     		ldr	r2, .L97
+ 1021 008a 9379     		ldrb	r3, [r2, #6]	@ zero_extendqisi2
+ 132:src/app/app.cpp ****                   hardware.info.blue_goal_dir = hardware.info.Cam[0].blue_goal_dir + 315;
+ 1022              		.loc 1 132 84 view .LVU282
+ 1023 008c 03F23B13 		addw	r3, r3, #315
+ 132:src/app/app.cpp ****                   hardware.info.blue_goal_dir = hardware.info.Cam[0].blue_goal_dir + 315;
+ 1024              		.loc 1 132 47 view .LVU283
+ 1025 0090 5386     		strh	r3, [r2, #50]	@ movhi
+ 1026 0092 E4E7     		b	.L86
+ 1027              	.L90:
+ 134:src/app/app.cpp ****                   hardware.info.blue_goal_dir = hardware.info.Cam[1].blue_goal_dir + 45;
+ 1028              		.loc 1 134 19 is_stmt 1 view .LVU284
+ 134:src/app/app.cpp ****                   hardware.info.blue_goal_dir = hardware.info.Cam[1].blue_goal_dir + 45;
+ 1029              		.loc 1 134 70 is_stmt 0 view .LVU285
+ 1030 0094 074A     		ldr	r2, .L97
+ 1031 0096 137C     		ldrb	r3, [r2, #16]	@ zero_extendqisi2
+ 134:src/app/app.cpp ****                   hardware.info.blue_goal_dir = hardware.info.Cam[1].blue_goal_dir + 45;
+ 1032              		.loc 1 134 84 view .LVU286
+ 1033 0098 2D33     		adds	r3, r3, #45
+ 134:src/app/app.cpp ****                   hardware.info.blue_goal_dir = hardware.info.Cam[1].blue_goal_dir + 45;
+ 1034              		.loc 1 134 47 view .LVU287
+ 1035 009a 5386     		strh	r3, [r2, #50]	@ movhi
+ 1036 009c DFE7     		b	.L86
+ 1037              	.L89:
+ 136:src/app/app.cpp ****                   hardware.info.blue_goal_dir = hardware.info.Cam[2].blue_goal_dir + 135;
+ 1038              		.loc 1 136 19 is_stmt 1 view .LVU288
+ 136:src/app/app.cpp ****                   hardware.info.blue_goal_dir = hardware.info.Cam[2].blue_goal_dir + 135;
+ 1039              		.loc 1 136 70 is_stmt 0 view .LVU289
+ 1040 009e 054A     		ldr	r2, .L97
+ 1041 00a0 937E     		ldrb	r3, [r2, #26]	@ zero_extendqisi2
+ 136:src/app/app.cpp ****                   hardware.info.blue_goal_dir = hardware.info.Cam[2].blue_goal_dir + 135;
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 28
+
+
+ 1042              		.loc 1 136 84 view .LVU290
+ 1043 00a2 8733     		adds	r3, r3, #135
+ 136:src/app/app.cpp ****                   hardware.info.blue_goal_dir = hardware.info.Cam[2].blue_goal_dir + 135;
+ 1044              		.loc 1 136 47 view .LVU291
+ 1045 00a4 5386     		strh	r3, [r2, #50]	@ movhi
+ 1046 00a6 DAE7     		b	.L86
+ 1047              	.L87:
+ 138:src/app/app.cpp ****                   hardware.info.blue_goal_dir = hardware.info.Cam[3].blue_goal_dir + 225;
+ 1048              		.loc 1 138 19 is_stmt 1 view .LVU292
+ 138:src/app/app.cpp ****                   hardware.info.blue_goal_dir = hardware.info.Cam[3].blue_goal_dir + 225;
+ 1049              		.loc 1 138 70 is_stmt 0 view .LVU293
+ 1050 00a8 024A     		ldr	r2, .L97
+ 1051 00aa 92F82430 		ldrb	r3, [r2, #36]	@ zero_extendqisi2
+ 138:src/app/app.cpp ****                   hardware.info.blue_goal_dir = hardware.info.Cam[3].blue_goal_dir + 225;
+ 1052              		.loc 1 138 84 view .LVU294
+ 1053 00ae E133     		adds	r3, r3, #225
+ 138:src/app/app.cpp ****                   hardware.info.blue_goal_dir = hardware.info.Cam[3].blue_goal_dir + 225;
+ 1054              		.loc 1 138 47 view .LVU295
+ 1055 00b0 5386     		strh	r3, [r2, #50]	@ movhi
+ 1056 00b2 D4E7     		b	.L86
+ 1057              	.L98:
+ 1058              		.align	2
+ 1059              	.L97:
+ 1060 00b4 00000000 		.word	hardware
+ 1061 00b8 00000000 		.word	blue_goal_miss_timer
+ 1062 00bc 00000000 		.word	_ZZ18BlueGoalConversionvE17pre_blue_goal_dir
+ 1063 00c0 00000000 		.word	_ZZ18BlueGoalConversionvE17pre_blue_goal_dis
+ 1064              		.cfi_endproc
+ 1065              	.LFE169:
+ 1066              		.fnend
+ 1068              		.section	.text.main_app,"ax",%progbits
+ 1069              		.align	1
+ 1070              		.global	main_app
+ 1071              		.syntax unified
+ 1072              		.thumb
+ 1073              		.thumb_func
+ 1075              	main_app:
+ 1076              		.fnstart
+ 1077              	.LFB170:
+ 147:src/app/app.cpp **** void main_app() {
+ 1078              		.loc 1 147 17 is_stmt 1 view -0
+ 1079              		.cfi_startproc
+ 1080              		@ args = 0, pretend = 0, frame = 0
+ 1081              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1082 0000 10B5     		push	{r4, lr}
+ 1083              		.save {r4, lr}
+ 1084              	.LCFI7:
+ 1085              		.cfi_def_cfa_offset 8
+ 1086              		.cfi_offset 4, -8
+ 1087              		.cfi_offset 14, -4
+ 1088 0002 32E0     		b	.L103
+ 1089              	.L100:
+ 158:src/app/app.cpp ****             BallConversion();
+ 1090              		.loc 1 158 13 view .LVU297
+ 158:src/app/app.cpp ****             BallConversion();
+ 1091              		.loc 1 158 27 is_stmt 0 view .LVU298
+ 1092 0004 FFF7FEFF 		bl	_Z14BallConversionv
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 29
+
+
+ 1093              	.LVL90:
+ 159:src/app/app.cpp ****             YellowGoalConversion();
+ 1094              		.loc 1 159 13 is_stmt 1 view .LVU299
+ 159:src/app/app.cpp ****             YellowGoalConversion();
+ 1095              		.loc 1 159 33 is_stmt 0 view .LVU300
+ 1096 0008 FFF7FEFF 		bl	_Z20YellowGoalConversionv
+ 1097              	.LVL91:
+ 160:src/app/app.cpp ****             BlueGoalConversion();
+ 1098              		.loc 1 160 13 is_stmt 1 view .LVU301
+ 160:src/app/app.cpp ****             BlueGoalConversion();
+ 1099              		.loc 1 160 31 is_stmt 0 view .LVU302
+ 1100 000c FFF7FEFF 		bl	_Z18BlueGoalConversionv
+ 1101              	.LVL92:
+ 162:src/app/app.cpp ****             hardware.info.own_x = hardware.info.Cam[3].wall_dis - hardware.info.Cam[1].wall_dis;
+ 1102              		.loc 1 162 13 is_stmt 1 view .LVU303
+ 162:src/app/app.cpp ****             hardware.info.own_x = hardware.info.Cam[3].wall_dis - hardware.info.Cam[1].wall_dis;
+ 1103              		.loc 1 162 56 is_stmt 0 view .LVU304
+ 1104 0010 284B     		ldr	r3, .L105
+ 1105 0012 93F82620 		ldrb	r2, [r3, #38]	@ zero_extendqisi2
+ 162:src/app/app.cpp ****             hardware.info.own_x = hardware.info.Cam[3].wall_dis - hardware.info.Cam[1].wall_dis;
+ 1106              		.loc 1 162 88 view .LVU305
+ 1107 0016 997C     		ldrb	r1, [r3, #18]	@ zero_extendqisi2
+ 162:src/app/app.cpp ****             hardware.info.own_x = hardware.info.Cam[3].wall_dis - hardware.info.Cam[1].wall_dis;
+ 1108              		.loc 1 162 65 view .LVU306
+ 1109 0018 521A     		subs	r2, r2, r1
+ 162:src/app/app.cpp ****             hardware.info.own_x = hardware.info.Cam[3].wall_dis - hardware.info.Cam[1].wall_dis;
+ 1110              		.loc 1 162 33 view .LVU307
+ 1111 001a DA86     		strh	r2, [r3, #54]	@ movhi
+ 163:src/app/app.cpp ****             hardware.info.own_y = hardware.info.Cam[2].wall_dis - hardware.info.Cam[0].wall_dis;
+ 1112              		.loc 1 163 13 is_stmt 1 view .LVU308
+ 163:src/app/app.cpp ****             hardware.info.own_y = hardware.info.Cam[2].wall_dis - hardware.info.Cam[0].wall_dis;
+ 1113              		.loc 1 163 56 is_stmt 0 view .LVU309
+ 1114 001c 1A7F     		ldrb	r2, [r3, #28]	@ zero_extendqisi2
+ 163:src/app/app.cpp ****             hardware.info.own_y = hardware.info.Cam[2].wall_dis - hardware.info.Cam[0].wall_dis;
+ 1115              		.loc 1 163 88 view .LVU310
+ 1116 001e 197A     		ldrb	r1, [r3, #8]	@ zero_extendqisi2
+ 163:src/app/app.cpp ****             hardware.info.own_y = hardware.info.Cam[2].wall_dis - hardware.info.Cam[0].wall_dis;
+ 1117              		.loc 1 163 65 view .LVU311
+ 1118 0020 521A     		subs	r2, r2, r1
+ 163:src/app/app.cpp ****             hardware.info.own_y = hardware.info.Cam[2].wall_dis - hardware.info.Cam[0].wall_dis;
+ 1119              		.loc 1 163 33 view .LVU312
+ 1120 0022 1A87     		strh	r2, [r3, #56]	@ movhi
+ 166:src/app/app.cpp ****             process_time = process_timer.read_us();
+ 1121              		.loc 1 166 13 is_stmt 1 view .LVU313
+ 166:src/app/app.cpp ****             process_time = process_timer.read_us();
+ 1122              		.loc 1 166 49 is_stmt 0 view .LVU314
+ 1123 0024 2448     		ldr	r0, .L105+4
+ 1124 0026 FFF7FEFF 		bl	_ZN5Timer7read_usEv
+ 1125              	.LVL93:
+ 166:src/app/app.cpp ****             process_time = process_timer.read_us();
+ 1126              		.loc 1 166 26 view .LVU315
+ 1127 002a 80B2     		uxth	r0, r0
+ 1128 002c 234B     		ldr	r3, .L105+8
+ 1129 002e 1880     		strh	r0, [r3]	@ movhi
+ 167:src/app/app.cpp ****             if (process_time < PERIOD_US) {
+ 1130              		.loc 1 167 13 is_stmt 1 view .LVU316
+ 1131 0030 B0F5FA7F 		cmp	r0, #500
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 30
+
+
+ 1132 0034 05D2     		bcs	.L101
+ 1133              	.L102:
+ 168:src/app/app.cpp ****                   while (process_timer.read_us() < PERIOD_US);
+ 1134              		.loc 1 168 50 discriminator 1 view .LVU317
+ 168:src/app/app.cpp ****                   while (process_timer.read_us() < PERIOD_US);
+ 1135              		.loc 1 168 47 is_stmt 0 discriminator 1 view .LVU318
+ 1136 0036 2048     		ldr	r0, .L105+4
+ 1137 0038 FFF7FEFF 		bl	_ZN5Timer7read_usEv
+ 1138              	.LVL94:
+ 168:src/app/app.cpp ****                   while (process_timer.read_us() < PERIOD_US);
+ 1139              		.loc 1 168 50 discriminator 1 view .LVU319
+ 1140 003c B0F5FA7F 		cmp	r0, #500
+ 1141 0040 F9D3     		bcc	.L102
+ 1142              	.L101:
+ 170:src/app/app.cpp ****             process_freq = 1.0f / (process_timer.read_us() * 0.000001f);
+ 1143              		.loc 1 170 13 is_stmt 1 view .LVU320
+ 170:src/app/app.cpp ****             process_freq = 1.0f / (process_timer.read_us() * 0.000001f);
+ 1144              		.loc 1 170 57 is_stmt 0 view .LVU321
+ 1145 0042 1D48     		ldr	r0, .L105+4
+ 1146 0044 FFF7FEFF 		bl	_ZN5Timer7read_usEv
+ 1147              	.LVL95:
+ 1148 0048 07EE900A 		vmov	s15, r0	@ int
+ 170:src/app/app.cpp ****             process_freq = 1.0f / (process_timer.read_us() * 0.000001f);
+ 1149              		.loc 1 170 60 view .LVU322
+ 1150 004c F8EE677A 		vcvt.f32.u32	s15, s15
+ 1151 0050 9FED1B7A 		vldr.32	s14, .L105+12
+ 1152 0054 67EE877A 		vmul.f32	s15, s15, s14
+ 170:src/app/app.cpp ****             process_freq = 1.0f / (process_timer.read_us() * 0.000001f);
+ 1153              		.loc 1 170 33 view .LVU323
+ 1154 0058 F7EE006A 		vmov.f32	s13, #1.0e+0
+ 1155 005c 86EEA77A 		vdiv.f32	s14, s13, s15
+ 170:src/app/app.cpp ****             process_freq = 1.0f / (process_timer.read_us() * 0.000001f);
+ 1156              		.loc 1 170 26 view .LVU324
+ 1157 0060 BDEEC77A 		vcvt.s32.f32	s14, s14
+ 1158 0064 174B     		ldr	r3, .L105+16
+ 1159 0066 83ED007A 		vstr.32	s14, [r3]	@ int
+ 148:src/app/app.cpp ****       while (1) {
+ 1160              		.loc 1 148 7 is_stmt 1 view .LVU325
+ 1161              	.L103:
+ 148:src/app/app.cpp ****       while (1) {
+ 1162              		.loc 1 148 7 view .LVU326
+ 149:src/app/app.cpp ****             process_timer.reset();
+ 1163              		.loc 1 149 13 view .LVU327
+ 149:src/app/app.cpp ****             process_timer.reset();
+ 1164              		.loc 1 149 32 is_stmt 0 view .LVU328
+ 1165 006a 1348     		ldr	r0, .L105+4
+ 1166 006c FFF7FEFF 		bl	_ZN5Timer5resetEv
+ 1167              	.LVL96:
+ 150:src/app/app.cpp ****             hardware.MainUart();
+ 1168              		.loc 1 150 13 is_stmt 1 view .LVU329
+ 150:src/app/app.cpp ****             hardware.MainUart();
+ 1169              		.loc 1 150 30 is_stmt 0 view .LVU330
+ 1170 0070 104C     		ldr	r4, .L105
+ 1171 0072 2046     		mov	r0, r4
+ 1172 0074 FFF7FEFF 		bl	_ZN8Hardware8MainUartEv
+ 1173              	.LVL97:
+ 151:src/app/app.cpp ****             hardware.M1nUart();
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 31
+
+
+ 1174              		.loc 1 151 13 is_stmt 1 view .LVU331
+ 151:src/app/app.cpp ****             hardware.M1nUart();
+ 1175              		.loc 1 151 29 is_stmt 0 view .LVU332
+ 1176 0078 2046     		mov	r0, r4
+ 1177 007a FFF7FEFF 		bl	_ZN8Hardware7M1nUartEv
+ 1178              	.LVL98:
+ 153:src/app/app.cpp ****             if (hardware.info.Cam[0].is_camera_initialized && hardware.info.Cam[1].is_camera_initia
+ 1179              		.loc 1 153 13 is_stmt 1 view .LVU333
+ 153:src/app/app.cpp ****             if (hardware.info.Cam[0].is_camera_initialized && hardware.info.Cam[1].is_camera_initia
+ 1180              		.loc 1 153 38 is_stmt 0 view .LVU334
+ 1181 007e E37A     		ldrb	r3, [r4, #11]	@ zero_extendqisi2
+ 153:src/app/app.cpp ****             if (hardware.info.Cam[0].is_camera_initialized && hardware.info.Cam[1].is_camera_initia
+ 1182              		.loc 1 153 13 view .LVU335
+ 1183 0080 002B     		cmp	r3, #0
+ 1184 0082 BFD0     		beq	.L100
+ 153:src/app/app.cpp ****             if (hardware.info.Cam[0].is_camera_initialized && hardware.info.Cam[1].is_camera_initia
+ 1185              		.loc 1 153 84 discriminator 1 view .LVU336
+ 1186 0084 637D     		ldrb	r3, [r4, #21]	@ zero_extendqisi2
+ 153:src/app/app.cpp ****             if (hardware.info.Cam[0].is_camera_initialized && hardware.info.Cam[1].is_camera_initia
+ 1187              		.loc 1 153 60 discriminator 1 view .LVU337
+ 1188 0086 002B     		cmp	r3, #0
+ 1189 0088 BCD0     		beq	.L100
+ 153:src/app/app.cpp ****             if (hardware.info.Cam[0].is_camera_initialized && hardware.info.Cam[1].is_camera_initia
+ 1190              		.loc 1 153 130 discriminator 2 view .LVU338
+ 1191 008a E37F     		ldrb	r3, [r4, #31]	@ zero_extendqisi2
+ 153:src/app/app.cpp ****             if (hardware.info.Cam[0].is_camera_initialized && hardware.info.Cam[1].is_camera_initia
+ 1192              		.loc 1 153 106 discriminator 2 view .LVU339
+ 1193 008c 002B     		cmp	r3, #0
+ 1194 008e B9D0     		beq	.L100
+ 153:src/app/app.cpp ****             if (hardware.info.Cam[0].is_camera_initialized && hardware.info.Cam[1].is_camera_initia
+ 1195              		.loc 1 153 176 discriminator 3 view .LVU340
+ 1196 0090 94F82930 		ldrb	r3, [r4, #41]	@ zero_extendqisi2
+ 153:src/app/app.cpp ****             if (hardware.info.Cam[0].is_camera_initialized && hardware.info.Cam[1].is_camera_initia
+ 1197              		.loc 1 153 152 discriminator 3 view .LVU341
+ 1198 0094 002B     		cmp	r3, #0
+ 1199 0096 B5D0     		beq	.L100
+ 154:src/app/app.cpp ****                   hardware.led2 = 1;
+ 1200              		.loc 1 154 19 is_stmt 1 view .LVU342
+ 1201              	.LVL99:
+ 1202              	.LBB35:
+ 1203              	.LBI35:
+  26:Lib/PWMSingle/PWMSingle.hpp ****             write(duty);
+ 1204              		.loc 4 26 12 view .LVU343
+ 1205              	.LBB36:
+ 1206              		.loc 4 27 13 view .LVU344
+ 1207              		.loc 4 27 18 is_stmt 0 view .LVU345
+ 1208 0098 4C34     		adds	r4, r4, #76
+ 1209 009a B7EE000A 		vmov.f32	s0, #1.0e+0
+ 1210 009e 2046     		mov	r0, r4
+ 1211 00a0 FFF7FEFF 		bl	_ZN12PwmSingleOut5writeEf
+ 1212              	.LVL100:
+ 1213              		.loc 4 27 18 view .LVU346
+ 1214              	.LBE36:
+ 1215              	.LBE35:
+ 155:src/app/app.cpp ****                   hardware.led1 = 0;
+ 1216              		.loc 1 155 19 is_stmt 1 view .LVU347
+ 1217              	.LBB37:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 32
+
+
+ 1218              	.LBI37:
+  26:Lib/PWMSingle/PWMSingle.hpp ****             write(duty);
+ 1219              		.loc 4 26 12 view .LVU348
+ 1220              	.LBB38:
+ 1221              		.loc 4 27 13 view .LVU349
+ 1222              		.loc 4 27 18 is_stmt 0 view .LVU350
+ 1223 00a4 9FED080A 		vldr.32	s0, .L105+20
+ 1224 00a8 A4F11000 		sub	r0, r4, #16
+ 1225 00ac FFF7FEFF 		bl	_ZN12PwmSingleOut5writeEf
+ 1226              	.LVL101:
+  28:Lib/PWMSingle/PWMSingle.hpp ****       }
+ 1227              		.loc 4 28 7 view .LVU351
+ 1228 00b0 A8E7     		b	.L100
+ 1229              	.L106:
+ 1230 00b2 00BF     		.align	2
+ 1231              	.L105:
+ 1232 00b4 00000000 		.word	hardware
+ 1233 00b8 00000000 		.word	process_timer
+ 1234 00bc 00000000 		.word	process_time
+ 1235 00c0 BD378635 		.word	897988541
+ 1236 00c4 00000000 		.word	process_freq
+ 1237 00c8 00000000 		.word	0
+ 1238              	.LBE38:
+ 1239              	.LBE37:
+ 1240              		.cfi_endproc
+ 1241              	.LFE170:
+ 1242              		.fnend
+ 1244              		.section	.text._GLOBAL__sub_I_hardware,"ax",%progbits
+ 1245              		.align	1
+ 1246              		.syntax unified
+ 1247              		.thumb
+ 1248              		.thumb_func
+ 1250              	_GLOBAL__sub_I_hardware:
+ 1251              		.fnstart
+ 1252              	.LFB175:
+ 1253              		.loc 1 172 1 is_stmt 1 view -0
+ 1254              		.cfi_startproc
+ 1255              		@ args = 0, pretend = 0, frame = 0
+ 1256              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1257 0000 08B5     		push	{r3, lr}
+ 1258              	.LCFI8:
+ 1259              		.cfi_def_cfa_offset 8
+ 1260              		.cfi_offset 3, -8
+ 1261              		.cfi_offset 14, -4
+ 1262              		.loc 1 172 1 is_stmt 0 view .LVU353
+ 1263 0002 4FF6FF71 		movw	r1, #65535
+ 1264 0006 0120     		movs	r0, #1
+ 1265 0008 FFF7FEFF 		bl	_Z41__static_initialization_and_destruction_0ii
+ 1266              	.LVL102:
+ 1267 000c 08BD     		pop	{r3, pc}
+ 1268              		.cfi_endproc
+ 1269              	.LFE175:
+ 1270              		.cantunwind
+ 1271              		.fnend
+ 1273              		.section	.init_array,"aw",%init_array
+ 1274              		.align	2
+ 1275 0000 00000000 		.word	_GLOBAL__sub_I_hardware(target1)
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 33
+
+
+ 1276              		.section	.bss._ZZ18BlueGoalConversionvE17pre_blue_goal_dir,"aw",%nobits
+ 1279              	_ZZ18BlueGoalConversionvE17pre_blue_goal_dir:
+ 1280 0000 00       		.space	1
+ 1281              		.section	.bss._ZZ18BlueGoalConversionvE17pre_blue_goal_dis,"aw",%nobits
+ 1284              	_ZZ18BlueGoalConversionvE17pre_blue_goal_dis:
+ 1285 0000 00       		.space	1
+ 1286              		.section	.bss._ZZ20YellowGoalConversionvE19pre_yellow_goal_dir,"aw",%nobits
+ 1289              	_ZZ20YellowGoalConversionvE19pre_yellow_goal_dir:
+ 1290 0000 00       		.space	1
+ 1291              		.section	.bss._ZZ20YellowGoalConversionvE19pre_yellow_goal_dis,"aw",%nobits
+ 1294              	_ZZ20YellowGoalConversionvE19pre_yellow_goal_dis:
+ 1295 0000 00       		.space	1
+ 1296              		.section	.bss._ZZ14BallConversionvE12pre_ball_dis,"aw",%nobits
+ 1297              		.align	1
+ 1300              	_ZZ14BallConversionvE12pre_ball_dis:
+ 1301 0000 0000     		.space	2
+ 1302              		.section	.bss._ZZ14BallConversionvE12pre_ball_dir,"aw",%nobits
+ 1303              		.align	1
+ 1306              	_ZZ14BallConversionvE12pre_ball_dir:
+ 1307 0000 0000     		.space	2
+ 1308              		.global	process_freq
+ 1309              		.section	.bss.process_freq,"aw",%nobits
+ 1310              		.align	2
+ 1313              	process_freq:
+ 1314 0000 00000000 		.space	4
+ 1315              		.global	process_time
+ 1316              		.section	.bss.process_time,"aw",%nobits
+ 1317              		.align	1
+ 1320              	process_time:
+ 1321 0000 0000     		.space	2
+ 1322              		.global	blue_goal_miss_timer
+ 1323              		.section	.bss.blue_goal_miss_timer,"aw",%nobits
+ 1324              		.align	2
+ 1327              	blue_goal_miss_timer:
+ 1328 0000 00000000 		.space	4
+ 1329              		.global	yellow_goal_miss_timer
+ 1330              		.section	.bss.yellow_goal_miss_timer,"aw",%nobits
+ 1331              		.align	2
+ 1334              	yellow_goal_miss_timer:
+ 1335 0000 00000000 		.space	4
+ 1336              		.global	ball_miss_timer
+ 1337              		.section	.bss.ball_miss_timer,"aw",%nobits
+ 1338              		.align	2
+ 1341              	ball_miss_timer:
+ 1342 0000 00000000 		.space	4
+ 1343              		.global	process_timer
+ 1344              		.section	.bss.process_timer,"aw",%nobits
+ 1345              		.align	2
+ 1348              	process_timer:
+ 1349 0000 00000000 		.space	4
+ 1350              		.global	hardware
+ 1351              		.section	.bss.hardware,"aw",%nobits
+ 1352              		.align	2
+ 1355              	hardware:
+ 1356 0000 00000000 		.space	208
+ 1356      00000000 
+ 1356      00000000 
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 34
+
+
+ 1356      00000000 
+ 1356      00000000 
+ 1357              		.text
+ 1358              	.Letext0:
+ 1359              		.file 5 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/machine/_default_ty
+ 1360              		.file 6 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_stdint.h"
+ 1361              		.file 7 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h"
+ 1362              		.file 8 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
+ 1363              		.file 9 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/lib/gcc/arm-none-eabi/12.3.1/include/stdd
+ 1364              		.file 10 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 1365              		.file 11 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 1366              		.file 12 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h"
+ 1367              		.file 13 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h"
+ 1368              		.file 14 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
+ 1369              		.file 15 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/cstdio"
+ 1370              		.file 16 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/arm-non
+ 1371              		.file 17 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_types.h"
+ 1372              		.file 18 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/reent.h"
+ 1373              		.file 19 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/lock.h"
+ 1374              		.file 20 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/stdio.h"
+ 1375              		.file 21 "Lib/Timer/Timer.hpp"
+ 1376              		.file 22 "Lib/MyMath/MyMath.hpp"
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 35
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 app.cpp
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:21     .text._Z41__static_initialization_and_destruction_0ii:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:26     .text._Z41__static_initialization_and_destruction_0ii:00000000 _Z41__static_initialization_and_destruction_0ii
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:84     .text._Z41__static_initialization_and_destruction_0ii:0000003c $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1355   .bss.hardware:00000000 hardware
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:103    .text._ZN8HardwareD2Ev:00000000 _ZN8HardwareD1Ev
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1348   .bss.process_timer:00000000 process_timer
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1341   .bss.ball_miss_timer:00000000 ball_miss_timer
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1334   .bss.yellow_goal_miss_timer:00000000 yellow_goal_miss_timer
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1327   .bss.blue_goal_miss_timer:00000000 blue_goal_miss_timer
+.ARM.exidx.text._Z41__static_initialization_and_destruction_0ii:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:97     .text._ZN8HardwareD2Ev:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:103    .text._ZN8HardwareD2Ev:00000000 _ZN8HardwareD2Ev
+ .ARM.exidx.text._ZN8HardwareD2Ev:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:189    .text._ZN12PwmSingleOut5writeEf:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:195    .text._ZN12PwmSingleOut5writeEf:00000000 _ZN12PwmSingleOut5writeEf
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:313    .text._ZN12PwmSingleOut5writeEf:00000094 $d
+.ARM.exidx.text._ZN12PwmSingleOut5writeEf:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:320    .text.setup:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:326    .text.setup:00000000 setup
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:414    .text.setup:00000038 $d
+            .ARM.exidx.text.setup:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:421    .text._Z14BallConversionv:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:427    .text._Z14BallConversionv:00000000 _Z14BallConversionv
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:518    .text._Z14BallConversionv:00000046 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:523    .text._Z14BallConversionv:0000004a $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:636    .text._Z14BallConversionv:000000c4 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1306   .bss._ZZ14BallConversionvE12pre_ball_dir:00000000 _ZZ14BallConversionvE12pre_ball_dir
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1300   .bss._ZZ14BallConversionvE12pre_ball_dis:00000000 _ZZ14BallConversionvE12pre_ball_dis
+.ARM.exidx.text._Z14BallConversionv:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:645    .text._Z20YellowGoalConversionv:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:651    .text._Z20YellowGoalConversionv:00000000 _Z20YellowGoalConversionv
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:744    .text._Z20YellowGoalConversionv:00000046 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:748    .text._Z20YellowGoalConversionv:0000004a $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:848    .text._Z20YellowGoalConversionv:000000b4 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1289   .bss._ZZ20YellowGoalConversionvE19pre_yellow_goal_dir:00000000 _ZZ20YellowGoalConversionvE19pre_yellow_goal_dir
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1294   .bss._ZZ20YellowGoalConversionvE19pre_yellow_goal_dis:00000000 _ZZ20YellowGoalConversionvE19pre_yellow_goal_dis
+.ARM.exidx.text._Z20YellowGoalConversionv:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:857    .text._Z18BlueGoalConversionv:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:863    .text._Z18BlueGoalConversionv:00000000 _Z18BlueGoalConversionv
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:956    .text._Z18BlueGoalConversionv:00000046 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:960    .text._Z18BlueGoalConversionv:0000004a $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1060   .text._Z18BlueGoalConversionv:000000b4 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1279   .bss._ZZ18BlueGoalConversionvE17pre_blue_goal_dir:00000000 _ZZ18BlueGoalConversionvE17pre_blue_goal_dir
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1284   .bss._ZZ18BlueGoalConversionvE17pre_blue_goal_dis:00000000 _ZZ18BlueGoalConversionvE17pre_blue_goal_dis
+.ARM.exidx.text._Z18BlueGoalConversionv:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1069   .text.main_app:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1075   .text.main_app:00000000 main_app
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1232   .text.main_app:000000b4 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1320   .bss.process_time:00000000 process_time
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1313   .bss.process_freq:00000000 process_freq
+         .ARM.exidx.text.main_app:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1245   .text._GLOBAL__sub_I_hardware:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1250   .text._GLOBAL__sub_I_hardware:00000000 _GLOBAL__sub_I_hardware
+.ARM.exidx.text._GLOBAL__sub_I_hardware:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1274   .init_array:00000000 $d
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s 			page 36
+
+
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1280   .bss._ZZ18BlueGoalConversionvE17pre_blue_goal_dir:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1285   .bss._ZZ18BlueGoalConversionvE17pre_blue_goal_dis:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1290   .bss._ZZ20YellowGoalConversionvE19pre_yellow_goal_dir:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1295   .bss._ZZ20YellowGoalConversionvE19pre_yellow_goal_dis:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1297   .bss._ZZ14BallConversionvE12pre_ball_dis:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1303   .bss._ZZ14BallConversionvE12pre_ball_dir:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1310   .bss.process_freq:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1317   .bss.process_time:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1324   .bss.blue_goal_miss_timer:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1331   .bss.yellow_goal_miss_timer:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1338   .bss.ball_miss_timer:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1345   .bss.process_timer:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccZW7dZP.s:1352   .bss.hardware:00000000 $d
+                           .group:00000000 _ZN8HardwareD5Ev
+
+UNDEFINED SYMBOLS
+_ZN8HardwareC1Ev
+__aeabi_atexit
+_ZN5TimerC1Ev
+__dso_handle
+_ZdaPv
+__aeabi_f2d
+__aeabi_ui2d
+__aeabi_dmul
+__aeabi_d2iz
+_ZN8Hardware4InitEv
+HAL_Delay
+__aeabi_unwind_cpp_pr0
+_ZN5Timer5resetEv
+_ZN5Timer7read_msEv
+NormalizeDeg180
+_ZN5Timer7read_usEv
+_ZN8Hardware8MainUartEv
+_ZN8Hardware7M1nUartEv

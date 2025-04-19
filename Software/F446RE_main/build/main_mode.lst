@@ -1,0 +1,796 @@
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"main_mode.cpp"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "src/mode/main_mode.cpp"
+  20              		.section	.text._ZN4Mode8MainModeEv,"ax",%progbits
+  21              		.align	1
+  22              		.global	_ZN4Mode8MainModeEv
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	_ZN4Mode8MainModeEv:
+  28              		.fnstart
+  29              	.LVL0:
+  30              	.LFB275:
+   1:src/mode/main_mode.cpp **** #include "mode.hpp"
+   2:src/mode/main_mode.cpp **** 
+   3:src/mode/main_mode.cpp **** // cortex-debug用グローバル変数
+   4:src/mode/main_mode.cpp **** int yaw;
+   5:src/mode/main_mode.cpp **** float voltage;
+   6:src/mode/main_mode.cpp **** int process_freq;
+   7:src/mode/main_mode.cpp **** int line_dir;
+   8:src/mode/main_mode.cpp **** int is_on_line;
+   9:src/mode/main_mode.cpp **** int encoder[4];
+  10:src/mode/main_mode.cpp **** 
+  11:src/mode/main_mode.cpp **** void Mode::MainMode() {
+  31              		.loc 1 11 23 view -0
+  32              		.cfi_startproc
+  33              		@ args = 0, pretend = 0, frame = 0
+  34              		@ frame_needed = 0, uses_anonymous_args = 0
+  35              		.loc 1 11 23 is_stmt 0 view .LVU1
+  36 0000 10B5     		push	{r4, lr}
+  37              		.save {r4, lr}
+  38              	.LCFI0:
+  39              		.cfi_def_cfa_offset 8
+  40              		.cfi_offset 4, -8
+  41              		.cfi_offset 14, -4
+  42 0002 0446     		mov	r4, r0
+  12:src/mode/main_mode.cpp ****       process_timer.reset();
+  43              		.loc 1 12 7 is_stmt 1 view .LVU2
+  44              		.loc 1 12 26 is_stmt 0 view .LVU3
+  45 0004 FFF7FEFF 		bl	_ZN5Timer5resetEv
+  46              	.LVL1:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s 			page 2
+
+
+  13:src/mode/main_mode.cpp ****       // メイン処理
+  14:src/mode/main_mode.cpp **** 
+  15:src/mode/main_mode.cpp ****       // UART通信
+  16:src/mode/main_mode.cpp ****       robot->ImuUart();
+  47              		.loc 1 16 7 is_stmt 1 view .LVU4
+  48              		.loc 1 16 21 is_stmt 0 view .LVU5
+  49 0008 6068     		ldr	r0, [r4, #4]
+  50 000a FFF7FEFF 		bl	_ZN5Robot7ImuUartEv
+  51              	.LVL2:
+  17:src/mode/main_mode.cpp ****       robot->LineUart();
+  52              		.loc 1 17 7 is_stmt 1 view .LVU6
+  53              		.loc 1 17 22 is_stmt 0 view .LVU7
+  54 000e 6068     		ldr	r0, [r4, #4]
+  55 0010 FFF7FEFF 		bl	_ZN5Robot8LineUartEv
+  56              	.LVL3:
+  18:src/mode/main_mode.cpp ****       robot->UiUart();
+  57              		.loc 1 18 7 is_stmt 1 view .LVU8
+  58              		.loc 1 18 20 is_stmt 0 view .LVU9
+  59 0014 6068     		ldr	r0, [r4, #4]
+  60 0016 FFF7FEFF 		bl	_ZN5Robot6UiUartEv
+  61              	.LVL4:
+  19:src/mode/main_mode.cpp ****       robot->CamUart();
+  62              		.loc 1 19 7 is_stmt 1 view .LVU10
+  63              		.loc 1 19 21 is_stmt 0 view .LVU11
+  64 001a 6068     		ldr	r0, [r4, #4]
+  65 001c FFF7FEFF 		bl	_ZN5Robot7CamUartEv
+  66              	.LVL5:
+  20:src/mode/main_mode.cpp ****       robot->Esp32Uart();
+  67              		.loc 1 20 7 is_stmt 1 view .LVU12
+  68              		.loc 1 20 23 is_stmt 0 view .LVU13
+  69 0020 6068     		ldr	r0, [r4, #4]
+  70 0022 FFF7FEFF 		bl	_ZN5Robot9Esp32UartEv
+  71              	.LVL6:
+  21:src/mode/main_mode.cpp **** 
+  22:src/mode/main_mode.cpp ****       // センサー情報取得
+  23:src/mode/main_mode.cpp ****       robot->GetSensors();
+  72              		.loc 1 23 7 is_stmt 1 view .LVU14
+  73              		.loc 1 23 24 is_stmt 0 view .LVU15
+  74 0026 6068     		ldr	r0, [r4, #4]
+  75 0028 FFF7FEFF 		bl	_ZN5Robot10GetSensorsEv
+  76              	.LVL7:
+  24:src/mode/main_mode.cpp **** 
+  25:src/mode/main_mode.cpp ****       // 動いている時かデバッグモードの時ラインをつける
+  26:src/mode/main_mode.cpp ****       robot->info.Line.on_led = false;
+  77              		.loc 1 26 7 is_stmt 1 view .LVU16
+  78 002c 6368     		ldr	r3, [r4, #4]
+  79              		.loc 1 26 31 is_stmt 0 view .LVU17
+  80 002e 0022     		movs	r2, #0
+  81 0030 83F82A20 		strb	r2, [r3, #42]
+  27:src/mode/main_mode.cpp ****       if (robot->info.mode != 0 || robot->info.Ui.item == 1) robot->info.Line.on_led = true;
+  82              		.loc 1 27 7 is_stmt 1 view .LVU18
+  83              		.loc 1 27 11 is_stmt 0 view .LVU19
+  84 0034 6368     		ldr	r3, [r4, #4]
+  85              		.loc 1 27 23 view .LVU20
+  86 0036 1A7D     		ldrb	r2, [r3, #20]	@ zero_extendqisi2
+  87              		.loc 1 27 7 view .LVU21
+  88 0038 1AB9     		cbnz	r2, .L2
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s 			page 3
+
+
+  89              		.loc 1 27 51 discriminator 2 view .LVU22
+  90 003a 93F94320 		ldrsb	r2, [r3, #67]
+  91              		.loc 1 27 33 discriminator 2 view .LVU23
+  92 003e 012A     		cmp	r2, #1
+  93 0040 02D1     		bne	.L3
+  94              	.L2:
+  95              		.loc 1 27 62 is_stmt 1 discriminator 3 view .LVU24
+  96              		.loc 1 27 86 is_stmt 0 discriminator 3 view .LVU25
+  97 0042 0122     		movs	r2, #1
+  98 0044 83F82A20 		strb	r2, [r3, #42]
+  99              	.L3:
+  28:src/mode/main_mode.cpp **** 
+  29:src/mode/main_mode.cpp ****       // 　yawのリセット
+  30:src/mode/main_mode.cpp ****       if (robot->info.Ui.reset_yaw == false) robot->info.Ui.success_reset_yaw = false;
+ 100              		.loc 1 30 7 is_stmt 1 view .LVU26
+ 101              		.loc 1 30 11 is_stmt 0 view .LVU27
+ 102 0048 6368     		ldr	r3, [r4, #4]
+ 103              		.loc 1 30 26 view .LVU28
+ 104 004a 93F83E20 		ldrb	r2, [r3, #62]	@ zero_extendqisi2
+ 105              		.loc 1 30 7 view .LVU29
+ 106 004e 0AB9     		cbnz	r2, .L4
+ 107              		.loc 1 30 46 is_stmt 1 discriminator 1 view .LVU30
+ 108              		.loc 1 30 79 is_stmt 0 discriminator 1 view .LVU31
+ 109 0050 83F83F20 		strb	r2, [r3, #63]
+ 110              	.L4:
+  31:src/mode/main_mode.cpp ****       if (robot->info.Ui.reset_yaw == true && robot->info.Ui.success_reset_yaw == false) {
+ 111              		.loc 1 31 7 is_stmt 1 view .LVU32
+ 112              		.loc 1 31 11 is_stmt 0 view .LVU33
+ 113 0054 6368     		ldr	r3, [r4, #4]
+ 114              		.loc 1 31 26 view .LVU34
+ 115 0056 93F83E20 		ldrb	r2, [r3, #62]	@ zero_extendqisi2
+ 116              		.loc 1 31 7 view .LVU35
+ 117 005a 52B1     		cbz	r2, .L5
+ 118              		.loc 1 31 62 discriminator 1 view .LVU36
+ 119 005c 93F83F20 		ldrb	r2, [r3, #63]	@ zero_extendqisi2
+ 120              		.loc 1 31 44 discriminator 1 view .LVU37
+ 121 0060 3AB9     		cbnz	r2, .L5
+  32:src/mode/main_mode.cpp ****             robot->info.Imu.yaw_correction_val = robot->info.Imu.yaw + robot->info.Imu.yaw_correcti
+ 122              		.loc 1 32 13 is_stmt 1 view .LVU38
+ 123              		.loc 1 32 66 is_stmt 0 view .LVU39
+ 124 0062 DA8E     		ldrh	r2, [r3, #54]
+ 125              		.loc 1 32 88 view .LVU40
+ 126 0064 998F     		ldrh	r1, [r3, #60]
+ 127              		.loc 1 32 70 view .LVU41
+ 128 0066 0A44     		add	r2, r2, r1
+ 129              		.loc 1 32 48 view .LVU42
+ 130 0068 9A87     		strh	r2, [r3, #60]	@ movhi
+  33:src/mode/main_mode.cpp ****             robot->info.Ui.success_reset_yaw = true;
+ 131              		.loc 1 33 13 is_stmt 1 view .LVU43
+ 132 006a 6368     		ldr	r3, [r4, #4]
+ 133              		.loc 1 33 46 is_stmt 0 view .LVU44
+ 134 006c 0122     		movs	r2, #1
+ 135 006e 83F83F20 		strb	r2, [r3, #63]
+ 136              	.L5:
+  34:src/mode/main_mode.cpp ****       }
+  35:src/mode/main_mode.cpp **** 
+  36:src/mode/main_mode.cpp ****       robot->info.Esp32.do_rotate = false;
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s 			page 4
+
+
+ 137              		.loc 1 36 7 is_stmt 1 view .LVU45
+ 138 0072 6368     		ldr	r3, [r4, #4]
+ 139              		.loc 1 36 35 is_stmt 0 view .LVU46
+ 140 0074 0022     		movs	r2, #0
+ 141 0076 83F88D20 		strb	r2, [r3, #141]
+  37:src/mode/main_mode.cpp ****       if (robot->info.Ui.item == 0 && robot->info.Ui.sub_item != 0) robot->info.Esp32.do_rotate = t
+ 142              		.loc 1 37 7 is_stmt 1 view .LVU47
+ 143              		.loc 1 37 11 is_stmt 0 view .LVU48
+ 144 007a 6368     		ldr	r3, [r4, #4]
+ 145              		.loc 1 37 26 view .LVU49
+ 146 007c 93F94320 		ldrsb	r2, [r3, #67]
+ 147              		.loc 1 37 7 view .LVU50
+ 148 0080 2AB9     		cbnz	r2, .L6
+ 149              		.loc 1 37 54 discriminator 1 view .LVU51
+ 150 0082 93F84420 		ldrb	r2, [r3, #68]	@ zero_extendqisi2
+ 151              		.loc 1 37 36 discriminator 1 view .LVU52
+ 152 0086 12B1     		cbz	r2, .L6
+ 153              		.loc 1 37 69 is_stmt 1 discriminator 2 view .LVU53
+ 154              		.loc 1 37 97 is_stmt 0 discriminator 2 view .LVU54
+ 155 0088 0122     		movs	r2, #1
+ 156 008a 83F88D20 		strb	r2, [r3, #141]
+ 157              	.L6:
+  38:src/mode/main_mode.cpp **** 
+  39:src/mode/main_mode.cpp ****       // モード切り替え
+  40:src/mode/main_mode.cpp ****       if (robot->info.mode == 0) {
+ 158              		.loc 1 40 7 is_stmt 1 view .LVU55
+ 159              		.loc 1 40 11 is_stmt 0 view .LVU56
+ 160 008e 6068     		ldr	r0, [r4, #4]
+ 161              		.loc 1 40 23 view .LVU57
+ 162 0090 037D     		ldrb	r3, [r0, #20]	@ zero_extendqisi2
+ 163              		.loc 1 40 7 view .LVU58
+ 164 0092 33B1     		cbz	r3, .L27
+  41:src/mode/main_mode.cpp ****             robot->motor.Free();
+  42:src/mode/main_mode.cpp **** 
+  43:src/mode/main_mode.cpp ****             if (robot->info.Ui.dribbler_sig == 0) {
+  44:src/mode/main_mode.cpp ****                   robot->dribbler_front.Hold(0);
+  45:src/mode/main_mode.cpp ****                   robot->dribbler_back.Hold(0);
+  46:src/mode/main_mode.cpp ****             } else if (robot->info.Ui.dribbler_sig == 1) {
+  47:src/mode/main_mode.cpp ****                   if (robot->info.Catch.is_front) {
+  48:src/mode/main_mode.cpp ****                         robot->dribbler_front.Hold(HOLD_MAX_POWER);
+  49:src/mode/main_mode.cpp ****                   } else {
+  50:src/mode/main_mode.cpp ****                         robot->dribbler_front.Hold(HOLD_WAIT_POWER);
+  51:src/mode/main_mode.cpp ****                   }
+  52:src/mode/main_mode.cpp ****             } else if (robot->info.Ui.dribbler_sig == 2) {
+  53:src/mode/main_mode.cpp ****                   robot->kicker.Kick();
+  54:src/mode/main_mode.cpp ****             } else if (robot->info.Ui.dribbler_sig == 3) {
+  55:src/mode/main_mode.cpp ****                   if (robot->info.Catch.is_back) {
+  56:src/mode/main_mode.cpp ****                         robot->dribbler_back.Hold(HOLD_MAX_POWER);
+  57:src/mode/main_mode.cpp ****                   } else {
+  58:src/mode/main_mode.cpp ****                         robot->dribbler_back.Hold(HOLD_WAIT_POWER);
+  59:src/mode/main_mode.cpp ****                   }
+  60:src/mode/main_mode.cpp ****             }
+  61:src/mode/main_mode.cpp ****       } else if (robot->info.mode == 1) {
+ 165              		.loc 1 61 14 is_stmt 1 view .LVU59
+ 166 0094 013B     		subs	r3, r3, #1
+ 167 0096 032B     		cmp	r3, #3
+ 168 0098 49D8     		bhi	.L9
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s 			page 5
+
+
+ 169 009a DFE803F0 		tbb	[pc, r3]
+ 170              	.L15:
+ 171 009e 45       		.byte	(.L18-.L15)/2
+ 172 009f 96       		.byte	(.L17-.L15)/2
+ 173 00a0 9A       		.byte	(.L16-.L15)/2
+ 174 00a1 D9       		.byte	(.L14-.L15)/2
+ 175              		.p2align 1
+ 176              	.L27:
+  41:src/mode/main_mode.cpp ****             robot->motor.Free();
+ 177              		.loc 1 41 13 view .LVU60
+  41:src/mode/main_mode.cpp ****             robot->motor.Free();
+ 178              		.loc 1 41 30 is_stmt 0 view .LVU61
+ 179 00a2 00F5C870 		add	r0, r0, #400
+ 180 00a6 FFF7FEFF 		bl	_ZN10MotorDrive4FreeEv
+ 181              	.LVL8:
+  43:src/mode/main_mode.cpp ****                   robot->dribbler_front.Hold(0);
+ 182              		.loc 1 43 13 is_stmt 1 view .LVU62
+  43:src/mode/main_mode.cpp ****                   robot->dribbler_front.Hold(0);
+ 183              		.loc 1 43 17 is_stmt 0 view .LVU63
+ 184 00aa 6068     		ldr	r0, [r4, #4]
+  43:src/mode/main_mode.cpp ****                   robot->dribbler_front.Hold(0);
+ 185              		.loc 1 43 32 view .LVU64
+ 186 00ac 90F84230 		ldrb	r3, [r0, #66]	@ zero_extendqisi2
+  43:src/mode/main_mode.cpp ****                   robot->dribbler_front.Hold(0);
+ 187              		.loc 1 43 13 view .LVU65
+ 188 00b0 73B1     		cbz	r3, .L28
+  46:src/mode/main_mode.cpp ****                   if (robot->info.Catch.is_front) {
+ 189              		.loc 1 46 20 is_stmt 1 view .LVU66
+ 190 00b2 012B     		cmp	r3, #1
+ 191 00b4 19D0     		beq	.L29
+  52:src/mode/main_mode.cpp ****                   robot->kicker.Kick();
+ 192              		.loc 1 52 20 view .LVU67
+ 193 00b6 022B     		cmp	r3, #2
+ 194 00b8 28D0     		beq	.L30
+  54:src/mode/main_mode.cpp ****                   if (robot->info.Catch.is_back) {
+ 195              		.loc 1 54 20 view .LVU68
+ 196 00ba 032B     		cmp	r3, #3
+ 197 00bc 37D1     		bne	.L9
+  55:src/mode/main_mode.cpp ****                         robot->dribbler_back.Hold(HOLD_MAX_POWER);
+ 198              		.loc 1 55 19 view .LVU69
+  55:src/mode/main_mode.cpp ****                         robot->dribbler_back.Hold(HOLD_MAX_POWER);
+ 199              		.loc 1 55 41 is_stmt 0 view .LVU70
+ 200 00be 90F83230 		ldrb	r3, [r0, #50]	@ zero_extendqisi2
+  55:src/mode/main_mode.cpp ****                         robot->dribbler_back.Hold(HOLD_MAX_POWER);
+ 201              		.loc 1 55 19 view .LVU71
+ 202 00c2 5BB3     		cbz	r3, .L13
+  56:src/mode/main_mode.cpp ****                   } else {
+ 203              		.loc 1 56 25 is_stmt 1 view .LVU72
+  56:src/mode/main_mode.cpp ****                   } else {
+ 204              		.loc 1 56 50 is_stmt 0 view .LVU73
+ 205 00c4 6421     		movs	r1, #100
+ 206 00c6 00F58750 		add	r0, r0, #4320
+ 207 00ca FFF7FEFF 		bl	_ZN13DribblerDrive4HoldEh
+ 208              	.LVL9:
+ 209 00ce 2EE0     		b	.L9
+ 210              	.L28:
+  44:src/mode/main_mode.cpp ****                   robot->dribbler_back.Hold(0);
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s 			page 6
+
+
+ 211              		.loc 1 44 19 is_stmt 1 view .LVU74
+  44:src/mode/main_mode.cpp ****                   robot->dribbler_back.Hold(0);
+ 212              		.loc 1 44 45 is_stmt 0 view .LVU75
+ 213 00d0 0021     		movs	r1, #0
+ 214 00d2 00F58650 		add	r0, r0, #4288
+ 215 00d6 0830     		adds	r0, r0, #8
+ 216 00d8 FFF7FEFF 		bl	_ZN13DribblerDrive4HoldEh
+ 217              	.LVL10:
+  45:src/mode/main_mode.cpp ****             } else if (robot->info.Ui.dribbler_sig == 1) {
+ 218              		.loc 1 45 19 is_stmt 1 view .LVU76
+ 219 00dc 6068     		ldr	r0, [r4, #4]
+  45:src/mode/main_mode.cpp ****             } else if (robot->info.Ui.dribbler_sig == 1) {
+ 220              		.loc 1 45 44 is_stmt 0 view .LVU77
+ 221 00de 0021     		movs	r1, #0
+ 222 00e0 00F58750 		add	r0, r0, #4320
+ 223 00e4 FFF7FEFF 		bl	_ZN13DribblerDrive4HoldEh
+ 224              	.LVL11:
+ 225 00e8 21E0     		b	.L9
+ 226              	.L29:
+  47:src/mode/main_mode.cpp ****                         robot->dribbler_front.Hold(HOLD_MAX_POWER);
+ 227              		.loc 1 47 19 is_stmt 1 view .LVU78
+  47:src/mode/main_mode.cpp ****                         robot->dribbler_front.Hold(HOLD_MAX_POWER);
+ 228              		.loc 1 47 41 is_stmt 0 view .LVU79
+ 229 00ea 90F82E30 		ldrb	r3, [r0, #46]	@ zero_extendqisi2
+  47:src/mode/main_mode.cpp ****                         robot->dribbler_front.Hold(HOLD_MAX_POWER);
+ 230              		.loc 1 47 19 view .LVU80
+ 231 00ee 33B1     		cbz	r3, .L11
+  48:src/mode/main_mode.cpp ****                   } else {
+ 232              		.loc 1 48 25 is_stmt 1 view .LVU81
+  48:src/mode/main_mode.cpp ****                   } else {
+ 233              		.loc 1 48 51 is_stmt 0 view .LVU82
+ 234 00f0 6421     		movs	r1, #100
+ 235 00f2 00F58650 		add	r0, r0, #4288
+ 236 00f6 0830     		adds	r0, r0, #8
+ 237 00f8 FFF7FEFF 		bl	_ZN13DribblerDrive4HoldEh
+ 238              	.LVL12:
+ 239 00fc 17E0     		b	.L9
+ 240              	.L11:
+  50:src/mode/main_mode.cpp ****                   }
+ 241              		.loc 1 50 25 is_stmt 1 view .LVU83
+  50:src/mode/main_mode.cpp ****                   }
+ 242              		.loc 1 50 51 is_stmt 0 view .LVU84
+ 243 00fe 3221     		movs	r1, #50
+ 244 0100 00F58650 		add	r0, r0, #4288
+ 245 0104 0830     		adds	r0, r0, #8
+ 246 0106 FFF7FEFF 		bl	_ZN13DribblerDrive4HoldEh
+ 247              	.LVL13:
+ 248 010a 10E0     		b	.L9
+ 249              	.L30:
+  53:src/mode/main_mode.cpp ****             } else if (robot->info.Ui.dribbler_sig == 3) {
+ 250              		.loc 1 53 19 is_stmt 1 view .LVU85
+  53:src/mode/main_mode.cpp ****             } else if (robot->info.Ui.dribbler_sig == 3) {
+ 251              		.loc 1 53 37 is_stmt 0 view .LVU86
+ 252 010c B7EE000A 		vmov.f32	s0, #1.0e+0
+ 253 0110 00F58750 		add	r0, r0, #4320
+ 254 0114 1830     		adds	r0, r0, #24
+ 255 0116 FFF7FEFF 		bl	_ZN6Kicker4KickEf
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s 			page 7
+
+
+ 256              	.LVL14:
+ 257 011a 08E0     		b	.L9
+ 258              	.L13:
+  58:src/mode/main_mode.cpp ****                   }
+ 259              		.loc 1 58 25 is_stmt 1 view .LVU87
+  58:src/mode/main_mode.cpp ****                   }
+ 260              		.loc 1 58 50 is_stmt 0 view .LVU88
+ 261 011c 3221     		movs	r1, #50
+ 262 011e 00F58750 		add	r0, r0, #4320
+ 263 0122 FFF7FEFF 		bl	_ZN13DribblerDrive4HoldEh
+ 264              	.LVL15:
+ 265 0126 02E0     		b	.L9
+ 266              	.L18:
+  62:src/mode/main_mode.cpp ****             Offence();
+ 267              		.loc 1 62 13 is_stmt 1 view .LVU89
+ 268              		.loc 1 62 20 is_stmt 0 view .LVU90
+ 269 0128 2046     		mov	r0, r4
+ 270 012a FFF7FEFF 		bl	_ZN4Mode7OffenceEv
+ 271              	.LVL16:
+ 272              	.L9:
+  63:src/mode/main_mode.cpp ****       } else if (robot->info.mode == 2) {
+  64:src/mode/main_mode.cpp ****             Defence();
+  65:src/mode/main_mode.cpp ****       } else if (robot->info.mode == 3) {  // debug mode
+  66:src/mode/main_mode.cpp ****             if (robot->info.Esp32.Wifi.stop) {
+  67:src/mode/main_mode.cpp ****                   robot->motor.Drive(0, 0, 0, robot->info.Esp32.Wifi.face_angle, PI, FRONT);
+  68:src/mode/main_mode.cpp ****             } else {
+  69:src/mode/main_mode.cpp ****                   robot->motor.Drive(robot->info.Esp32.Wifi.move_dir, robot->info.Esp32.Wifi.move_s
+  70:src/mode/main_mode.cpp ****             }
+  71:src/mode/main_mode.cpp ****             if (robot->info.Esp32.Wifi.do_kick) {
+  72:src/mode/main_mode.cpp ****                   robot->kicker.Kick();
+  73:src/mode/main_mode.cpp ****             }
+  74:src/mode/main_mode.cpp ****             if (robot->info.Esp32.Wifi.do_dribble) {
+  75:src/mode/main_mode.cpp ****                   robot->dribbler_front.Hold(HOLD_MAX_POWER);
+  76:src/mode/main_mode.cpp ****             } else {
+  77:src/mode/main_mode.cpp ****                   robot->dribbler_front.Hold(0);
+  78:src/mode/main_mode.cpp ****             }
+  79:src/mode/main_mode.cpp ****       } else if (robot->info.mode == 4) {  // debug mode
+  80:src/mode/main_mode.cpp ****             robot->motor.Drive(0);
+  81:src/mode/main_mode.cpp ****             robot->info.Ui.debug[0] = robot->info.motor_rad_s[1] * 100;
+  82:src/mode/main_mode.cpp ****             robot->info.Ui.debug[1] = 0;
+  83:src/mode/main_mode.cpp ****       }
+  84:src/mode/main_mode.cpp **** 
+  85:src/mode/main_mode.cpp ****       // cortex-debug
+  86:src/mode/main_mode.cpp ****       yaw = robot->info.Imu.yaw;
+ 273              		.loc 1 86 7 is_stmt 1 view .LVU91
+ 274              		.loc 1 86 13 is_stmt 0 view .LVU92
+ 275 012e 6368     		ldr	r3, [r4, #4]
+ 276              		.loc 1 86 29 view .LVU93
+ 277 0130 B3F93610 		ldrsh	r1, [r3, #54]
+ 278              		.loc 1 86 11 view .LVU94
+ 279 0134 564A     		ldr	r2, .L32
+ 280 0136 1160     		str	r1, [r2]
+  87:src/mode/main_mode.cpp ****       voltage = robot->info.voltage;
+ 281              		.loc 1 87 7 is_stmt 1 view .LVU95
+ 282              		.loc 1 87 29 is_stmt 0 view .LVU96
+ 283 0138 1968     		ldr	r1, [r3]	@ float
+ 284              		.loc 1 87 15 view .LVU97
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s 			page 8
+
+
+ 285 013a 564A     		ldr	r2, .L32+4
+ 286 013c 1160     		str	r1, [r2]	@ float
+  88:src/mode/main_mode.cpp ****       line_dir = robot->info.Line.dir;
+ 287              		.loc 1 88 7 is_stmt 1 view .LVU98
+ 288              		.loc 1 88 35 is_stmt 0 view .LVU99
+ 289 013e B3F92610 		ldrsh	r1, [r3, #38]
+ 290              		.loc 1 88 16 view .LVU100
+ 291 0142 554A     		ldr	r2, .L32+8
+ 292 0144 1160     		str	r1, [r2]
+  89:src/mode/main_mode.cpp ****       is_on_line = robot->info.Line.is_on_line;
+ 293              		.loc 1 89 7 is_stmt 1 view .LVU101
+ 294              		.loc 1 89 37 is_stmt 0 view .LVU102
+ 295 0146 93F82310 		ldrb	r1, [r3, #35]	@ zero_extendqisi2
+ 296              		.loc 1 89 18 view .LVU103
+ 297 014a 544A     		ldr	r2, .L32+12
+ 298 014c 1160     		str	r1, [r2]
+  90:src/mode/main_mode.cpp **** 
+  91:src/mode/main_mode.cpp ****       encoder[0] = robot->info.motor_rad_s[0];
+ 299              		.loc 1 91 7 is_stmt 1 view .LVU104
+ 300              		.loc 1 91 45 is_stmt 0 view .LVU105
+ 301 014e D3ED017A 		vldr.32	s15, [r3, #4]
+ 302              		.loc 1 91 18 view .LVU106
+ 303 0152 534A     		ldr	r2, .L32+16
+ 304 0154 FDEEE77A 		vcvt.s32.f32	s15, s15
+ 305 0158 C2ED007A 		vstr.32	s15, [r2]	@ int
+  92:src/mode/main_mode.cpp ****       encoder[1] = robot->info.motor_rad_s[1];
+ 306              		.loc 1 92 7 is_stmt 1 view .LVU107
+ 307              		.loc 1 92 45 is_stmt 0 view .LVU108
+ 308 015c D3ED027A 		vldr.32	s15, [r3, #8]
+ 309              		.loc 1 92 18 view .LVU109
+ 310 0160 FDEEE77A 		vcvt.s32.f32	s15, s15
+ 311 0164 C2ED017A 		vstr.32	s15, [r2, #4]	@ int
+  93:src/mode/main_mode.cpp ****       encoder[2] = robot->info.motor_rad_s[2];
+ 312              		.loc 1 93 7 is_stmt 1 view .LVU110
+ 313              		.loc 1 93 20 is_stmt 0 view .LVU111
+ 314 0168 6368     		ldr	r3, [r4, #4]
+ 315              		.loc 1 93 45 view .LVU112
+ 316 016a D3ED037A 		vldr.32	s15, [r3, #12]
+ 317              		.loc 1 93 18 view .LVU113
+ 318 016e FDEEE77A 		vcvt.s32.f32	s15, s15
+ 319 0172 C2ED027A 		vstr.32	s15, [r2, #8]	@ int
+  94:src/mode/main_mode.cpp ****       encoder[3] = robot->info.motor_rad_s[3];
+ 320              		.loc 1 94 7 is_stmt 1 view .LVU114
+ 321              		.loc 1 94 20 is_stmt 0 view .LVU115
+ 322 0176 6368     		ldr	r3, [r4, #4]
+ 323              		.loc 1 94 45 view .LVU116
+ 324 0178 D3ED047A 		vldr.32	s15, [r3, #16]
+ 325              		.loc 1 94 18 view .LVU117
+ 326 017c FDEEE77A 		vcvt.s32.f32	s15, s15
+ 327 0180 C2ED037A 		vstr.32	s15, [r2, #12]	@ int
+  95:src/mode/main_mode.cpp **** 
+  96:src/mode/main_mode.cpp ****       //  定周期処理
+  97:src/mode/main_mode.cpp ****       process_time_ = process_timer.read_us();
+ 328              		.loc 1 97 7 is_stmt 1 view .LVU118
+ 329              		.loc 1 97 44 is_stmt 0 view .LVU119
+ 330 0184 2046     		mov	r0, r4
+ 331 0186 FFF7FEFF 		bl	_ZN5Timer7read_usEv
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s 			page 9
+
+
+ 332              	.LVL17:
+ 333              		.loc 1 97 21 view .LVU120
+ 334 018a 80B2     		uxth	r0, r0
+ 335 018c 2081     		strh	r0, [r4, #8]	@ movhi
+  98:src/mode/main_mode.cpp ****       if (process_time_ < PERIOD_US) {
+ 336              		.loc 1 98 7 is_stmt 1 view .LVU121
+ 337 018e B0F5FA7F 		cmp	r0, #500
+ 338 0192 05D2     		bcs	.L23
+ 339              	.L24:
+  99:src/mode/main_mode.cpp ****             while (process_timer.read_us() < PERIOD_US);  // 余剰時間を待つ
+ 340              		.loc 1 99 44 discriminator 1 view .LVU122
+ 341              		.loc 1 99 41 is_stmt 0 discriminator 1 view .LVU123
+ 342 0194 2046     		mov	r0, r4
+ 343 0196 FFF7FEFF 		bl	_ZN5Timer7read_usEv
+ 344              	.LVL18:
+ 345              		.loc 1 99 44 discriminator 1 view .LVU124
+ 346 019a B0F5FA7F 		cmp	r0, #500
+ 347 019e F9D3     		bcc	.L24
+ 348              	.L23:
+ 100:src/mode/main_mode.cpp ****       }
+ 101:src/mode/main_mode.cpp ****       process_freq = 1.0f / (process_timer.read_us() * 0.000001f);
+ 349              		.loc 1 101 7 is_stmt 1 view .LVU125
+ 350              		.loc 1 101 51 is_stmt 0 view .LVU126
+ 351 01a0 2046     		mov	r0, r4
+ 352 01a2 FFF7FEFF 		bl	_ZN5Timer7read_usEv
+ 353              	.LVL19:
+ 354 01a6 07EE900A 		vmov	s15, r0	@ int
+ 355              		.loc 1 101 54 view .LVU127
+ 356 01aa F8EE677A 		vcvt.f32.u32	s15, s15
+ 357 01ae 9FED3D7A 		vldr.32	s14, .L32+20
+ 358 01b2 67EE877A 		vmul.f32	s15, s15, s14
+ 359              		.loc 1 101 27 view .LVU128
+ 360 01b6 F7EE006A 		vmov.f32	s13, #1.0e+0
+ 361 01ba 86EEA77A 		vdiv.f32	s14, s13, s15
+ 362              		.loc 1 101 20 view .LVU129
+ 363 01be BDEEC77A 		vcvt.s32.f32	s14, s14
+ 364 01c2 394B     		ldr	r3, .L32+24
+ 365 01c4 83ED007A 		vstr.32	s14, [r3]	@ int
+ 102:src/mode/main_mode.cpp **** }...
+ 366              		.loc 1 102 1 view .LVU130
+ 367 01c8 10BD     		pop	{r4, pc}
+ 368              	.LVL20:
+ 369              	.L17:
+  64:src/mode/main_mode.cpp ****             Defence();
+ 370              		.loc 1 64 13 is_stmt 1 view .LVU131
+  64:src/mode/main_mode.cpp ****             Defence();
+ 371              		.loc 1 64 20 is_stmt 0 view .LVU132
+ 372 01ca 2046     		mov	r0, r4
+ 373 01cc FFF7FEFF 		bl	_ZN4Mode7DefenceEv
+ 374              	.LVL21:
+ 375 01d0 ADE7     		b	.L9
+ 376              	.L16:
+  66:src/mode/main_mode.cpp ****             if (robot->info.Esp32.Wifi.stop) {
+ 377              		.loc 1 66 13 is_stmt 1 view .LVU133
+  66:src/mode/main_mode.cpp ****             if (robot->info.Esp32.Wifi.stop) {
+ 378              		.loc 1 66 40 is_stmt 0 view .LVU134
+ 379 01d2 90F8A430 		ldrb	r3, [r0, #164]	@ zero_extendqisi2
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s 			page 10
+
+
+  66:src/mode/main_mode.cpp ****             if (robot->info.Esp32.Wifi.stop) {
+ 380              		.loc 1 66 13 view .LVU135
+ 381 01d6 E3B1     		cbz	r3, .L19
+  67:src/mode/main_mode.cpp ****                   robot->motor.Drive(0, 0, 0, robot->info.Esp32.Wifi.face_angle, PI, FRONT);
+ 382              		.loc 1 67 19 is_stmt 1 view .LVU136
+  67:src/mode/main_mode.cpp ****                   robot->motor.Drive(0, 0, 0, robot->info.Esp32.Wifi.face_angle, PI, FRONT);
+ 383              		.loc 1 67 37 is_stmt 0 view .LVU137
+ 384 01d8 9FED340A 		vldr.32	s0, .L32+28
+ 385 01dc 0123     		movs	r3, #1
+ 386 01de 9FED341A 		vldr.32	s2, .L32+32
+ 387 01e2 B0F9A020 		ldrsh	r2, [r0, #160]
+ 388 01e6 F0EE400A 		vmov.f32	s1, s0
+ 389 01ea 0021     		movs	r1, #0
+ 390 01ec 00F5C870 		add	r0, r0, #400
+ 391 01f0 FFF7FEFF 		bl	_ZN10MotorDrive5DriveEsffsfh
+ 392              	.LVL22:
+ 393              	.L20:
+  71:src/mode/main_mode.cpp ****             if (robot->info.Esp32.Wifi.do_kick) {
+ 394              		.loc 1 71 13 is_stmt 1 view .LVU138
+  71:src/mode/main_mode.cpp ****             if (robot->info.Esp32.Wifi.do_kick) {
+ 395              		.loc 1 71 17 is_stmt 0 view .LVU139
+ 396 01f4 6068     		ldr	r0, [r4, #4]
+  71:src/mode/main_mode.cpp ****             if (robot->info.Esp32.Wifi.do_kick) {
+ 397              		.loc 1 71 40 view .LVU140
+ 398 01f6 90F8A230 		ldrb	r3, [r0, #162]	@ zero_extendqisi2
+  71:src/mode/main_mode.cpp ****             if (robot->info.Esp32.Wifi.do_kick) {
+ 399              		.loc 1 71 13 view .LVU141
+ 400 01fa D3B9     		cbnz	r3, .L31
+ 401              	.L21:
+  74:src/mode/main_mode.cpp ****             if (robot->info.Esp32.Wifi.do_dribble) {
+ 402              		.loc 1 74 13 is_stmt 1 view .LVU142
+  74:src/mode/main_mode.cpp ****             if (robot->info.Esp32.Wifi.do_dribble) {
+ 403              		.loc 1 74 17 is_stmt 0 view .LVU143
+ 404 01fc 6068     		ldr	r0, [r4, #4]
+  74:src/mode/main_mode.cpp ****             if (robot->info.Esp32.Wifi.do_dribble) {
+ 405              		.loc 1 74 40 view .LVU144
+ 406 01fe 90F8A330 		ldrb	r3, [r0, #163]	@ zero_extendqisi2
+  74:src/mode/main_mode.cpp ****             if (robot->info.Esp32.Wifi.do_dribble) {
+ 407              		.loc 1 74 13 view .LVU145
+ 408 0202 F3B1     		cbz	r3, .L22
+  75:src/mode/main_mode.cpp ****                   robot->dribbler_front.Hold(HOLD_MAX_POWER);
+ 409              		.loc 1 75 19 is_stmt 1 view .LVU146
+  75:src/mode/main_mode.cpp ****                   robot->dribbler_front.Hold(HOLD_MAX_POWER);
+ 410              		.loc 1 75 45 is_stmt 0 view .LVU147
+ 411 0204 6421     		movs	r1, #100
+ 412 0206 00F58650 		add	r0, r0, #4288
+ 413 020a 0830     		adds	r0, r0, #8
+ 414 020c FFF7FEFF 		bl	_ZN13DribblerDrive4HoldEh
+ 415              	.LVL23:
+ 416 0210 8DE7     		b	.L9
+ 417              	.L19:
+  69:src/mode/main_mode.cpp ****                   robot->motor.Drive(robot->info.Esp32.Wifi.move_dir, robot->info.Esp32.Wifi.move_s
+ 418              		.loc 1 69 19 is_stmt 1 view .LVU148
+  69:src/mode/main_mode.cpp ****                   robot->motor.Drive(robot->info.Esp32.Wifi.move_dir, robot->info.Esp32.Wifi.move_s
+ 419              		.loc 1 69 37 is_stmt 0 view .LVU149
+ 420 0212 0123     		movs	r3, #1
+ 421 0214 9FED261A 		vldr.32	s2, .L32+32
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s 			page 11
+
+
+ 422 0218 B0F9A020 		ldrsh	r2, [r0, #160]
+ 423 021c F1EE040A 		vmov.f32	s1, #5.0e+0
+ 424 0220 90ED270A 		vldr.32	s0, [r0, #156]
+ 425 0224 B0F99A10 		ldrsh	r1, [r0, #154]
+ 426 0228 00F5C870 		add	r0, r0, #400
+ 427 022c FFF7FEFF 		bl	_ZN10MotorDrive5DriveEsffsfh
+ 428              	.LVL24:
+ 429 0230 E0E7     		b	.L20
+ 430              	.L31:
+  72:src/mode/main_mode.cpp ****                   robot->kicker.Kick();
+ 431              		.loc 1 72 19 is_stmt 1 view .LVU150
+  72:src/mode/main_mode.cpp ****                   robot->kicker.Kick();
+ 432              		.loc 1 72 37 is_stmt 0 view .LVU151
+ 433 0232 B7EE000A 		vmov.f32	s0, #1.0e+0
+ 434 0236 00F58750 		add	r0, r0, #4320
+ 435 023a 1830     		adds	r0, r0, #24
+ 436 023c FFF7FEFF 		bl	_ZN6Kicker4KickEf
+ 437              	.LVL25:
+ 438 0240 DCE7     		b	.L21
+ 439              	.L22:
+  77:src/mode/main_mode.cpp ****                   robot->dribbler_front.Hold(0);
+ 440              		.loc 1 77 19 is_stmt 1 view .LVU152
+  77:src/mode/main_mode.cpp ****                   robot->dribbler_front.Hold(0);
+ 441              		.loc 1 77 45 is_stmt 0 view .LVU153
+ 442 0242 0021     		movs	r1, #0
+ 443 0244 00F58650 		add	r0, r0, #4288
+ 444 0248 0830     		adds	r0, r0, #8
+ 445 024a FFF7FEFF 		bl	_ZN13DribblerDrive4HoldEh
+ 446              	.LVL26:
+ 447 024e 6EE7     		b	.L9
+ 448              	.L14:
+  80:src/mode/main_mode.cpp ****             robot->motor.Drive(0);
+ 449              		.loc 1 80 13 is_stmt 1 view .LVU154
+  80:src/mode/main_mode.cpp ****             robot->motor.Drive(0);
+ 450              		.loc 1 80 31 is_stmt 0 view .LVU155
+ 451 0250 9FED160A 		vldr.32	s0, .L32+28
+ 452 0254 0023     		movs	r3, #0
+ 453 0256 B0EE401A 		vmov.f32	s2, s0
+ 454 025a 1A46     		mov	r2, r3
+ 455 025c F0EE400A 		vmov.f32	s1, s0
+ 456 0260 1946     		mov	r1, r3
+ 457 0262 00F5C870 		add	r0, r0, #400
+ 458 0266 FFF7FEFF 		bl	_ZN10MotorDrive5DriveEsffsfh
+ 459              	.LVL27:
+  81:src/mode/main_mode.cpp ****             robot->info.Ui.debug[0] = robot->info.motor_rad_s[1] * 100;
+ 460              		.loc 1 81 13 is_stmt 1 view .LVU156
+  81:src/mode/main_mode.cpp ****             robot->info.Ui.debug[0] = robot->info.motor_rad_s[1] * 100;
+ 461              		.loc 1 81 39 is_stmt 0 view .LVU157
+ 462 026a 6368     		ldr	r3, [r4, #4]
+  81:src/mode/main_mode.cpp ****             robot->info.Ui.debug[0] = robot->info.motor_rad_s[1] * 100;
+ 463              		.loc 1 81 64 view .LVU158
+ 464 026c D3ED027A 		vldr.32	s15, [r3, #8]
+  81:src/mode/main_mode.cpp ****             robot->info.Ui.debug[0] = robot->info.motor_rad_s[1] * 100;
+ 465              		.loc 1 81 66 view .LVU159
+ 466 0270 9FED107A 		vldr.32	s14, .L32+36
+ 467 0274 67EE877A 		vmul.f32	s15, s15, s14
+  81:src/mode/main_mode.cpp ****             robot->info.Ui.debug[0] = robot->info.motor_rad_s[1] * 100;
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s 			page 12
+
+
+ 468              		.loc 1 81 37 view .LVU160
+ 469 0278 FDEEE77A 		vcvt.s32.f32	s15, s15
+ 470 027c 17EE902A 		vmov	r2, s15	@ int
+ 471 0280 A3F84620 		strh	r2, [r3, #70]	@ movhi
+  82:src/mode/main_mode.cpp ****             robot->info.Ui.debug[1] = 0;
+ 472              		.loc 1 82 13 is_stmt 1 view .LVU161
+ 473 0284 6368     		ldr	r3, [r4, #4]
+  82:src/mode/main_mode.cpp ****             robot->info.Ui.debug[1] = 0;
+ 474              		.loc 1 82 37 is_stmt 0 view .LVU162
+ 475 0286 0022     		movs	r2, #0
+ 476 0288 A3F84820 		strh	r2, [r3, #72]	@ movhi
+ 477 028c 4FE7     		b	.L9
+ 478              	.L33:
+ 479 028e 00BF     		.align	2
+ 480              	.L32:
+ 481 0290 00000000 		.word	yaw
+ 482 0294 00000000 		.word	voltage
+ 483 0298 00000000 		.word	line_dir
+ 484 029c 00000000 		.word	is_on_line
+ 485 02a0 00000000 		.word	encoder
+ 486 02a4 BD378635 		.word	897988541
+ 487 02a8 00000000 		.word	process_freq
+ 488 02ac 00000000 		.word	0
+ 489 02b0 DB0F4940 		.word	1078530011
+ 490 02b4 0000C842 		.word	1120403456
+ 491              		.cfi_endproc
+ 492              	.LFE275:
+ 493              		.fnend
+ 495              		.global	encoder
+ 496              		.section	.bss.encoder,"aw",%nobits
+ 497              		.align	2
+ 500              	encoder:
+ 501 0000 00000000 		.space	16
+ 501      00000000 
+ 501      00000000 
+ 501      00000000 
+ 502              		.global	is_on_line
+ 503              		.section	.bss.is_on_line,"aw",%nobits
+ 504              		.align	2
+ 507              	is_on_line:
+ 508 0000 00000000 		.space	4
+ 509              		.global	line_dir
+ 510              		.section	.bss.line_dir,"aw",%nobits
+ 511              		.align	2
+ 514              	line_dir:
+ 515 0000 00000000 		.space	4
+ 516              		.global	process_freq
+ 517              		.section	.bss.process_freq,"aw",%nobits
+ 518              		.align	2
+ 521              	process_freq:
+ 522 0000 00000000 		.space	4
+ 523              		.global	voltage
+ 524              		.section	.bss.voltage,"aw",%nobits
+ 525              		.align	2
+ 528              	voltage:
+ 529 0000 00000000 		.space	4
+ 530              		.global	yaw
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s 			page 13
+
+
+ 531              		.section	.bss.yaw,"aw",%nobits
+ 532              		.align	2
+ 535              	yaw:
+ 536 0000 00000000 		.space	4
+ 537              		.text
+ 538              	.Letext0:
+ 539              		.file 2 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/machine/_default_ty
+ 540              		.file 3 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/lib/gcc/arm-none-eabi/12.3.1/include/stdd
+ 541              		.file 4 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_types.h"
+ 542              		.file 5 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/reent.h"
+ 543              		.file 6 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/lock.h"
+ 544              		.file 7 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/stdio.h"
+ 545              		.file 8 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_stdint.h"
+ 546              		.file 9 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h"
+ 547              		.file 10 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
+ 548              		.file 11 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 549              		.file 12 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 550              		.file 13 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h"
+ 551              		.file 14 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h"
+ 552              		.file 15 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
+ 553              		.file 16 "Lib/BufferedSerial/BufferedSerial.hpp"
+ 554              		.file 17 "Lib/DigitalInOut/DigitalInOut.hpp"
+ 555              		.file 18 "Lib/MovingAve/MovingAve.hpp"
+ 556              		.file 19 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/cstdio"
+ 557              		.file 20 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/arm-non
+ 558              		.file 21 "Lib/PWMSingle/PWMSingle.hpp"
+ 559              		.file 22 "Lib/Timer/Timer.hpp"
+ 560              		.file 23 "src/unit/dribbler_drive/dribbler_drive.hpp"
+ 561              		.file 24 "src/unit/kicker/kicker.hpp"
+ 562              		.file 25 "Lib/pid/pid.hpp"
+ 563              		.file 26 "src/unit/motor_drive/motor_drive.hpp"
+ 564              		.file 27 "src/unit/robot/robot.hpp"
+ 565              		.file 28 "src/mode/mode.hpp"
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s 			page 14
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 main_mode.cpp
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s:21     .text._ZN4Mode8MainModeEv:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s:27     .text._ZN4Mode8MainModeEv:00000000 _ZN4Mode8MainModeEv
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s:171    .text._ZN4Mode8MainModeEv:0000009e $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s:175    .text._ZN4Mode8MainModeEv:000000a2 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s:481    .text._ZN4Mode8MainModeEv:00000290 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s:535    .bss.yaw:00000000 yaw
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s:528    .bss.voltage:00000000 voltage
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s:514    .bss.line_dir:00000000 line_dir
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s:507    .bss.is_on_line:00000000 is_on_line
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s:500    .bss.encoder:00000000 encoder
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s:521    .bss.process_freq:00000000 process_freq
+.ARM.exidx.text._ZN4Mode8MainModeEv:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s:497    .bss.encoder:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s:504    .bss.is_on_line:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s:511    .bss.line_dir:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s:518    .bss.process_freq:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s:525    .bss.voltage:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccCJ78Ci.s:532    .bss.yaw:00000000 $d
+
+UNDEFINED SYMBOLS
+_ZN5Timer5resetEv
+_ZN5Robot7ImuUartEv
+_ZN5Robot8LineUartEv
+_ZN5Robot6UiUartEv
+_ZN5Robot7CamUartEv
+_ZN5Robot9Esp32UartEv
+_ZN5Robot10GetSensorsEv
+_ZN10MotorDrive4FreeEv
+_ZN13DribblerDrive4HoldEh
+_ZN6Kicker4KickEf
+_ZN4Mode7OffenceEv
+_ZN5Timer7read_usEv
+_ZN4Mode7DefenceEv
+_ZN10MotorDrive5DriveEsffsfh
+__aeabi_unwind_cpp_pr0
