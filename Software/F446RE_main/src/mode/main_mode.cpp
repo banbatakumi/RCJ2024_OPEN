@@ -64,11 +64,12 @@ void Mode::MainMode() {
             Defence();
       } else if (robot->info.mode == 3) {  // debug mode
             if (robot->info.Esp32.Wifi.stop) {
-                  robot->motor.Drive(0, 0, 0, robot->info.Esp32.Wifi.face_angle, PI, FRONT);
+                  robot->motor.Drive(0, 0, 5, robot->info.Esp32.Wifi.face_angle, PI, FRONT);
             } else {
                   robot->motor.Drive(robot->info.Esp32.Wifi.move_dir, robot->info.Esp32.Wifi.move_speed, 5, robot->info.Esp32.Wifi.face_angle, PI, FRONT);
             }
             if (robot->info.Esp32.Wifi.do_kick) {
+                  robot->dribbler_front.Brake(1);
                   robot->kicker.Kick();
             }
             if (robot->info.Esp32.Wifi.do_dribble) {
@@ -76,6 +77,8 @@ void Mode::MainMode() {
             } else {
                   robot->dribbler_front.Hold(0);
             }
+            robot->info.Ui.debug[0] = robot->info.Esp32.Wifi.move_dir;
+            robot->info.Ui.debug[1] = robot->info.Esp32.Wifi.move_speed;
       } else if (robot->info.mode == 4) {  // debug mode
             robot->motor.Drive(0);
             robot->info.Ui.debug[0] = robot->info.motor_rad_s[1] * 100;
@@ -83,15 +86,15 @@ void Mode::MainMode() {
       }
 
       // cortex-debug
-      yaw = robot->info.Imu.yaw;
-      voltage = robot->info.voltage;
-      line_dir = robot->info.Line.dir;
-      is_on_line = robot->info.Line.is_on_line;
+      // yaw = robot->info.Imu.yaw;
+      // voltage = robot->info.voltage;
+      // line_dir = robot->info.Line.dir;
+      // is_on_line = robot->info.Line.is_on_line;
 
-      encoder[0] = robot->info.motor_rad_s[0];
-      encoder[1] = robot->info.motor_rad_s[1];
-      encoder[2] = robot->info.motor_rad_s[2];
-      encoder[3] = robot->info.motor_rad_s[3];
+      // encoder[0] = robot->info.motor_rad_s[0];
+      // encoder[1] = robot->info.motor_rad_s[1];
+      // encoder[2] = robot->info.motor_rad_s[2];
+      // encoder[3] = robot->info.motor_rad_s[3];
 
       //  定周期処理
       process_time_ = process_timer.read_us();

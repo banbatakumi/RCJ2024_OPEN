@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 1
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 1
   25:src/unit/robot/robot.hpp ****       struct {
   26:src/unit/robot/robot.hpp ****             bool is_initialized = 0;
   27:src/unit/robot/robot.hpp **** 
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 2
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s 			page 2
 
 
   28:src/unit/robot/robot.hpp ****             uint8_t interval;
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 1
   82:src/unit/robot/robot.hpp ****             int16_t ops_goal_dir;
   83:src/unit/robot/robot.hpp ****             uint8_t ops_goal_dis;
   84:src/unit/robot/robot.hpp **** 
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 3
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s 			page 3
 
 
   85:src/unit/robot/robot.hpp ****             int16_t own_x;
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 1
   46              		.file 3 "Lib/BufferedSerial/BufferedSerial.hpp"
    1:Lib/BufferedSerial/BufferedSerial.hpp **** #ifndef __BUFFERED_SERIAL__
    2:Lib/BufferedSerial/BufferedSerial.hpp **** #define __BUFFERED_SERIAL__
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 4
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s 			page 4
 
 
    3:Lib/BufferedSerial/BufferedSerial.hpp **** 
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 1
   75              	.LVL4:
   76              	.L3:
   77              		.loc 3 27 22 view .LVU13
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 5
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s 			page 5
 
 
   78              	.LBE30:
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 1
  129              	.LBE36:
  130              	.LBE35:
  131              		.loc 2 124 7 view .LVU32
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 6
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s 			page 6
 
 
  132 004a 2046     		mov	r0, r4
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 1
  166              		.cfi_offset 4, -12
  167              		.cfi_offset 5, -8
  168              		.cfi_offset 14, -4
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 7
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s 			page 7
 
 
  169              		.loc 1 22 1 discriminator 1 view .LVU37
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 1
  211 002e EFE7     		b	.L8
  212              	.L17:
  213              		.align	2
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 8
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s 			page 8
 
 
  214              	.L16:
@@ -478,7 +478,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 1
  249              		.cfi_offset 6, -12
  250              		.cfi_offset 7, -8
  251              		.cfi_offset 14, -4
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 9
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s 			page 9
 
 
  252 0002 0446     		mov	r4, r0
@@ -538,7 +538,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 1
  304 0052 2368     		ldr	r3, [r4]
  305 0054 1B68     		ldr	r3, [r3]
  306 0056 FCEEE77A 		vcvt.u32.f32	s15, s15
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 10
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s 			page 10
 
 
  307              	.LVL25:
@@ -598,7 +598,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 1
  352              	.L30:
  353 0094 0000F03F 		.word	1072693248
  354              		.cfi_endproc
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 11
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s 			page 11
 
 
  355              	.LFE268:
@@ -658,7 +658,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 1
  151:src/unit/robot/robot.hpp ****       MotorDrive motor = MotorDrive(&motor1a, &motor1b, &motor2a, &motor2b, &motor3a, &motor3b, &mo
  152:src/unit/robot/robot.hpp ****       DribblerDrive dribbler_front = DribblerDrive(&dribbler_front_a, &dribbler_front_b);
  153:src/unit/robot/robot.hpp ****       DribblerDrive dribbler_back = DribblerDrive(&dribbler_back_a, &dribbler_back_b);
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 12
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s 			page 12
 
 
  154:src/unit/robot/robot.hpp ****       Kicker kicker = Kicker(&kicker_charge, &kicker_kick);
@@ -718,7 +718,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 1
  415              	.LVL34:
  416              	.L35:
  417              	.LBB42:
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 13
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s 			page 13
 
 
  418              	.LBI42:
@@ -778,7 +778,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 1
  466              		.cfi_endproc
  467              	.LFE275:
  468              		.fnend
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 14
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s 			page 14
 
 
  470              		.section	.text.setup,"ax",%progbits
@@ -838,7 +838,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 1
  522              		.cfi_def_cfa_offset 8
  523              		.cfi_offset 3, -8
  524              		.cfi_offset 14, -4
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 15
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s 			page 15
 
 
  525              	.L46:
@@ -898,7 +898,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 1
  580 0000 00000000 		.space	12
  580      00000000 
  580      00000000 
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 16
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s 			page 16
 
 
  581              		.global	robot
@@ -917,72 +917,72 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 1
  594 0000 00000000 		.space	4
  595              		.text
  596              	.Letext0:
- 597              		.file 6 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/machine/_default_ty
- 598              		.file 7 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_stdint.h"
+ 597              		.file 6 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/machine/_default_ty
+ 598              		.file 7 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_stdint.h"
  599              		.file 8 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h"
  600              		.file 9 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
- 601              		.file 10 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/lib/gcc/arm-none-eabi/12.3.1/include/std
+ 601              		.file 10 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/lib/gcc/arm-none-eabi/12.3.1/include/std
  602              		.file 11 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
  603              		.file 12 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
  604              		.file 13 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h"
  605              		.file 14 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h"
  606              		.file 15 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
- 607              		.file 16 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_types.h"
- 608              		.file 17 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/reent.h"
- 609              		.file 18 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/lock.h"
- 610              		.file 19 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/stdio.h"
+ 607              		.file 16 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_types.h"
+ 608              		.file 17 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/reent.h"
+ 609              		.file 18 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/lock.h"
+ 610              		.file 19 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/stdio.h"
  611              		.file 20 "Lib/DigitalInOut/DigitalInOut.hpp"
  612              		.file 21 "Lib/MovingAve/MovingAve.hpp"
- 613              		.file 22 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/cstdio"
- 614              		.file 23 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/arm-non
+ 613              		.file 22 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/cstdio"
+ 614              		.file 23 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/arm-non
  615              		.file 24 "Lib/Timer/Timer.hpp"
  616              		.file 25 "src/unit/dribbler_drive/dribbler_drive.hpp"
  617              		.file 26 "src/unit/kicker/kicker.hpp"
  618              		.file 27 "Lib/pid/pid.hpp"
  619              		.file 28 "src/unit/motor_drive/motor_drive.hpp"
  620              		.file 29 "Lib/MyMath/MyMath.hpp"
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s 			page 17
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s 			page 17
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 app.cpp
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s:21     .text._ZN5RobotD2Ev:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s:27     .text._ZN5RobotD2Ev:00000000 _ZN5RobotD2Ev
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s:21     .text._ZN5RobotD2Ev:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s:27     .text._ZN5RobotD2Ev:00000000 _ZN5RobotD2Ev
     .ARM.exidx.text._ZN5RobotD2Ev:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s:27     .text._ZN5RobotD2Ev:00000000 _ZN5RobotD1Ev
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s:143    .text._Z41__static_initialization_and_destruction_0ii:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s:148    .text._Z41__static_initialization_and_destruction_0ii:00000000 _Z41__static_initialization_and_destruction_0ii
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s:215    .text._Z41__static_initialization_and_destruction_0ii:00000030 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s:586    .bss.robot:00000000 robot
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s:579    .bss.mode:00000000 mode
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s:27     .text._ZN5RobotD2Ev:00000000 _ZN5RobotD1Ev
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s:143    .text._Z41__static_initialization_and_destruction_0ii:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s:148    .text._Z41__static_initialization_and_destruction_0ii:00000000 _Z41__static_initialization_and_destruction_0ii
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s:215    .text._Z41__static_initialization_and_destruction_0ii:00000030 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s:586    .bss.robot:00000000 robot
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s:579    .bss.mode:00000000 mode
 .ARM.exidx.text._Z41__static_initialization_and_destruction_0ii:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s:229    .text._ZN12PwmSingleOut5writeEf:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s:235    .text._ZN12PwmSingleOut5writeEf:00000000 _ZN12PwmSingleOut5writeEf
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s:353    .text._ZN12PwmSingleOut5writeEf:00000094 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s:229    .text._ZN12PwmSingleOut5writeEf:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s:235    .text._ZN12PwmSingleOut5writeEf:00000000 _ZN12PwmSingleOut5writeEf
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s:353    .text._ZN12PwmSingleOut5writeEf:00000094 $d
 .ARM.exidx.text._ZN12PwmSingleOut5writeEf:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s:360    .text.TimInterrupt1khz:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s:366    .text.TimInterrupt1khz:00000000 TimInterrupt1khz
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s:460    .text.TimInterrupt1khz:00000080 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s:593    .bss._ZZN5Robot9heartBeatEvE1i:00000000 _ZZN5Robot9heartBeatEvE1i
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s:360    .text.TimInterrupt1khz:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s:366    .text.TimInterrupt1khz:00000000 TimInterrupt1khz
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s:460    .text.TimInterrupt1khz:00000080 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s:593    .bss._ZZN5Robot9heartBeatEvE1i:00000000 _ZZN5Robot9heartBeatEvE1i
  .ARM.extab.text.TimInterrupt1khz:00000000 $d
  .ARM.exidx.text.TimInterrupt1khz:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s:471    .text.setup:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s:477    .text.setup:00000000 setup
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s:500    .text.setup:0000000c $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s:471    .text.setup:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s:477    .text.setup:00000000 setup
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s:500    .text.setup:0000000c $d
             .ARM.extab.text.setup:00000000 $d
             .ARM.exidx.text.setup:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s:506    .text.main_app:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s:512    .text.main_app:00000000 main_app
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s:537    .text.main_app:0000000c $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s:506    .text.main_app:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s:512    .text.main_app:00000000 main_app
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s:537    .text.main_app:0000000c $d
          .ARM.extab.text.main_app:00000000 $d
          .ARM.exidx.text.main_app:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s:543    .text._GLOBAL__sub_I_robot:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s:548    .text._GLOBAL__sub_I_robot:00000000 _GLOBAL__sub_I_robot
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s:543    .text._GLOBAL__sub_I_robot:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s:548    .text._GLOBAL__sub_I_robot:00000000 _GLOBAL__sub_I_robot
 .ARM.exidx.text._GLOBAL__sub_I_robot:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s:572    .init_array:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s:576    .bss.mode:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s:583    .bss.robot:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccDZ3kmV.s:590    .bss._ZZN5Robot9heartBeatEvE1i:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s:572    .init_array:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s:576    .bss.mode:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s:583    .bss.robot:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccct1RTz.s:590    .bss._ZZN5Robot9heartBeatEvE1i:00000000 $d
                            .group:00000000 _ZN5RobotD5Ev
 
 UNDEFINED SYMBOLS
