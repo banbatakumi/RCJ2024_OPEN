@@ -16,6 +16,8 @@ led_g.value(1)
 print("Current CPU Frequency: ", Maix.freq.get_cpu())
 print("Current KPU Frequency: ", Maix.freq.get_kpu())
 
+MODE=1
+
 #定数定義
 UART_SPEED = const(230400)
 ANGLE_CONVERSION = 0.28125
@@ -115,7 +117,8 @@ while True:
         ball_maxrect = max(ball_rectarray, key = lambda x: x[1])    #配列の中から一番画面の下にあるものを選定
         ball_x = ball_maxrect[0] + (ball_maxrect[2] * 0.5)  #中心のx座標の算出
         ball_y = ball_maxrect[1] + (ball_maxrect[3] * 0.5)  #中心のy座標の算出
-        img.draw_circle(int(ball_x), int(ball_y), int((ball_maxrect[2] * 0.5 + ball_maxrect[3] * 0.5) * 0.5))
+        if MODE == 1:
+            img.draw_circle(int(ball_x), int(ball_y), int((ball_maxrect[2] * 0.5 + ball_maxrect[3] * 0.5) * 0.5))
 
     except ValueError as err:   #オブジェクトがひとつも見つからなかった場合の例外処理
         pass
@@ -134,8 +137,9 @@ while True:
         y_goal_x = y_goal_maxrect[0] + (y_goal_maxrect[2] * 0.5)  #中心のx座標の算出
         y_goal_y = y_goal_maxrect[1] + y_goal_maxrect[3]
         y_goal_width = y_goal_maxrect[2]
-        img.draw_rectangle(y_goal_maxrect)     #オブジェクトを囲う四角形の描画
-        img.draw_string(y_goal_maxrect[0], y_goal_maxrect[1] - 12, "yellow goal")
+        if MODE == 1:
+            img.draw_rectangle(y_goal_maxrect)     #オブジェクトを囲う四角形の描画
+            img.draw_string(y_goal_maxrect[0], y_goal_maxrect[1] - 12, "yellow goal")
 
     except ValueError as err:   #オブジェクトがひとつも見つからなかった場合の例外処理
         pass
@@ -154,8 +158,9 @@ while True:
         b_goal_x = b_goal_maxrect[0] + (b_goal_maxrect[2] * 0.5)  #中心のx座標の算出
         b_goal_y = b_goal_maxrect[1] + b_goal_maxrect[3]
         b_goal_width = b_goal_maxrect[2]
-        img.draw_rectangle(b_goal_maxrect)     #オブジェクトを囲う四角形の描画
-        img.draw_string(b_goal_maxrect[0], b_goal_maxrect[1] - 12, "blue goal")
+        if MODE == 1:
+            img.draw_rectangle(b_goal_maxrect)     #オブジェクトを囲う四角形の描画
+            img.draw_string(b_goal_maxrect[0], b_goal_maxrect[1] - 12, "blue goal")
 
     except ValueError as err:   #オブジェクトがひとつも見つからなかった場合の例外処理
         pass
@@ -169,8 +174,9 @@ while True:
     try:
         court_maxrect = max(court_rectarray, key = lambda x: x[2] * x[3])  # Y座標が一番大きい要素を選定
         court_y = court_maxrect[1]
-        img.draw_line(0, court_maxrect[1], 320, court_maxrect[1])     #オブジェクトを囲う四角形の描画
-        img.draw_string(court_maxrect[0], court_maxrect[1] - 12, "court")
+        if MODE == 1:
+            img.draw_line(0, court_maxrect[1], 320, court_maxrect[1])
+            img.draw_string(court_maxrect[0], court_maxrect[1] - 12, "court")
 
     except ValueError as err:   #オブジェクトがひとつも見つからなかった場合の例外処理
         pass
@@ -247,13 +253,14 @@ while True:
     proximity[4] = CheckGreen(200, PROXIMITY_HEIGHT)
     proximity[5] = CheckGreen(240, PROXIMITY_HEIGHT)
     proximity[6] = CheckGreen(280, PROXIMITY_HEIGHT)
-    #img.draw_cross(40, PROXIMITY_HEIGHT)
-    #img.draw_cross(80, PROXIMITY_HEIGHT)
-    #img.draw_cross(120, PROXIMITY_HEIGHT)
-    #img.draw_cross(160, PROXIMITY_HEIGHT)
-    #img.draw_cross(200, PROXIMITY_HEIGHT)
-    #img.draw_cross(240, PROXIMITY_HEIGHT)
-    #img.draw_cross(280, PROXIMITY_HEIGHT)
+    if MODE == 1:
+        img.draw_cross(40, PROXIMITY_HEIGHT)
+        img.draw_cross(80, PROXIMITY_HEIGHT)
+        img.draw_cross(120, PROXIMITY_HEIGHT)
+        img.draw_cross(160, PROXIMITY_HEIGHT)
+        img.draw_cross(200, PROXIMITY_HEIGHT)
+        img.draw_cross(240, PROXIMITY_HEIGHT)
+        img.draw_cross(280, PROXIMITY_HEIGHT)
     for i in range(0, 7):
         if proximity[i] == 1:
             if proximity[i] < PROXIMITY_CNT_NUM:
