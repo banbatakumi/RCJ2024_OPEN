@@ -1,4 +1,4 @@
-import sensor, image, math
+import sensor, image
 import Maix
 
 from fpioa_manager import fm
@@ -16,7 +16,7 @@ led_g.value(1)
 print("Current CPU Frequency: ", Maix.freq.get_cpu())
 print("Current KPU Frequency: ", Maix.freq.get_kpu())
 
-MODE=1
+MODE=0
 
 #定数定義
 UART_SPEED = const(230400)
@@ -45,6 +45,7 @@ sensor.set_auto_whitebal(False, rgb_gain_db = (25, 20, 40))
 sensor.set_auto_exposure(False)
 sensor.set_contrast(2)
 sensor.set_saturation(1)
+sensor.skip_frames(time = 2000)
 sensor.run(1)
 
 camera_gain = sensor.get_gain_db()
@@ -117,6 +118,7 @@ def MySqrt(x):
             break
 
     return last
+
 
 while True:
     img = sensor.snapshot() #映像の取得
