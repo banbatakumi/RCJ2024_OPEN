@@ -9,8 +9,8 @@
 
 #define LINE_QTY 24
 #define SET_TH_NUM 3000
-#define TH_VALUE 5
-#define READ_INTERVAL_TIME_US 10
+#define TH_VALUE 3
+#define READ_INTERVAL_TIME_US 20
 
 class Line {
      public:
@@ -56,8 +56,8 @@ class Line {
 
       uint8_t read_sensors_group_ = 0;
 
-      uint32_t val_[LINE_QTY];
-      uint32_t pre_val_[LINE_QTY];
+      uint8_t val_[LINE_QTY];
+      uint8_t pre_val_[LINE_QTY];
       uint32_t th_val_[LINE_QTY];
 
       uint32_t leftside_th_;
@@ -65,9 +65,9 @@ class Line {
       uint16_t set_th_cnt_ = 0;
 
       int16_t pre_dir_;
-      bool pre_white_qty_;
       bool is_white_[LINE_QTY];
       uint8_t white_qty_;
+      uint8_t pre_white_qty_;
 
       Timer read_interval_timer;
 };
