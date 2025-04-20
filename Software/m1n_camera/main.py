@@ -1,4 +1,4 @@
-import sensor, image, time, math
+import sensor, image, math
 import Maix
 
 from fpioa_manager import fm
@@ -27,9 +27,11 @@ PROXIMITY_HEIGHT = const(110)
 PROXIMITY_CNT_NUM = const(10)
 
 #ホモグラフィー変換行列
-homegraphy_matrix = [[ 6.25000000e-02, -4.38017678e-17, -1.04083409e-16 ],
-                     [ 0.00000000e+00,  9.19117647e-02,  0.00000000e+00 ],
-                     [ 2.37169225e-20, -5.51470588e-03,  1.00000000e+00 ]]
+homegraphy_matrix = [[ 0.062500,  -0.00000,  -0.00000 ],
+                     [ 0.00000,   0.091912,   0.00000 ],
+                     [ 0.00000,  -0.0055147,  1.0000  ]]
+
+
 #センサーの設定
 sensor.reset(freq = 24000000, set_regs = True, dual_buff = True)
 sensor.set_pixformat(sensor.RGB565)
@@ -101,6 +103,20 @@ def HomographyProjection(center_x, center_y): #ホモグラフィー変換をす
     world_vector = [[coordinate[0][0] / coordinate[2][0]],
                     [coordinate[1][0] / coordinate[2][0]]]
     return world_vector
+
+def MySqrt(x):
+    if x < 0:
+        return 0
+
+    s = x if x > 1 else 1
+
+    while True:
+        last = s
+        s = (x / s + s) * 0.5
+        if s >= last:
+            break
+
+    return last
 
 while True:
     img = sensor.snapshot() #映像の取得
@@ -195,7 +211,7 @@ while True:
     world_ball_vector = HomographyProjection(ball_x - 160, 184 - ball_y)
 
     #ボールベクトルの大きさ
-    ball_dis = int(math.sqrt((world_ball_vector[0][0] - (ball_x - 160) * 0.0625) ** 2 + world_ball_vector[1][0] ** 2) * 2)
+    ball_dis = int(MySqrt((world_ball_vector[0][0] - (ball_x - 160) * 0.0625) ** 2 + world_ball_vector[1][0] ** 2) * 2)
 
     #範囲保証
     if(ball_dis > 200):
@@ -205,7 +221,7 @@ while True:
 
     y_goal_dir = int(y_goal_x * ANGLE_CONVERSION)
     y_goal_vector = HomographyProjection(y_goal_x - 160, 184 - y_goal_y)
-    y_goal_dis = int(math.sqrt(y_goal_vector[0][0] ** 2 + y_goal_vector[1][0] ** 2) * 2)
+    y_goal_dis = int(MySqrt(y_goal_vector[0][0] ** 2 + y_goal_vector[1][0] ** 2) * 2)
     if y_goal_dis > 200:
         y_goal_dis = 200
     if y_goal_y == 0:
@@ -213,7 +229,7 @@ while True:
 
     b_goal_dir = int(b_goal_x * ANGLE_CONVERSION)
     b_goal_vector = HomographyProjection(b_goal_x - 160, 184 - b_goal_y)
-    b_goal_dis = int(math.sqrt(b_goal_vector[0][0] ** 2 + b_goal_vector[1][0] ** 2) * 2)
+    b_goal_dis = int(MySqrt(b_goal_vector[0][0] ** 2 + b_goal_vector[1][0] ** 2) * 2)
     if b_goal_dis > 200:
         b_goal_dis = 200
     if b_goal_y == 0:
