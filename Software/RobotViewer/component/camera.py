@@ -21,11 +21,13 @@ class Camera:
                                     width=0, fill="orange", tags="camera")
 
     def draw_goal(self, dir, dis, color):
-        goal = [[self.params.court_goal_width // 2, -dis * self.scale - self.params.court_goal_height],
-                [-self.params.court_goal_width // 2, -dis *
-                    self.scale - self.params.court_goal_height],
-                [-self.params.court_goal_width // 2, -dis * self.scale],
-                [self.params.court_goal_width // 2, -dis * self.scale]]
+        goal_scale = 1 / ((1 + dis / 2000) ** 2)
+        goal = [[self.params.court_goal_width // 2 * goal_scale, -dis * self.scale - self.params.court_goal_height * goal_scale],
+                [-self.params.court_goal_width // 2 * goal_scale, -dis *
+                    self.scale - self.params.court_goal_height * goal_scale],
+                [-self.params.court_goal_width // 2 *
+                    goal_scale, -dis * self.scale],
+                [self.params.court_goal_width // 2 * goal_scale, -dis * self.scale]]
         # ゴールの回転
         for i in range(len(goal)):
             x, y = goal[i]
@@ -52,6 +54,9 @@ class Camera:
         self.main_frame.create_line(self.center_x, 0, self.center_x, self.main_frame.winfo_height(),
                                     fill="white", tags="camera")
 
-        self.draw_ball(ball_dir, ball_dis // 2)
-        self.draw_goal(yellow_goal_dir, yellow_goal_dis // 2, "yellow")
-        self.draw_goal(blue_goal_dir, blue_goal_dis // 2, "blue")
+        if ball_dis > 0:
+            self.draw_ball(ball_dir, ball_dis // 2)
+        if yellow_goal_dis > 0:
+            self.draw_goal(yellow_goal_dir, yellow_goal_dis // 2, "yellow")
+        if blue_goal_dis > 0:
+            self.draw_goal(blue_goal_dir, blue_goal_dis // 2, "blue")

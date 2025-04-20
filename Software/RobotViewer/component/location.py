@@ -62,7 +62,7 @@ class Location:
         self.main_frame.create_oval(own_x * self.scale + self.params.court_half_width - self.params.robot_radius, -own_y * self.scale + self.center_y - self.params.robot_radius,
                                     own_x * self.scale + self.params.court_half_width + self.params.robot_radius, -
                                     own_y * self.scale + self.center_y + self.params.robot_radius,
-                                    fill="gray", tags="robot")
+                                    width=0, fill="gray", tags="robot")
 
     def update(self, ball_dir, ball_dis, own_x, own_y, under_yaw):
         self.center_x = self.main_frame.winfo_width() // 2  # キャンバスの中央X座標
@@ -72,5 +72,6 @@ class Location:
         self.params.scale(self.scale)
 
         self.draw_court()
-        self.draw_ball(ball_dir, ball_dis // 2, own_x // 2, own_y // 2)
+        if ball_dis > 0:
+            self.draw_ball(ball_dir, ball_dis // 2, own_x // 2, own_y // 2)
         self.draw_robot(own_x // 2, own_y // 2, under_yaw)
