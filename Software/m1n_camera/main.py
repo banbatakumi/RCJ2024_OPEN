@@ -1,4 +1,4 @@
-import sensor, image, time, math
+import sensor, image
 import Maix
 
 from fpioa_manager import fm
@@ -16,6 +16,8 @@ led_g.value(1)
 print("Current CPU Frequency: ", Maix.freq.get_cpu())
 print("Current KPU Frequency: ", Maix.freq.get_kpu())
 
+MODE=0
+
 #定数定義
 UART_SPEED = const(230400)
 ANGLE_CONVERSION = 0.28125
@@ -25,9 +27,11 @@ PROXIMITY_HEIGHT = const(110)
 PROXIMITY_CNT_NUM = const(10)
 
 #ホモグラフィー変換行列
-homegraphy_matrix = [[ 6.25000000e-02, -4.38017678e-17, -1.04083409e-16 ],
-                     [ 0.00000000e+00,  9.19117647e-02,  0.00000000e+00 ],
-                     [ 2.37169225e-20, -5.51470588e-03,  1.00000000e+00 ]]
+homegraphy_matrix = [[ 0.062500,  -0.00000,  -0.00000 ],
+                     [ 0.00000,   0.091912,   0.00000 ],
+                     [ 0.00000,  -0.0055147,  1.0000  ]]
+
+
 #センサーの設定
 sensor.reset(freq = 24000000, set_regs = True, dual_buff = True)
 sensor.set_pixformat(sensor.RGB565)
@@ -41,6 +45,7 @@ sensor.set_auto_whitebal(False, rgb_gain_db = (25, 20, 40))
 sensor.set_auto_exposure(False)
 sensor.set_contrast(2)
 sensor.set_saturation(1)
+sensor.skip_frames(time = 2000)
 sensor.run(1)
 
 camera_gain = sensor.get_gain_db()
@@ -100,6 +105,21 @@ def HomographyProjection(center_x, center_y): #ホモグラフィー変換をす
                     [coordinate[1][0] / coordinate[2][0]]]
     return world_vector
 
+def MySqrt(x):
+    if x < 0:
+        return 0
+
+    s = x if x > 1 else 1
+
+    while True:
+        last = s
+        s = (x / s + s) * 0.5
+        if s >= last:
+            break
+
+    return last
+
+
 while True:
     img = sensor.snapshot() #映像の取得
 
@@ -115,7 +135,8 @@ while True:
         ball_maxrect = max(ball_rectarray, key = lambda x: x[1])    #配列の中から一番画面の下にあるものを選定
         ball_x = ball_maxrect[0] + (ball_maxrect[2] * 0.5)  #中心のx座標の算出
         ball_y = ball_maxrect[1] + (ball_maxrect[3] * 0.5)  #中心のy座標の算出
-        img.draw_circle(int(ball_x), int(ball_y), int((ball_maxrect[2] * 0.5 + ball_maxrect[3] * 0.5) * 0.5))
+        if MODE == 1:
+            img.draw_circle(int(ball_x), int(ball_y), int((ball_maxrect[2] * 0.5 + ball_maxrect[3] * 0.5) * 0.5))
 
     except ValueError as err:   #オブジェクトがひとつも見つからなかった場合の例外処理
         pass
@@ -134,8 +155,9 @@ while True:
         y_goal_x = y_goal_maxrect[0] + (y_goal_maxrect[2] * 0.5)  #中心のx座標の算出
         y_goal_y = y_goal_maxrect[1] + y_goal_maxrect[3]
         y_goal_width = y_goal_maxrect[2]
-        img.draw_rectangle(y_goal_maxrect)     #オブジェクトを囲う四角形の描画
-        img.draw_string(y_goal_maxrect[0], y_goal_maxrect[1] - 12, "yellow goal")
+        if MODE == 1:
+            img.draw_rectangle(y_goal_maxrect)     #オブジェクトを囲う四角形の描画
+            img.draw_string(y_goal_maxrect[0], y_goal_maxrect[1] - 12, "yellow goal")
 
     except ValueError as err:   #オブジェクトがひとつも見つからなかった場合の例外処理
         pass
@@ -154,8 +176,9 @@ while True:
         b_goal_x = b_goal_maxrect[0] + (b_goal_maxrect[2] * 0.5)  #中心のx座標の算出
         b_goal_y = b_goal_maxrect[1] + b_goal_maxrect[3]
         b_goal_width = b_goal_maxrect[2]
-        img.draw_rectangle(b_goal_maxrect)     #オブジェクトを囲う四角形の描画
-        img.draw_string(b_goal_maxrect[0], b_goal_maxrect[1] - 12, "blue goal")
+        if MODE == 1:
+            img.draw_rectangle(b_goal_maxrect)     #オブジェクトを囲う四角形の描画
+            img.draw_string(b_goal_maxrect[0], b_goal_maxrect[1] - 12, "blue goal")
 
     except ValueError as err:   #オブジェクトがひとつも見つからなかった場合の例外処理
         pass
@@ -169,8 +192,9 @@ while True:
     try:
         court_maxrect = max(court_rectarray, key = lambda x: x[2] * x[3])  # Y座標が一番大きい要素を選定
         court_y = court_maxrect[1]
-        img.draw_line(0, court_maxrect[1], 320, court_maxrect[1])     #オブジェクトを囲う四角形の描画
-        img.draw_string(court_maxrect[0], court_maxrect[1] - 12, "court")
+        if MODE == 1:
+            img.draw_line(0, court_maxrect[1], 320, court_maxrect[1])
+            img.draw_string(court_maxrect[0], court_maxrect[1] - 12, "court")
 
     except ValueError as err:   #オブジェクトがひとつも見つからなかった場合の例外処理
         pass
@@ -189,7 +213,7 @@ while True:
     world_ball_vector = HomographyProjection(ball_x - 160, 184 - ball_y)
 
     #ボールベクトルの大きさ
-    ball_dis = int(math.sqrt((world_ball_vector[0][0] - (ball_x - 160) * 0.0625) ** 2 + world_ball_vector[1][0] ** 2) * 2)
+    ball_dis = int(MySqrt((world_ball_vector[0][0] - (ball_x - 160) * 0.0625) ** 2 + world_ball_vector[1][0] ** 2) * 2)
 
     #範囲保証
     if(ball_dis > 200):
@@ -199,7 +223,7 @@ while True:
 
     y_goal_dir = int(y_goal_x * ANGLE_CONVERSION)
     y_goal_vector = HomographyProjection(y_goal_x - 160, 184 - y_goal_y)
-    y_goal_dis = int(math.sqrt(y_goal_vector[0][0] ** 2 + y_goal_vector[1][0] ** 2) * 2)
+    y_goal_dis = int(MySqrt(y_goal_vector[0][0] ** 2 + y_goal_vector[1][0] ** 2) * 2)
     if y_goal_dis > 200:
         y_goal_dis = 200
     if y_goal_y == 0:
@@ -207,7 +231,7 @@ while True:
 
     b_goal_dir = int(b_goal_x * ANGLE_CONVERSION)
     b_goal_vector = HomographyProjection(b_goal_x - 160, 184 - b_goal_y)
-    b_goal_dis = int(math.sqrt(b_goal_vector[0][0] ** 2 + b_goal_vector[1][0] ** 2) * 2)
+    b_goal_dis = int(MySqrt(b_goal_vector[0][0] ** 2 + b_goal_vector[1][0] ** 2) * 2)
     if b_goal_dis > 200:
         b_goal_dis = 200
     if b_goal_y == 0:
@@ -247,13 +271,14 @@ while True:
     proximity[4] = CheckGreen(200, PROXIMITY_HEIGHT)
     proximity[5] = CheckGreen(240, PROXIMITY_HEIGHT)
     proximity[6] = CheckGreen(280, PROXIMITY_HEIGHT)
-    #img.draw_cross(40, PROXIMITY_HEIGHT)
-    #img.draw_cross(80, PROXIMITY_HEIGHT)
-    #img.draw_cross(120, PROXIMITY_HEIGHT)
-    #img.draw_cross(160, PROXIMITY_HEIGHT)
-    #img.draw_cross(200, PROXIMITY_HEIGHT)
-    #img.draw_cross(240, PROXIMITY_HEIGHT)
-    #img.draw_cross(280, PROXIMITY_HEIGHT)
+    if MODE == 1:
+        img.draw_cross(40, PROXIMITY_HEIGHT)
+        img.draw_cross(80, PROXIMITY_HEIGHT)
+        img.draw_cross(120, PROXIMITY_HEIGHT)
+        img.draw_cross(160, PROXIMITY_HEIGHT)
+        img.draw_cross(200, PROXIMITY_HEIGHT)
+        img.draw_cross(240, PROXIMITY_HEIGHT)
+        img.draw_cross(280, PROXIMITY_HEIGHT)
     for i in range(0, 7):
         if proximity[i] == 1:
             if proximity[i] < PROXIMITY_CNT_NUM:
