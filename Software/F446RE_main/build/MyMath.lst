@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 1
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 1
   23:lib/MyMath/MyMath.cpp ****     SIN19,
   24:lib/MyMath/MyMath.cpp ****     SIN20,
   25:lib/MyMath/MyMath.cpp ****     SIN21,
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 2
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 2
 
 
   26:lib/MyMath/MyMath.cpp ****     SIN22,
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 1
   80:lib/MyMath/MyMath.cpp ****     SIN76,
   81:lib/MyMath/MyMath.cpp ****     SIN77,
   82:lib/MyMath/MyMath.cpp ****     SIN78,
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 3
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 3
 
 
   83:lib/MyMath/MyMath.cpp ****     SIN79,
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 1
  137:lib/MyMath/MyMath.cpp ****       return sinDeg(Degrees(rad));
  138:lib/MyMath/MyMath.cpp **** }
  139:lib/MyMath/MyMath.cpp **** 
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 4
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 4
 
 
  140:lib/MyMath/MyMath.cpp **** float MyMath::cos(float rad) {
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 1
  155:lib/MyMath/MyMath.cpp ****       if (x_ == 0 && y_ == 0) {
   73              		.loc 1 155 7 discriminator 4 view .LVU10
   74 002a B5EE408A 		vcmp.f32	s16, #0
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 5
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 5
 
 
   75 002e F1EE10FA 		vmrs	APSR_nzcv, FPSCR
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 1
  166:lib/MyMath/MyMath.cpp ****             } else {
  167:lib/MyMath/MyMath.cpp ****                   a = 180;
  168:lib/MyMath/MyMath.cpp ****             }
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 6
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 6
 
 
  169:lib/MyMath/MyMath.cpp ****       } else {
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 1
  158 00d4 0EDD     		ble	.L13
  182:lib/MyMath/MyMath.cpp ****                   if (x_ > 0) {
  159              		.loc 1 182 19 view .LVU33
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 7
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 7
 
 
  160 00d6 B5EEC08A 		vcmpe.f32	s16, #0
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 1
  200 012c 34D5     		bpl	.L5
  197:lib/MyMath/MyMath.cpp ****                         if (y_ > 0) a = a + 90;
  201              		.loc 1 197 25 view .LVU43
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 8
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 8
 
 
  202 012e F5EEC08A 		vcmpe.f32	s17, #0
@@ -478,7 +478,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 1
  186:lib/MyMath/MyMath.cpp ****                         if (y_ < 0) a = a - 180;
  247              		.loc 1 186 39 is_stmt 0 discriminator 1 view .LVU59
  248 016e 9FED197A 		vldr.32	s14, .L60+28
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 9
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 9
 
 
  249 0172 77EE677A 		vsub.f32	s15, s14, s15
@@ -538,7 +538,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 1
  290              		.cfi_def_cfa_offset 8
  291              	.LVL27:
  292              		.loc 1 203 1 view .LVU71
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 10
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 10
 
 
  293 01a4 08BD     		pop	{r3, pc}
@@ -598,7 +598,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 1
  343 0002 00F5B470 		add	r0, r0, #360
  344              	.LVL30:
  345              	.L63:
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 11
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 11
 
 
  346              		.loc 1 206 20 is_stmt 1 discriminator 1 view .LVU78
@@ -658,7 +658,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 1
  396              	.L69:
  397              		.loc 1 212 31 discriminator 2 view .LVU88
  398              		.loc 1 212 37 is_stmt 0 discriminator 2 view .LVU89
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 12
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 12
 
 
  399 0008 0BA3     		adr	r3, .L72
@@ -718,7 +718,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 1
  216:lib/MyMath/MyMath.cpp **** int MyMath::NormalizeDeg(int theta) {
  451              		.loc 1 216 37 is_stmt 1 view -0
  452              		.cfi_startproc
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 13
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 13
 
 
  453              		@ args = 0, pretend = 0, frame = 0
@@ -778,7 +778,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 1
  503              	.LCFI5:
  504              		.cfi_def_cfa_offset 8
  505              		.cfi_offset 3, -8
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 14
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 14
 
 
  506              		.cfi_offset 14, -4
@@ -838,7 +838,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 1
  545 0034 13D9     		bls	.L88
  110:lib/MyMath/MyMath.cpp ****             // 91~180 第二象限
  546              		.loc 1 110 14 view .LVU125
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 15
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 15
 
 
  110:lib/MyMath/MyMath.cpp ****             // 91~180 第二象限
@@ -898,7 +898,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 1
  586 0068 08BD     		pop	{r3, pc}
  587              	.LVL52:
  588              	.L89:
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 16
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 16
 
 
  112:lib/MyMath/MyMath.cpp ****       } else if (deg > 180 && deg <= 270) {
@@ -958,7 +958,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 1
  637              		@ args = 0, pretend = 0, frame = 0
  638              		@ frame_needed = 0, uses_anonymous_args = 0
  124:lib/MyMath/MyMath.cpp ****       return sinDeg(deg + 90);
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 17
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 17
 
 
  639              		.loc 1 124 31 is_stmt 0 view .LVU149
@@ -1018,7 +1018,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 1
  686              		.loc 1 141 21 view .LVU158
  687 000a 05A3     		adr	r3, .L97
  688 000c D3E90023 		ldrd	r2, [r3]
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 18
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 18
 
 
  689 0010 FFF7FEFF 		bl	__aeabi_dmul
@@ -1078,7 +1078,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 1
  129:lib/MyMath/MyMath.cpp ****       if (cosDeg(rad) == 0)
  739              		.loc 1 129 19 view .LVU165
  740 000a 14A3     		adr	r3, .L103+4
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 19
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 19
 
 
  741 000c D3E90023 		ldrd	r2, [r3]
@@ -1138,7 +1138,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 1
  785 0050 F9E7     		b	.L99
  786              	.L104:
  787 0052 00BFAFF3 		.align	3
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 20
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 20
 
 
  787      0080
@@ -1198,7 +1198,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 1
  836 001e 00BF     		.align	3
  837              	.L107:
  838 0020 F8C1631A 		.word	442745336
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 21
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 21
 
 
  839 0024 DCA54C40 		.word	1078765020
@@ -1258,7 +1258,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 1
  888              		.cfi_endproc
  889              	.LFE6:
  890              		.cantunwind
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 22
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 22
 
 
  891              		.fnend
@@ -1318,7 +1318,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 1
  944              	.L117:
  224:lib/MyMath/MyMath.cpp ****       while (theta >= TWO_PI) theta -= TWO_PI;
  945              		.loc 1 224 31 is_stmt 1 discriminator 2 view .LVU197
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 23
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 23
 
 
  946              		.loc 1 224 37 is_stmt 0 discriminator 2 view .LVU198
@@ -1378,7 +1378,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 1
  228:lib/MyMath/MyMath.cpp **** int MyMath::GapDeg(int deg1, int deg2) {
  999              		.loc 1 228 40 is_stmt 1 view -0
  1000              		.cfi_startproc
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 24
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 24
 
 
  1001              		@ args = 0, pretend = 0, frame = 0
@@ -1438,7 +1438,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 1
  1051              	.LVL100:
  1052              	.LFB15:
  235:lib/MyMath/MyMath.cpp **** 
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 25
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 25
 
 
  236:lib/MyMath/MyMath.cpp **** float MyMath::sqrt(float x) {
@@ -1498,7 +1498,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 1
  1092 003e 7047     		bx	lr
  1093              	.LVL104:
  1094              	.L133:
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 26
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 26
 
 
  244:lib/MyMath/MyMath.cpp ****       }
@@ -1558,7 +1558,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 1
  1147 0074 F738F83E 		.word	1056454903
  1148 0078 0000003F 		.word	1056964608
  1149 007c 89D9033F 		.word	1057216905
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 27
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 27
 
 
  1150 0080 CAA8073F 		.word	1057466570
@@ -1618,82 +1618,82 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 1
  1204 0158 5C607F3F 		.word	1065312348
  1205 015c 2FA67F3F 		.word	1065330223
  1206 0160 14D87F3F 		.word	1065342996
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 28
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 28
 
 
  1207 0164 05F67F3F 		.word	1065350661
  1208 0168 0000803F 		.word	1065353216
  1209              		.text
  1210              	.Letext0:
- 1211              		.file 2 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/cstdio"
- 1212              		.file 3 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/arm-none
- 1213              		.file 4 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/lib/gcc/arm-none-eabi/12.3.1/include/stdd
- 1214              		.file 5 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_types.h"
- 1215              		.file 6 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/reent.h"
- 1216              		.file 7 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/lock.h"
- 1217              		.file 8 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/stdio.h"
+ 1211              		.file 2 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/cstdio"
+ 1212              		.file 3 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/arm-none
+ 1213              		.file 4 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/lib/gcc/arm-none-eabi/12.3.1/include/stdd
+ 1214              		.file 5 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_types.h"
+ 1215              		.file 6 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/reent.h"
+ 1216              		.file 7 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/lock.h"
+ 1217              		.file 8 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/stdio.h"
  1218              		.file 9 "lib/MyMath/MyMath.hpp"
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 29
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 29
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 MyMath.cpp
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:24     .text.atan2:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:30     .text.atan2:00000000 atan2
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:308    .text.atan2:000001b8 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:24     .text.atan2:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:30     .text.atan2:00000000 atan2
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:308    .text.atan2:000001b8 $d
             .ARM.exidx.text.atan2:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:323    .text.NormalizeDeg180:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:329    .text.NormalizeDeg180:00000000 NormalizeDeg180
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:323    .text.NormalizeDeg180:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:329    .text.NormalizeDeg180:00000000 NormalizeDeg180
   .ARM.exidx.text.NormalizeDeg180:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:371    .text.NormalizeRad180:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:377    .text.NormalizeRad180:00000000 NormalizeRad180
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:431    .text.NormalizeRad180:00000038 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:371    .text.NormalizeRad180:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:377    .text.NormalizeRad180:00000000 NormalizeRad180
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:431    .text.NormalizeRad180:00000038 $d
   .ARM.exidx.text.NormalizeRad180:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:441    .text.NormalizeDeg:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:447    .text.NormalizeDeg:00000000 NormalizeDeg
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:441    .text.NormalizeDeg:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:447    .text.NormalizeDeg:00000000 NormalizeDeg
      .ARM.exidx.text.NormalizeDeg:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:487    .text.sinDeg:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:493    .text.sinDeg:00000000 sinDeg
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:616    .text.sinDeg:0000008c $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:1117   .rodata._ZL4_sin:00000000 _ZL4_sin
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:487    .text.sinDeg:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:493    .text.sinDeg:00000000 sinDeg
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:616    .text.sinDeg:0000008c $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:1117   .rodata._ZL4_sin:00000000 _ZL4_sin
            .ARM.exidx.text.sinDeg:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:625    .text.cosDeg:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:631    .text.cosDeg:00000000 cosDeg
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:625    .text.cosDeg:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:631    .text.cosDeg:00000000 cosDeg
            .ARM.exidx.text.cosDeg:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:661    .text.cos:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:667    .text.cos:00000000 cos
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:701    .text.cos:00000020 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:661    .text.cos:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:667    .text.cos:00000000 cos
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:701    .text.cos:00000020 $d
               .ARM.exidx.text.cos:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:710    .text.tanDeg:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:716    .text.tanDeg:00000000 tanDeg
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:789    .text.tanDeg:00000058 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:710    .text.tanDeg:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:716    .text.tanDeg:00000000 tanDeg
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:789    .text.tanDeg:00000058 $d
            .ARM.exidx.text.tanDeg:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:798    .text.tan:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:804    .text.tan:00000000 tan
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:838    .text.tan:00000020 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:798    .text.tan:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:804    .text.tan:00000000 tan
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:838    .text.tan:00000020 $d
               .ARM.exidx.text.tan:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:846    .text.sin:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:852    .text.sin:00000000 sin
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:886    .text.sin:00000020 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:846    .text.sin:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:852    .text.sin:00000000 sin
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:886    .text.sin:00000020 $d
               .ARM.exidx.text.sin:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:896    .text.NormalizeRad:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:902    .text.NormalizeRad:00000000 NormalizeRad
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:981    .text.NormalizeRad:00000060 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:896    .text.NormalizeRad:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:902    .text.NormalizeRad:00000000 NormalizeRad
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:981    .text.NormalizeRad:00000060 $d
      .ARM.exidx.text.NormalizeRad:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:989    .text.GapDeg:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:995    .text.GapDeg:00000000 GapDeg
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:1036   .text.GapDeg:00000028 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:989    .text.GapDeg:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:995    .text.GapDeg:00000000 GapDeg
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:1036   .text.GapDeg:00000028 $d
            .ARM.exidx.text.GapDeg:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:1043   .text.sqrt:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:1049   .text.sqrt:00000000 sqrt
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:1107   .text.sqrt:0000004c $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:1043   .text.sqrt:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:1049   .text.sqrt:00000000 sqrt
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:1107   .text.sqrt:0000004c $d
              .ARM.exidx.text.sqrt:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s:1114   .rodata._ZL4_sin:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s:1114   .rodata._ZL4_sin:00000000 $d
 
 UNDEFINED SYMBOLS
 __aeabi_f2d
 __aeabi_dmul
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//cc4ZdYbC.s 			page 30
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccFVAjiW.s 			page 30
 
 
 __aeabi_d2f

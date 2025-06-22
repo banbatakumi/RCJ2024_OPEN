@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 1
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccdekZ0s.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 1
   53              		.global	_ZN6Kicker4InitEv
   54              		.syntax unified
   55              		.thumb
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 2
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccdekZ0s.s 			page 2
 
 
   56              		.thumb_func
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 1
  105 0006 0372     		strb	r3, [r0, #8]
  106              	.L4:
   13:src/unit/kicker/kicker.cpp ****       kick_power_ = power;
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 3
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccdekZ0s.s 			page 3
 
 
  107              		.loc 1 13 7 is_stmt 1 view .LVU16
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 1
  156              		@ link register save eliminated.
   19:src/unit/kicker/kicker.cpp ****       if (do_kick_ == 0) do_charge_ = 1;
  157              		.loc 1 19 7 view .LVU29
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 4
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccdekZ0s.s 			page 4
 
 
  158              		.loc 1 19 11 is_stmt 0 view .LVU30
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 1
  210              		@ args = 0, pretend = 0, frame = 0
  211              		@ frame_needed = 0, uses_anonymous_args = 0
  212              		.loc 1 25 24 is_stmt 0 view .LVU38
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 5
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccdekZ0s.s 			page 5
 
 
  213 0000 10B5     		push	{r4, lr}
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 1
    2:Lib/DigitalInOut/DigitalInOut.hpp **** #define __DigitalInOut__
    3:Lib/DigitalInOut/DigitalInOut.hpp **** 
    4:Lib/DigitalInOut/DigitalInOut.hpp **** #include "main.h"
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 6
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccdekZ0s.s 			page 6
 
 
    5:Lib/DigitalInOut/DigitalInOut.hpp **** 
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 1
  293              	.LBE26:
  294              	.LBE25:
   30:src/unit/kicker/kicker.cpp ****             } else if (cnt < ((DEAD_TIME + KICK_TIME) * FREQ)) {
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 7
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccdekZ0s.s 			page 7
 
 
  295              		.loc 1 30 19 is_stmt 1 view .LVU65
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 1
   37:src/unit/kicker/kicker.cpp ****             } else {
   38:src/unit/kicker/kicker.cpp ****                   do_kick_ = 0;
  339              		.loc 1 38 19 is_stmt 1 view .LVU78
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 8
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccdekZ0s.s 			page 8
 
 
  340              		.loc 1 38 28 is_stmt 0 view .LVU79
@@ -478,7 +478,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 1
  366 0084 9BB2     		uxth	r3, r3
  367 0086 0382     		strh	r3, [r0, #16]	@ movhi
   44:src/unit/kicker/kicker.cpp ****             if (cnt < DEAD_TIME * FREQ) {
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 9
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccdekZ0s.s 			page 9
 
 
  368              		.loc 1 44 13 is_stmt 1 view .LVU90
@@ -538,7 +538,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 1
   15:Lib/DigitalInOut/DigitalInOut.hpp ****         HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
  412              		.loc 2 15 10 view .LVU103
  413              	.LBB34:
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 10
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccdekZ0s.s 			page 10
 
 
   16:Lib/DigitalInOut/DigitalInOut.hpp ****     }
@@ -598,7 +598,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 1
  456 00d0 0022     		movs	r2, #0
  457 00d2 9988     		ldrh	r1, [r3, #4]
  458 00d4 1868     		ldr	r0, [r3]
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 11
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccdekZ0s.s 			page 11
 
 
  459              	.LVL33:
@@ -658,7 +658,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 1
  501              	.LVL40:
  502              	.LBB41:
  503              	.LBI41:
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 12
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccdekZ0s.s 			page 12
 
 
   15:Lib/DigitalInOut/DigitalInOut.hpp ****         HAL_GPIO_WritePin(port, pin, value ? GPIO_PIN_SET : GPIO_PIN_RESET);
@@ -691,35 +691,35 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 1
  526              		.fnend
  528              		.text
  529              	.Letext0:
- 530              		.file 3 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/machine/_default_ty
- 531              		.file 4 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_stdint.h"
+ 530              		.file 3 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/machine/_default_ty
+ 531              		.file 4 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_stdint.h"
  532              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h"
  533              		.file 6 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h"
  534              		.file 7 "src/unit/kicker/kicker.hpp"
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s 			page 13
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccdekZ0s.s 			page 13
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 kicker.cpp
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s:21     .text._ZN6KickerC2EP10DigitalOutS1_:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s:27     .text._ZN6KickerC2EP10DigitalOutS1_:00000000 _ZN6KickerC2EP10DigitalOutS1_
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccdekZ0s.s:21     .text._ZN6KickerC2EP10DigitalOutS1_:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccdekZ0s.s:27     .text._ZN6KickerC2EP10DigitalOutS1_:00000000 _ZN6KickerC2EP10DigitalOutS1_
 .ARM.exidx.text._ZN6KickerC2EP10DigitalOutS1_:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s:27     .text._ZN6KickerC2EP10DigitalOutS1_:00000000 _ZN6KickerC1EP10DigitalOutS1_
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s:52     .text._ZN6Kicker4InitEv:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s:58     .text._ZN6Kicker4InitEv:00000000 _ZN6Kicker4InitEv
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccdekZ0s.s:27     .text._ZN6KickerC2EP10DigitalOutS1_:00000000 _ZN6KickerC1EP10DigitalOutS1_
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccdekZ0s.s:52     .text._ZN6Kicker4InitEv:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccdekZ0s.s:58     .text._ZN6Kicker4InitEv:00000000 _ZN6Kicker4InitEv
 .ARM.exidx.text._ZN6Kicker4InitEv:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s:82     .text._ZN6Kicker4KickEf:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s:88     .text._ZN6Kicker4KickEf:00000000 _ZN6Kicker4KickEf
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccdekZ0s.s:82     .text._ZN6Kicker4KickEf:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccdekZ0s.s:88     .text._ZN6Kicker4KickEf:00000000 _ZN6Kicker4KickEf
 .ARM.exidx.text._ZN6Kicker4KickEf:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s:142    .text._ZN6Kicker6ChargeEv:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s:148    .text._ZN6Kicker6ChargeEv:00000000 _ZN6Kicker6ChargeEv
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccdekZ0s.s:142    .text._ZN6Kicker6ChargeEv:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccdekZ0s.s:148    .text._ZN6Kicker6ChargeEv:00000000 _ZN6Kicker6ChargeEv
 .ARM.exidx.text._ZN6Kicker6ChargeEv:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s:175    .text._ZN6Kicker9DischargeEv:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s:181    .text._ZN6Kicker9DischargeEv:00000000 _ZN6Kicker9DischargeEv
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccdekZ0s.s:175    .text._ZN6Kicker9DischargeEv:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccdekZ0s.s:181    .text._ZN6Kicker9DischargeEv:00000000 _ZN6Kicker9DischargeEv
 .ARM.exidx.text._ZN6Kicker9DischargeEv:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s:198    .text._ZN6Kicker7ControlEv:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s:204    .text._ZN6Kicker7ControlEv:00000000 _ZN6Kicker7ControlEv
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccTtN9fG.s:523    .text._ZN6Kicker7ControlEv:00000100 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccdekZ0s.s:198    .text._ZN6Kicker7ControlEv:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccdekZ0s.s:204    .text._ZN6Kicker7ControlEv:00000000 _ZN6Kicker7ControlEv
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccdekZ0s.s:523    .text._ZN6Kicker7ControlEv:00000100 $d
 .ARM.exidx.text._ZN6Kicker7ControlEv:00000000 $d
 
 UNDEFINED SYMBOLS

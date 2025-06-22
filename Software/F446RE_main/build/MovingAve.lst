@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccJuc6jn.s 			page 1
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccKj6D3f.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccJuc6jn.s 			page 1
   51 0014 C7EE277A 		vdiv.f32	s15, s14, s15
   52 0018 17EE900A 		vmov	r0, s15
   53              	.LVL1:
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccJuc6jn.s 			page 2
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccKj6D3f.s 			page 2
 
 
   54              		.loc 1 5 30 view .LVU6
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccJuc6jn.s 			page 1
  106 0012 80F82833 		strb	r3, [r0, #808]
  107              	.L4:
   10:lib/MovingAve/MovingAve.cpp ****       data_[cnt_] = input;
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccJuc6jn.s 			page 3
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccKj6D3f.s 			page 3
 
 
  108              		.loc 1 10 7 is_stmt 1 view .LVU18
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccJuc6jn.s 			page 1
  154 0056 C5E9C801 		strd	r0, [r5, #800]
   16:lib/MovingAve/MovingAve.cpp ****       cnt_++;
  155              		.loc 1 16 7 is_stmt 1 view .LVU34
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccJuc6jn.s 			page 4
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccKj6D3f.s 			page 4
 
 
  156              		.loc 1 16 11 is_stmt 0 view .LVU35
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccJuc6jn.s 			page 1
  207              		@ link register save eliminated.
   24:lib/MovingAve/MovingAve.cpp ****       for (uint8_t i = 0; i < length_; i++) {
  208              		.loc 1 24 7 view .LVU42
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccJuc6jn.s 			page 5
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccKj6D3f.s 			page 5
 
 
  209              	.LBB3:
@@ -288,26 +288,26 @@ ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccJuc6jn.s 			page 1
  245              		.fnend
  247              		.text
  248              	.Letext0:
- 249              		.file 2 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/machine/_default_ty
- 250              		.file 3 "/opt/ST/STM32CubeCLT_1.17.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_stdint.h"
+ 249              		.file 2 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/machine/_default_ty
+ 250              		.file 3 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_stdint.h"
  251              		.file 4 "lib/MovingAve/MovingAve.hpp"
-ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccJuc6jn.s 			page 6
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccKj6D3f.s 			page 6
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 MovingAve.cpp
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccJuc6jn.s:22     .text._ZN9MovingAve9SetLengthEh:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccJuc6jn.s:28     .text._ZN9MovingAve9SetLengthEh:00000000 _ZN9MovingAve9SetLengthEh
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccKj6D3f.s:22     .text._ZN9MovingAve9SetLengthEh:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccKj6D3f.s:28     .text._ZN9MovingAve9SetLengthEh:00000000 _ZN9MovingAve9SetLengthEh
 .ARM.exidx.text._ZN9MovingAve9SetLengthEh:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccJuc6jn.s:70     .text._ZN9MovingAve7ComputeEd:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccJuc6jn.s:76     .text._ZN9MovingAve7ComputeEd:00000000 _ZN9MovingAve7ComputeEd
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccKj6D3f.s:70     .text._ZN9MovingAve7ComputeEd:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccKj6D3f.s:76     .text._ZN9MovingAve7ComputeEd:00000000 _ZN9MovingAve7ComputeEd
 .ARM.exidx.text._ZN9MovingAve7ComputeEd:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccJuc6jn.s:168    .text._ZN9MovingAve3GetEv:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccJuc6jn.s:174    .text._ZN9MovingAve3GetEv:00000000 _ZN9MovingAve3GetEv
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccKj6D3f.s:168    .text._ZN9MovingAve3GetEv:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccKj6D3f.s:174    .text._ZN9MovingAve3GetEv:00000000 _ZN9MovingAve3GetEv
 .ARM.exidx.text._ZN9MovingAve3GetEv:00000000 $d
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccJuc6jn.s:193    .text._ZN9MovingAve5ResetEv:00000000 $t
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccJuc6jn.s:199    .text._ZN9MovingAve5ResetEv:00000000 _ZN9MovingAve5ResetEv
-/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccJuc6jn.s:240    .text._ZN9MovingAve5ResetEv:00000020 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccKj6D3f.s:193    .text._ZN9MovingAve5ResetEv:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccKj6D3f.s:199    .text._ZN9MovingAve5ResetEv:00000000 _ZN9MovingAve5ResetEv
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccKj6D3f.s:240    .text._ZN9MovingAve5ResetEv:00000020 $d
 .ARM.exidx.text._ZN9MovingAve5ResetEv:00000000 $d
 
 UNDEFINED SYMBOLS
