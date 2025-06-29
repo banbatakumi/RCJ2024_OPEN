@@ -19,6 +19,6 @@
 
 #define VOLTAGE_RC 0.999
 
-#define wifi
+#define bluetooth
 
 #endif

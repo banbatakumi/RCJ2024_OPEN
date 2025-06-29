@@ -16,12 +16,12 @@ void Core0b_setup() {
 
 // supply your own gyro offsets here, scaled for min sensitivity
 #ifdef ROBOT_1
-      mpu.setXAccelOffset(-3428);
-      mpu.setYAccelOffset(-308);
-      mpu.setZAccelOffset(882);
-      mpu.setXGyroOffset(-328);
-      mpu.setYGyroOffset(-534);
-      mpu.setZGyroOffset(-106);
+      mpu.setXAccelOffset(1750);
+      mpu.setYAccelOffset(1588);
+      mpu.setZAccelOffset(1486);
+      mpu.setXGyroOffset(410);
+      mpu.setYGyroOffset(87);
+      mpu.setZGyroOffset(28);
 #endif
 #ifdef ROBOT_2
       mpu.setXAccelOffset(-692);

@@ -10,9 +10,9 @@ MotorDrive::MotorDrive(PwmSingleOut *motor1a, PwmSingleOut *motor1b,
       this->motor_abs_rad_s_ = motor_abs_rad_s;
       for (uint8_t i = 0; i < MOTOR_QTY; i++) {
             motor_ave[i].SetLength(MOVING_AVE_NUM);
-            motor_pid[i].SetGain(50, 150, 0.25);
+            motor_pid[i].SetGain(50, 250, 0.2);
             motor_pid[i].SetLimit(MIN_POWER, MAX_POWER);
-            motor_pid[i].SetSamplingFreq(500);
+            motor_pid[i].SetSamplingFreq(250);
             motor_pid[i].SetType(1);
       }
 
@@ -46,16 +46,17 @@ void MotorDrive::Drive(int16_t target_move_dir, float target_move_speed, float m
       if (dt > 0.1) {
             move_speed = 0;
             for (uint8_t i = 0; i < MOTOR_QTY; i++) motor_pid[i].ResetI();
-      }
-      double speed_change = move_acce * dt;
-      if (move_acce == 0) {
-            move_speed = target_move_speed;
-      } else if (target_move_speed > move_speed) {
-            move_speed += speed_change;
-            if (move_speed > target_move_speed) move_speed = target_move_speed;
-      } else if (target_move_speed < move_speed) {
-            move_speed -= speed_change;
-            if (move_speed < target_move_speed) move_speed = target_move_speed;
+      } else {
+            double speed_change = move_acce * dt;
+            if (move_acce == 0) {
+                  move_speed = target_move_speed;
+            } else if (target_move_speed > move_speed) {
+                  move_speed += speed_change;
+                  if (move_speed > target_move_speed) move_speed = target_move_speed;
+            } else if (target_move_speed < move_speed) {
+                  move_speed -= speed_change;
+                  if (move_speed < target_move_speed) move_speed = target_move_speed;
+            }
       }
 
       float vel_x = move_speed * MyMath::cosDeg(target_move_dir);

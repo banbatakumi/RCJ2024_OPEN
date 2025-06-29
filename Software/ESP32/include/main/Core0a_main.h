@@ -11,8 +11,8 @@ String MACadd = "3C:61:05:67:EB:AA";  // ROBOT_2のアドレス
 uint8_t address[6] = {0x3C, 0x61, 0x05, 0x67, 0xEB, 0xAA};
 #endif
 #ifdef ROBOT_2
-String MACadd = "EC:94:CB:7E:05:42";  // ROBOT_1のアドレス
-uint8_t address[6] = {0xEC, 0x94, 0xCB, 0x7E, 0x05, 0x42};
+String MACadd = "EC:94:CB:7D:2F:C2";  // ROBOT_1のアドレス
+uint8_t address[6] = {0xEC, 0x94, 0xCB, 0x7D, 0x2F, 0xC2};
 #endif
 
 uint16_t disconnect_count;

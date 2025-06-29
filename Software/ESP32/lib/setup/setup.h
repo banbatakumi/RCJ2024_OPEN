@@ -1,7 +1,7 @@
 #ifndef _SETUP_H_
 #define _SETUP_H_
 
-// #include "BluetoothSerial.h"
+#include "BluetoothSerial.h"
 #include "I2Cdev.h"
 #include "MPU6050_6Axis_MotionApps20.h"
 #include "WiFi.h"
@@ -11,8 +11,8 @@
 #include "pid.h"
 #include "simplify_deg.h"
 
-#define wifi
-#define ROBOT_2
+#define bluetooth
+#define ROBOT_1
 
 // ピン定義
 const uint8_t led_pin = 23;

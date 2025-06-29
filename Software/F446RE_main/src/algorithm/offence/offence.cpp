@@ -38,21 +38,23 @@ static void HoldBallFront(Robot* robot) {
                   robot->dribbler_front.Brake();
                   robot->kicker.Kick();
             }
-            robot->motor.Drive(0, robot->info.target_move_speed, 1, robot->info.Cam.ops_goal_dir, PI, FRONT);
+            robot->motor.Drive(robot->info.Cam.ops_goal_dir * 1.5, robot->info.target_move_speed, 1, robot->info.Cam.ops_goal_dir, PI, FRONT);
       }
 }
 
 static void HoldBallBack(Robot* robot) {
       static int16_t shoot_dir;
+      static bool enable_kick;
       static bool enable_shoot;
       if (robot->info.Catch.is_back == true) hold_timer.reset();
       if (hold_timer.read_ms() > 500) do_back_curve_shoot = 0;
       if (do_back_curve_shoot_timer.read_ms() < 500) {  // 蹴る条件
             robot->motor.Drive(0, 0);
             shoot_dir = 45 * (abs(robot->info.Cam.ops_goal_dir) / robot->info.Cam.ops_goal_dir);
+            enable_kick = false;
             enable_shoot = false;
       } else {
-            if (enable_shoot == true) {
+            if (enable_kick == true) {
                   if (abs(robot->info.Imu.yaw) > 90) {
                         robot->motor.Brake(500);
                         do_back_curve_shoot = false;
@@ -60,10 +62,18 @@ static void HoldBallBack(Robot* robot) {
                         int16_t shoot_power = -1000 * (abs(shoot_dir) / shoot_dir);
                         robot->motor.Run(shoot_power, shoot_power, shoot_power, shoot_power);
                   }
-            } else if (abs(robot->info.Imu.yaw) > abs(shoot_dir)) {
-                  enable_shoot = true;
+            } else if (enable_shoot == true) {
+                  if (abs(robot->info.Imu.yaw) > abs(shoot_dir)) {
+                        enable_kick = true;
+                  } else {
+                        robot->motor.Drive(0, 0, 0, -90 * (abs(shoot_dir) / shoot_dir), PI * 0.5, BACK);
+                  }
             } else {
-                  robot->motor.Drive(0, 0, 0, -90 * (abs(shoot_dir) / shoot_dir), PI * 0.5, BACK);
+                  if (abs(robot->info.Cam.ops_goal_dir) < 60 && robot->info.Cam.ops_goal_dis < 100) {
+                        enable_shoot = true;
+                  } else {
+                        robot->motor.Drive(robot->info.Cam.ops_goal_dir * 1.5, 0.5, 0.5, 0, PI * 0.5, BACK);
+                  }
             }
       }
 }

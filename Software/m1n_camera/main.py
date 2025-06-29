@@ -60,7 +60,7 @@ uart = UART(UART.UART1, UART_SPEED, 8, None, 1, timeout = 1000, read_buf_len = 4
 #各閾値
 ball_thresholds = [(20, 73, 37, 65, 46, 81)]
 y_goal_thresholds = [(9, 97, -13, 19, 36, 72)]
-b_goal_thresholds = [(9, 97, -6, 12, -44, -28)]
+b_goal_thresholds = [(9, 97, 38, 69, -102, -47)]
 
 court_thresholds = [(0, 100, -35, -6, -14, 10)]
 
