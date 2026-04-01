@@ -10,13 +10,38 @@
 #include "motor.h"
 #include "pid.h"
 #include "simplify_deg.h"
+#include "soc/rtc_cntl_reg.h"
+#include "soc/soc.h"
 
 #define bluetooth
 #define ROBOT_2
+#define USE_REMOTE_CONTROLLER  // リモコン受信機能を有効にする
 
 // ピン定義
 const uint8_t led_pin = 23;
 const uint8_t ir_led_pin[4] = {4, 5, 18, 19};
+
+// リモコンデータ構造体
+struct RemoteData {
+  int8_t joy_lx;      // 左ジョイスティックX (-100～100)
+  int8_t joy_ly;      // 左ジョイスティックY (-100～100)
+  int8_t joy_rx;      // 右ジョイスティックX (未実装)
+  int8_t joy_ry;      // 右ジョイスティックY (未実装)
+  bool button_a;      // ボタンA
+  bool button_b;      // ボタンB
+  bool button_x;      // ボタンX
+  bool button_y;      // ボタンY
+  bool button_lb;     // LB
+  bool button_rb;     // RB
+  bool button_lt;     // LT
+  bool button_rt;     // RT
+  bool button_back;   // BACK
+  bool button_start;  // START
+  bool button_ls;     // 左ジョイスティック押し込み (JSW)
+  bool button_rs;     // 右ジョイスティック押し込み (SC)
+};
+
+RemoteData remote_data = {};  // グローバル変数
 
 Ir ir(12, 14, 27, 26, 25, 2, 15, 13);
 Motor motor(32, 33);

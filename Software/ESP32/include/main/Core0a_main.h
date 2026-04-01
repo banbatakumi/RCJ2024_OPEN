@@ -17,92 +17,203 @@ uint8_t address[6] = {0xEC, 0x94, 0xCB, 0x7D, 0x2F, 0xC2};
 
 uint16_t disconnect_count;
 
-void Core0a_setup() {
-      pinMode(led_pin, OUTPUT);
-#ifdef ROBOT_1
-      SerialBT.begin("ROBOT_1_ESP32", true);
-      bool connected = SerialBT.connect(address);
-      if (connected) {
-            Serial.println("Connect OK");
-      } else {
-            while (!SerialBT.connected(10000)) Serial.println("No connect");
-      }
-      if (SerialBT.disconnect()) Serial.println("Disconnected Succesfully!");
+#ifdef USE_REMOTE_CONTROLLER
+// リモコンデータを解析する関数
+void parseRemoteData(String line) {
+  // フォーマット: "JX:xx,JY:yy,JSW:x,SA:x,SB:x,SC:x"
+  int jx_pos = line.indexOf("JX:");
+  int jy_pos = line.indexOf(",JY:");
+  int jsw_pos = line.indexOf(",JSW:");
+  int sa_pos = line.indexOf(",SA:");
+  int sb_pos = line.indexOf(",SB:");
+  int sc_pos = line.indexOf(",SC:");
 
-      SerialBT.connect();
+  if (jx_pos >= 0 && jy_pos >= 0) {
+    // ジョイスティック値を解析
+    remote_data.joy_lx = (int8_t)line.substring(jx_pos + 3, jy_pos).toInt();
+    remote_data.joy_ly = (int8_t)line.substring(jy_pos + 4, jsw_pos).toInt();
+    remote_data.joy_rx = 0;  // 右ジョイスティックは未実装
+    remote_data.joy_ry = 0;
+
+    // スイッチ状態を解析
+    if (jsw_pos >= 0 && sa_pos >= 0) {
+      remote_data.button_ls = (line.substring(jsw_pos + 5, sa_pos).toInt() != 0);
+    }
+    if (sa_pos >= 0 && sb_pos >= 0) {
+      remote_data.button_a = (line.substring(sa_pos + 4, sb_pos).toInt() != 0);
+    }
+    if (sb_pos >= 0 && sc_pos >= 0) {
+      remote_data.button_b = (line.substring(sb_pos + 4, sc_pos).toInt() != 0);
+    }
+    if (sc_pos >= 0) {
+      remote_data.button_x = (line.substring(sc_pos + 4).toInt() != 0);
+    }
+
+    // 未使用のボタン
+    remote_data.button_y = false;
+    remote_data.button_lb = false;
+    remote_data.button_rb = false;
+    remote_data.button_lt = false;
+    remote_data.button_rt = false;
+    remote_data.button_back = false;
+    remote_data.button_start = false;
+    remote_data.button_rs = false;
+  }
+}
+
+// Bluetooth受信を行単位で処理するためのバッファ
+static char remote_rx_line[128];
+static uint8_t remote_rx_index = 0;
+
+void processRemoteRxByte(char c) {
+  if (c == '\r') return;
+
+  if (c == '\n') {
+    if (remote_rx_index > 0) {
+      remote_rx_line[remote_rx_index] = '\0';
+      String line = String(remote_rx_line);
+      Serial.println("[RC RX] " + line);
+      parseRemoteData(line);
+      remote_rx_index = 0;
+    }
+    return;
+  }
+
+  if (remote_rx_index < sizeof(remote_rx_line) - 1) {
+    remote_rx_line[remote_rx_index++] = c;
+  } else {
+    // 1行が長すぎる場合は破棄して同期を取り直す
+    remote_rx_index = 0;
+  }
+}
+#endif
+
+void Core0a_setup() {
+  pinMode(led_pin, OUTPUT);
+#ifdef ROBOT_1
+  SerialBT.begin("ROBOT_1_ESP32", true);
+  bool connected = SerialBT.connect(address);
+  if (connected) {
+    Serial.println("Connect OK");
+  } else {
+    while (!SerialBT.connected(10000)) Serial.println("No connect");
+  }
+  if (SerialBT.disconnect()) Serial.println("Disconnected Succesfully!");
+
+  SerialBT.connect();
 #endif
 #ifdef ROBOT_2
-      SerialBT.begin("ROBOT_2_ESP32");
+#ifdef USE_REMOTE_CONTROLLER
+  // リモコンモード：マスターモードでリモコンに接続
+  SerialBT.begin("ROBOT_2_ESP32", true);  // マスターモード
+  Serial.println("🎮 Trying to connect to RemoteController...");
+  // デバイス検索と接続
+  if (SerialBT.connect("ESP32_RemoteController")) {
+    Serial.println("✓ Connected to RemoteController!");
+  } else {
+    Serial.println("✗ Failed to connect to RemoteController");
+  }
+#else
+  // 通常モード：スレーブモードで待機
+  SerialBT.begin("ROBOT_2_ESP32");
+#endif
 #endif
 #ifdef GET_MAC
-      uint8_t macBT[6];
-      esp_read_mac(macBT, ESP_MAC_BT);
-      Serial.printf("%02X:%02X:%02X:%02X:%02X:%02X\r\n", macBT[0], macBT[1], macBT[2], macBT[3], macBT[4], macBT[5]);
+  uint8_t macBT[6];
+  esp_read_mac(macBT, ESP_MAC_BT);
+  Serial.printf("%02X:%02X:%02X:%02X:%02X:%02X\r\n", macBT[0], macBT[1], macBT[2], macBT[3], macBT[4], macBT[5]);
 #endif
-      // SerialBT.begin("ROBOT_ESP32");
+  // SerialBT.begin("ROBOT_ESP32");
 }
 
 void Core0a_loop() {
 #ifdef ROBOT_1
-      if (SerialBT.connected(10000)) {
-            is_connect = 1;
-            // 送信
-            uint8_t send_data = can_get_pass << 3 | is_catch_ball << 2 | is_defense << 1 | is_moving;
-            SerialBT.write(send_data);
+  if (SerialBT.connected(10000)) {
+    is_connect = 1;
+    // 送信
+    uint8_t send_data = can_get_pass << 3 | is_catch_ball << 2 | is_defense << 1 | is_moving;
+    SerialBT.write(send_data);
 
-            // 受信
-            if (SerialBT.available()) {
-                  uint8_t recv_data = SerialBT.read();
-                  is_ally_moving = (recv_data) & 1;
-                  is_ally_defense = (recv_data >> 1) & 1;
-                  is_ally_catch_ball = (recv_data >> 2) & 1;
-                  can_ally_get_pass = (recv_data >> 3) & 1;
+    // 受信
+    if (SerialBT.available()) {
+      uint8_t recv_data = SerialBT.read();
+      is_ally_moving = (recv_data) & 1;
+      is_ally_defense = (recv_data >> 1) & 1;
+      is_ally_catch_ball = (recv_data >> 2) & 1;
+      can_ally_get_pass = (recv_data >> 3) & 1;
 
-                  digitalWrite(led_pin, HIGH);
-            } else {
-                  digitalWrite(led_pin, LOW);
-            }
-      } else {
-            is_connect = 0;
-            SerialBT.begin("ROBOT_1_ESP32", true);
-            bool connected = SerialBT.connect(address);
-            if (connected) {
-                  Serial.println("Connect OK");
-            } else {
-                  while (!SerialBT.connected(10000)) Serial.println("No connect");
-            }
-      }
-      Serial.println(is_connect);
+      digitalWrite(led_pin, HIGH);
+    } else {
+      digitalWrite(led_pin, LOW);
+    }
+  } else {
+    is_connect = 0;
+    SerialBT.begin("ROBOT_1_ESP32", true);
+    bool connected = SerialBT.connect(address);
+    if (connected) {
+      Serial.println("Connect OK");
+    } else {
+      while (!SerialBT.connected(10000)) Serial.println("No connect");
+    }
+  }
+  Serial.println(is_connect);
 #endif
 #ifdef ROBOT_2
-      // 送信
-      uint8_t send_data = can_get_pass << 3 | is_catch_ball << 2 | is_defense << 1 | is_moving;
-      SerialBT.write(send_data);
-
-      // 受信
-      if (SerialBT.available()) {
-            is_connect = 1;
-            uint8_t recv_data = SerialBT.read();
-            is_ally_moving = (recv_data) & 1;
-            is_ally_defense = (recv_data >> 1) & 1;
-            is_ally_catch_ball = (recv_data >> 2) & 1;
-            can_ally_get_pass = (recv_data >> 3) & 1;
-            digitalWrite(led_pin, HIGH);
-            disconnect_count = 0;
-      } else {
-            digitalWrite(led_pin, LOW);
-            disconnect_count++;
-            if (disconnect_count > 100) {
-                  SerialBT.begin("ROBOT_2_ESP32");
-                  disconnect_count = 0;
-                  is_connect = 0;
-            }
+#ifdef USE_REMOTE_CONTROLLER
+  // リモコンモード：リモコンからのデータを受信
+  if (SerialBT.connected()) {
+    is_connect = 1;
+    if (SerialBT.available()) {
+      while (SerialBT.available()) {
+        processRemoteRxByte((char)SerialBT.read());
       }
+      digitalWrite(led_pin, HIGH);
+      disconnect_count = 0;
+    } else {
+      digitalWrite(led_pin, LOW);
+    }
+  } else {
+    is_connect = 0;
+    digitalWrite(led_pin, LOW);
+    disconnect_count++;
+    if (disconnect_count > 100) {
+      Serial.println("🔄 Reconnecting to RemoteController...");
+      if (SerialBT.connect("ESP32_RemoteController")) {
+        Serial.println("✓ Reconnected!");
+      }
+      disconnect_count = 0;
+    }
+  }
+#else
+  // 通常モード：ロボット間通信（ROBOT_1と通信）
+  // 送信
+  uint8_t send_data = can_get_pass << 3 | is_catch_ball << 2 | is_defense << 1 | is_moving;
+  SerialBT.write(send_data);
+
+  // 受信
+  if (SerialBT.available()) {
+    is_connect = 1;
+    uint8_t recv_data = SerialBT.read();
+    is_ally_moving = (recv_data) & 1;
+    is_ally_defense = (recv_data >> 1) & 1;
+    is_ally_catch_ball = (recv_data >> 2) & 1;
+    can_ally_get_pass = (recv_data >> 3) & 1;
+    digitalWrite(led_pin, HIGH);
+    disconnect_count = 0;
+  } else {
+    digitalWrite(led_pin, LOW);
+    disconnect_count++;
+    if (disconnect_count > 100) {
+      SerialBT.begin("ROBOT_2_ESP32");
+      disconnect_count = 0;
+      is_connect = 0;
+    }
+  }
 #endif
-      // if (SerialBT.available()) pc_command = SerialBT.read();
+#endif  // ROBOT_2
 }
 
-#endif
+#endif  // bluetooth
 
 #ifdef wifi
 const char* ssid = "ESP32-Crescent";  // SSID
@@ -111,87 +222,87 @@ const char* password = "20060210";    // 8文字以上
 WiFiServer server(1234);
 WiFiClient client;
 void Core0a_setup() {  // アクセスポイントモード起動
-      WiFi.softAP(ssid, password);
-      IPAddress IP = WiFi.softAPIP();
-      Serial.print("AP IP address: ");
-      Serial.println(IP);
+  WiFi.softAP(ssid, password);
+  IPAddress IP = WiFi.softAPIP();
+  Serial.print("AP IP address: ");
+  Serial.println(IP);
 
-      server.begin();
+  server.begin();
 }
 
 void Core0a_loop() {
-      // 新しいクライアントが来たら保存
-      if (!client || !client.connected()) {
-            client = server.available();
-            if (client) {
-                  Serial.println("クライアント接続完了");
-            }
+  // 新しいクライアントが来たら保存
+  if (!client || !client.connected()) {
+    client = server.available();
+    if (client) {
+      Serial.println("クライアント接続完了");
+    }
+  }
+
+  // 接続中かつ送信タイミングになったらデータ送信
+  if (client && client.connected()) {
+    String payload = String(voltage) + "," +
+                     String(moving_dir) + "," +
+                     String(moving_speed, 2) + "," +
+                     String(own_x) + "," +
+                     String(own_y) + "," +
+                     String(under_yaw) + "," +
+                     String(ball_dir) + "," +
+                     String(ball_dis) + "," +
+                     String(yellow_goal_dir) + "," +
+                     String(yellow_goal_size) + "," +
+                     String(blue_goal_dir) + "," +
+                     String(blue_goal_size) + "," +
+                     String(is_hold_ball_front) + "," +
+                     String(is_hold_ball_back) + "," +
+                     String(is_on_line) + "," +
+                     String(line_inside_dir) + "," +
+                     String(line_depth);
+    client.println(payload);
+
+    // データ受信
+    if (client.available()) {
+      String receivedData = client.readStringUntil('\n');  // 改行までのデータを受信
+      Serial.println("受信データ: " + receivedData);
+
+      do_kick = false;  // キック動作を実行するフラグを立てる
+      // データ解析
+      if (receivedData.startsWith("MOVE:")) {
+        stop = false;
+        String str = receivedData.substring(5);  // "MOVE:"以降を取得
+        int16_t angle = str.toInt();             // 角度を整数に変換
+        move_dir = angle;                        // ロボットの進行方向を更新
+
+        Serial.println("進行方向を更新: " + String(move_dir));
+      } else if (receivedData.startsWith("DRIBBLER:")) {
+        String str = receivedData.substring(9);  // "DRIBBLER:"以降を取得
+        if (str == "ON") {
+          do_dribble = true;  // ドリブル動作を実行するフラグを立てる
+          Serial.println("ドリブル動作を実行");
+        } else if (str == "OFF") {
+          do_dribble = false;  // ドリブル動作を停止するフラグを立てる
+          Serial.println("ドリブル動作を停止");
+        }
+      } else if (receivedData.startsWith("SPEED:")) {
+        String str = receivedData.substring(6);  // "SPEED:"以降を取得
+        move_speed = str.toFloat();              // スピードを浮動小数点数に変換
+        Serial.println("スピードを更新: " + String(move_speed));
+      } else if (receivedData.startsWith("FACE:")) {
+        String str = receivedData.substring(5);  // "FACE:"以降を取得
+        face_angle = str.toInt();                // 角度を整数に変換
+        Serial.println("顔の角度を更新: " + String(face_angle));
+      } else if (receivedData == "KICK") {
+        do_kick = true;  // キック動作を実行するフラグを立てる
+        Serial.println("キック動作を実行");
+      } else if (receivedData == "STOP") {
+        stop = true;  // ロボットを停止
+        Serial.println("ロボットを停止");
+      } else {
+        Serial.println("無効なコマンド: " + receivedData);
       }
-
-      // 接続中かつ送信タイミングになったらデータ送信
-      if (client && client.connected()) {
-            String payload = String(voltage) + "," +
-                             String(moving_dir) + "," +
-                             String(moving_speed, 2) + "," +
-                             String(own_x) + "," +
-                             String(own_y) + "," +
-                             String(under_yaw) + "," +
-                             String(ball_dir) + "," +
-                             String(ball_dis) + "," +
-                             String(yellow_goal_dir) + "," +
-                             String(yellow_goal_size) + "," +
-                             String(blue_goal_dir) + "," +
-                             String(blue_goal_size) + "," +
-                             String(is_hold_ball_front) + "," +
-                             String(is_hold_ball_back) + "," +
-                             String(is_on_line) + "," +
-                             String(line_inside_dir) + "," +
-                             String(line_depth);
-            client.println(payload);
-
-            // データ受信
-            if (client.available()) {
-                  String receivedData = client.readStringUntil('\n');  // 改行までのデータを受信
-                  Serial.println("受信データ: " + receivedData);
-
-                  do_kick = false;  // キック動作を実行するフラグを立てる
-                  // データ解析
-                  if (receivedData.startsWith("MOVE:")) {
-                        stop = false;
-                        String str = receivedData.substring(5);  // "MOVE:"以降を取得
-                        int16_t angle = str.toInt();             // 角度を整数に変換
-                        move_dir = angle;                        // ロボットの進行方向を更新
-
-                        Serial.println("進行方向を更新: " + String(move_dir));
-                  } else if (receivedData.startsWith("DRIBBLER:")) {
-                        String str = receivedData.substring(9);  // "DRIBBLER:"以降を取得
-                        if (str == "ON") {
-                              do_dribble = true;  // ドリブル動作を実行するフラグを立てる
-                              Serial.println("ドリブル動作を実行");
-                        } else if (str == "OFF") {
-                              do_dribble = false;  // ドリブル動作を停止するフラグを立てる
-                              Serial.println("ドリブル動作を停止");
-                        }
-                  } else if (receivedData.startsWith("SPEED:")) {
-                        String str = receivedData.substring(6);  // "SPEED:"以降を取得
-                        move_speed = str.toFloat();              // スピードを浮動小数点数に変換
-                        Serial.println("スピードを更新: " + String(move_speed));
-                  } else if (receivedData.startsWith("FACE:")) {
-                        String str = receivedData.substring(5);  // "FACE:"以降を取得
-                        face_angle = str.toInt();                // 角度を整数に変換
-                        Serial.println("顔の角度を更新: " + String(face_angle));
-                  } else if (receivedData == "KICK") {
-                        do_kick = true;  // キック動作を実行するフラグを立てる
-                        Serial.println("キック動作を実行");
-                  } else if (receivedData == "STOP") {
-                        stop = true;  // ロボットを停止
-                        Serial.println("ロボットを停止");
-                  } else {
-                        Serial.println("無効なコマンド: " + receivedData);
-                  }
-            }
-      }
+    }
+  }
 }
-#endif
+#endif  // wifi
 
-#endif
+#endif  // _CORE0A_MAIN_H_
