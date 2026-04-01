@@ -13,11 +13,7 @@ void main_setup() {
 }
 
 void main_loop() {
-      // ir.Read();
-      // Serial.print("dir: ");
-      // Serial.print(ir.GetDir());
-      // Serial.print(", dis: ");
-      // Serial.println(ir.GetDis());
+      ir.Read();
       if (on_ir_led) {
             // for (uint8_t i = 0; i < 8; i++) {
             //       digitalWrite(ir_led_pin[0], HIGH);

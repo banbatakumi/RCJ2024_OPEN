@@ -1,0 +1,86 @@
+#include "mode.hpp"
+#include "on_line.hpp"
+
+// ボール保持中
+static Timer do_back_curve_shoot_timer;
+static Timer do_front_curve_shoot_timer;
+static Timer hold_timer;
+
+static bool do_back_curve_shoot;
+
+static bool do_front_curve_shoot;
+
+static void HoldBallFront(Robot* robot) {
+      robot->kicker.Kick();
+}
+
+static void HoldBallBack(Robot* robot) {
+      static int16_t shoot_dir;
+      static bool enable_kick;
+      static bool enable_shoot;
+      if (robot->info.Catch.is_back == true) hold_timer.reset();
+      if (hold_timer.read_ms() > 500) do_back_curve_shoot = 0;
+      if (do_back_curve_shoot_timer.read_ms() < 500) {  // 蹴る条件
+            robot->motor.Drive(0, 0);
+            shoot_dir = 45 * (abs(robot->info.Cam.ops_goal_dir) / robot->info.Cam.ops_goal_dir);
+            enable_kick = false;
+            enable_shoot = false;
+      } else {
+            if (enable_kick == true) {
+                  if (abs(robot->info.Imu.yaw) > 90) {
+                        robot->motor.Brake(500);
+                        do_back_curve_shoot = false;
+                  } else {
+                        int16_t shoot_power = -1000 * (abs(shoot_dir) / shoot_dir);
+                        robot->motor.Run(shoot_power, shoot_power, shoot_power, shoot_power);
+                  }
+            } else if (enable_shoot == true) {
+                  if (abs(robot->info.Imu.yaw) > abs(shoot_dir)) {
+                        enable_kick = true;
+                  } else {
+                        robot->motor.Drive(0, 0, 0, -90 * (abs(shoot_dir) / shoot_dir), PI * 0.5, BACK);
+                  }
+            } else {
+                  if (abs(robot->info.Cam.ops_goal_dir) < 60 && robot->info.Cam.ops_goal_dis < 100) {
+                        enable_shoot = true;
+                  } else {
+                        robot->motor.Drive(robot->info.Cam.ops_goal_dir * 1.5, 0.5, 0.5, 0, PI * 0.5, BACK);
+                  }
+            }
+      }
+}
+
+static void CaptureBall(Robot* robot) {
+      int16_t additional_dir;
+      int16_t ball_dir;
+      if (abs(robot->info.Esp32.ir_dir) < 45 && abs(robot->info.Cam.ball_dir) < 45 && robot->info.Cam.ball_dis < 20) {
+            ball_dir = robot->info.Cam.ball_dir;
+      } else {
+            ball_dir = robot->info.Esp32.ir_dir;
+      }
+      ball_dir = robot->info.Esp32.ir_dir;
+      if (abs(ball_dir) < 60) {
+            additional_dir = ball_dir * 1.5;
+      } else {
+            additional_dir = 90 * (abs(ball_dir) / ball_dir);
+      }
+      int16_t move_dir = ball_dir + additional_dir;
+      robot->motor.Drive(move_dir, robot->info.target_move_speed, 5);
+}
+
+void Mode::LightOffence() {
+      // robot->info.Line.is_leftside || robot->info.Line.is_rightside ||
+      if (robot->info.Line.is_on_line || back_to_inside_timer.read_ms() < (pre_speed * 1000)) {
+            OnLine(robot);
+      } else {
+            is_pre_on_line = false;
+            // is_pre_leftside = false;
+            // is_pre_rightside = false;
+
+            if (robot->info.Catch.is_front == true || do_front_curve_shoot == true) {
+                  HoldBallFront(robot);
+            } else {
+                  CaptureBall(robot);
+            }
+      }
+}

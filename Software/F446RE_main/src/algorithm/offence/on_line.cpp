@@ -22,6 +22,8 @@ static void LineTrace(Robot* robot) {
             line_vector_gain = 0.6;
             ball_vector_gain = 0.4;
       }
+      line_vector_gain = 0.6;
+      ball_vector_gain = 0.4;
 
       vector_x = robot->info.Line.depth * MyMath::sinDeg(robot->info.Line.inside_dir) * line_vector_gain;
       vector_y = robot->info.Line.depth * MyMath::cosDeg(robot->info.Line.inside_dir) * line_vector_gain;

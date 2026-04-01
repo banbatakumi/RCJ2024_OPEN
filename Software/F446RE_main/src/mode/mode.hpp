@@ -10,6 +10,8 @@ class Mode {
       void MainMode();
       void Offence();
       void Defence();
+      void LightOffence();
+      void LightDefence();
 
      private:
       Timer process_timer;

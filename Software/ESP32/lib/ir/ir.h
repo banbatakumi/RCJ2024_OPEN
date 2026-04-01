@@ -6,8 +6,8 @@
 #include "my_math.h"
 
 #define IR_QTY 8
-#define READ_NUM_OF_TIME 1500
-#define MOVING_AVE_NUM 5
+#define READ_NUM_OF_TIME 3000
+#define MOVING_AVE_NUM 10
 #define RC 0.5
 
 class Ir {

@@ -1,0 +1,566 @@
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"light_offence.cpp"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "src/algorithm/offence/light_offence.cpp"
+  20              		.section	.text._ZL13HoldBallFrontP5Robot,"ax",%progbits
+  21              		.align	1
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	_ZL13HoldBallFrontP5Robot:
+  27              		.fnstart
+  28              	.LVL0:
+  29              	.LFB275:
+   1:src/algorithm/offence/light_offence.cpp **** #include "mode.hpp"
+   2:src/algorithm/offence/light_offence.cpp **** #include "on_line.hpp"
+   3:src/algorithm/offence/light_offence.cpp **** 
+   4:src/algorithm/offence/light_offence.cpp **** // ボール保持中
+   5:src/algorithm/offence/light_offence.cpp **** static Timer do_back_curve_shoot_timer;
+   6:src/algorithm/offence/light_offence.cpp **** static Timer do_front_curve_shoot_timer;
+   7:src/algorithm/offence/light_offence.cpp **** static Timer hold_timer;
+   8:src/algorithm/offence/light_offence.cpp **** 
+   9:src/algorithm/offence/light_offence.cpp **** static bool do_back_curve_shoot;
+  10:src/algorithm/offence/light_offence.cpp **** 
+  11:src/algorithm/offence/light_offence.cpp **** static bool do_front_curve_shoot;
+  12:src/algorithm/offence/light_offence.cpp **** 
+  13:src/algorithm/offence/light_offence.cpp **** static void HoldBallFront(Robot* robot) {
+  30              		.loc 1 13 41 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 13 41 is_stmt 0 view .LVU1
+  35 0000 08B5     		push	{r3, lr}
+  36              		.save {r3, lr}
+  37              	.LCFI0:
+  38              		.cfi_def_cfa_offset 8
+  39              		.cfi_offset 3, -8
+  40              		.cfi_offset 14, -4
+  14:src/algorithm/offence/light_offence.cpp ****       robot->kicker.Kick();
+  41              		.loc 1 14 7 is_stmt 1 view .LVU2
+  42              		.loc 1 14 25 is_stmt 0 view .LVU3
+  43 0002 B7EE000A 		vmov.f32	s0, #1.0e+0
+  44 0006 00F58750 		add	r0, r0, #4320
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s 			page 2
+
+
+  45              	.LVL1:
+  46              		.loc 1 14 25 view .LVU4
+  47 000a 1830     		adds	r0, r0, #24
+  48              	.LVL2:
+  49              		.loc 1 14 25 view .LVU5
+  50 000c FFF7FEFF 		bl	_ZN6Kicker4KickEf
+  51              	.LVL3:
+  15:src/algorithm/offence/light_offence.cpp **** }
+  52              		.loc 1 15 1 view .LVU6
+  53 0010 08BD     		pop	{r3, pc}
+  54              		.cfi_endproc
+  55              	.LFE275:
+  56              		.fnend
+  58              		.global	__aeabi_i2d
+  59              		.global	__aeabi_dmul
+  60              		.global	__aeabi_d2iz
+  61              		.section	.text._ZL11CaptureBallP5Robot,"ax",%progbits
+  62              		.align	1
+  63              		.syntax unified
+  64              		.thumb
+  65              		.thumb_func
+  67              	_ZL11CaptureBallP5Robot:
+  68              		.fnstart
+  69              	.LVL4:
+  70              	.LFB277:
+  16:src/algorithm/offence/light_offence.cpp **** 
+  17:src/algorithm/offence/light_offence.cpp **** static void HoldBallBack(Robot* robot) {
+  18:src/algorithm/offence/light_offence.cpp ****       static int16_t shoot_dir;
+  19:src/algorithm/offence/light_offence.cpp ****       static bool enable_kick;
+  20:src/algorithm/offence/light_offence.cpp ****       static bool enable_shoot;
+  21:src/algorithm/offence/light_offence.cpp ****       if (robot->info.Catch.is_back == true) hold_timer.reset();
+  22:src/algorithm/offence/light_offence.cpp ****       if (hold_timer.read_ms() > 500) do_back_curve_shoot = 0;
+  23:src/algorithm/offence/light_offence.cpp ****       if (do_back_curve_shoot_timer.read_ms() < 500) {  // 蹴る条件
+  24:src/algorithm/offence/light_offence.cpp ****             robot->motor.Drive(0, 0);
+  25:src/algorithm/offence/light_offence.cpp ****             shoot_dir = 45 * (abs(robot->info.Cam.ops_goal_dir) / robot->info.Cam.ops_goal_dir);
+  26:src/algorithm/offence/light_offence.cpp ****             enable_kick = false;
+  27:src/algorithm/offence/light_offence.cpp ****             enable_shoot = false;
+  28:src/algorithm/offence/light_offence.cpp ****       } else {
+  29:src/algorithm/offence/light_offence.cpp ****             if (enable_kick == true) {
+  30:src/algorithm/offence/light_offence.cpp ****                   if (abs(robot->info.Imu.yaw) > 90) {
+  31:src/algorithm/offence/light_offence.cpp ****                         robot->motor.Brake(500);
+  32:src/algorithm/offence/light_offence.cpp ****                         do_back_curve_shoot = false;
+  33:src/algorithm/offence/light_offence.cpp ****                   } else {
+  34:src/algorithm/offence/light_offence.cpp ****                         int16_t shoot_power = -1000 * (abs(shoot_dir) / shoot_dir);
+  35:src/algorithm/offence/light_offence.cpp ****                         robot->motor.Run(shoot_power, shoot_power, shoot_power, shoot_power);
+  36:src/algorithm/offence/light_offence.cpp ****                   }
+  37:src/algorithm/offence/light_offence.cpp ****             } else if (enable_shoot == true) {
+  38:src/algorithm/offence/light_offence.cpp ****                   if (abs(robot->info.Imu.yaw) > abs(shoot_dir)) {
+  39:src/algorithm/offence/light_offence.cpp ****                         enable_kick = true;
+  40:src/algorithm/offence/light_offence.cpp ****                   } else {
+  41:src/algorithm/offence/light_offence.cpp ****                         robot->motor.Drive(0, 0, 0, -90 * (abs(shoot_dir) / shoot_dir), PI * 0.5, B
+  42:src/algorithm/offence/light_offence.cpp ****                   }
+  43:src/algorithm/offence/light_offence.cpp ****             } else {
+  44:src/algorithm/offence/light_offence.cpp ****                   if (abs(robot->info.Cam.ops_goal_dir) < 60 && robot->info.Cam.ops_goal_dis < 100)
+  45:src/algorithm/offence/light_offence.cpp ****                         enable_shoot = true;
+  46:src/algorithm/offence/light_offence.cpp ****                   } else {
+  47:src/algorithm/offence/light_offence.cpp ****                         robot->motor.Drive(robot->info.Cam.ops_goal_dir * 1.5, 0.5, 0.5, 0, PI * 0.
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s 			page 3
+
+
+  48:src/algorithm/offence/light_offence.cpp ****                   }
+  49:src/algorithm/offence/light_offence.cpp ****             }
+  50:src/algorithm/offence/light_offence.cpp ****       }
+  51:src/algorithm/offence/light_offence.cpp **** }
+  52:src/algorithm/offence/light_offence.cpp **** 
+  53:src/algorithm/offence/light_offence.cpp **** static void CaptureBall(Robot* robot) {
+  71              		.loc 1 53 39 is_stmt 1 view -0
+  72              		.cfi_startproc
+  73              		@ args = 0, pretend = 0, frame = 0
+  74              		@ frame_needed = 0, uses_anonymous_args = 0
+  75              		.loc 1 53 39 is_stmt 0 view .LVU8
+  76 0000 38B5     		push	{r3, r4, r5, lr}
+  77              		.save {r3, r4, r5, lr}
+  78              	.LCFI1:
+  79              		.cfi_def_cfa_offset 16
+  80              		.cfi_offset 3, -16
+  81              		.cfi_offset 4, -12
+  82              		.cfi_offset 5, -8
+  83              		.cfi_offset 14, -4
+  84 0002 0446     		mov	r4, r0
+  54:src/algorithm/offence/light_offence.cpp ****       int16_t additional_dir;
+  85              		.loc 1 54 7 is_stmt 1 view .LVU9
+  55:src/algorithm/offence/light_offence.cpp ****       int16_t ball_dir;
+  86              		.loc 1 55 7 view .LVU10
+  56:src/algorithm/offence/light_offence.cpp ****       if (abs(robot->info.Esp32.ir_dir) < 45 && abs(robot->info.Cam.ball_dir) < 45 && robot->info.C
+  87              		.loc 1 56 7 view .LVU11
+  88              		.loc 1 56 11 is_stmt 0 view .LVU12
+  89 0004 B0F98A50 		ldrsh	r5, [r0, #138]
+  90 0008 85EAE573 		eor	r3, r5, r5, asr #31
+  91 000c A3EBE573 		sub	r3, r3, r5, asr #31
+  92 0010 9BB2     		uxth	r3, r3
+  57:src/algorithm/offence/light_offence.cpp ****             ball_dir = robot->info.Cam.ball_dir;
+  58:src/algorithm/offence/light_offence.cpp ****       } else {
+  59:src/algorithm/offence/light_offence.cpp ****             ball_dir = robot->info.Esp32.ir_dir;
+  60:src/algorithm/offence/light_offence.cpp ****       }
+  61:src/algorithm/offence/light_offence.cpp ****       ball_dir = robot->info.Esp32.ir_dir;
+  93              		.loc 1 61 7 is_stmt 1 view .LVU13
+  94              	.LVL5:
+  62:src/algorithm/offence/light_offence.cpp ****       if (abs(ball_dir) < 60) {
+  95              		.loc 1 62 7 view .LVU14
+  96 0012 3B2B     		cmp	r3, #59
+  97 0014 18D8     		bhi	.L4
+  63:src/algorithm/offence/light_offence.cpp ****             additional_dir = ball_dir * 1.5;
+  98              		.loc 1 63 13 view .LVU15
+  99              		.loc 1 63 39 is_stmt 0 view .LVU16
+ 100 0016 2846     		mov	r0, r5
+ 101              	.LVL6:
+ 102              		.loc 1 63 39 view .LVU17
+ 103 0018 FFF7FEFF 		bl	__aeabi_i2d
+ 104              	.LVL7:
+ 105 001c 0022     		movs	r2, #0
+ 106 001e 0F4B     		ldr	r3, .L7
+ 107 0020 FFF7FEFF 		bl	__aeabi_dmul
+ 108              	.LVL8:
+ 109              		.loc 1 63 28 view .LVU18
+ 110 0024 FFF7FEFF 		bl	__aeabi_d2iz
+ 111              	.LVL9:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s 			page 4
+
+
+ 112 0028 03B2     		sxth	r3, r0
+ 113              	.LVL10:
+ 114              	.L5:
+  64:src/algorithm/offence/light_offence.cpp ****       } else {
+  65:src/algorithm/offence/light_offence.cpp ****             additional_dir = 90 * (abs(ball_dir) / ball_dir);
+  66:src/algorithm/offence/light_offence.cpp ****       }
+  67:src/algorithm/offence/light_offence.cpp ****       int16_t move_dir = ball_dir + additional_dir;
+ 115              		.loc 1 67 7 is_stmt 1 view .LVU19
+ 116              		.loc 1 67 35 is_stmt 0 view .LVU20
+ 117 002a E918     		adds	r1, r5, r3
+ 118              	.LVL11:
+  68:src/algorithm/offence/light_offence.cpp ****       robot->motor.Drive(move_dir, robot->info.target_move_speed, 5);
+ 119              		.loc 1 68 7 is_stmt 1 view .LVU21
+ 120              		.loc 1 68 25 is_stmt 0 view .LVU22
+ 121 002c 0023     		movs	r3, #0
+ 122              	.LVL12:
+ 123              		.loc 1 68 25 view .LVU23
+ 124 002e 9FED0C1A 		vldr.32	s2, .L7+4
+ 125 0032 1A46     		mov	r2, r3
+ 126 0034 F1EE040A 		vmov.f32	s1, #5.0e+0
+ 127 0038 94ED060A 		vldr.32	s0, [r4, #24]
+ 128 003c 09B2     		sxth	r1, r1
+ 129              		.loc 1 68 25 view .LVU24
+ 130 003e 04F5C870 		add	r0, r4, #400
+ 131 0042 FFF7FEFF 		bl	_ZN10MotorDrive5DriveEsffsfh
+ 132              	.LVL13:
+  69:src/algorithm/offence/light_offence.cpp **** }
+ 133              		.loc 1 69 1 view .LVU25
+ 134 0046 38BD     		pop	{r3, r4, r5, pc}
+ 135              	.LVL14:
+ 136              	.L4:
+  65:src/algorithm/offence/light_offence.cpp ****       }
+ 137              		.loc 1 65 13 is_stmt 1 view .LVU26
+  65:src/algorithm/offence/light_offence.cpp ****       }
+ 138              		.loc 1 65 50 is_stmt 0 view .LVU27
+ 139 0048 93FBF5F3 		sdiv	r3, r3, r5
+  65:src/algorithm/offence/light_offence.cpp ****       }
+ 140              		.loc 1 65 28 view .LVU28
+ 141 004c 03EB4303 		add	r3, r3, r3, lsl #1
+ 142 0050 C3EB0313 		rsb	r3, r3, r3, lsl #4
+ 143 0054 5B00     		lsls	r3, r3, #1
+ 144 0056 1BB2     		sxth	r3, r3
+ 145              	.LVL15:
+  65:src/algorithm/offence/light_offence.cpp ****       }
+ 146              		.loc 1 65 28 view .LVU29
+ 147 0058 E7E7     		b	.L5
+ 148              	.L8:
+ 149 005a 00BF     		.align	2
+ 150              	.L7:
+ 151 005c 0000F83F 		.word	1073217536
+ 152 0060 00000000 		.word	0
+ 153              		.cfi_endproc
+ 154              	.LFE277:
+ 155              		.fnend
+ 157              		.section	.text._Z41__static_initialization_and_destruction_0ii,"ax",%progbits
+ 158              		.align	1
+ 159              		.syntax unified
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s 			page 5
+
+
+ 160              		.thumb
+ 161              		.thumb_func
+ 163              	_Z41__static_initialization_and_destruction_0ii:
+ 164              		.fnstart
+ 165              	.LVL16:
+ 166              	.LFB279:
+  70:src/algorithm/offence/light_offence.cpp **** 
+  71:src/algorithm/offence/light_offence.cpp **** void Mode::LightOffence() {
+  72:src/algorithm/offence/light_offence.cpp ****       // robot->info.Line.is_leftside || robot->info.Line.is_rightside ||
+  73:src/algorithm/offence/light_offence.cpp ****       if (robot->info.Line.is_on_line || back_to_inside_timer.read_ms() < (pre_speed * 1000)) {
+  74:src/algorithm/offence/light_offence.cpp ****             OnLine(robot);
+  75:src/algorithm/offence/light_offence.cpp ****       } else {
+  76:src/algorithm/offence/light_offence.cpp ****             is_pre_on_line = false;
+  77:src/algorithm/offence/light_offence.cpp ****             // is_pre_leftside = false;
+  78:src/algorithm/offence/light_offence.cpp ****             // is_pre_rightside = false;
+  79:src/algorithm/offence/light_offence.cpp **** 
+  80:src/algorithm/offence/light_offence.cpp ****             if (robot->info.Catch.is_front == true || do_front_curve_shoot == true) {
+  81:src/algorithm/offence/light_offence.cpp ****                   HoldBallFront(robot);
+  82:src/algorithm/offence/light_offence.cpp ****             } else {
+  83:src/algorithm/offence/light_offence.cpp ****                   CaptureBall(robot);
+  84:src/algorithm/offence/light_offence.cpp ****             }
+  85:src/algorithm/offence/light_offence.cpp ****       }
+  86:src/algorithm/offence/light_offence.cpp **** }...
+ 167              		.loc 1 86 1 is_stmt 1 view -0
+ 168              		.cfi_startproc
+ 169              		@ args = 0, pretend = 0, frame = 0
+ 170              		@ frame_needed = 0, uses_anonymous_args = 0
+ 171              		.loc 1 86 1 is_stmt 0 view .LVU31
+ 172 0000 0128     		cmp	r0, #1
+ 173 0002 00D0     		beq	.L15
+ 174 0004 7047     		bx	lr
+ 175              	.L15:
+ 176              		.loc 1 86 1 discriminator 1 view .LVU32
+ 177 0006 08B5     		push	{r3, lr}
+ 178              	.LCFI2:
+ 179              		.cfi_def_cfa_offset 8
+ 180              		.cfi_offset 3, -8
+ 181              		.cfi_offset 14, -4
+ 182              		.loc 1 86 1 discriminator 1 view .LVU33
+ 183 0008 4FF6FF73 		movw	r3, #65535
+ 184 000c 9942     		cmp	r1, r3
+ 185 000e 00D0     		beq	.L16
+ 186              	.LVL17:
+ 187              	.L9:
+ 188              		.loc 1 86 1 view .LVU34
+ 189 0010 08BD     		pop	{r3, pc}
+ 190              	.LVL18:
+ 191              	.L16:
+   5:src/algorithm/offence/light_offence.cpp **** static Timer do_back_curve_shoot_timer;
+ 192              		.loc 1 5 14 view .LVU35
+ 193 0012 0548     		ldr	r0, .L17
+ 194              	.LVL19:
+   5:src/algorithm/offence/light_offence.cpp **** static Timer do_back_curve_shoot_timer;
+ 195              		.loc 1 5 14 view .LVU36
+ 196 0014 FFF7FEFF 		bl	_ZN5TimerC1Ev
+ 197              	.LVL20:
+   6:src/algorithm/offence/light_offence.cpp **** static Timer do_front_curve_shoot_timer;
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s 			page 6
+
+
+ 198              		.loc 1 6 14 view .LVU37
+ 199 0018 0448     		ldr	r0, .L17+4
+ 200 001a FFF7FEFF 		bl	_ZN5TimerC1Ev
+ 201              	.LVL21:
+   7:src/algorithm/offence/light_offence.cpp **** static Timer hold_timer;
+ 202              		.loc 1 7 14 view .LVU38
+ 203 001e 0448     		ldr	r0, .L17+8
+ 204 0020 FFF7FEFF 		bl	_ZN5TimerC1Ev
+ 205              	.LVL22:
+ 206              		.loc 1 86 1 view .LVU39
+ 207 0024 F4E7     		b	.L9
+ 208              	.L18:
+ 209 0026 00BF     		.align	2
+ 210              	.L17:
+ 211 0028 00000000 		.word	_ZL25do_back_curve_shoot_timer
+ 212 002c 00000000 		.word	_ZL26do_front_curve_shoot_timer
+ 213 0030 00000000 		.word	_ZL10hold_timer
+ 214              		.cfi_endproc
+ 215              	.LFE279:
+ 216              		.cantunwind
+ 217              		.fnend
+ 219              		.section	.text._ZN4Mode12LightOffenceEv,"ax",%progbits
+ 220              		.align	1
+ 221              		.global	_ZN4Mode12LightOffenceEv
+ 222              		.syntax unified
+ 223              		.thumb
+ 224              		.thumb_func
+ 226              	_ZN4Mode12LightOffenceEv:
+ 227              		.fnstart
+ 228              	.LVL23:
+ 229              	.LFB278:
+  71:src/algorithm/offence/light_offence.cpp **** void Mode::LightOffence() {
+ 230              		.loc 1 71 27 is_stmt 1 view -0
+ 231              		.cfi_startproc
+ 232              		@ args = 0, pretend = 0, frame = 0
+ 233              		@ frame_needed = 0, uses_anonymous_args = 0
+  71:src/algorithm/offence/light_offence.cpp **** void Mode::LightOffence() {
+ 234              		.loc 1 71 27 is_stmt 0 view .LVU41
+ 235 0000 10B5     		push	{r4, lr}
+ 236              		.save {r4, lr}
+ 237              	.LCFI3:
+ 238              		.cfi_def_cfa_offset 8
+ 239              		.cfi_offset 4, -8
+ 240              		.cfi_offset 14, -4
+ 241 0002 0446     		mov	r4, r0
+  73:src/algorithm/offence/light_offence.cpp ****       if (robot->info.Line.is_on_line || back_to_inside_timer.read_ms() < (pre_speed * 1000)) {
+ 242              		.loc 1 73 7 is_stmt 1 view .LVU42
+  73:src/algorithm/offence/light_offence.cpp ****       if (robot->info.Line.is_on_line || back_to_inside_timer.read_ms() < (pre_speed * 1000)) {
+ 243              		.loc 1 73 11 is_stmt 0 view .LVU43
+ 244 0004 4368     		ldr	r3, [r0, #4]
+  73:src/algorithm/offence/light_offence.cpp ****       if (robot->info.Line.is_on_line || back_to_inside_timer.read_ms() < (pre_speed * 1000)) {
+ 245              		.loc 1 73 28 view .LVU44
+ 246 0006 93F82330 		ldrb	r3, [r3, #35]	@ zero_extendqisi2
+  73:src/algorithm/offence/light_offence.cpp ****       if (robot->info.Line.is_on_line || back_to_inside_timer.read_ms() < (pre_speed * 1000)) {
+ 247              		.loc 1 73 39 view .LVU45
+ 248 000a 93B9     		cbnz	r3, .L20
+  73:src/algorithm/offence/light_offence.cpp ****       if (robot->info.Line.is_on_line || back_to_inside_timer.read_ms() < (pre_speed * 1000)) {
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s 			page 7
+
+
+ 249              		.loc 1 73 70 discriminator 2 view .LVU46
+ 250 000c 1148     		ldr	r0, .L28
+ 251              	.LVL24:
+  73:src/algorithm/offence/light_offence.cpp ****       if (robot->info.Line.is_on_line || back_to_inside_timer.read_ms() < (pre_speed * 1000)) {
+ 252              		.loc 1 73 70 discriminator 2 view .LVU47
+ 253 000e FFF7FEFF 		bl	_ZN5Timer7read_msEv
+ 254              	.LVL25:
+ 255 0012 07EE100A 		vmov	s14, r0	@ int
+  73:src/algorithm/offence/light_offence.cpp ****       if (robot->info.Line.is_on_line || back_to_inside_timer.read_ms() < (pre_speed * 1000)) {
+ 256              		.loc 1 73 73 discriminator 2 view .LVU48
+ 257 0016 B8EE477A 		vcvt.f32.u32	s14, s14
+  73:src/algorithm/offence/light_offence.cpp ****       if (robot->info.Line.is_on_line || back_to_inside_timer.read_ms() < (pre_speed * 1000)) {
+ 258              		.loc 1 73 86 discriminator 2 view .LVU49
+ 259 001a 0F4B     		ldr	r3, .L28+4
+ 260 001c D3ED007A 		vldr.32	s15, [r3]
+ 261 0020 DFED0E6A 		vldr.32	s13, .L28+8
+ 262 0024 67EEA67A 		vmul.f32	s15, s15, s13
+  73:src/algorithm/offence/light_offence.cpp ****       if (robot->info.Line.is_on_line || back_to_inside_timer.read_ms() < (pre_speed * 1000)) {
+ 263              		.loc 1 73 39 discriminator 2 view .LVU50
+ 264 0028 B4EEE77A 		vcmpe.f32	s14, s15
+ 265 002c F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 266 0030 03D5     		bpl	.L25
+ 267              	.L20:
+  74:src/algorithm/offence/light_offence.cpp ****             OnLine(robot);
+ 268              		.loc 1 74 13 is_stmt 1 discriminator 3 view .LVU51
+  74:src/algorithm/offence/light_offence.cpp ****             OnLine(robot);
+ 269              		.loc 1 74 19 is_stmt 0 discriminator 3 view .LVU52
+ 270 0032 6068     		ldr	r0, [r4, #4]
+ 271 0034 FFF7FEFF 		bl	_Z6OnLineP5Robot
+ 272              	.LVL26:
+ 273              	.L19:
+ 274              		.loc 1 86 1 view .LVU53
+ 275 0038 10BD     		pop	{r4, pc}
+ 276              	.LVL27:
+ 277              	.L25:
+  76:src/algorithm/offence/light_offence.cpp ****             is_pre_on_line = false;
+ 278              		.loc 1 76 13 is_stmt 1 view .LVU54
+  76:src/algorithm/offence/light_offence.cpp ****             is_pre_on_line = false;
+ 279              		.loc 1 76 28 is_stmt 0 view .LVU55
+ 280 003a 094B     		ldr	r3, .L28+12
+ 281 003c 0022     		movs	r2, #0
+ 282 003e 1A70     		strb	r2, [r3]
+  80:src/algorithm/offence/light_offence.cpp ****             if (robot->info.Catch.is_front == true || do_front_curve_shoot == true) {
+ 283              		.loc 1 80 13 is_stmt 1 view .LVU56
+  80:src/algorithm/offence/light_offence.cpp ****             if (robot->info.Catch.is_front == true || do_front_curve_shoot == true) {
+ 284              		.loc 1 80 17 is_stmt 0 view .LVU57
+ 285 0040 6068     		ldr	r0, [r4, #4]
+  80:src/algorithm/offence/light_offence.cpp ****             if (robot->info.Catch.is_front == true || do_front_curve_shoot == true) {
+ 286              		.loc 1 80 35 view .LVU58
+ 287 0042 90F82E30 		ldrb	r3, [r0, #46]	@ zero_extendqisi2
+  80:src/algorithm/offence/light_offence.cpp ****             if (robot->info.Catch.is_front == true || do_front_curve_shoot == true) {
+ 288              		.loc 1 80 13 view .LVU59
+ 289 0046 13B9     		cbnz	r3, .L27
+  83:src/algorithm/offence/light_offence.cpp ****                   CaptureBall(robot);
+ 290              		.loc 1 83 19 is_stmt 1 view .LVU60
+  83:src/algorithm/offence/light_offence.cpp ****                   CaptureBall(robot);
+ 291              		.loc 1 83 30 is_stmt 0 view .LVU61
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s 			page 8
+
+
+ 292 0048 FFF7FEFF 		bl	_ZL11CaptureBallP5Robot
+ 293              	.LVL28:
+ 294              		.loc 1 86 1 view .LVU62
+ 295 004c F4E7     		b	.L19
+ 296              	.L27:
+  81:src/algorithm/offence/light_offence.cpp ****                   HoldBallFront(robot);
+ 297              		.loc 1 81 19 is_stmt 1 view .LVU63
+  81:src/algorithm/offence/light_offence.cpp ****                   HoldBallFront(robot);
+ 298              		.loc 1 81 32 is_stmt 0 view .LVU64
+ 299 004e FFF7FEFF 		bl	_ZL13HoldBallFrontP5Robot
+ 300              	.LVL29:
+ 301 0052 F1E7     		b	.L19
+ 302              	.L29:
+ 303              		.align	2
+ 304              	.L28:
+ 305 0054 00000000 		.word	back_to_inside_timer
+ 306 0058 00000000 		.word	pre_speed
+ 307 005c 00007A44 		.word	1148846080
+ 308 0060 00000000 		.word	is_pre_on_line
+ 309              		.cfi_endproc
+ 310              	.LFE278:
+ 311              		.fnend
+ 313              		.section	.text._GLOBAL__sub_I__ZN4Mode12LightOffenceEv,"ax",%progbits
+ 314              		.align	1
+ 315              		.syntax unified
+ 316              		.thumb
+ 317              		.thumb_func
+ 319              	_GLOBAL__sub_I__ZN4Mode12LightOffenceEv:
+ 320              		.fnstart
+ 321              	.LFB280:
+ 322              		.loc 1 86 1 is_stmt 1 view -0
+ 323              		.cfi_startproc
+ 324              		@ args = 0, pretend = 0, frame = 0
+ 325              		@ frame_needed = 0, uses_anonymous_args = 0
+ 326 0000 08B5     		push	{r3, lr}
+ 327              	.LCFI4:
+ 328              		.cfi_def_cfa_offset 8
+ 329              		.cfi_offset 3, -8
+ 330              		.cfi_offset 14, -4
+ 331              		.loc 1 86 1 is_stmt 0 view .LVU66
+ 332 0002 4FF6FF71 		movw	r1, #65535
+ 333 0006 0120     		movs	r0, #1
+ 334 0008 FFF7FEFF 		bl	_Z41__static_initialization_and_destruction_0ii
+ 335              	.LVL30:
+ 336 000c 08BD     		pop	{r3, pc}
+ 337              		.cfi_endproc
+ 338              	.LFE280:
+ 339              		.cantunwind
+ 340              		.fnend
+ 342              		.section	.init_array,"aw",%init_array
+ 343              		.align	2
+ 344 0000 00000000 		.word	_GLOBAL__sub_I__ZN4Mode12LightOffenceEv(target1)
+ 345              		.section	.bss._ZL10hold_timer,"aw",%nobits
+ 346              		.align	2
+ 349              	_ZL10hold_timer:
+ 350 0000 00000000 		.space	4
+ 351              		.section	.bss._ZL26do_front_curve_shoot_timer,"aw",%nobits
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s 			page 9
+
+
+ 352              		.align	2
+ 355              	_ZL26do_front_curve_shoot_timer:
+ 356 0000 00000000 		.space	4
+ 357              		.section	.bss._ZL25do_back_curve_shoot_timer,"aw",%nobits
+ 358              		.align	2
+ 361              	_ZL25do_back_curve_shoot_timer:
+ 362 0000 00000000 		.space	4
+ 363              		.text
+ 364              	.Letext0:
+ 365              		.file 2 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/machine/_default_ty
+ 366              		.file 3 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/lib/gcc/arm-none-eabi/12.3.1/include/stdd
+ 367              		.file 4 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_types.h"
+ 368              		.file 5 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/reent.h"
+ 369              		.file 6 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/lock.h"
+ 370              		.file 7 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/stdio.h"
+ 371              		.file 8 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_stdint.h"
+ 372              		.file 9 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h"
+ 373              		.file 10 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
+ 374              		.file 11 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 375              		.file 12 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 376              		.file 13 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h"
+ 377              		.file 14 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h"
+ 378              		.file 15 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
+ 379              		.file 16 "Lib/BufferedSerial/BufferedSerial.hpp"
+ 380              		.file 17 "Lib/DigitalInOut/DigitalInOut.hpp"
+ 381              		.file 18 "Lib/MovingAve/MovingAve.hpp"
+ 382              		.file 19 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/cstdio"
+ 383              		.file 20 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/arm-non
+ 384              		.file 21 "Lib/PWMSingle/PWMSingle.hpp"
+ 385              		.file 22 "Lib/Timer/Timer.hpp"
+ 386              		.file 23 "src/unit/dribbler_drive/dribbler_drive.hpp"
+ 387              		.file 24 "src/unit/kicker/kicker.hpp"
+ 388              		.file 25 "Lib/pid/pid.hpp"
+ 389              		.file 26 "src/unit/motor_drive/motor_drive.hpp"
+ 390              		.file 27 "src/unit/robot/robot.hpp"
+ 391              		.file 28 "src/mode/mode.hpp"
+ 392              		.file 29 "src/algorithm/offence/on_line.hpp"
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s 			page 10
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 light_offence.cpp
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s:21     .text._ZL13HoldBallFrontP5Robot:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s:26     .text._ZL13HoldBallFrontP5Robot:00000000 _ZL13HoldBallFrontP5Robot
+.ARM.extab.text._ZL13HoldBallFrontP5Robot:00000000 $d
+.ARM.exidx.text._ZL13HoldBallFrontP5Robot:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s:62     .text._ZL11CaptureBallP5Robot:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s:67     .text._ZL11CaptureBallP5Robot:00000000 _ZL11CaptureBallP5Robot
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s:151    .text._ZL11CaptureBallP5Robot:0000005c $d
+.ARM.exidx.text._ZL11CaptureBallP5Robot:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s:158    .text._Z41__static_initialization_and_destruction_0ii:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s:163    .text._Z41__static_initialization_and_destruction_0ii:00000000 _Z41__static_initialization_and_destruction_0ii
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s:211    .text._Z41__static_initialization_and_destruction_0ii:00000028 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s:361    .bss._ZL25do_back_curve_shoot_timer:00000000 _ZL25do_back_curve_shoot_timer
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s:355    .bss._ZL26do_front_curve_shoot_timer:00000000 _ZL26do_front_curve_shoot_timer
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s:349    .bss._ZL10hold_timer:00000000 _ZL10hold_timer
+.ARM.exidx.text._Z41__static_initialization_and_destruction_0ii:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s:220    .text._ZN4Mode12LightOffenceEv:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s:226    .text._ZN4Mode12LightOffenceEv:00000000 _ZN4Mode12LightOffenceEv
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s:305    .text._ZN4Mode12LightOffenceEv:00000054 $d
+.ARM.exidx.text._ZN4Mode12LightOffenceEv:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s:314    .text._GLOBAL__sub_I__ZN4Mode12LightOffenceEv:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s:319    .text._GLOBAL__sub_I__ZN4Mode12LightOffenceEv:00000000 _GLOBAL__sub_I__ZN4Mode12LightOffenceEv
+.ARM.exidx.text._GLOBAL__sub_I__ZN4Mode12LightOffenceEv:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s:343    .init_array:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s:346    .bss._ZL10hold_timer:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s:352    .bss._ZL26do_front_curve_shoot_timer:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccpbb8bq.s:358    .bss._ZL25do_back_curve_shoot_timer:00000000 $d
+
+UNDEFINED SYMBOLS
+_ZN6Kicker4KickEf
+__aeabi_unwind_cpp_pr1
+__aeabi_i2d
+__aeabi_dmul
+__aeabi_d2iz
+_ZN10MotorDrive5DriveEsffsfh
+__aeabi_unwind_cpp_pr0
+_ZN5TimerC1Ev
+_ZN5Timer7read_msEv
+_Z6OnLineP5Robot
+back_to_inside_timer
+pre_speed
+is_pre_on_line

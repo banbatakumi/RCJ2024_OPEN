@@ -1,0 +1,770 @@
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"light_defence.cpp"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "src/algorithm/defence/light_defence.cpp"
+  20              		.global	__aeabi_i2d
+  21              		.global	__aeabi_dmul
+  22              		.global	__aeabi_d2f
+  23              		.section	.text._ZL9LineTraceP5Robot,"ax",%progbits
+  24              		.align	1
+  25              		.syntax unified
+  26              		.thumb
+  27              		.thumb_func
+  29              	_ZL9LineTraceP5Robot:
+  30              		.fnstart
+  31              	.LVL0:
+  32              	.LFB275:
+   1:src/algorithm/defence/light_defence.cpp **** 
+   2:src/algorithm/defence/light_defence.cpp **** #include "mode.hpp"
+   3:src/algorithm/defence/light_defence.cpp **** 
+   4:src/algorithm/defence/light_defence.cpp **** static Timer out_line_timer;
+   5:src/algorithm/defence/light_defence.cpp **** 
+   6:src/algorithm/defence/light_defence.cpp **** static int16_t pre_line_dir;
+   7:src/algorithm/defence/light_defence.cpp **** 
+   8:src/algorithm/defence/light_defence.cpp **** static bool enable_shoot;
+   9:src/algorithm/defence/light_defence.cpp **** 
+  10:src/algorithm/defence/light_defence.cpp **** static bool is_pid_initialized = false;
+  11:src/algorithm/defence/light_defence.cpp **** 
+  12:src/algorithm/defence/light_defence.cpp **** static void LineTrace(Robot* robot) {
+  33              		.loc 1 12 37 view -0
+  34              		.cfi_startproc
+  35              		@ args = 0, pretend = 0, frame = 0
+  36              		@ frame_needed = 0, uses_anonymous_args = 0
+  37              		.loc 1 12 37 is_stmt 0 view .LVU1
+  38 0000 70B5     		push	{r4, r5, r6, lr}
+  39              		.save {r4, r5, r6, lr}
+  40              	.LCFI0:
+  41              		.cfi_def_cfa_offset 16
+  42              		.cfi_offset 4, -16
+  43              		.cfi_offset 5, -12
+  44              		.cfi_offset 6, -8
+  45              		.cfi_offset 14, -4
+  46 0002 2DED028B 		vpush.64	{d8}
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s 			page 2
+
+
+  47              		.vsave {d8}
+  48              	.LCFI1:
+  49              		.cfi_def_cfa_offset 24
+  50              		.cfi_offset 80, -24
+  51              		.cfi_offset 81, -20
+  52 0006 0446     		mov	r4, r0
+  13:src/algorithm/defence/light_defence.cpp ****       int16_t vector_x, vector_y;
+  53              		.loc 1 13 7 is_stmt 1 view .LVU2
+  14:src/algorithm/defence/light_defence.cpp ****       int16_t ball_almost_angle;
+  54              		.loc 1 14 7 view .LVU3
+  15:src/algorithm/defence/light_defence.cpp ****       int16_t tmp_moving_dir;
+  55              		.loc 1 15 7 view .LVU4
+  16:src/algorithm/defence/light_defence.cpp ****       float tmp_moving_speed;
+  56              		.loc 1 16 7 view .LVU5
+  17:src/algorithm/defence/light_defence.cpp ****       if (robot->info.Line.dir > -90 && robot->info.Line.dir < 90) {
+  57              		.loc 1 17 7 view .LVU6
+  58              		.loc 1 17 28 is_stmt 0 view .LVU7
+  59 0008 B0F92600 		ldrsh	r0, [r0, #38]
+  60              	.LVL1:
+  61              		.loc 1 17 38 view .LVU8
+  62 000c 82B2     		uxth	r2, r0
+  63 000e 02F15903 		add	r3, r2, #89
+  64 0012 9BB2     		uxth	r3, r3
+  65              		.loc 1 17 7 view .LVU9
+  66 0014 B22B     		cmp	r3, #178
+  67 0016 0BD9     		bls	.L14
+  68 0018 0026     		movs	r6, #0
+  18:src/algorithm/defence/light_defence.cpp ****             ball_almost_angle = robot->info.Line.dir;
+  19:src/algorithm/defence/light_defence.cpp ****       } else if (robot->info.Line.dir < -90) {
+  69              		.loc 1 19 14 is_stmt 1 view .LVU10
+  70 001a 10F15A0F 		cmn	r0, #90
+  71 001e 02DA     		bge	.L3
+  20:src/algorithm/defence/light_defence.cpp ****             ball_almost_angle = robot->info.Line.dir + 180;
+  72              		.loc 1 20 13 view .LVU11
+  73              		.loc 1 20 54 is_stmt 0 view .LVU12
+  74 0020 B432     		adds	r2, r2, #180
+  75              		.loc 1 20 31 view .LVU13
+  76 0022 16B2     		sxth	r6, r2
+  77              	.LVL2:
+  78              		.loc 1 20 31 view .LVU14
+  79 0024 05E0     		b	.L2
+  80              	.LVL3:
+  81              	.L3:
+  21:src/algorithm/defence/light_defence.cpp ****       } else if (robot->info.Line.dir > 90) {
+  82              		.loc 1 21 14 is_stmt 1 view .LVU15
+  83 0026 5A28     		cmp	r0, #90
+  84 0028 03DD     		ble	.L2
+  22:src/algorithm/defence/light_defence.cpp ****             ball_almost_angle = robot->info.Line.dir - 180;
+  85              		.loc 1 22 13 view .LVU16
+  86              		.loc 1 22 54 is_stmt 0 view .LVU17
+  87 002a B43A     		subs	r2, r2, #180
+  88              		.loc 1 22 31 view .LVU18
+  89 002c 16B2     		sxth	r6, r2
+  90              	.LVL4:
+  91              		.loc 1 22 31 view .LVU19
+  92 002e 00E0     		b	.L2
+  93              	.LVL5:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s 			page 3
+
+
+  94              	.L14:
+  18:src/algorithm/defence/light_defence.cpp ****       } else if (robot->info.Line.dir < -90) {
+  95              		.loc 1 18 31 view .LVU20
+  96 0030 0646     		mov	r6, r0
+  97              	.L2:
+  98              	.LVL6:
+  23:src/algorithm/defence/light_defence.cpp ****       }
+  24:src/algorithm/defence/light_defence.cpp ****       if (robot->info.Esp32.ir_dir < 0) {
+  99              		.loc 1 24 7 is_stmt 1 view .LVU21
+ 100              		.loc 1 24 29 is_stmt 0 view .LVU22
+ 101 0032 B4F98A30 		ldrsh	r3, [r4, #138]
+ 102              		.loc 1 24 7 view .LVU23
+ 103 0036 002B     		cmp	r3, #0
+ 104 0038 C0F28380 		blt	.L17
+  25:src/algorithm/defence/light_defence.cpp ****             ball_almost_angle -= 90;
+  26:src/algorithm/defence/light_defence.cpp ****       } else {
+  27:src/algorithm/defence/light_defence.cpp ****             ball_almost_angle += 90;
+ 105              		.loc 1 27 13 is_stmt 1 view .LVU24
+ 106              		.loc 1 27 31 is_stmt 0 view .LVU25
+ 107 003c 5A36     		adds	r6, r6, #90
+ 108              	.LVL7:
+ 109              		.loc 1 27 31 view .LVU26
+ 110 003e 36B2     		sxth	r6, r6
+ 111              	.LVL8:
+ 112              	.L5:
+  28:src/algorithm/defence/light_defence.cpp ****       }
+  29:src/algorithm/defence/light_defence.cpp **** 
+  30:src/algorithm/defence/light_defence.cpp ****       vector_x = (12 - robot->info.Line.interval) * MyMath::sinDeg(robot->info.Line.dir) + robot->i
+ 113              		.loc 1 30 7 is_stmt 1 view .LVU27
+ 114              		.loc 1 30 41 is_stmt 0 view .LVU28
+ 115 0040 94F82130 		ldrb	r3, [r4, #33]	@ zero_extendqisi2
+ 116              		.loc 1 30 22 view .LVU29
+ 117 0044 C3F10C03 		rsb	r3, r3, #12
+ 118 0048 08EE103A 		vmov	s16, r3	@ int
+ 119              		.loc 1 30 51 view .LVU30
+ 120 004c B8EEC88A 		vcvt.f32.s32	s16, s16
+ 121              		.loc 1 30 67 view .LVU31
+ 122 0050 FFF7FEFF 		bl	sinDeg
+ 123              	.LVL9:
+ 124              		.loc 1 30 51 view .LVU32
+ 125 0054 28EE008A 		vmul.f32	s16, s16, s0
+ 126              		.loc 1 30 109 view .LVU33
+ 127 0058 94F82130 		ldrb	r3, [r4, #33]	@ zero_extendqisi2
+ 128 005c 08EE903A 		vmov	s17, r3	@ int
+ 129              		.loc 1 30 118 view .LVU34
+ 130 0060 F8EEE88A 		vcvt.f32.s32	s17, s17
+ 131              		.loc 1 30 134 view .LVU35
+ 132 0064 3046     		mov	r0, r6
+ 133 0066 FFF7FEFF 		bl	sinDeg
+ 134              	.LVL10:
+ 135              		.loc 1 30 118 view .LVU36
+ 136 006a 68EE808A 		vmul.f32	s17, s17, s0
+ 137              		.loc 1 30 90 view .LVU37
+ 138 006e 38EE288A 		vadd.f32	s16, s16, s17
+ 139              		.loc 1 30 16 view .LVU38
+ 140 0072 BDEEC88A 		vcvt.s32.f32	s16, s16
+ 141 0076 18EE103A 		vmov	r3, s16	@ int
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s 			page 4
+
+
+ 142 007a 1DB2     		sxth	r5, r3
+ 143              	.LVL11:
+  31:src/algorithm/defence/light_defence.cpp ****       vector_y = (12 - robot->info.Line.interval) * MyMath::cosDeg(robot->info.Line.dir) + robot->i
+ 144              		.loc 1 31 7 is_stmt 1 view .LVU39
+ 145              		.loc 1 31 41 is_stmt 0 view .LVU40
+ 146 007c 94F82130 		ldrb	r3, [r4, #33]	@ zero_extendqisi2
+ 147              		.loc 1 31 22 view .LVU41
+ 148 0080 C3F10C03 		rsb	r3, r3, #12
+ 149 0084 08EE103A 		vmov	s16, r3	@ int
+ 150              		.loc 1 31 51 view .LVU42
+ 151 0088 B8EEC88A 		vcvt.f32.s32	s16, s16
+ 152              		.loc 1 31 67 view .LVU43
+ 153 008c B4F92600 		ldrsh	r0, [r4, #38]
+ 154 0090 FFF7FEFF 		bl	cosDeg
+ 155              	.LVL12:
+ 156              		.loc 1 31 51 view .LVU44
+ 157 0094 28EE008A 		vmul.f32	s16, s16, s0
+ 158              		.loc 1 31 109 view .LVU45
+ 159 0098 94F82130 		ldrb	r3, [r4, #33]	@ zero_extendqisi2
+ 160 009c 08EE903A 		vmov	s17, r3	@ int
+ 161              		.loc 1 31 118 view .LVU46
+ 162 00a0 F8EEE88A 		vcvt.f32.s32	s17, s17
+ 163              		.loc 1 31 134 view .LVU47
+ 164 00a4 3046     		mov	r0, r6
+ 165 00a6 FFF7FEFF 		bl	cosDeg
+ 166              	.LVL13:
+ 167              		.loc 1 31 118 view .LVU48
+ 168 00aa 68EE808A 		vmul.f32	s17, s17, s0
+ 169              		.loc 1 31 90 view .LVU49
+ 170 00ae 38EE288A 		vadd.f32	s16, s16, s17
+ 171              		.loc 1 31 16 view .LVU50
+ 172 00b2 BDEEC88A 		vcvt.s32.f32	s16, s16
+ 173 00b6 18EE103A 		vmov	r3, s16	@ int
+ 174 00ba 1BB2     		sxth	r3, r3
+ 175              	.LVL14:
+  32:src/algorithm/defence/light_defence.cpp **** 
+  33:src/algorithm/defence/light_defence.cpp ****       if (abs(robot->info.Line.dir) > 45 && abs(robot->info.Line.dir) < 135) {
+ 176              		.loc 1 33 7 is_stmt 1 view .LVU51
+ 177              		.loc 1 33 11 is_stmt 0 view .LVU52
+ 178 00bc B4F92660 		ldrsh	r6, [r4, #38]
+ 179              	.LVL15:
+ 180              		.loc 1 33 11 view .LVU53
+ 181 00c0 86EAE672 		eor	r2, r6, r6, asr #31
+ 182 00c4 A2EBE672 		sub	r2, r2, r6, asr #31
+ 183 00c8 92B2     		uxth	r2, r2
+ 184              		.loc 1 33 42 view .LVU54
+ 185 00ca 2E3A     		subs	r2, r2, #46
+ 186 00cc 92B2     		uxth	r2, r2
+ 187              		.loc 1 33 7 view .LVU55
+ 188 00ce 582A     		cmp	r2, #88
+ 189 00d0 3AD9     		bls	.L18
+  34:src/algorithm/defence/light_defence.cpp ****             robot->motor.Drive(0, 0.5, 1);
+  35:src/algorithm/defence/light_defence.cpp ****       } else if ((robot->info.Line.dir > 90 && robot->info.Line.dir < 135 && robot->info.Esp32.ir_d
+ 190              		.loc 1 35 14 is_stmt 1 view .LVU56
+ 191              		.loc 1 35 45 is_stmt 0 view .LVU57
+ 192 00d2 B2B2     		uxth	r2, r6
+ 193 00d4 A2F15B01 		sub	r1, r2, #91
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s 			page 5
+
+
+ 194 00d8 89B2     		uxth	r1, r1
+ 195              		.loc 1 35 14 view .LVU58
+ 196 00da 2B29     		cmp	r1, #43
+ 197 00dc 03D8     		bhi	.L8
+ 198              		.loc 1 35 96 discriminator 1 view .LVU59
+ 199 00de B4F98A10 		ldrsh	r1, [r4, #138]
+ 200              		.loc 1 35 75 discriminator 1 view .LVU60
+ 201 00e2 0029     		cmp	r1, #0
+ 202 00e4 07DB     		blt	.L9
+ 203              	.L8:
+ 204              		.loc 1 35 139 discriminator 3 view .LVU61
+ 205 00e6 8632     		adds	r2, r2, #134
+ 206 00e8 92B2     		uxth	r2, r2
+ 207              		.loc 1 35 108 discriminator 3 view .LVU62
+ 208 00ea 2B2A     		cmp	r2, #43
+ 209 00ec 3AD8     		bhi	.L10
+ 210              		.loc 1 35 191 discriminator 4 view .LVU63
+ 211 00ee B4F98A20 		ldrsh	r2, [r4, #138]
+ 212              		.loc 1 35 170 discriminator 4 view .LVU64
+ 213 00f2 002A     		cmp	r2, #0
+ 214 00f4 36DD     		ble	.L10
+ 215              	.L9:
+  36:src/algorithm/defence/light_defence.cpp ****             tmp_moving_speed = (12 - robot->info.Line.interval) * 0.1;
+ 216              		.loc 1 36 13 is_stmt 1 view .LVU65
+ 217              		.loc 1 36 55 is_stmt 0 view .LVU66
+ 218 00f6 94F82100 		ldrb	r0, [r4, #33]	@ zero_extendqisi2
+ 219              		.loc 1 36 65 view .LVU67
+ 220 00fa C0F10C00 		rsb	r0, r0, #12
+ 221 00fe FFF7FEFF 		bl	__aeabi_i2d
+ 222              	.LVL16:
+ 223              		.loc 1 36 65 view .LVU68
+ 224 0102 35A3     		adr	r3, .L19
+ 225 0104 D3E90023 		ldrd	r2, [r3]
+ 226 0108 FFF7FEFF 		bl	__aeabi_dmul
+ 227              	.LVL17:
+ 228              		.loc 1 36 30 view .LVU69
+ 229 010c FFF7FEFF 		bl	__aeabi_d2f
+ 230              	.LVL18:
+ 231 0110 07EE900A 		vmov	s15, r0
+ 232              	.LVL19:
+  37:src/algorithm/defence/light_defence.cpp ****             if (tmp_moving_speed > robot->info.target_move_speed) tmp_moving_speed = robot->info.ta
+ 233              		.loc 1 37 13 is_stmt 1 view .LVU70
+ 234              		.loc 1 37 48 is_stmt 0 view .LVU71
+ 235 0114 94ED060A 		vldr.32	s0, [r4, #24]
+ 236              		.loc 1 37 13 view .LVU72
+ 237 0118 B4EEE70A 		vcmpe.f32	s0, s15
+ 238 011c F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 239 0120 01D4     		bmi	.L11
+  36:src/algorithm/defence/light_defence.cpp ****             tmp_moving_speed = (12 - robot->info.Line.interval) * 0.1;
+ 240              		.loc 1 36 30 view .LVU73
+ 241 0122 B0EE670A 		vmov.f32	s0, s15
+ 242              	.L11:
+ 243              	.LVL20:
+  38:src/algorithm/defence/light_defence.cpp ****             robot->motor.Drive(robot->info.Line.dir, tmp_moving_speed, 1);
+ 244              		.loc 1 38 13 is_stmt 1 view .LVU74
+ 245              		.loc 1 38 31 is_stmt 0 view .LVU75
+ 246 0126 0023     		movs	r3, #0
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s 			page 6
+
+
+ 247 0128 9FED2D1A 		vldr.32	s2, .L19+8
+ 248 012c 1A46     		mov	r2, r3
+ 249 012e F7EE000A 		vmov.f32	s1, #1.0e+0
+ 250 0132 3146     		mov	r1, r6
+ 251 0134 04F5C870 		add	r0, r4, #400
+ 252 0138 FFF7FEFF 		bl	_ZN10MotorDrive5DriveEsffsfh
+ 253              	.LVL21:
+ 254              	.L1:
+  39:src/algorithm/defence/light_defence.cpp ****       } else {
+  40:src/algorithm/defence/light_defence.cpp ****             tmp_moving_dir = MyMath::NormalizeDeg180(MyMath::atan2(vector_x, vector_y));
+  41:src/algorithm/defence/light_defence.cpp ****             tmp_moving_speed = abs(robot->info.Esp32.ir_dir) * 0.1;
+  42:src/algorithm/defence/light_defence.cpp ****             if (abs(robot->info.Esp32.ir_dir) > 120) tmp_moving_speed = 0;
+  43:src/algorithm/defence/light_defence.cpp ****             if (tmp_moving_speed > robot->info.target_move_speed) tmp_moving_speed = robot->info.ta
+  44:src/algorithm/defence/light_defence.cpp ****             robot->motor.Drive(tmp_moving_dir, tmp_moving_speed);
+  45:src/algorithm/defence/light_defence.cpp ****       }
+  46:src/algorithm/defence/light_defence.cpp **** }
+ 255              		.loc 1 46 1 view .LVU76
+ 256 013c BDEC028B 		vldm	sp!, {d8}
+ 257              	.LCFI2:
+ 258              		.cfi_remember_state
+ 259              		.cfi_restore 80
+ 260              		.cfi_restore 81
+ 261              		.cfi_def_cfa_offset 16
+ 262              	.LVL22:
+ 263              		.loc 1 46 1 view .LVU77
+ 264 0140 70BD     		pop	{r4, r5, r6, pc}
+ 265              	.LVL23:
+ 266              	.L17:
+ 267              	.LCFI3:
+ 268              		.cfi_restore_state
+  25:src/algorithm/defence/light_defence.cpp ****       } else {
+ 269              		.loc 1 25 13 is_stmt 1 view .LVU78
+  25:src/algorithm/defence/light_defence.cpp ****       } else {
+ 270              		.loc 1 25 31 is_stmt 0 view .LVU79
+ 271 0142 5A3E     		subs	r6, r6, #90
+ 272              	.LVL24:
+  25:src/algorithm/defence/light_defence.cpp ****       } else {
+ 273              		.loc 1 25 31 view .LVU80
+ 274 0144 36B2     		sxth	r6, r6
+ 275              	.LVL25:
+  25:src/algorithm/defence/light_defence.cpp ****       } else {
+ 276              		.loc 1 25 31 view .LVU81
+ 277 0146 7BE7     		b	.L5
+ 278              	.LVL26:
+ 279              	.L18:
+  34:src/algorithm/defence/light_defence.cpp ****       } else if ((robot->info.Line.dir > 90 && robot->info.Line.dir < 135 && robot->info.Esp32.ir_d
+ 280              		.loc 1 34 13 is_stmt 1 view .LVU82
+  34:src/algorithm/defence/light_defence.cpp ****       } else if ((robot->info.Line.dir > 90 && robot->info.Line.dir < 135 && robot->info.Esp32.ir_d
+ 281              		.loc 1 34 31 is_stmt 0 view .LVU83
+ 282 0148 0023     		movs	r3, #0
+ 283              	.LVL27:
+  34:src/algorithm/defence/light_defence.cpp ****       } else if ((robot->info.Line.dir > 90 && robot->info.Line.dir < 135 && robot->info.Esp32.ir_d
+ 284              		.loc 1 34 31 view .LVU84
+ 285 014a 9FED251A 		vldr.32	s2, .L19+8
+ 286 014e 1A46     		mov	r2, r3
+ 287 0150 F7EE000A 		vmov.f32	s1, #1.0e+0
+ 288 0154 B6EE000A 		vmov.f32	s0, #5.0e-1
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s 			page 7
+
+
+ 289 0158 1946     		mov	r1, r3
+ 290 015a 04F5C870 		add	r0, r4, #400
+ 291 015e FFF7FEFF 		bl	_ZN10MotorDrive5DriveEsffsfh
+ 292              	.LVL28:
+ 293 0162 EBE7     		b	.L1
+ 294              	.LVL29:
+ 295              	.L10:
+  40:src/algorithm/defence/light_defence.cpp ****             tmp_moving_speed = abs(robot->info.Esp32.ir_dir) * 0.1;
+ 296              		.loc 1 40 13 is_stmt 1 view .LVU85
+  40:src/algorithm/defence/light_defence.cpp ****             tmp_moving_speed = abs(robot->info.Esp32.ir_dir) * 0.1;
+ 297              		.loc 1 40 53 is_stmt 0 view .LVU86
+ 298 0164 07EE903A 		vmov	s15, r3	@ int
+ 299 0168 F8EEE70A 		vcvt.f32.s32	s1, s15
+ 300 016c 07EE905A 		vmov	s15, r5	@ int
+ 301 0170 B8EEE70A 		vcvt.f32.s32	s0, s15
+ 302 0174 FFF7FEFF 		bl	atan2
+ 303              	.LVL30:
+  40:src/algorithm/defence/light_defence.cpp ****             tmp_moving_speed = abs(robot->info.Esp32.ir_dir) * 0.1;
+ 304              		.loc 1 40 53 view .LVU87
+ 305 0178 FFF7FEFF 		bl	NormalizeDeg180
+ 306              	.LVL31:
+  40:src/algorithm/defence/light_defence.cpp ****             tmp_moving_speed = abs(robot->info.Esp32.ir_dir) * 0.1;
+ 307              		.loc 1 40 28 view .LVU88
+ 308 017c 06B2     		sxth	r6, r0
+ 309              	.LVL32:
+  41:src/algorithm/defence/light_defence.cpp ****             if (abs(robot->info.Esp32.ir_dir) > 120) tmp_moving_speed = 0;
+ 310              		.loc 1 41 13 is_stmt 1 view .LVU89
+  41:src/algorithm/defence/light_defence.cpp ****             if (abs(robot->info.Esp32.ir_dir) > 120) tmp_moving_speed = 0;
+ 311              		.loc 1 41 32 is_stmt 0 view .LVU90
+ 312 017e B4F98A50 		ldrsh	r5, [r4, #138]
+ 313              	.LVL33:
+  41:src/algorithm/defence/light_defence.cpp ****             if (abs(robot->info.Esp32.ir_dir) > 120) tmp_moving_speed = 0;
+ 314              		.loc 1 41 32 view .LVU91
+ 315 0182 002D     		cmp	r5, #0
+ 316 0184 B8BF     		it	lt
+ 317 0186 6D42     		rsblt	r5, r5, #0
+ 318 0188 ADB2     		uxth	r5, r5
+  41:src/algorithm/defence/light_defence.cpp ****             if (abs(robot->info.Esp32.ir_dir) > 120) tmp_moving_speed = 0;
+ 319              		.loc 1 41 62 view .LVU92
+ 320 018a 2846     		mov	r0, r5
+ 321 018c FFF7FEFF 		bl	__aeabi_i2d
+ 322              	.LVL34:
+ 323 0190 11A3     		adr	r3, .L19
+ 324 0192 D3E90023 		ldrd	r2, [r3]
+ 325 0196 FFF7FEFF 		bl	__aeabi_dmul
+ 326              	.LVL35:
+  41:src/algorithm/defence/light_defence.cpp ****             if (abs(robot->info.Esp32.ir_dir) > 120) tmp_moving_speed = 0;
+ 327              		.loc 1 41 30 view .LVU93
+ 328 019a FFF7FEFF 		bl	__aeabi_d2f
+ 329              	.LVL36:
+ 330 019e 07EE900A 		vmov	s15, r0
+ 331              	.LVL37:
+  42:src/algorithm/defence/light_defence.cpp ****             if (tmp_moving_speed > robot->info.target_move_speed) tmp_moving_speed = robot->info.ta
+ 332              		.loc 1 42 13 is_stmt 1 view .LVU94
+ 333 01a2 782D     		cmp	r5, #120
+ 334 01a4 01D9     		bls	.L12
+  42:src/algorithm/defence/light_defence.cpp ****             if (tmp_moving_speed > robot->info.target_move_speed) tmp_moving_speed = robot->info.ta
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s 			page 8
+
+
+ 335              		.loc 1 42 71 is_stmt 0 view .LVU95
+ 336 01a6 DFED0E7A 		vldr.32	s15, .L19+8
+ 337              	.L12:
+ 338              	.LVL38:
+  43:src/algorithm/defence/light_defence.cpp ****             robot->motor.Drive(tmp_moving_dir, tmp_moving_speed);
+ 339              		.loc 1 43 13 is_stmt 1 view .LVU96
+  43:src/algorithm/defence/light_defence.cpp ****             robot->motor.Drive(tmp_moving_dir, tmp_moving_speed);
+ 340              		.loc 1 43 48 is_stmt 0 view .LVU97
+ 341 01aa 94ED060A 		vldr.32	s0, [r4, #24]
+  43:src/algorithm/defence/light_defence.cpp ****             robot->motor.Drive(tmp_moving_dir, tmp_moving_speed);
+ 342              		.loc 1 43 13 view .LVU98
+ 343 01ae B4EEE70A 		vcmpe.f32	s0, s15
+ 344 01b2 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 345 01b6 01D4     		bmi	.L13
+ 346 01b8 B0EE670A 		vmov.f32	s0, s15
+ 347              	.L13:
+ 348              	.LVL39:
+  44:src/algorithm/defence/light_defence.cpp ****       }
+ 349              		.loc 1 44 13 is_stmt 1 view .LVU99
+  44:src/algorithm/defence/light_defence.cpp ****       }
+ 350              		.loc 1 44 31 is_stmt 0 view .LVU100
+ 351 01bc DFED080A 		vldr.32	s1, .L19+8
+ 352 01c0 0023     		movs	r3, #0
+ 353 01c2 B0EE601A 		vmov.f32	s2, s1
+ 354 01c6 1A46     		mov	r2, r3
+ 355 01c8 3146     		mov	r1, r6
+ 356 01ca 04F5C870 		add	r0, r4, #400
+ 357 01ce FFF7FEFF 		bl	_ZN10MotorDrive5DriveEsffsfh
+ 358              	.LVL40:
+ 359              		.loc 1 46 1 view .LVU101
+ 360 01d2 B3E7     		b	.L1
+ 361              	.L20:
+ 362 01d4 AFF30080 		.align	3
+ 363              	.L19:
+ 364 01d8 9A999999 		.word	-1717986918
+ 365 01dc 9999B93F 		.word	1069128089
+ 366 01e0 00000000 		.word	0
+ 367              		.cfi_endproc
+ 368              	.LFE275:
+ 369              		.fnend
+ 371              		.section	.text._Z41__static_initialization_and_destruction_0ii,"ax",%progbits
+ 372              		.align	1
+ 373              		.syntax unified
+ 374              		.thumb
+ 375              		.thumb_func
+ 377              	_Z41__static_initialization_and_destruction_0ii:
+ 378              		.fnstart
+ 379              	.LVL41:
+ 380              	.LFB277:
+  47:src/algorithm/defence/light_defence.cpp **** 
+  48:src/algorithm/defence/light_defence.cpp **** void Mode::LightDefence() {
+  49:src/algorithm/defence/light_defence.cpp ****       if (robot->info.Line.is_on_line == 1) {
+  50:src/algorithm/defence/light_defence.cpp ****             LineTrace(robot);
+  51:src/algorithm/defence/light_defence.cpp ****             pre_line_dir = robot->info.Line.dir;
+  52:src/algorithm/defence/light_defence.cpp ****             out_line_timer.reset();
+  53:src/algorithm/defence/light_defence.cpp ****       } else {
+  54:src/algorithm/defence/light_defence.cpp ****             if (out_line_timer.read_ms() < 1000) {
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s 			page 9
+
+
+  55:src/algorithm/defence/light_defence.cpp ****                   robot->motor.Drive(pre_line_dir, 1, 1);
+  56:src/algorithm/defence/light_defence.cpp ****             } else {
+  57:src/algorithm/defence/light_defence.cpp ****                   robot->motor.Drive(robot->info.Cam.own_goal_dir, 0.5, 1);
+  58:src/algorithm/defence/light_defence.cpp ****             }
+  59:src/algorithm/defence/light_defence.cpp ****       }
+  60:src/algorithm/defence/light_defence.cpp **** }...
+ 381              		.loc 1 60 1 is_stmt 1 view -0
+ 382              		.cfi_startproc
+ 383              		@ args = 0, pretend = 0, frame = 0
+ 384              		@ frame_needed = 0, uses_anonymous_args = 0
+ 385              		.loc 1 60 1 is_stmt 0 view .LVU103
+ 386 0000 0128     		cmp	r0, #1
+ 387 0002 00D0     		beq	.L27
+ 388 0004 7047     		bx	lr
+ 389              	.L27:
+ 390              		.loc 1 60 1 discriminator 1 view .LVU104
+ 391 0006 08B5     		push	{r3, lr}
+ 392              	.LCFI4:
+ 393              		.cfi_def_cfa_offset 8
+ 394              		.cfi_offset 3, -8
+ 395              		.cfi_offset 14, -4
+ 396              		.loc 1 60 1 discriminator 1 view .LVU105
+ 397 0008 4FF6FF73 		movw	r3, #65535
+ 398 000c 9942     		cmp	r1, r3
+ 399 000e 00D0     		beq	.L28
+ 400              	.LVL42:
+ 401              	.L21:
+ 402              		.loc 1 60 1 view .LVU106
+ 403 0010 08BD     		pop	{r3, pc}
+ 404              	.LVL43:
+ 405              	.L28:
+   4:src/algorithm/defence/light_defence.cpp **** static Timer out_line_timer;
+ 406              		.loc 1 4 14 view .LVU107
+ 407 0012 0248     		ldr	r0, .L29
+ 408              	.LVL44:
+   4:src/algorithm/defence/light_defence.cpp **** static Timer out_line_timer;
+ 409              		.loc 1 4 14 view .LVU108
+ 410 0014 FFF7FEFF 		bl	_ZN5TimerC1Ev
+ 411              	.LVL45:
+ 412              		.loc 1 60 1 view .LVU109
+ 413 0018 FAE7     		b	.L21
+ 414              	.L30:
+ 415 001a 00BF     		.align	2
+ 416              	.L29:
+ 417 001c 00000000 		.word	_ZL14out_line_timer
+ 418              		.cfi_endproc
+ 419              	.LFE277:
+ 420              		.cantunwind
+ 421              		.fnend
+ 423              		.section	.text._ZN4Mode12LightDefenceEv,"ax",%progbits
+ 424              		.align	1
+ 425              		.global	_ZN4Mode12LightDefenceEv
+ 426              		.syntax unified
+ 427              		.thumb
+ 428              		.thumb_func
+ 430              	_ZN4Mode12LightDefenceEv:
+ 431              		.fnstart
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s 			page 10
+
+
+ 432              	.LVL46:
+ 433              	.LFB276:
+  48:src/algorithm/defence/light_defence.cpp **** void Mode::LightDefence() {
+ 434              		.loc 1 48 27 is_stmt 1 view -0
+ 435              		.cfi_startproc
+ 436              		@ args = 0, pretend = 0, frame = 0
+ 437              		@ frame_needed = 0, uses_anonymous_args = 0
+  48:src/algorithm/defence/light_defence.cpp **** void Mode::LightDefence() {
+ 438              		.loc 1 48 27 is_stmt 0 view .LVU111
+ 439 0000 10B5     		push	{r4, lr}
+ 440              		.save {r4, lr}
+ 441              	.LCFI5:
+ 442              		.cfi_def_cfa_offset 8
+ 443              		.cfi_offset 4, -8
+ 444              		.cfi_offset 14, -4
+ 445 0002 0446     		mov	r4, r0
+  49:src/algorithm/defence/light_defence.cpp ****       if (robot->info.Line.is_on_line == 1) {
+ 446              		.loc 1 49 7 is_stmt 1 view .LVU112
+  49:src/algorithm/defence/light_defence.cpp ****       if (robot->info.Line.is_on_line == 1) {
+ 447              		.loc 1 49 11 is_stmt 0 view .LVU113
+ 448 0004 4068     		ldr	r0, [r0, #4]
+ 449              	.LVL47:
+  49:src/algorithm/defence/light_defence.cpp ****       if (robot->info.Line.is_on_line == 1) {
+ 450              		.loc 1 49 28 view .LVU114
+ 451 0006 90F82330 		ldrb	r3, [r0, #35]	@ zero_extendqisi2
+  49:src/algorithm/defence/light_defence.cpp ****       if (robot->info.Line.is_on_line == 1) {
+ 452              		.loc 1 49 7 view .LVU115
+ 453 000a 53B1     		cbz	r3, .L32
+  50:src/algorithm/defence/light_defence.cpp ****             LineTrace(robot);
+ 454              		.loc 1 50 13 is_stmt 1 view .LVU116
+  50:src/algorithm/defence/light_defence.cpp ****             LineTrace(robot);
+ 455              		.loc 1 50 22 is_stmt 0 view .LVU117
+ 456 000c FFF7FEFF 		bl	_ZL9LineTraceP5Robot
+ 457              	.LVL48:
+  51:src/algorithm/defence/light_defence.cpp ****             pre_line_dir = robot->info.Line.dir;
+ 458              		.loc 1 51 13 is_stmt 1 view .LVU118
+  51:src/algorithm/defence/light_defence.cpp ****             pre_line_dir = robot->info.Line.dir;
+ 459              		.loc 1 51 28 is_stmt 0 view .LVU119
+ 460 0010 6368     		ldr	r3, [r4, #4]
+  51:src/algorithm/defence/light_defence.cpp ****             pre_line_dir = robot->info.Line.dir;
+ 461              		.loc 1 51 45 view .LVU120
+ 462 0012 B3F92620 		ldrsh	r2, [r3, #38]
+  51:src/algorithm/defence/light_defence.cpp ****             pre_line_dir = robot->info.Line.dir;
+ 463              		.loc 1 51 26 view .LVU121
+ 464 0016 164B     		ldr	r3, .L36
+ 465 0018 1A80     		strh	r2, [r3]	@ movhi
+  52:src/algorithm/defence/light_defence.cpp ****             out_line_timer.reset();
+ 466              		.loc 1 52 13 is_stmt 1 view .LVU122
+  52:src/algorithm/defence/light_defence.cpp ****             out_line_timer.reset();
+ 467              		.loc 1 52 33 is_stmt 0 view .LVU123
+ 468 001a 1648     		ldr	r0, .L36+4
+ 469 001c FFF7FEFF 		bl	_ZN5Timer5resetEv
+ 470              	.LVL49:
+ 471              	.L31:
+ 472              		.loc 1 60 1 view .LVU124
+ 473 0020 10BD     		pop	{r4, pc}
+ 474              	.LVL50:
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s 			page 11
+
+
+ 475              	.L32:
+  54:src/algorithm/defence/light_defence.cpp ****             if (out_line_timer.read_ms() < 1000) {
+ 476              		.loc 1 54 13 is_stmt 1 view .LVU125
+  54:src/algorithm/defence/light_defence.cpp ****             if (out_line_timer.read_ms() < 1000) {
+ 477              		.loc 1 54 39 is_stmt 0 view .LVU126
+ 478 0022 1448     		ldr	r0, .L36+4
+ 479 0024 FFF7FEFF 		bl	_ZN5Timer7read_msEv
+ 480              	.LVL51:
+  54:src/algorithm/defence/light_defence.cpp ****             if (out_line_timer.read_ms() < 1000) {
+ 481              		.loc 1 54 13 view .LVU127
+ 482 0028 B0F57A7F 		cmp	r0, #1000
+ 483 002c 10D2     		bcs	.L34
+  55:src/algorithm/defence/light_defence.cpp ****                   robot->motor.Drive(pre_line_dir, 1, 1);
+ 484              		.loc 1 55 19 is_stmt 1 view .LVU128
+ 485 002e 6068     		ldr	r0, [r4, #4]
+  55:src/algorithm/defence/light_defence.cpp ****                   robot->motor.Drive(pre_line_dir, 1, 1);
+ 486              		.loc 1 55 37 is_stmt 0 view .LVU129
+ 487 0030 0023     		movs	r3, #0
+ 488 0032 9FED111A 		vldr.32	s2, .L36+8
+ 489 0036 1A46     		mov	r2, r3
+ 490 0038 F7EE000A 		vmov.f32	s1, #1.0e+0
+ 491 003c B0EE600A 		vmov.f32	s0, s1
+ 492 0040 0B49     		ldr	r1, .L36
+ 493 0042 B1F90010 		ldrsh	r1, [r1]
+ 494 0046 00F5C870 		add	r0, r0, #400
+ 495 004a FFF7FEFF 		bl	_ZN10MotorDrive5DriveEsffsfh
+ 496              	.LVL52:
+ 497 004e E7E7     		b	.L31
+ 498              	.L34:
+  57:src/algorithm/defence/light_defence.cpp ****                   robot->motor.Drive(robot->info.Cam.own_goal_dir, 0.5, 1);
+ 499              		.loc 1 57 19 is_stmt 1 view .LVU130
+ 500 0050 6068     		ldr	r0, [r4, #4]
+  57:src/algorithm/defence/light_defence.cpp ****                   robot->motor.Drive(robot->info.Cam.own_goal_dir, 0.5, 1);
+ 501              		.loc 1 57 37 is_stmt 0 view .LVU131
+ 502 0052 0023     		movs	r3, #0
+ 503 0054 9FED081A 		vldr.32	s2, .L36+8
+ 504 0058 1A46     		mov	r2, r3
+ 505 005a F7EE000A 		vmov.f32	s1, #1.0e+0
+ 506 005e B6EE000A 		vmov.f32	s0, #5.0e-1
+ 507 0062 B0F97010 		ldrsh	r1, [r0, #112]
+ 508 0066 00F5C870 		add	r0, r0, #400
+ 509 006a FFF7FEFF 		bl	_ZN10MotorDrive5DriveEsffsfh
+ 510              	.LVL53:
+ 511              		.loc 1 60 1 view .LVU132
+ 512 006e D7E7     		b	.L31
+ 513              	.L37:
+ 514              		.align	2
+ 515              	.L36:
+ 516 0070 00000000 		.word	_ZL12pre_line_dir
+ 517 0074 00000000 		.word	_ZL14out_line_timer
+ 518 0078 00000000 		.word	0
+ 519              		.cfi_endproc
+ 520              	.LFE276:
+ 521              		.fnend
+ 523              		.section	.text._GLOBAL__sub_I__ZN4Mode12LightDefenceEv,"ax",%progbits
+ 524              		.align	1
+ 525              		.syntax unified
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s 			page 12
+
+
+ 526              		.thumb
+ 527              		.thumb_func
+ 529              	_GLOBAL__sub_I__ZN4Mode12LightDefenceEv:
+ 530              		.fnstart
+ 531              	.LFB278:
+ 532              		.loc 1 60 1 is_stmt 1 view -0
+ 533              		.cfi_startproc
+ 534              		@ args = 0, pretend = 0, frame = 0
+ 535              		@ frame_needed = 0, uses_anonymous_args = 0
+ 536 0000 08B5     		push	{r3, lr}
+ 537              	.LCFI6:
+ 538              		.cfi_def_cfa_offset 8
+ 539              		.cfi_offset 3, -8
+ 540              		.cfi_offset 14, -4
+ 541              		.loc 1 60 1 is_stmt 0 view .LVU134
+ 542 0002 4FF6FF71 		movw	r1, #65535
+ 543 0006 0120     		movs	r0, #1
+ 544 0008 FFF7FEFF 		bl	_Z41__static_initialization_and_destruction_0ii
+ 545              	.LVL54:
+ 546 000c 08BD     		pop	{r3, pc}
+ 547              		.cfi_endproc
+ 548              	.LFE278:
+ 549              		.cantunwind
+ 550              		.fnend
+ 552              		.section	.init_array,"aw",%init_array
+ 553              		.align	2
+ 554 0000 00000000 		.word	_GLOBAL__sub_I__ZN4Mode12LightDefenceEv(target1)
+ 555              		.section	.bss._ZL12pre_line_dir,"aw",%nobits
+ 556              		.align	1
+ 559              	_ZL12pre_line_dir:
+ 560 0000 0000     		.space	2
+ 561              		.section	.bss._ZL14out_line_timer,"aw",%nobits
+ 562              		.align	2
+ 565              	_ZL14out_line_timer:
+ 566 0000 00000000 		.space	4
+ 567              		.text
+ 568              	.Letext0:
+ 569              		.file 2 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/machine/_default_ty
+ 570              		.file 3 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/lib/gcc/arm-none-eabi/12.3.1/include/stdd
+ 571              		.file 4 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_types.h"
+ 572              		.file 5 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/reent.h"
+ 573              		.file 6 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/lock.h"
+ 574              		.file 7 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/stdio.h"
+ 575              		.file 8 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/sys/_stdint.h"
+ 576              		.file 9 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h"
+ 577              		.file 10 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
+ 578              		.file 11 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 579              		.file 12 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 580              		.file 13 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h"
+ 581              		.file 14 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h"
+ 582              		.file 15 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
+ 583              		.file 16 "Lib/BufferedSerial/BufferedSerial.hpp"
+ 584              		.file 17 "Lib/DigitalInOut/DigitalInOut.hpp"
+ 585              		.file 18 "Lib/MovingAve/MovingAve.hpp"
+ 586              		.file 19 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/cstdio"
+ 587              		.file 20 "/opt/ST/STM32CubeCLT_1.16.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/12.3.1/arm-non
+ 588              		.file 21 "Lib/PWMSingle/PWMSingle.hpp"
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s 			page 13
+
+
+ 589              		.file 22 "Lib/Timer/Timer.hpp"
+ 590              		.file 23 "src/unit/dribbler_drive/dribbler_drive.hpp"
+ 591              		.file 24 "src/unit/kicker/kicker.hpp"
+ 592              		.file 25 "Lib/pid/pid.hpp"
+ 593              		.file 26 "src/unit/motor_drive/motor_drive.hpp"
+ 594              		.file 27 "src/unit/robot/robot.hpp"
+ 595              		.file 28 "src/mode/mode.hpp"
+ 596              		.file 29 "Lib/MyMath/MyMath.hpp"
+ARM GAS  /var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s 			page 14
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 light_defence.cpp
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s:24     .text._ZL9LineTraceP5Robot:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s:29     .text._ZL9LineTraceP5Robot:00000000 _ZL9LineTraceP5Robot
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s:364    .text._ZL9LineTraceP5Robot:000001d8 $d
+.ARM.exidx.text._ZL9LineTraceP5Robot:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s:372    .text._Z41__static_initialization_and_destruction_0ii:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s:377    .text._Z41__static_initialization_and_destruction_0ii:00000000 _Z41__static_initialization_and_destruction_0ii
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s:417    .text._Z41__static_initialization_and_destruction_0ii:0000001c $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s:565    .bss._ZL14out_line_timer:00000000 _ZL14out_line_timer
+.ARM.exidx.text._Z41__static_initialization_and_destruction_0ii:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s:424    .text._ZN4Mode12LightDefenceEv:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s:430    .text._ZN4Mode12LightDefenceEv:00000000 _ZN4Mode12LightDefenceEv
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s:516    .text._ZN4Mode12LightDefenceEv:00000070 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s:559    .bss._ZL12pre_line_dir:00000000 _ZL12pre_line_dir
+.ARM.exidx.text._ZN4Mode12LightDefenceEv:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s:524    .text._GLOBAL__sub_I__ZN4Mode12LightDefenceEv:00000000 $t
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s:529    .text._GLOBAL__sub_I__ZN4Mode12LightDefenceEv:00000000 _GLOBAL__sub_I__ZN4Mode12LightDefenceEv
+.ARM.exidx.text._GLOBAL__sub_I__ZN4Mode12LightDefenceEv:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s:553    .init_array:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s:556    .bss._ZL12pre_line_dir:00000000 $d
+/var/folders/5c/srt4fy4j1pd641bjfx75k5000000gn/T//ccnxGn53.s:562    .bss._ZL14out_line_timer:00000000 $d
+
+UNDEFINED SYMBOLS
+__aeabi_i2d
+__aeabi_dmul
+__aeabi_d2f
+sinDeg
+cosDeg
+_ZN10MotorDrive5DriveEsffsfh
+atan2
+NormalizeDeg180
+__aeabi_unwind_cpp_pr0
+_ZN5TimerC1Ev
+_ZN5Timer5resetEv
+_ZN5Timer7read_msEv

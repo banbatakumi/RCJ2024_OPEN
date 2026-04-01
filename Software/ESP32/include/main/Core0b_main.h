@@ -3,7 +3,7 @@
 
 #include "setup.h"
 
-#define CORE0B_CONTROL_FREQ 400  // Hz
+#define CORE0B_CONTROL_FREQ 500  // Hz
 #define MAX_POWER 100
 
 void Core0b_setup() {

@@ -30,7 +30,9 @@ void Ir::Read() {
       // センサそれぞれの値を読む
       for (uint8_t i = 0; i < IR_QTY; i++) val[i] = 0;
       for (uint16_t i = 0; i < READ_NUM_OF_TIME; i++) {
-            for (uint8_t j = 0; j < IR_QTY; j++) val[j] += digitalRead(ir[j]);
+            for (uint8_t j = 0; j < IR_QTY; j++) {
+                  val[j] += digitalRead(ir[j]);
+            }
       }
 
       // 移動平均を取る
@@ -55,6 +57,15 @@ void Ir::Read() {
       dir = MyAtan2(result_vector_y, result_vector_x);                                    // 角度を出す
       dis = sqrt(result_vector_x * result_vector_x + result_vector_y * result_vector_y);  // 距離を出す
       if (dis > 100) dis = 100;
+      // Serial.print("ir\t");
+      // for (uint8_t i = 0; i < IR_QTY; i++) {
+      //       Serial.print(val[i]);
+      //       Serial.print("\t");
+      // }
+      // Serial.print(dir);
+      // Serial.print("\t");
+      // Serial.println(dis);
+      // Serial.println();
 }
 
 int16_t Ir::GetDir() {

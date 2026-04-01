@@ -12,7 +12,7 @@
 #include "simplify_deg.h"
 
 #define bluetooth
-#define ROBOT_1
+#define ROBOT_2
 
 // ピン定義
 const uint8_t led_pin = 23;

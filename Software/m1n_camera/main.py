@@ -16,7 +16,7 @@ led_g.value(1)
 print("Current CPU Frequency: ", Maix.freq.get_cpu())
 print("Current KPU Frequency: ", Maix.freq.get_kpu())
 
-MODE=0
+MODE=1
 
 #定数定義
 UART_SPEED = const(230400)
@@ -58,7 +58,7 @@ fm.register(11, fm.fpioa.UART1_RX, force = True)
 uart = UART(UART.UART1, UART_SPEED, 8, None, 1, timeout = 1000, read_buf_len = 4096)
 
 #各閾値
-ball_thresholds = [(20, 73, 37, 65, 46, 81)]
+ball_thresholds = [(9, 97, 18, 76, 56, 83)]
 y_goal_thresholds = [(9, 97, -13, 19, 36, 72)]
 b_goal_thresholds = [(9, 97, 38, 69, -102, -47)]
 

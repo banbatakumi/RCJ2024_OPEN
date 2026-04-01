@@ -26,7 +26,7 @@ void Mode::MainMode() {
       robot->info.Line.on_led = false;
       if (robot->info.mode != 0 || robot->info.Ui.item == 1) robot->info.Line.on_led = true;
 
-      // 　yawのリセット
+      // yawのリセット
       if (robot->info.Ui.reset_yaw == false) robot->info.Ui.success_reset_yaw = false;
       if (robot->info.Ui.reset_yaw == true && robot->info.Ui.success_reset_yaw == false) {
             robot->info.Imu.yaw_correction_val = robot->info.Imu.yaw + robot->info.Imu.yaw_correction_val;
@@ -63,26 +63,13 @@ void Mode::MainMode() {
       } else if (robot->info.mode == 2) {
             Defence();
       } else if (robot->info.mode == 3) {  // debug mode
-            if (robot->info.Esp32.Wifi.stop) {
-                  robot->motor.Drive(0, 0, 5, robot->info.Esp32.Wifi.face_angle, PI, FRONT);
-            } else {
-                  robot->motor.Drive(robot->info.Esp32.Wifi.move_dir, robot->info.Esp32.Wifi.move_speed, 5, robot->info.Esp32.Wifi.face_angle, PI, FRONT);
-            }
-            if (robot->info.Esp32.Wifi.do_kick) {
-                  robot->dribbler_front.Brake(1);
-                  robot->kicker.Kick();
-            }
-            if (robot->info.Esp32.Wifi.do_dribble) {
-                  robot->dribbler_front.Hold(HOLD_MAX_POWER);
-            } else {
-                  robot->dribbler_front.Hold(0);
-            }
-            robot->info.Ui.debug[0] = robot->info.Esp32.Wifi.move_dir;
-            robot->info.Ui.debug[1] = robot->info.Esp32.Wifi.move_speed;
+            LightOffence();
+            robot->info.Ui.debug[0] = robot->info.Esp32.ir_dir;
+            robot->info.Ui.debug[1] = robot->info.Esp32.ir_dis;
       } else if (robot->info.mode == 4) {  // debug mode
-            robot->motor.Drive(0);
-            robot->info.Ui.debug[0] = robot->info.motor_rad_s[1] * 100;
-            robot->info.Ui.debug[1] = 0;
+            LightDefence();
+            robot->info.Ui.debug[0] = robot->info.Esp32.ir_dir;
+            robot->info.Ui.debug[1] = robot->info.Esp32.ir_dis;
       }
 
       // cortex-debug

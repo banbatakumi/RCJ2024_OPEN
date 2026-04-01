@@ -78,6 +78,8 @@ void loop() {
       while (1) {
             uint64_t current_time = micros();  // 現在経過時間を取得
 
+            main_loop();
+
             int32_t extra_time = control_period - (micros() - current_time);  // 処理にかかった時間と余剰時間の差
             if (extra_time > 0) {
                   delayMicroseconds(extra_time);
